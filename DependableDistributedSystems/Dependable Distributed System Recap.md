@@ -62,7 +62,6 @@ There is an unknown time t after which the system becomes synchronous;
 **Properties**:
 - Is not true that the system starts asynchronous and then after some (may be long) time it becomes synchronous;
 - We expect that the period of synchrony is long enough to grant that our distributed algorithm will terminate;
-
 ---
 # Link abstractions
 
@@ -199,6 +198,76 @@ Mutual exclusion abstraction:
 - **No starvation**.
 
 There are different types of approach to this problem.
+### Logical clock based approach
+#### Lamport's algotithm
+How it works:
+- Request to access the CS:
+	- $p_i$ sends a request message, attaching $ck$, to all the other processes;
+	- $p_i$ adds its request to $Q$.
+- Request reception from a process $p_j$:
+	- $p_i$ puts $p_j$ request (including the timestamp) in its queue;
+	- $p_i$ sends back an ack to $p_j$.
+Before entering the CS, a process must check if:
+1. $p_i$ has, in its queue, a request with timestamp t;
+2. t is the small timestamp in the queue;
+3. $p_i$ has already received an ack with timestamp t’ from any other process and $t’>t$;
+On the release, the process sends a release message.
+When a process receive a release message, the sender is removed from Q.
+The safety is respected since the process never access CS in the same time,
+Fairness satisfied, since order of requests is respected due to Q (concurrent requests are exception)
+Needs $3(N-1)$ messages for the CS access.
 
-### Logical clock based
+### Coordinator based approach
+There exist a special process (i.e., a coordinator) that collects requests and grant
+permission to enter into the critical section
+Performance:
+- entering the CS always requires 2 messages (i.e., REQ and GRANT) taking one RTT;
+- releasing the CS only requires 1 message;
+	- such message represent the delay between two different accesses to the CS;
+Pros:
+- Lightweight protocol;
+Cons:
+- Scalability issues;
+- Coordinator is a SPoF( Single Point of Failure).
 
+### Token based approach
+A process interested to the CS can access it only when it receives a **token**.
+The token is unique and it is exchanged between processes.
+To guarantee fairness, we can exploit a structured **logical topology** (i.e., a ring) for exchanging messages related to the mutual exclusion protocol.
+Performance:
+- The algorithm continuously consume communication resources (even if no one is interested to the CS);
+- The delay experienced by every process between the request and the grant varies between 0 (it just receives the token) and N messages (it just forwarded the token);
+
+### Quorum based approach
+To enter the CS every process waits to get the acknowledgement only by a subset of processes large enough to guarantee conflicts.
+Each process has associated a voting set that satisfies the following properties:
+- $p_i\ \in\ V_i$;
+- $\forall\ i, j, V_i \cap V_j \neq ∅$ (i.e., there is at least one common member for each pair of voting sets);
+- $|Vi| = K$ (voting sets have all the same size for fairness – same load principle);
+- each $p_j$ is contained in M voting sets (same responsibility principle).
+For **Maekawa**, the right parameters are:
+- $K = \sqrt N$;
+- $M = K$;
+- $|V_i| = 2 \sqrt N$.
+**Maekawa** algorithm is not deadlock free!
+---
+# Failure detector
+A failure detector is an oracle providing information about the **failure state** of a process.
+Stronger are the timing assumptions that the system can providing, higher is the accuracy of the information that a failure detector can state.
+We can classify failure detectors with a table like this one:
+
+![[Pasted image 20250121131058.png]]
+
+###### **Accuracy**:
+
+> **Weak accuracy**: some correct processes are never suspected;
+> **Strong accuracy**:  correct processes are never suspected.
+
+###### **Completeness**:
+
+> **Weak completeness**: Eventually every process that crashes is permanently suspected by some correct process;
+> **Strong completeness**: Eventually every process that crashes is permanently suspected by every correct process.
+
+### Perfect Failure detectors
+In this case we must have a **Synchronous System**, which can handle crash failures.
+Using its own clock and the bounds of the synchrony model, a process can infer if another process has crashed.
