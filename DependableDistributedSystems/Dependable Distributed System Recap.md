@@ -271,3 +271,10 @@ We can classify failure detectors with a table like this one:
 ### Perfect Failure detectors
 In this case we must have a **Synchronous System**, which can handle crash failures.
 Using its own clock and the bounds of the synchrony model, a process can infer if another process has crashed.
+
+##### Properties
+- Strong completeness;
+- Strong accuracy.
+
+##### Code
+![[Pasted image 20250121205225.png]]
