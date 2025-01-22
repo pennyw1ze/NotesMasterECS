@@ -394,8 +394,7 @@ Basic consensus **specifications**:
 - **Agreement**: No 2 correct processes decides different values;
 There is an important result here to remark:
 ###### FLP Impossibility result
-No algorithm can guarantee to reach consensus in an **asynchronous system**, even with one process crash failure.
-
+No algorithm can guarantee to reach consensus in an **asynchronous system** if we are in presence of crash.
 ### Floading Consensus
 Requires synchronous systems. All processes shares a proposal between each other, then a value is chosen with a **deterministic algorithm**.
 ##### Code
@@ -424,4 +423,27 @@ Since we choose the value only in the last round, we will have $N$ rounds for su
 - **Validity** and **Integrity** follow from the properties of the best-effort broadcast;
 - **Termination** is ensured because all correct processes reach round N and decide in that round (the strong completeness property of the failure detector implies that no correct process waits indefinitely for a message from a process that has crashed, as the crashed process is eventually removed from correct);
 - **Uniform Agreement** holds cause all processes that reach round N have the same set of values in their variable $proposalset$;
+---
+# Paxos
+Basically, consensus over asynchronous systems. We need network to work for enough time. We have 2 basic assumptions:
+- **Agents** can fail by stopping, the also operate at arbitrary speed and they may restart;
+- Messages can take **arbitrarily long time** to be delivered, can be also be **duplicated** or lost, but they **aren’t corrupted**;
+Roles in Paxos protocol:
+- **Proposers**: who propose a value;
+- **Acceptors**: processes that decides the final value;
+- **Learners**: observe passively the process and obtain the final value;
+The model with one acceptor is obviously the simpliest one, but we have a SPF, so we must have different processes with this role. To choose, we will use the majority criteria.
+Remember that proposer associate to the proposed value a unique ID $n$.
+The paxos protocol has 2 main phases:
+##### Phase 1:
+- A **proposer** choose a new proposal version number $n$ (the id of the proposed value) and sends to the acceptors $(PREPARE,n)$;
+- If an **acceptor** receives a prepare request, he **promise** not to accept any more proposal numbered less then $n$, and suggest the value $v'$ of the highest numbered proposal that he has accepted. He sends: $(ACK,n,n',v') or (ACK,n,\bot,\bot)$;
+- If the acceptor has already promised for an higher value of $n$, he sens back $(NACK,n')$;
+##### Phase 2:
+- If a proposer received a majority of $ACK$ for a specific value, he can issue an **accept request** to the majority of all the acceptors: $(ACCEPT,n,v)$, where $n$ is the sequence number (ID) and $v$ is the associated value;
+- If the acceptor receive an $ACCEPT$ request, it accept the proposal unless he has already responded to a prepare request with an higher $n$ (ID);
+- When acceptor accepts a proposal, sends $(ACCEP T, n, v)$ to all the **learners**;
+- Learners that receives $(ACCEP T, n, v)$, sends a (DECIDE, v) to all the other learners;
+- All the learners that receive $(DECIDE, v)$, decide $v$.
+
 ---
