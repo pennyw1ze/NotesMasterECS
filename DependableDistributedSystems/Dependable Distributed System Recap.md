@@ -447,3 +447,39 @@ The paxos protocol has 2 main phases:
 - All the learners that receive $(DECIDE, v)$, decide $v$.
 
 ---
+# Ordered comunication
+
+Defines guarantees about the **order of deliveries** inside a group of processes.
+The ordering of comunication is important for the **reliability** of the system.
+We have 3 types of ordering: **FIFO, Causal and Total.**
+### FIFO broadcast
+FIFO broadcast is based on the RB.
+We just add the FIFO delivery property:
+- **FIFO delivery**: If $p_i$ broadcast $m_1$ before $m_2$, then no correct process deliver $m2$ before $m1$.
+If the RB is Uniform, it means that all the correct processes delivers the same set of messages.
+##### Code
+
+![[Pasted image 20250122183825.png]]
+It differs from RB just because we are using a log sequence number ($lsn$) and an array ($next$) in which we keep track of all the sequence number of the messages delivered by a process.
+
+### Causal order broadcast
+Is an extension of the happened before relation. It keep track of messages _caused by_ other messages. For example, if a process broadcast $m1$ before it broadcast $m2$, or a process delivers $m1$ and then suddenly broadcast $m2$.
+- **Causal delivery**: for any message $m1$ that may have potentially caused $m2$, no process delivers $m2$ unless it has already delivered $m1$.
+It uses again RB.
+Notice: Causal Order $\implies$ FIFO Order.
+
+##### Vector clock Code
+
+![[Pasted image 20250122185716.png]]
+
+We send the message with the a copy of the current vector clock, and then we send the message and attach the vector clock. If the vector clock attached to the message is smaller than the receiver entry of the vector clock, the receiver will deliver it and update its clock, otherwise he will wait for the previous message to arrive in order to satisfy Causal delivery.
+
+##### Non waiting Code
+
+![[Pasted image 20250122191452.png]]
+
+We have a list of past messages, and each time we broadcast a message, we append to it the list of messages that we previously sent. So, if we have to deliver a message, we check the list of previously sent message and before sending the actual one we check if there is some message that we didn't delivered between the passed ones. Then we can safely deliver the actual message, and happend it to the list of delivered and past.
+
+### Total Order
+Does not implies any other kind of ordering, in fact it is orthogonal to the other ordering, meaning that a sequence can be total ordered but not FIFO ordered.
+![[Pasted image 20250122192056.png]]
