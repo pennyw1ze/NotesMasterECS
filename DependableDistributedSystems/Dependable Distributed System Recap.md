@@ -1,4 +1,4 @@
-# Intro
+	# Intro
 
 #definition 
 > Definition of distributed system
@@ -253,7 +253,7 @@ For **Maekawa**, the right parameters are:
 ---
 # Failure detector
 A failure detector is an oracle providing information about the **failure state** of a process.
-Stronger are the timing assumptions that the system can providing, higher is the accuracy of the information that a failure detector can state.
+Stronger are the timing assumptions that the system can provide, higher is the accuracy of the information that a failure detector can state.
 We can classify failure detectors with a table like this one:
 
 ![[Pasted image 20250121131058.png]]
@@ -269,7 +269,7 @@ We can classify failure detectors with a table like this one:
 > **Strong completeness**: Eventually every process that crashes is permanently suspected by every correct process.
 
 ### Perfect Failure detectors
-In this case we must have a **Synchronous System**, which can handle crash failures.
+In this case we must have a **Synchronous System**, which can handle crash failures. We also need **pp2p links**.
 Using its own clock and the bounds of the synchrony model, a process can infer if another process has crashed.
 
 ##### Properties
@@ -278,3 +278,150 @@ Using its own clock and the bounds of the synchrony model, a process can infer i
 
 ##### Code
 ![[Pasted image 20250121205225.png]]
+
+### Eventual perfect failure detector
+For the eventual PFD, the requirement for the system is just **partial synchrony**.
+We also need **pp2p links**.
+There is a **time $T$** after which a process failure can be actually detected.
+During the time before $T$ the failure detector can make mistake, so we call the processes that before where called _detected_ as **_suspicious_**.
+##### Properties
+- Strong completeness;
+- Eventual strong accuracy;
+
+![[Pasted image 20250122101741.png]]
+
+A proccess, as said before, can make mistake by labelling suspect a process which is not, but the state can be easily restored, granting eventual strong accuracy.
+
+---
+# Leader Election
+
+Algorithm to establish a common leader/coordinator/master between a set of processes under a certain types of assumptions.
+### Perfect leader election
+We use a perfect failure detector $\implies$ (pp2p links, synchronous system)
+##### Properties:
+- Eventual election: either there is a leader, or all process are faulty;
+- Accuracy: if a process is leader, then all previous leaders have crashed;
+
+##### Code:
+![[Pasted image 20250122102728.png]]
+
+### Eventual perfect leader election
+If we does not have a perfect failure detector, we can still use an eventual pfd.
+##### Properties
+- Eventual accuracy: there is a time after which every correct process trusts some correct process;
+- Eventual agreement: there is a time after which every 2 correct processes trusts the same correct processes.
+
+##### Code:
+![[Pasted image 20250122103724.png]]
+
+---
+# Broadcast comunication
+
+In this section we will see how to allow broadcast comunication between processes under different system assumptions.
+### Best Effort Broadcast (BEB)
+Best effort broadcast can ensure message delivery only if the sender don't crash, otherwise the other processes may disagree on weather or not to deliver a message.
+Can be adopted by an asynchronous system, uses pp2p links.
+##### Properties
+All the properties basically relies on the properties of the pp2p links.
+- Validity: if a correct process broadcast $m$, then every correct process delivers $m$;
+- No duplication: no message is delivered more than once;
+- No creation: if a process delivers $m$ with sender $p$, then $m$ was previously broadcasted by $p$;
+##### Code
+
+![[Pasted image 20250122105426.png]]
+
+### Reliable Broadcast (RB)
+Basically a BEB with the agreement property. In synchronous systems uses pfd
+There are 2 implementations, in synchronous and asynchronos systems.
+##### Properties
+- Validity;
+- No duplication;
+- No creation;
+- Agreement: if a message $m$ is delivered by some correct process, then $m$ is eventually delivered by every correct processes.
+
+##### Code
+![[Pasted image 20250122112831.png]]
+In the deliver event, we need to check if the message $m$ has already been delivered, if it was delivered then it is listed in $from[s]$. It may happen that we receive a message already delivered because of the retransmission. If a process crash, all the message previously received by those process are re-broadcasted by every process in order to ensure agreement, so in this case may happen to receive again a message already delivered.
+We will have in the best case 1 RB mesage per each BEB message, and in the worst case (N-1 systems crash) we will have N-1 RB message for each BEB message.
+
+#### RB asynchronous systems
+Under the assumption of asynchronous systems, we can't rely on PFD, and we will have to retransmit every message that we receive.
+The RB asynchronous just keeps the same properties of synchronous RB, but, for each BEB message, it requires N RB messages.
+##### Code
+
+![[Pasted image 20250122113506.png]]
+
+### Uniform Reliable Broadcast (URB)
+The agreement property introduced by RB becames **_uniform_**.
+There are 2 implementations, in synchronous and asynchronos systems.
+##### Properties:
+- Validity;
+- No creation;
+- No duplication;
+- Uniform agreement: if a message $m$ is delivered by some process (whether **faulty or correct**), then $m$ is eventually delivered by every correct process.
+
+##### Synchronous systems
+Uses PFD and BEB.
+##### Code
+
+![[Pasted image 20250122114232.png]]
+When we broadcast a message, we insert it in pending, when we receives other processes deliveries we add ack to the message delivered and when a message in pending has been acked by all the correct processes, if we did not already delivered it, we deliver it.
+##### Asynchronous systems
+In asynchronous systems, the code is more or less the same, but we do not have a PFD so we can't check if $correct \subseteq ack[m]$. Assuming that the majority of the process is correct, we can change the function with the following:$$|ack[m]| > N/2$$We just check if the majority of the process have delivered the message.
+
+### Probabilistic broadcast
+A probabilistic broadcast has the following system specification:
+- Messages are delivered the $99\%$ of the times;
+- Not fully **reliable**;
+- Implements a tree structure, adopting a **hierarchical logic**;
+##### Properties
+Ensures the following properties:
+- Probabilistic validity: We can say that $\exists\ \epsilon > 0\ s.t.$ when a correct process broadcast a message $m$, $Pr[deliver_{p_i}(m)] \ge 1 - \epsilon$.
+- No creation;
+- No duplication;
+##### Code
+
+![[Pasted image 20250122121427.png]]
+The algorithm choose $k$ random other processes and sends them the message $m$ to broadcast it. The gossip procedure spreads the message $m$ even on delivery, but for a number of times equals to $r$ (wich is added when the broadcast starts, and is decreased at each gossip deliver call).
+
+---
+# Consensus
+The problem: a group of process must agree on a value that has been proposed by one of them.
+Basic consensus **specifications**:
+- **Termination**: Every correct process eventually decides some value;
+- **Validity**: If a process decides a value $v$, then $v$ was proposed by some process;
+- **Integrity**: No process decides twice;
+- **Agreement**: No 2 correct processes decides different values;
+There is an important result here to remark:
+###### FLP Impossibility result
+No algorithm can guarantee to reach consensus in an **asynchronous system**, even with one process crash failure.
+
+### Floading Consensus
+Requires synchronous systems. All processes shares a proposal between each other, then a value is chosen with a **deterministic algorithm**.
+##### Code
+![[Pasted image 20250122123352.png]]
+Basically stores the values received from the other processes, broadcast his proposal via BEB, when he receives a proposal via BEB delivery he stores it in the proposal array and save the sender in the received from array, and when all correct processes sent their proposal and the decision has not been taken, he takes the deterministic decision and broadcast the choosen value. He updates the number of rounds. If he receives a decision from another process, and the process is correct and he has not taken a decision yet, he stores the other process decision and rebroadcast it via BEB.
+##### Properties
+- Validity and integrity thanks to pp2p links;
+- Terminates in at most N iterations;
+- Agreement reached thanks to the deterministic function;
+##### Performance
+- Best case: 1 round of comunications = $2\times N^2$ , $N$ messages for each process (1 broadcast for each process ) to spread the proposal and another one to spread the decision.
+- Worst case: N rounds: $N^3$.
+### Uniform Consensus (UC)
+We have the same properties of the Floading Consensus, except for the agreement which becomes uniform.
+##### Additiona property:
+- **Uniform agreement**: No 2 processes decides differently (even if they are faulty).
+
+In UC the process decides only if he received a proposal from every correct process, he does not store partial information at every round. We have a proposal set instead of a list, and the $receivedfrom$ array is cleaned at the beginning of every round.
+##### Code
+![[Pasted image 20250122133639.png]]
+
+##### Performance
+Since we choose the value only in the last round, we will have $N$ rounds for sure, which makes the cost equal to $N^3$.
+
+##### Properties
+- **Validity** and **Integrity** follow from the properties of the best-effort broadcast;
+- **Termination** is ensured because all correct processes reach round N and decide in that round (the strong completeness property of the failure detector implies that no correct process waits indefinitely for a message from a process that has crashed, as the crashed process is eventually removed from correct);
+- **Uniform Agreement** holds cause all processes that reach round N have the same set of values in their variable $proposalset$;
+---
