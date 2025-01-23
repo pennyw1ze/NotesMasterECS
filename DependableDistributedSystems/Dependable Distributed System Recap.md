@@ -506,3 +506,8 @@ $\iff$ q delivers $m$ before $m′$.
 If some **correct** process delivers $m$ before $m'$, then every **correct** process delivers $m'$ only after $m$.
 ##### WNUTO (Weak Non Uniform TO)
 If 2 **correct** process $p$ and $q$ delivers the same messages $m$ and $m'$, then $p$ delivers $m$ before $m′$ $\iff$ q delivers $m$ before $m′$.
+
+##### Code
+![[Pasted image 20250123114612.png]]
+
+---
