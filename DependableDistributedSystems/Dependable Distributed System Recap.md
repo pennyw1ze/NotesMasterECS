@@ -483,3 +483,26 @@ We have a list of past messages, and each time we broadcast a message, we append
 ### Total Order
 Does not implies any other kind of ordering, in fact it is orthogonal to the other ordering, meaning that a sequence can be total ordered but not FIFO ordered.
 ![[Pasted image 20250122192056.png]]
+##### Properties
+- **Validity:** if a correct process broadcast $m$, then every correct process delivers $m$;
+- **Integrity:** no duplication;
+- **Agreement:** if a message $m$ is delivered by some correct process, then $m$ is eventually delivered by every correct processes;
+- **Order:** imposes constraints on the sequence of messages to be delivered.
+
+**RECAP UA vs NUA**
+**UA** establish that if any process delivers $m$ before $m'$ then every process delivers $m'$ only after he delivered $m$.
+**NUA** establish that if any **correct** process delivers $m$ before $m'$ then every process delivers $m'$ only after he delivered $m$.
+Correct processes always delivers the same set $M$.
+Each faulty delivers a set $M_{p_i}$
+UA: $M_{p_i} \subseteq M$
+NUA: can be $s.t.\ M_{p_i} - M \neq 0$.
+#### Categories of T.O.
+##### SUTO (Strong Uniform Total Order)
+If some process delivers $m$ before $m'$, then a process delivers $m'$ only after $m$.
+##### WUTO (Weak Uniform Total Order)
+If 2 process $p$ and $q$ delivers the same messages $m$ and $m'$, then $p$ delivers $m$ before $m′$
+$\iff$ q delivers $m$ before $m′$.
+##### SNUTO (Strong Non Uniform TO)
+If some **correct** process delivers $m$ before $m'$, then every **correct** process delivers $m'$ only after $m$.
+##### WNUTO (Weak Non Uniform TO)
+If 2 **correct** process $p$ and $q$ delivers the same messages $m$ and $m'$, then $p$ delivers $m$ before $m′$ $\iff$ q delivers $m$ before $m′$.
