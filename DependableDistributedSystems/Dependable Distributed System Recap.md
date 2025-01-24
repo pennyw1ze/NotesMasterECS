@@ -511,3 +511,47 @@ If 2 **correct** process $p$ and $q$ delivers the same messages $m$ and $m'$, th
 ![[Pasted image 20250123114612.png]]
 
 ---
+# Registers
+A register is a variable shared between processes and accessible through read and write operations.
+The **read** operation reads the value $v$ stored in the memory of the register.
+The **write** operation updates the value of the register with the provided new value.
+We will assume that:
+- $v \in \mathbb{R}^+$ and the initial value of a register is $0$;
+- Values are **unique**;
+- Process can't invoke multiple operations **at the same time**;
+Register **notation**: $(n1,n2)$ where $n1$ is the number of processes that can write and $n2$ is the number of processes that can read the register.
+Operations are characterized by an **invocation** and a **return** event.
+If an operation is invoked but never returned, it has **failed**.
+We say that an operation $o_1$ **precedes** $o_2$ if the return event of $o_1$ happens before the invocation event of $o_2$. Otherwise, the operations are **concurrent**.
+Sequential specification:
+- **Liveness**: each operation eventually terminates;
+- **Safety**: each read operations returns the last value written;
+## Regular register
+RR is a register (1,N) where the following properties holds:
+- **Termination**: if a correct process invokes an operation, then the operation eventually receives confirmation;
+- **Validity**: a read operation returns the last value written, or a value written in concurrency with the read operation.
+#### Read-one write-all RR
+The implementation requires a PFD, pp2p links and BEB.
+The idea is that each process store a local copy of the register, so reading the value has cost $O(1)$. Instead to write a value each process must update the other processes register, so it cost $O(n)$.
+##### Code
+![[Pasted image 20250123150516.png]]
+After the write operation has happened, we update the value and send an ack message to the process that updated the value. Since to write we must send a broadcast and wait the ack, we will have a total amount of $2N$ messages.
+
+#### Majority voting
+If we can't rely on a PFD, because we may have silent failures, we can rely on a set of processes which could be asked to keep values with timestamp, and when reading the value perform a majority voting.
+##### Code
+![[Pasted image 20250123153019.png]]
+When a process needs to write it will begin to broadcast by sending its value and its timestamp (increased). When we receive a message in the deliver event of the write, I will check if the timestamp received is bigger then the current timestamp of the value, and in this case I update the value and will send the ACK back. When the writer receives at least $N/2$ ACK’s (since we have the assumption of the majority of correct process) will trigger the WriteReturn. When instead we have a read operation, since we don’t have a perfect failure detector I cannot be sure that my value is still correct, I need to consult all the other process in order to obtain a quorum (so to obtain a variable). In the deliver event of the read we do the quorum, in fact the first control is that the r (timestamp of the read ) received is the same of my actual rid e will be inserted in the readlist and when the number of processes in the list is at least the half of the total number of process we will trigger the ReadReturn. In order to perform a Write operation or a Read operation we need at most $2N$ messages.
+### Atomic register
+Is a RR with an ordering property:
+- **Ordering**: if a read return $v_2$ after a read that has returned $v_1$, then $v_1$ cannot be red again by any process.
+To implement an atomic register we will:
+- Use a $(1,N)$ RR to build a $(1,1)$ atomic register;
+- Use $N$ $(1,1)$ atomic register to build a $(1,N)$ atomic register.
+##### Code
+![[Pasted image 20250123155803.png]]
+And for the $(1,N)$ part:
+![[Pasted image 20250123160104.png]]
+bah what to say, lettese go dancing.
+
+There is also a **Read-Impost Write-All** algorithm that basically, when a read is performed, impose to all the correct process actually running to update their local value.
