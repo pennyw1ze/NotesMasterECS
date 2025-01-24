@@ -607,4 +607,36 @@ Partition resiliance means that we split the replicas and we break the links bet
 Byzantine are that process which can act **arbitrarily** and **cannot be detected** as crashed or failed, because they are active and can send response. In most of the cases, are systems compromised or being controlled by an attacker.
 There is the need of adapting our standards to this kind of failures in order to provide guarantees also under this kind of threats.
 ## Byzantine tolerant Broadcast
-	
+To fight byzantine process we can introduce cryptographic tools. This will allow process to authenticate, as well as to verify the identity of the sender process. We start by Introducing authenticity in the pp2p links, that gains the **Authenticity property**, which establishes that if some correct process q delivers a message m with sender p and p is correct, then m was previously sent to q by p.
+### Byzantine Consistent Broadcast
+Byzantine consistent broadcast has the following properties:
+- **Validity**: if a correct p broadcast $m$, then every correct process eventually delivers $m$;
+- **No duplication**;
+- **Integrity**: if correct p delivers $m$ with sender q and q is correct, then $m$ was previously sent by q;
+- **Consistency**: if some correct p delivers a message $m$ and another correct process delivers a message $m'$, then $m = m'$.
+Basically for the consistency property we say that every correct process delivers the same message. Byzantine consistent broadcast implements authenticate pp2p links.
+##### Code
+
+![[Pasted image 20250124161338.png]]
+Basically we deliver a message only when we received a number of echo grater then $(N+f)/2$.
+In a normal quorum we have to wait until we get the majority ($N/2$), but in this case, since we have $f$ byzantine process, we need at least $(N+f)/2$. In this case the number of correct process is at least $(N+f)/2 - f = (N-f)/2$, wich is our majority excluding the byzantine ones ($N-f$ is the number of correct processes).
+### Byzantine Reliable Broadcast
+Same properties as before, plus:
+- **Totality**: if some message $m$ is delivered by a correct process, then every correct process eventually $m$.
+When the quorum of a receiving process is reached the process will send a ready message to all the other processes with its id and the message received from the echo. When a deliver event of an echo message arrives the ready array is filled with the message in the position of the sender process. The ready message of the broadcast can be sent even when the number of ready messages delivered is higher than f , this cause in this case at least one process is correct. At the end in order to deliver the broadcast message we need to check if the number of processes from which I received the ready message is at least > 2f and this is made in order to avoid byzantine processes that sends twice a ready message.
+##### Code
+
+![[Pasted image 20250124173649.png]]
+## Byzantine tolerant Consensus
+We would like to obtain the same properties that we had in the previous consensus system model, but this time we will not be able for sure to guarantee that a process either do not choose, or choose the same value as the correct one because byzantine processes may invent values or claim to have proposed different values.
+We must restrict the specification to only correct processes.
+Thus, we define:
+- **Weak validity**: if all process are correct and propose the same value $v$, then $v$ is choosen by all correct processes. If all process are correct and some process decides $v$, then $v$ was proposed by some process;
+- **Strong validity**: if all process are correct and propose the same value $v$, then $v$ is choosen by all correct processes. Otherwise, a correct process may only decide a value that was proposed by some correct process or the special value $\square$.
+The problem is since this a recursive algorithm we have a large number of messages and it’s very complex so a solution can be to use messages authentication codes:
+-  The commander signs and sends his value $(v : 0)$ to every lieutenant.
+-  For each i:
+	-  If lieutenant i receives a messages $(v : 0)$ from the commander and has not received yet any order then: $Vi = {v}$ and sends $v : 0 : i$ to every lieutenant;
+	- If lieutenant i receives a messages $v : 0 : j1 : ... : jk$ and $v$ is not in $Vi$ then: adds $v$ to $Vi$ and if $k < f$ sends $v : 0 : j1 : ... : jk$ to every lieutenant other than $j1 : ... : jk$
+- For each i : when lieutenant i receives no more messages, he obeys the order choice($Vi$);
+---
