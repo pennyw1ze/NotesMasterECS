@@ -1,4 +1,4 @@
-
+ 
 #definition 
 > Definition of distributed system
 
