@@ -72,7 +72,7 @@ Properties:
 - **Stubborn delivery**: if a correct process p sends a message m once to a correct process q, then q delivers m an infinite number of times;
 
 - **No creation**: if some process q delivers a message m with sender p, then m was previously sent to q by process p.
-
+The implementation of the stubborn link is made on top of the fairloss point2point link.
 ### Fairloss Link
 >The specification does not guarantee that the sender can stop the retransmission of each message.
 
@@ -92,7 +92,7 @@ Properties:
 - **No duplication**: same as before ^;
 
 - **No creation**: same as before ^.
-
+The implementation of the perfect point to point link is made on top of the stubborn point2point link.
 ---
 # Time
 
@@ -119,7 +119,7 @@ Let $D$ be the synchronization bound and $S$ the UTC authority. Then we have:$$|
 ##### Internal synchronization
  >All the processes synchronize their clocks Ci between them
  
- Let $D$ be the synchronization bound and $C_i,\ C_j$ respective clocks for processes $p_i,\ p_j$. Then we have: $$|C_i(t) - C_j(t) < D,\ \ \forall j = 1,2,...,N;$$
+ Let $D$ be the synchronization bound and $C_i,\ C_j$ respective clocks for processes $p_i,\ p_j$. Then we have: $$|C_i(t) - C_j(t)| < D,\ \ \forall j = 1,2,...,N;$$
  >**NOTE:**
  >A set of process P externally synchronized with bound $D$ is also internally synchronized with bound $2D$.
  
