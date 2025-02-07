@@ -201,7 +201,7 @@ There are different types of approach to this problem.
 #### Lamport's algotithm
 How it works:
 - Request to access the CS:
-	- $p_i$ sends a request message, attaching $ck$, to all the other processes;
+	- $p_i$ sends a request message, attaching $ck$ (local counter), to all the other processes;
 	- $p_i$ adds its request to $Q$.
 - Request reception from a process $p_j$:
 	- $p_i$ puts $p_j$ request (including the timestamp) in its queue;
