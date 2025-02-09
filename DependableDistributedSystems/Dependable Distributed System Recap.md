@@ -364,7 +364,7 @@ Uses PFD and BEB.
 ##### Code
 
 ![[Pasted image 20250122114232.png]]
-When we broadcast a message, we insert it in pending, when we receives other processes deliveries we add ack to the message delivered and when a message in pending has been acked by all the correct processes, if we did not already delivered it, we deliver it.
+When we broadcast a message, we insert it in pending, when we receives other processes broadcast message, we add ack to the message broadcasted and we happend it to the pending list (if he is not already there). When a message in pending has been acked by all the correct processes, if we did not already delivered it, we deliver it.
 ##### Asynchronous systems
 In asynchronous systems, the code is more or less the same, but we do not have a PFD so we can't check if $correct \subseteq ack[m]$. Assuming that the majority of the process is correct, we can change the function with the following:$$|ack[m]| > N/2$$We just check if the majority of the process have delivered the message.
 
