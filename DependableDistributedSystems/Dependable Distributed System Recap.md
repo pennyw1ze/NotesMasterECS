@@ -442,16 +442,16 @@ The paxos protocol has 2 main phases:
 - If a proposer received a majority of $ACK$ for a specific value, he can issue an **accept request** to the majority of all the acceptors: $(ACCEPT,n,v)$, where $n$ is the sequence number (ID) and $v$ is the associated value;
 - If the acceptor receive an $ACCEPT$ request, it accept the proposal unless he has already responded to a prepare request with an higher $n$ (ID);
 - When acceptor accepts a proposal, sends $(ACCEP T, n, v)$ to all the **learners**;
-- Learners that receives $(ACCEP T, n, v)$, sends a (DECIDE, v) to all the other learners;
+- Learners that receives $(ACCEP T, n, v)$, sends a $(DECIDE, v)$ to all the other learners;
 - All the learners that receive $(DECIDE, v)$, decide $v$.
 
 ---
-# Ordered comunication
+# **Ordered comunication**
 
 Defines guarantees about the **order of deliveries** inside a group of processes.
 The ordering of comunication is important for the **reliability** of the system.
 We have 3 types of ordering: **FIFO, Causal and Total.**
-### FIFO broadcast
+### **FIFO broadcast**
 FIFO broadcast is based on the RB.
 We just add the FIFO delivery property:
 - **FIFO delivery**: If $p_i$ broadcast $m_1$ before $m_2$, then no correct process deliver $m2$ before $m1$.
@@ -471,7 +471,7 @@ Notice: Causal Order $\implies$ FIFO Order.
 
 ![[Pasted image 20250122185716.png]]
 
-We send the message with the a copy of the current vector clock, and then we send the message and attach the vector clock. If the vector clock attached to the message is smaller than the receiver entry of the vector clock, the receiver will deliver it and update its clock, otherwise he will wait for the previous message to arrive in order to satisfy Causal delivery.
+We send the message with a copy of the current vector clock. If the vector clock attached to the message is smaller than the receiver entry of the vector clock, the receiver will deliver it and update its clock, otherwise he will wait for the previous message to arrive in order to satisfy Causal delivery.
 
 ##### Non waiting Code
 
@@ -481,6 +481,7 @@ We have a list of past messages, and each time we broadcast a message, we append
 
 ### Total Order
 Does not implies any other kind of ordering, in fact it is orthogonal to the other ordering, meaning that a sequence can be total ordered but not FIFO ordered.
+This happen because total order does not depend on the broadcast but only on the deliveries of the messages.
 ![[Pasted image 20250122192056.png]]
 ##### Properties
 - **Validity:** if a correct process broadcast $m$, then every correct process delivers $m$;
@@ -618,6 +619,7 @@ Basically for the consistency property we say that every correct process deliver
 
 ![[Pasted image 20250124161338.png]]
 Basically we deliver a message only when we received a number of echo grater then $(N+f)/2$.
+The specifications refers to a single broadcast event.
 In a normal quorum we have to wait until we get the majority ($N/2$), but in this case, since we have $f$ byzantine process, we need at least $(N+f)/2$. In this case the number of correct process is at least $(N+f)/2 - f = (N-f)/2$, wich is our majority excluding the byzantine ones ($N-f$ is the number of correct processes).
 ### Byzantine Reliable Broadcast
 Same properties as before, plus:
@@ -638,4 +640,30 @@ The problem is since this a recursive algorithm we have a large number of messag
 	-  If lieutenant i receives a messages $(v : 0)$ from the commander and has not received yet any order then: $Vi = {v}$ and sends $v : 0 : i$ to every lieutenant;
 	- If lieutenant i receives a messages $v : 0 : j1 : ... : jk$ and $v$ is not in $Vi$ then: adds $v$ to $Vi$ and if $k < f$ sends $v : 0 : j1 : ... : jk$ to every lieutenant other than $j1 : ... : jk$
 - For each i : when lieutenant i receives no more messages, he obeys the order choice($Vi$);
+---
+# DLT & Blockchain
+
+**Ledger**: list of transactions;
+
+**Distributed ledger**: database of transactions replicated all over other systems;
+
+**Blockchain**: Blockchain is a distributed ledger system that employs **consensus mechanisms** like PoW (**Proof of Work**) to ensure trust and security without central authority. The distinction between **public**, **private**, **permissioned**, and **permissionless** blockchains lies in their accessibility and control mechanisms.
+Public allows everyone to see transactions, private let just the allowded users to look at the transactions. Permissioned allows only authorized users to modify the chain, while permissionless let everyone modify it.
+PoW, while ensuring **security** and **decentralization**, occasionally results in branching due to simultaneous block generation. 
+These branches are resolved through the **longest chain rule**, maintaining the integrity and consistency of the blockchain. Basically the rules establishes that the blockchain of the user which holds the longest chain of blocks after a certain amount of time will be taken as the valid one, while the other are discarded.
+It’s impossible for an **attacker** to change a transaction in a specific block in the blockchain, cause an attacker should be quicker than the rest of the whole network, and in that case he should be able to re-mine n + 1 blocks (all blocks next to the specific block ) quicker than the rest of the network.
+
+---
+# Publish/Subscribe Systems
+
+The publish and subscribe systems are composed by:
+- **Publisher(s)**: who produce data in form of events;
+- **Subscriber(s)**: declare interest in published data with subscriptions;
+- **Subscription(s)**: filter on the set of published events;
+- **Event Notification Service**: notifies to each subscriber(s) every published event;
+There exists various type of Pub/Sub systems, like:
+- **Topic based:** each event is tagged with a topic, and subscription are a selection of topics;
+- **Hierarchy based:** topics are organized in a hierarchical structure and when a user is subscribed to a topic, he receives also the notification of all the sub-topics;
+- **Content based:** selection on a conjunction of constraints expressed on attributes.
+
 ---
