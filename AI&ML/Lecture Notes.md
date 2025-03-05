@@ -130,3 +130,6 @@ lx,y
 - agent in in x,y
 for x,y ∈ {1,2,3,4}
 
+Basics on satisfiability and unsatisfiability ( We now ).
+**Validity**: all the possible interpretations of a formula must satisfy it.
+
