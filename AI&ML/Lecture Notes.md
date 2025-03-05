@@ -50,3 +50,83 @@ An agent can perceive through sensors and act through actuators.
 Chess rational agents: rewards for capturing piece (+10), penalty for loosing, high reward for checkmating opponent, 0 for tie, ecc. With this rules, we can ask an agent to optimize this values.
 How to design agents to deliberate correct actions?
 First of all, we must reason on the nature of the environment. Different environments leads to different approaches.
+Question: How to design (and realize) agents able to deliberate so as to maximize
+their utility?
+We can start visualizing logic-based agent.
+
+## Wumpus World
+We have a square 4 $\times$ 4, where each box represents a state. In the entire map the spawn is always in the 1 $\times$ 1 cell. There are pits (holes) in wich we do not want to fall, threre is a wumpus (random spawn), there is the gold wich we want to find, we can shoot an arrrow which is going to kill a wumpus if it is in the direction of the arrow, and the wumpus is surrounded by cells with smell, and pit are surrounded by cells with breeze.
+Now we want to model this problem with logic.
+In mathematical terms, we could assign costs and profits for killing, finding gold, falling in pits ecc. and try to optimize this function. Let's see what we can do in Logic.
+
+---
+# Logic
+
+## Propositional logic
+Logic of proposition and sentences.  We must provide:
+- **Syntax:** how to compose a sentence;
+- **Semantics:** meaning of a sentence;
+- **Inference:** how can we infer new knowledge;
+
+### Syntax
+The syntax is composed by an alphabet.
+An alphabet is a countable set of atomic propositions, a set of logical connectives, and other symbols such as the parenthesis symbol.
+We define **Formulas** in propositional logic as a set of symbol well assembled,
+Not all sequence of characters in the alphabet are formulas. We can generate new formulas by having previous ones and applying logical inferences.
+
+If φ and ψ are propositional formulas then the following are propositional
+formulas:
+- ¬ψ
+- φ ∧ ψ
+- φ ∨ ψ
+- φ ⊃ ψ
+- φ ↔ ψ
+- (φ)
+Nothing else is a propositional formula.
+Examples of formulas generated in the wumpus world field:
+- s1,2 - there is stench in [1,2]
+- s1,2∧p3,3 - there is stench in [1,2] and a pit in [3,3]
+- ecc...
+
+All the operators have a precedence order, which is the following:
+1. ¬
+2. ∧
+3. ∨
+4. ⊃
+5. ↔
+
+### Semantics
+Semantics defines when a formula is true or false, depending on whether the
+propositional symbols it contains are true or false
+In order to assign a truth value to a formula, we need to know the truth value of his symbols.
+To assert the truthfulness of a formula in propositional logic, we need an interpretation.
+An interpretation is a law I that assigns a truth value to each proposition which is syntactically valid in the lenguage.
+Propositional interpretations are sometimes called propositional models
+For example, in the wumpus world, we can assert that:
+$I(s_{1,2}) \implies I(b_{2,2}) = F; I(b_{1,2}) = T$
+We define when a formula φ is true under an interpretation I (written I ⊧ φ)
+inductively as follows:
+- if φ is an atom, then I ⊨ φ iff φ∈I
+- if φ=¬ψ then iff I⊭φ
+- if φ=ψ∧γ then I ⊨ φ iff I ⊨ ψ and I ⊨ γ
+- if φ=ψ∨γ then I ⊨ φ iff I ⊨ ψ or I ⊨ γ
+- if φ=ψ⊃γ then I ⊨ φ iff I ⊭ ψ or I ⊨ γ ( this is a slightly different semantics to say: $γ \implies ψ$);
+- if φ=ψ↔γ then I ⊨ φ iff I ⊨ ψ⊃γ and I ⊨ γ⊃ψ
+- if φ=(ψ) then I ⊨ φ iff I ⊨ ψ
+When I ⊨ φ we also say that I satisfies φ and call I a model of φ.
+Also, a literal p is true if $p \in I$, and false if it is not in I. 
+We can also define a semanthics using the truth tables.
+
+Let's now define the wumpus world propositional logic base:
+px,y
+- pit in x,y
+wx,y
+- Wumpus in x,y
+bx,y
+- breeze in x,y
+sx,y
+- stench in x,y
+lx,y
+- agent in in x,y
+for x,y ∈ {1,2,3,4}
+
