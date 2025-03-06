@@ -133,3 +133,24 @@ for x,y ∈ {1,2,3,4}
 Basics on satisfiability and unsatisfiability ( We now ).
 **Validity**: all the possible interpretations of a formula must satisfy it.
 
+### Expansion rules
+
+| ψ∧γ |
+| --- |
+| ψ   |
+| γ   |
+
+| ψ∨γ | =     |
+| --- | --- |
+| ψ γ   γ  γ  |
+
+ecc...
+
+The goal of the expansion rules is to reach a situation in which all the or, and, or other symbols are cancelled and simplified, and the formula is now reduced to raw literlas.
+In this way, we can see if the formula is satisfiable by just checking for a contraddiction, ergo the same literal must be set to true and false to satisfy the formula.
+The tableaux are built in such a way, reducing a formula to literals.
+Once we expanded the nodes to all possible branches, we can check if the formula is either satisfiable or not.
+A tableaux branch is closed when all the formulas are expanded.
+Logical implication:
+REFUTATION PRINCIPLE:
+$\Gamma \models \varphi$ iff {$\Gamma\ \cup$ $\neg \varphi$} is unsatisfiable

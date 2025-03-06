@@ -49,5 +49,6 @@ It basically follows this step:
 ## **Indirect metrics:**
 - **Service levels:** somehow is provided a grade for your software based on the percentage of the portion covered of a bigger software;
 
-## CoCoMo 
-Sometimes, software 
+## CoCoMo
+Constructive Cost Model.
+Sometimes, software extimations made with file pointers are pretty optimistic, and needs to be done come adjustments with corrective measurements.
