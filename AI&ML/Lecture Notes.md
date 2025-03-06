@@ -133,3 +133,20 @@ for x,y ∈ {1,2,3,4}
 Basics on satisfiability and unsatisfiability ( We now ).
 **Validity**: all the possible interpretations of a formula must satisfy it.
 
+To check if a pit is in a certain cell, we need to check if the conditions imposed by the semantic of the logic are satisfied or not. To do this, we accumulate a knowledge base, storing all the experience and the inference that we are able to collect during our journey in the Wumpus world.
+To automatically check satisfiability we need an algorithm to solve sat.
+
+### Logical implication
+We says that φ logically implies ψ (φ⊨ψ) if every interpretation that satisfies φ satisfies also ψ.
+
+##### **Properties of Propositional Logical Implication**
+
+Reflexivity: if φ∈Γ then Γ⊨φ
+Ex falso (sequitur) quodlibet: if Γ is unsatisfiable then Γ⊨φ for every φ
+Monotonicity: if Γ⊨φ then Γ∪Γ'⊨φ
+Cut: if Γ ⊨ φ and Γ'∪{φ} ⊨ φ' then Γ∪Γ' ⊨ φ'
+Compactness: if Γ ⊨ φ then there is a finite Γ'⊆ Γ s.t. Γ' ⊨ φ
+Deduction Theorem: if Γ∪{φ} ⊨ φ' then Γ ⊨ φ→φ'
+Deduction Principle: Γ∪{φ} ⊨ φ' iff Γ ⊨ φ→φ'
+Refutation Principle: Γ ⊨ φ iff Γ∪{¬φ} is unsatisfiable
+
