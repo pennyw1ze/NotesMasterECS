@@ -173,3 +173,38 @@ A tableaux branch is closed when all the formulas are expanded.
 Logical implication:
 REFUTATION PRINCIPLE:
 $\Gamma \models \varphi$ iff {$\Gamma\ \cup$ $\neg \varphi$} is unsatisfiable
+
+### Tableux
+Is a technique that expands a logical formula, generating 2 branches if there is an or, or 1 branches that has 2 raw.
+There is a priority order in which we have to expand the single formulas.
+This procedure generates a tree. When the leafs of the tree contains only literals, ($a, \neg a$), then the computation has ended.
+The formula analyzed is satisfiable if there exists at least one brench with no contraddictions ( on the brench there is not a literal and his negation).
+
+### DPLL
+Devis putnam.
+Algorithm to solve CNF formulas (Conjunctive Normal Form).
+Four types of decision problems Model Checking(I, φ): 
+
+Satisfiability(φ):
+∃I . I |= φ Is there a model of φ?
+
+Validity(φ):
+|= φ Is every interpretation for φ a model of φ?
+
+Logical implication(Γ, φ): 
+Γ|= φ Is every model of the set of formulas Γ a model of φ as
+
+Logical inference(Γ, φ): 
+⊢Σ φ Is there a proof of φ in Σ from Γ ?
+
+**Tseitin’s transformation** converts any propositional formula φ into an equi-satisfiable formula φ in CNF with only a linear increase in size.
+
+For every formula ψ, T(ψ) is satisfiable if and only if ψ is. Moreover, T(ψ) is 3-CNF formula
+whose size is linear with respect to the size of ψ.
+
+We still need to understand what CNF does. We proceed to analyze all cases.
+CNF(q ≡ ¬p) = (¬q ∨ ¬p) ∧ (p ∨ q)
+CNF(q ≡ (p ∧ r)) = (q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p) ∧ (¬q ∨ r)
+CNF(q ≡ (p ∨ r)) = (¬q ∨ p ∨ r) ∧ (q ∨ ¬p) ∧ (q ∨ ¬r)
+CNF(q ≡ (p → r)) = (¬q ∨ ¬p ∨ r) ∧ (p ∨ q) ∧ (¬r ∨ q)
+CNF(q ≡ (p ≡ r)) = (q ∨ p ∨ r) ∧ (q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p¬r) ∧ (¬q ∨ ¬p ∨ r)
