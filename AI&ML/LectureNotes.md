@@ -208,3 +208,56 @@ CNF(q ≡ (p ∧ r)) = (q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p) ∧ (¬q ∨ r)
 CNF(q ≡ (p ∨ r)) = (¬q ∨ p ∨ r) ∧ (q ∨ ¬p) ∧ (q ∨ ¬r)
 CNF(q ≡ (p → r)) = (¬q ∨ ¬p ∨ r) ∧ (p ∨ q) ∧ (¬r ∨ q)
 CNF(q ≡ (p ≡ r)) = (q ∨ p ∨ r) ∧ (q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p¬r) ∧ (¬q ∨ ¬p ∨ r)
+
+The DPLL procedure is composed of different phases:
+
+```pseudocode
+UnitPropagation(φ, I)
+while φ contains a unit clause {λ}
+if λ = p, then I(p) := true;
+if λ = ¬p, then I(p) := f alse
+φ := φ|λ;
+end;
+return (φ,I)
+```
+
+If the procedure returns $(\{\},I)$, the formula is satisfied by the (partial) interpretation $I$.
+
+```pseudocode
+DPLL(φ, I′)
+
+(ψ, I) := UnitPropagation(φ, I′);
+if ψ contains {}
+then return ({{}}, ∅)
+elseif ψ = {} then return ({}, I)
+else select a literal λ ∈ C ∈ ψ;
+if DPLL(ψ ∪ {{λ}}, I) = ({}, I′′)
+then return ({}, I′′)
+else return DPLL(ψ ∪ {{¬λ}}, I)
+```
+
+##### Example of exam exercise
+
+$$\phi = \{\{p,q,r,s\}, \{\neg p, q, \neg r\}, \{\neg q, \neg r, s\},\{p, \neg q,r,s\},\{q, \neg r, \neg s\},\{\neg p, \neg r, s\},\{\neg p, \neg s\},\{p, \neg q\}\}$$
+DPLL first round:
+1. No unit to propagate;
+2. Pick a random literal $(\neg q)$, and append it to the formula $\phi$. Run again DPLL;
+3. Run till you reach and end clause ({{}}, $I$) or ({},$I$) or another.
+
+##### Exam exercise
+
+$$\phi = (a <- b) \wedge (\neg c \vee d) \wedge (\neg e \vee \neg f) \wedge (e \vee \neg f \vee \not b)$$
+is $\phi$ valid ?
+
+Check if $\exists$ an interpretation $I$ that satisfies $\neg \phi$.
+
+$(\neg b \wedge a) | (c \vee \neg d)\ ecc...$
+satisfied on left branch (no contraddiction)
+So $\phi$ is not valid, because our partial interpretation $(a,\neg b)$ staisfies negated phi $(\neg \phi)$.
+
+## First order logic (FOL)
+
+Elements of the first order logic:
+- **Constants:** like Mary, John, 1, 2, blue, ecc...;
+- **Functions:** fatherOf(), motherOf(), ecc...;
+- **Predicates:** Mortal, Prime, ecc...;
