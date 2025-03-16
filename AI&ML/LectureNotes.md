@@ -258,6 +258,18 @@ So $\phi$ is not valid, because our partial interpretation $(a,\neg b)$ staisfie
 ## First order logic (FOL)
 
 Elements of the first order logic:
-- **Constants:** like Mary, John, 1, 2, blue, ecc...;
+- **Terms:** costants or variables, like Mary, John, 1, 2, blue, ecc...;
 - **Functions:** fatherOf(), motherOf(), ecc...;
 - **Predicates:** Mortal, Prime, ecc...;
+- **Quantifiers**: like $\exists,\ \forall$ ecc...;
+
+The interpretation is providing a meaning.
+
+EX:
+
+F(x,y) is a predicate: F/2 takes 2 arguments
+I(F) $\in \Delta^2$.
+I(F) = {<s1,s2>,<s2,s1>}
+end of example
+
+Assignments is an set $\alpha$ that relates all the variables to a value.
