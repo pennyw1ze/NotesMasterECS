@@ -273,3 +273,15 @@ I(F) = {<s1,s2>,<s2,s1>}
 end of example
 
 Assignments is an set $\alpha$ that relates all the variables to a value.
+
+#### Free Variables:
+Variables are free if they appear in at least one clause not related to an existential or universal operator ($\exists , \forall$).
+
+#### Formulas definition:
+A formula φ is **ground** if it does not contain any variable.
+A formula is **open** if it contains at least one free variable, **closed** otherwise.
+
+$\forall x.course(x)\exists y,z.student(y) \cap student(z) \cap attend(y,x)\cap attend(z,x) \cap \neg y = z$.
+A student can attend at most 2 courses:
+∀x∀y∀z∀w(attend(x, y) ∧ attend(x, z) ∧ attend(x, w) →
+(y = z ∨ z = w ∨ y = w))
