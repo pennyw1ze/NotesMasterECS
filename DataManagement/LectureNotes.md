@@ -186,3 +186,34 @@ We can also have multiple arcs for example a book can have more then one author,
 
 Addivity
 we can restrict the possisbility to aggragate with every function using a dotted line and explaining
+
+# Star schema
+We can also provide a schema in form of star, like this one:
+![[Pasted image 20250317133103.png|600|center]]
+
+We will have a:
+- **Fact table:** contains tuples at the choosen level of aggregations;
+- **Dimension tables:** are completely denormalized;
+
+**Denormalization** multiply the space for the table and increases the space that you have to use for the tables, but you will have to do few joins.
+To get the multidimensional view of the data can be given by denormalized datas by just joining every dimesinon.
+EX:
+Select *
+from SALES s join STORE st on s.keys = st.keys
+join PRODUCT p on p.keyp = skeyp
+join DATE d on s.keyd = d.keyd
+
+### Snowflake schema
+![[Pasted image 20250317141039.png]]
+
+In this case, datas are not completely denormalized.
+
+### Logical design
+Main steps in DW logical design are:
+1. Choosing the logical schema to adopt (e.g., star/snowflake schema);
+2. Translating fact schemata into logical schemata;
+3. Materializing views;
+4. Realizing some forms of optimization;
+
+Exercise:
+![[Pasted image 20250317143745.png]]
