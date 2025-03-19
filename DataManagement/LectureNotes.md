@@ -217,3 +217,19 @@ Main steps in DW logical design are:
 
 Exercise:
 ![[Pasted image 20250317143745.png]]
+
+1) DFM schema:
+
+
+
+
+
+
+
+
+
+
+| Loan |
+| ---- |
+|      |
+|      |
