@@ -285,3 +285,12 @@ $\forall x.course(x)\exists y,z.student(y) \cap student(z) \cap attend(y,x)\cap 
 A student can attend at most 2 courses:
 ∀x∀y∀z∀w(attend(x, y) ∧ attend(x, z) ∧ attend(x, w) →
 (y = z ∨ z = w ∨ y = w))
+
+
+At least n students:
+$\exists x_1,...,x_n ( \cap_{i=1...n}\phi(x) \cap \cap_{i\neq j = 1...n}x_i\neq x_j$)
+
+At most n students:
+$\forall x_1,...,x_{n+1}.(\cap_{i=1...n+1}\phi (x) -> \cup_{i \neq j = 1...n+1} x_i = x_j)$
+
+
