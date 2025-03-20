@@ -219,17 +219,5 @@ Exercise:
 ![[Pasted image 20250317143745.png]]
 
 1) DFM schema:
+Exercise on paper.
 
-
-
-
-
-
-
-
-
-
-| Loan |
-| ---- |
-|      |
-|      |
