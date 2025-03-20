@@ -293,4 +293,6 @@ $\exists x_1,...,x_n ( \cap_{i=1...n}\phi(x) \cap \cap_{i\neq j = 1...n}x_i\neq 
 At most n students:
 $\forall x_1,...,x_{n+1}.(\cap_{i=1...n+1}\phi (x) -> \cup_{i \neq j = 1...n+1} x_i = x_j)$
 
+### Tableux and FOL
+We've seen how to expand propositional logic formulas with tableux, but we do not know how to expand existential and universal quantifier.
 
