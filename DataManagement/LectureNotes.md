@@ -221,15 +221,39 @@ Exercise:
 1) DFM schema:
 
 
+---
 
+# NO SQL
 
+Relational database schema are static, but data changes continuously and increase or decrease. For this reason, since relational database are not **flexible**, No SQL are concretely used in real life.
 
+## Graph database
+We can have database in form of graph.
+This kind of graphs are used for example in social network database.
 
+Litterally a graph, with nodes, edges, and properties to represent and store data.
+Can be used for example to represent:
+- Social networks;
+- Maps with streets and places on the globe;
+- ecc...
 
+The advantage is for example to create 2 different kind of relation for the same object with 2 different entities and with different characteristics. With relational database, I should've used different tables, here I just need to create 2 different edges wich is completely natural in a graph approach.
 
+Practical example:
+![[Pasted image 20250324134608.png]]
 
+Query needed to search for Alice friends in a relational database.
+In a graph, I just need to follow a path, which is much easier.
 
-| Loan |
-| ---- |
-|      |
-|      |
+### Implementations
+We can implement a graph in Adjacency list.
+Each node has a list of neighbors.
+
+### Queries
+How to query a graph db ?
+We will have labelled edges, and we will use regex.
+Regex example:
+L = (a | (bc) +)?
+L = {$\epsilon$,a,bc,bcbc,bcbcbc,...}
+Why are we talking about regex?
+Because nodes are labelled with letter in alphabtes, so **each path in a graph db is defined by a regex**.
