@@ -340,3 +340,25 @@ OTHER BRENCH
 ecc...
 
 ---
+
+# FOL Queries
+
+We use the formula as a query, and the interpretation as a database.
+A FOL boolean query is a FOL query without free variables.
+The answare is true when the query contains the empty tuple, and false otherwise.
+Query evaluations makes sense if the interpretation $I$ is finite.
+
+EX:
+$\phi(x) = \exists y.Person(x,y)\cap Lives(x,ny)$
+
+---
+# Wumpus
+Setting up wumpus in FOL.
+
+## Rules
+Let's define the rules of the game.
+#### Wumpus
+$\exists x.Wumpus(x)\cap Square(x)$
+$\forall x\forall y.Wumpus(x)\cap Wumpus(y) \implies x=y$$\forall x.Wumpus(x)\cap Square(x) \implies( \exists y.Right(x,y) -> Stench(y)\cap \exists y.Left(x,y) ->  Stench(y)\cap \exists y.Up(x,y) -> Stench(y)\cap \exists y.Down(x,y) -> Stench(y))$
+---
+# Classical Planning
