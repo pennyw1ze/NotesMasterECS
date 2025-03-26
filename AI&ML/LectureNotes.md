@@ -361,4 +361,54 @@ Let's define the rules of the game.
 $\exists x.Wumpus(x)\cap Square(x)$
 $\forall x\forall y.Wumpus(x)\cap Wumpus(y) \implies x=y$$\forall x.Wumpus(x)\cap Square(x) \implies( \exists y.Right(x,y) -> Stench(y)\cap \exists y.Left(x,y) ->  Stench(y)\cap \exists y.Up(x,y) -> Stench(y)\cap \exists y.Down(x,y) -> Stench(y))$
 ---
-# Classical Planning
+# Planning
+## Classical Planning
+
+|       |     |     | $\star$ |
+| ----- | --- | --- | ------- |
+|       |     |     |         |
+|       |     |     |         |
+| Agent |     |     |         |
+Actions:
+up, down, right, left
+
+Properties:
+- Positions of the agent; (fluent)
+- Position of the star; (not fluent)
+- Structur of the grid; (not fluent)
+
+> [!NOTE]
+> We call **fluent** all the elements which position can change
+
+We call this elements **Domain Definition Lenguages**
+One of the most used is **PDDL**.
+
+An example of classical planning is Rubik cube.
+
+### State space
+State can be finite or infinite.
+$S = \{s_1,s_2,...,s_n\}$
+### Action
+To move between states
+$A = \{a_1,a_2,...,a_n\}$
+
+### Transaction
+Transaction functions
+$\delta :S\times A -> S$
+So we will have $\delta (S,A) \in S$
+
+Ex:
+
+|       |     |     | $\star$ |
+| ----- | --- | --- | ------- |
+|       |     |     |         |
+|       |     |     |         |
+| Agent |     |     |         |
+
+Actions: Right ->
+
+|     |       |     | $\star$ |
+| --- | ----- | --- | ------- |
+|     |       |     |         |
+|     |       |     |         |
+|     | Agent |     |         |
