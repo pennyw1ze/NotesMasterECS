@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "82599d59b013d3cd",
+        "id": "9f9462960fe1c196",
         "type": "tabs",
         "children": [
           {
-            "id": "95b8d4f491e65724",
+            "id": "94123e8b8dd70e25",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -152,7 +152,7 @@
             }
           },
           {
-            "id": "b1c603e7eb35c655",
+            "id": "789b781800b3ebd3",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -179,10 +179,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b1c603e7eb35c655",
+  "active": "94123e8b8dd70e25",
   "lastOpenFiles": [
-    "Untitled.canvas",
     "AI&ML/LectureNotes.md",
+    "Untitled.canvas",
     "README.md"
   ]
 }
