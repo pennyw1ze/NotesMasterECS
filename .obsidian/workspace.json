@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI&ML/LectureNotes.md",
+                "file": "DataManagement/LectureNotes.md",
                 "mode": "source",
                 "source": false
               },
@@ -181,9 +181,9 @@
   },
   "active": "95b8d4f491e65724",
   "lastOpenFiles": [
-    "conflict-files-obsidian-git.md",
-    "AI&ML/LectureNotes.md",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
+    "AI&ML/LectureNotes.md",
+    "conflict-files-obsidian-git.md",
     "Untitled.canvas",
     "README.md"
   ]
