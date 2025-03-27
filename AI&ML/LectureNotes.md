@@ -293,4 +293,50 @@ $\exists x_1,...,x_n ( \cap_{i=1...n}\phi(x) \cap \cap_{i\neq j = 1...n}x_i\neq 
 At most n students:
 $\forall x_1,...,x_{n+1}.(\cap_{i=1...n+1}\phi (x) -> \cup_{i \neq j = 1...n+1} x_i = x_j)$
 
+### Tableux and FOL
+We've seen how to expand propositional logic formulas with tableux, but we do not know how to expand existential and universal quantifier.
 
+We can translate this formulas as follows:
+
+$\neg \forall x \phi(x) = \exists x.\neg \phi(x)$
+$\neg \forall x \phi(x)$ can be expanded in tableux as $\neg \phi(x)$
+
+When we expand the existential quantifier, you can insert that the condition expressed by it is valid only for one object in the domain, while when you expand a universal quantifier it must be kept in mind that the constraint is valid on every object of the domain.
+
+EX:
+- Test validity (which is equal to check for unsatisfiability);
+- Apply tableux;
+
+$\neg ( (\exists x.P(x)\cup Q(x)) \iff (\exists x.P(x)\cup \exists x.Q(x)) )$
+---
+EXPAND:
+
+1. $(\exists x.P(x)\cup Q(x))$
+2. $\neg (\exists x.P(x)\cup \exists x.Q(x))$
+
+OR
+
+3. $\neg (\exists x.P(x)\cup Q(x))$
+4. $(\exists x.P(x)\cup \exists x.Q(x))$
+---
+APPLY RULES
+
+
+1. ->BETA RULE
+$(P(x) \cup Q(x))$
+-> DELTA RULE
+P(b)
+In this case I cannot choose a again to create a contraddiction so I cannot close the brench.
+
+
+2. -> ALPHA RULE
+$\neg \exists x.P(x)$
+$\neg \exists x.Q(x)$
+-> GAMMA RULE
+$\neg P(a)$
+
+---
+OTHER BRENCH
+ecc...
+
+---

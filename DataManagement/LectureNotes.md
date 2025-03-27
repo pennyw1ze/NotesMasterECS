@@ -219,7 +219,9 @@ Exercise:
 ![[Pasted image 20250317143745.png]]
 
 1) DFM schema:
+Exercise on paper.
 
+<<<<<<< HEAD
 
 ---
 
@@ -257,3 +259,5 @@ L = (a | (bc) +)?
 L = {$\epsilon$,a,bc,bcbc,bcbcbc,...}
 Why are we talking about regex?
 Because nodes are labelled with letter in alphabtes, so **each path in a graph db is defined by a regex**.
+=======
+>>>>>>> origin/main
