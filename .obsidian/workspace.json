@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DataManagement/LectureNotes.md",
+                "file": "AI&ML/LectureNotes.md",
                 "mode": "source",
                 "source": false
               },
@@ -181,6 +181,7 @@
   },
   "active": "95b8d4f491e65724",
   "lastOpenFiles": [
+    "DataManagement/LectureNotes.md",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
     "AI&ML/LectureNotes.md",
     "conflict-files-obsidian-git.md",

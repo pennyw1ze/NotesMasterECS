@@ -412,3 +412,23 @@ Actions: Right ->
 |     |       |     |         |
 |     |       |     |         |
 |     | Agent |     |         |
+
+We will create a table for our function, that given a state and an action will give us the resulting state in which we will end up.
+Since $\delta$ is a funciton, the state resulting from an action could be just one.
+We define a goal set:
+a set of final status in which we want to end up.
+We can also define a **PLANNING PROBLEM**
+A planning problem is composed of:
+- D a domain( D is composed of <(S,A,$\delta$)>;
+- $S_0$ an initial state;
+- G a set of goals;
+
+> [!NOTE]
+We add $\alpha$ to define a set of actions that can be executed from a certain state, since is not possible to execute the same set of actions from every cell.
+
+If we find a set of actions that are valid and bring us from the initial state to the desired state is called a (solution) **PLAN**.
+
+To solve the problem, we can turn the gird into a graph. 
+Each node is a state, each edge connects the states which are reachable and corresponds to an action.
+I start from the initial state and keep a fronteer variable. The fronteer contains all the neighbors of the visited states.
+If a goal state is in the fronteer, I reach it and I found a valid plan, otherwise I continue the exploration.
