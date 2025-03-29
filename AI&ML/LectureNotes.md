@@ -432,3 +432,23 @@ To solve the problem, we can turn the gird into a graph.
 Each node is a state, each edge connects the states which are reachable and corresponds to an action.
 I start from the initial state and keep a fronteer variable. The fronteer contains all the neighbors of the visited states.
 If a goal state is in the fronteer, I reach it and I found a valid plan, otherwise I continue the exploration.
+
+We start with a fronteer, a set of pairs, plan and state. a plan is  a set of actions that brought us from S0 to S.
+
+##### Flaws:
+- We have to save the whole space in memory;
+- We have a random algorithm that picks a state from the fronteer without a specific criteria.
+
+#### Improvements
+We could use a known algotithm to pick state from fronteer that takes into account also the states previously explored.
+Let's think about a **BFS**.
+We want a function that given a set of states and plans, tells us which is the most desirable couple state plan to pick.
+In the BFS case, the most desirable plan is the shortest path.
+This algorithm is called **Best First** search.
+
+
+### Properties
+Specify 2 properties for this algotihms:
+- **Soundness:** If the algorithm gives an output, the output is a solution to the problem;
+- **Completeness:** if exists a solution to the problem, the algotihm returns it;
+- **Optimality**: the returned plan is guaranteed to be optimal wrt a given measure.
