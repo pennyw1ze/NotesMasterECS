@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DataManagement/LectureNotes.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "LectureNotes"
+              "title": "README"
             }
           }
         ]
@@ -179,10 +179,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8c6629bf46e71465",
+  "active": "3e285f574389d852",
   "lastOpenFiles": [
-    "AI&ML/LectureNotes.md",
+    "RIPETIZIONI",
     "DataManagement/LectureNotes.md",
+    "AI&ML/LectureNotes.md",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
     "conflict-files-obsidian-git.md",
     "Untitled.canvas",
