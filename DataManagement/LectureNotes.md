@@ -286,3 +286,19 @@ Basically is a graph database.
 Every entry in this database is a triple, subject, predicate, object.
 Every edge in a graph database, at the end, is actually a triple.
 We also have BLANK NODES as models of triples.
+
+We have index, and this index must be updated at every operation, but queries are much faster.
+RDF is just a particular type of relational database.
+Naive approach:
+Store all the triples in  table (vertical representation)
+
+Horizontal
+We can have an horizontal representation in which we group for example all the subject of the tuple (TRIPLES) and create a single entry in the table.
+Pros:
+
+Cons:
+- There will be a lot of nulls;
+- I might have different tuples with same subject and same object
+
+Query lenguage for RDS:
+**SPARQL**
