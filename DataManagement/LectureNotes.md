@@ -286,3 +286,79 @@ Basically is a graph database.
 Every entry in this database is a triple, subject, predicate, object.
 Every edge in a graph database, at the end, is actually a triple.
 We also have BLANK NODES as models of triples.
+
+We have index, and this index must be updated at every operation, but queries are much faster.
+RDF is just a particular type of relational database.
+Naive approach:
+Store all the triples in  table (vertical representation)
+
+Horizontal
+We can have an horizontal representation in which we group for example all the subject of the tuple (TRIPLES) and create a single entry in the table.
+Pros:
+
+Cons:
+- There will be a lot of nulls;
+- I might have different tuples with same subject and same object
+
+Query lenguage for RDS:
+**SPARQL**
+
+---
+## Knowledge graphs
+
+A lot of request for machine learning engeneers.
+Difference between data base and knowledge base.
+
+#### Knowledge base
+A database satisfies the costraints if all the conditions imposed in the foreign key constraints are respected.
+
+A knowledge graph can deduce if something is missing in order to satisfy a constraint, and add it using also null values.
+
+We define an RDFS (RDF schema) in the following terms:
+
+#### Alphabet
+A set of symbols. Some of theme are already defined in RDF.
+We also have some class in RDF, for example:
+rdf:Resource is a class of everything;
+Class: is a class;
+type: used to assert that a resource is an insatance of a class;
+subClassOf: triv
+Property: is a class whos istances are the properties of the class;
+example of properties:
+- domain is used to assert the class of the first component;
+- range =================  of the second component;
+- subPropertyOf;
+ So we basically have classes and properites.
+
+#### Syntax
+X rdf:type Y
+The same symbol could be used as a property and as an individual;
+
+Schema informations and data informations are mixed.
+For example:
+	  /------------------      **PERSON**      --------------------\
+	 /                                                                                           \
+	/                                                                                              \
+ **Student**      <--rdf:domain--  has supervisor    --rdf:range->  **Researcher** 
+   ^                                                                                                      ^
+   |                                                                                                       |
+**Frank**                           ----   has supervisor   --->                     **Jean**
+
+This cannot be represented as a database because Frank is a stuend but there is no person wich name is frank, even tho each student is a person.
+
+Closed world assumption: everything that is not in the database is false.
+A database follows the closed world assumption.
+In Graph knowledge there is NO closed world assumption.
+We can also answare I don't know in the knowledge graph, so this modifies the closed world assumptions. In this case, the answare NO should include negative informations in the database.
+
+#### Semantics
+Based on the notion of **interpretation**.
+Interpretations are composed of:
+- Domain of the interpretations;
+- The interpretation itself;
+Extension is an interpretation of a generic graph.
+There could be multiple interpretations of the same graph.
+In the interpretation of a predicate, we have to formally define it.
+EX:
+rdf:domain = cock
+I is "good" if elem are coherent with the knowledge.

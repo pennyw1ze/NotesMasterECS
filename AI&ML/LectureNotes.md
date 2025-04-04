@@ -412,3 +412,66 @@ Actions: Right ->
 |     |       |     |         |
 |     |       |     |         |
 |     | Agent |     |         |
+
+We will create a table for our function, that given a state and an action will give us the resulting state in which we will end up.
+Since $\delta$ is a funciton, the state resulting from an action could be just one.
+We define a goal set:
+a set of final status in which we want to end up.
+We can also define a **PLANNING PROBLEM**
+A planning problem is composed of:
+- D a domain( D is composed of <(S,A,$\delta$)>;
+- $S_0$ an initial state;
+- G a set of goals;
+
+> [!NOTE]
+We add $\alpha$ to define a set of actions that can be executed from a certain state, since is not possible to execute the same set of actions from every cell.
+
+If we find a set of actions that are valid and bring us from the initial state to the desired state is called a (solution) **PLAN**.
+
+To solve the problem, we can turn the gird into a graph. 
+Each node is a state, each edge connects the states which are reachable and corresponds to an action.
+I start from the initial state and keep a fronteer variable. The fronteer contains all the neighbors of the visited states.
+If a goal state is in the fronteer, I reach it and I found a valid plan, otherwise I continue the exploration.
+
+We start with a fronteer, a set of pairs, plan and state. a plan is  a set of actions that brought us from S0 to S.
+
+##### Flaws:
+- We have to save the whole space in memory;
+- We have a random algorithm that picks a state from the fronteer without a specific criteria.
+
+#### Improvements
+We could use a known algotithm to pick state from fronteer that takes into account also the states previously explored.
+Let's think about a **BFS**.
+We want a function that given a set of states and plans, tells us which is the most desirable couple state plan to pick.
+In the BFS case, the most desirable plan is the shortest path.
+This algorithm is called **Best First** search.
+
+
+### Properties
+Specify 2 properties for this algotihms:
+- **Soundness:** If the algorithm gives an output, the output is a solution to the problem;
+- **Completeness:** if exists a solution to the problem, the algotihm returns it;
+- **Optimality**: the returned plan is guaranteed to be optimal wrt a given measure.
+
+Instead of the max, we will use the minimum as a criteria function to choose for the next state.
+
+## Informed search
+A search when the functions that picks states from the fronteers actually uses some knowledge cumulated during the explorations.
+Example of function:
+Evaluate the number of steps missing to reach the goal state(s).
+Let's now consider a situation in which we have obstacles in the grid.
+We create an evaluation function that computes the cost of a state, which is the number of steps needed to go from the initial state to a certain state following a certain path.
+For example, if goal state is S3 and it takes 2 steps to reach it from S1, then our function g will say:$$g(S_1)=2$$
+So we must drop all the path that leads us to the same state as other paths but with more steps than other paths that we found in the past.
+We also introduce another function h to extimate the cost of reaching the goal from a certain state.
+And we create a function f to evaluate the best state to continue the path which is defined as follows:$$f(n)=g(n)+h(n)$$
+Pruning: throw away an entire part of the expansion tree if we see that it reaches a state in more steps then another path.
+So in the new algorithm I will remove from the fronteer all the nodes which have higher costs than other nodes with an inferior cost to reach the same state.
+
+##### So:
+We will expand at first the state with the lower euristic funtion h, so the state which we think is the closer to the goal state.
+
+> Admissible heuristic function: an heuristic function is admissible if it does never extimate the cost of reaching a goal state.
+
+If A* uses an admissible heuristic function then it is optimal.
+
