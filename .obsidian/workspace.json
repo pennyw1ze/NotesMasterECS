@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "DDS_2025_01_29"
             }
           }
         ]
@@ -179,14 +179,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3e285f574389d852",
+  "active": "8c6629bf46e71465",
   "lastOpenFiles": [
+    "README.md",
     "RIPETIZIONI",
     "DataManagement/LectureNotes.md",
     "AI&ML/LectureNotes.md",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
     "conflict-files-obsidian-git.md",
-    "Untitled.canvas",
-    "README.md"
+    "Untitled.canvas"
   ]
 }
