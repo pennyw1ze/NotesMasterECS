@@ -461,7 +461,7 @@ Example of function:
 Evaluate the number of steps missing to reach the goal state(s).
 Let's now consider a situation in which we have obstacles in the grid.
 We create an evaluation function that computes the cost of a state, which is the number of steps needed to go from the initial state to a certain state following a certain path.
-For example, if goal state is S3 and it takes 2 steps to reach it from S1, then our function g will say:$$g(S_1)=2$$
+For example, if goal state is S3 and it takes 2 steps to reach it from S1, then our function g will say:$$g(S_1)=2$$images
 So we must drop all the path that leads us to the same state as other paths but with more steps than other paths that we found in the past.
 We also introduce another function h to extimate the cost of reaching the goal from a certain state.
 And we create a function f to evaluate the best state to continue the path which is defined as follows:$$f(n)=g(n)+h(n)$$
@@ -475,3 +475,30 @@ We will expand at first the state with the lower euristic funtion h, so the stat
 
 If A* uses an admissible heuristic function then it is optimal.
 
+About the heuristic function h, we say that if we have h1 and h2, and h2>h1, since h1 < h2 < step to reach goal state, we have that h2 is better then h1.
+
+---
+# PDDL
+Planning Domain Definition Lenguage
+
+There exists 2 languages:
+- STRIPS (STanford Research Institue Planning System).
+- ADL (Action Description Lenguage);
+
+Let's study a new problem:
+##### BOX world
+STRIPS representation of the problem:
+( define (domain BlocksWorld)
+  (:requirements :strips :negative-preconditions)
+  (:predicates 
+    (on ?b1 ?b2 - object) 
+    (onTable ?b - object)
+    (clear ?b) // We avoid to write object, it is implicit
+   )
+   (:action moveFromTable
+	:parameters (?b1 ?b2)
+	:precondition (and (clear ?b1) (clear ?b2)) // The blocks must not have any other blocks // on top of them
+	:effect (and (on ?b1 ?b2) (not onTable ?b1) (not clear ?b2))
+   )
+)
+Everything not mentioned  does not changes
