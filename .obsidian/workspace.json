@@ -11,10 +11,14 @@
             "id": "6b84485d0ee54af1",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "AI&ML/LectureNotes.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "LectureNotes"
             }
           }
         ]
@@ -175,14 +179,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3e285f574389d852",
+  "active": "6b84485d0ee54af1",
   "lastOpenFiles": [
+    "DataManagement/LectureNotes.md",
+    "AI&ML/LectureNotes.md",
     "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
     "Practical lecture Advanced Crypto.md",
     "README.md",
     "RIPETIZIONI",
-    "DataManagement/LectureNotes.md",
-    "AI&ML/LectureNotes.md",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
     "conflict-files-obsidian-git.md",
     "Untitled.canvas"
