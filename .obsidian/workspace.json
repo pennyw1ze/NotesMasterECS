@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "9c397aead3822454",
+        "id": "fc9b1b3eb4dde1bb",
         "type": "tabs",
         "children": [
           {
-            "id": "390d65b7353bb02b",
+            "id": "6b84485d0ee54af1",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "AI&ML/LectureNotes.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "LectureNotes"
+              "title": "New tab"
             }
           }
         ]
@@ -152,7 +148,7 @@
             }
           },
           {
-            "id": "789b781800b3ebd3",
+            "id": "b1c603e7eb35c655",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -179,15 +175,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "390d65b7353bb02b",
+  "active": "3e285f574389d852",
   "lastOpenFiles": [
+    "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
     "Practical lecture Advanced Crypto.md",
-    "conflict-files-obsidian-git.md",
-    "AI&ML/LectureNotes.md",
-    "TOK-House.md",
+    "README.md",
+    "RIPETIZIONI",
     "DataManagement/LectureNotes.md",
-    "Images/DM/Pasted image 20250324134608.png",
-    "Untitled.canvas",
-    "README.md"
+    "AI&ML/LectureNotes.md",
+    "Lecture dm to merge to DataManagement.LectureNotes.md",
+    "conflict-files-obsidian-git.md",
+    "Untitled.canvas"
   ]
 }
