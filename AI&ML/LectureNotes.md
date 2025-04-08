@@ -477,6 +477,8 @@ If A* uses an admissible heuristic function then it is optimal.
 
 About the heuristic function h, we say that if we have h1 and h2, and h2>h1, since h1 < h2 < step to reach goal state, we have that h2 is better then h1.
 
+Remember that we are working under the CLOSED WORLD ASSUMPTION.
+
 ---
 # PDDL
 Planning Domain Definition Lenguage
@@ -502,3 +504,41 @@ STRIPS representation of the problem:
    )
 )
 Everything not mentioned  does not changes
+
+Now we can try to describe the box world problem:
+
+(:define (problem boxworld)
+(:domain BlocksWorld)
+(:objects A B C)
+(:init
+	ontable A
+	ontable B
+	ontable C
+	clear A
+	clear B
+	clear C
+	)
+(:goal and
+	on (C B)
+	on (A C)
+	)
+
+
+)
+
+So we will have a domain D = (S,A,$\alpha,\delta$)
+S is a set of ground facts. Example: on table a or on clear a.
+A is a set of all possible ground actions.
+$\alpha (S)=\{a\in A | s \models precondition(a)\}$
+$\delta :S\times A\rightarrow S$
+So this is a compact way to represent the domain.
+In classical planning you can also use the universal and existential operators.
+
+---
+# Fully Observable Non Deterministic (FOND) planning
+
+When we moove from a state, performing an action, we do not know precisely in what state you will end up.  
+So $\delta$ is not a function anymore, besides it is a relation in the sense that for an element in the domain there are multiple corresponding elements in the codomain.
+$\delta (S,a) = \{S,S',S''\}$
+$\delta :S\times A \rightarrow 2^S$
+We have to define a **policy**, a table that maps actions from a determinate state.

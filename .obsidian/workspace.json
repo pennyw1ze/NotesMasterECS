@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "fc9b1b3eb4dde1bb",
+        "id": "2dfc0f1ede55f563",
         "type": "tabs",
         "children": [
           {
-            "id": "6b84485d0ee54af1",
+            "id": "00468bf5e07fd608",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -179,10 +179,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6b84485d0ee54af1",
+  "active": "00468bf5e07fd608",
   "lastOpenFiles": [
-    "DataManagement/LectureNotes.md",
     "AI&ML/LectureNotes.md",
+    "DataManagement/LectureNotes.md",
     "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
     "Practical lecture Advanced Crypto.md",
     "README.md",
