@@ -361,4 +361,37 @@ There could be multiple interpretations of the same graph.
 In the interpretation of a predicate, we have to formally define it.
 EX:
 rdf:domain = cock
-I is "good" if elem are coherent with the knowledge.
+I is "good" if elem are coherent with the knowledge
+
+---
+3 Most famous no SQL database:
+
+key value;
+graph database;
+document based;
+
+### Key value
+We can access values based on their keys.
+It is like a dictionary.
+Values can represent different attributes, and are blocks of informations. This values doesn't have to keep a fixed schema. Values are single objects and can be modeled in anyway.
+We cannot access only a part of the value, we must take it all.
+### Document-based
+Whenever I talk about documents, I refer to aggregates.
+A document is a structure of key-value pairs, where the values are as complex as you want.
+Documents are usually represented trought the JSON format.
+We can define transformations for JSON objects.
+
+#### Differences:
+With key value you can't access part of the value, with document based you can access single parts of the value since is a JSON file, accessing only a part of the whole value content.
+
+# MongoDB
+Document-based data base.
+Open source, No SQL, DataBase Management System, relies on BSON (Binary JSON).
+Same structure of JSON, with specific data types.
+
+To create a collection we will have a validator, a list of required properties.
+We can insert consrtraints on the data that are inserted in our schema.
+
+dbcreatecollection{
+
+}
