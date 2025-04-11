@@ -542,3 +542,29 @@ So $\delta$ is not a function anymore, besides it is a relation in the sense tha
 $\delta (S,a) = \{S,S',S''\}$
 $\delta :S\times A \rightarrow 2^S$
 We have to define a **policy**, a table that maps actions from a determinate state.
+We create a tree of possible actions, listing the possible state after executing an action from a state, and we discard path where loops occurs since we risk to end up in an infinite loop which will not lead us to a goal state.
+
+### And-Or-Search
+
+Policy AO-SEARCH(D = <S,A,$\alpha,\delta$>, $S_0, G \subseteq S$){
+	return OR-SEARCH(D,$S_0$,G,$\epsilon$);
+}
+
+Policy OR-SEARCH(D,$S$,G,$\sigma$){
+	if S $\in G$ return $\Pi _0$;
+	if S occurs in $\sigma$ return fail;
+	for every action a $\in \alpha(S)$
+		$\Pi$ = AND-SEARCH(D,$S$,a,G,$\sigma$ extended with s');
+		if($\Pi \neq fails$ ) return $\Pi \cup$ {<S,a>};
+}
+return failure;
+
+Policy AND-SEARCH(D,$S$,a,G,$\sigma$){
+	$\Pi$ = empyt policy;
+	for every s' $\in \delta(S,a)${
+		$\Pi$' =  OR-SEARCH(D,$S$',G,$\sigma$ concatenated to a);
+		if $\Pi$' = fail return fail;
+		$\Pi \cup= \Pi'$
+		}
+		return $\Pi$;
+}
