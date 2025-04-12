@@ -741,3 +741,39 @@ $$Poss(move(x), S_n) \leftrightarrow \exists y.AgentAt(y, s) \wedge Right(y,x)$$
 $$Poss(\forall s.drop(x,s)$$
 We can exit if we are on an exit cell and we have all items:$$Poss(exit(),s)\iff \exists y.AgentAt(y,s)\wedge Exit(y) \wedge \forall z.item(z)\implies AgentHas(z,S_n)$$
 
+---
+Recap:
+We define an initial set of formual that defines our state and does not allow any fluency.
+For this reason we defines Poss (preconditions) and formulas as constraint on the predicates that restrict their effect to their semantics.
+What we defined in the example above is also called the set of formulas that defines the initial situation (theory of initial situation).
+We call $D_{AP}$ the set of action-precondition Poss constraints formulas.
+
+Now we have to write an effect axiom (we defined constraint and precondition, now we describe the effects of a funciton).
+
+For example, if I move(x) in s', I will have that AgentAt(x,s').
+How do I write it ?$$\forall x\forall s.AgentAt(x,do(move(x),s))$$
+But we also have to specify the fact that we are leaving the actual cell in which we were before moving.
+So we have to add a condition:$$\neg AgentAt(y,s)$$
+supposing that the agent was in the cell y before moving.
+When the agents leaves a cell, he gets all the items that where in the new cell, and bring with himself all the items that he had. $$\forall x\forall y\forall s.ItemAt(x,y,s) \rightarrow AgentHas(x,do(move(y),s))$$$$\forall x\forall y\forall s.\neg ItemAt(x,y,do(move(y),s))$$
+We have also to specify what does not changes.
+For example, what was already in the bag must remain there, and if we do not specify that, the AI will not know that it keeps there.
+Since there are a lot of stuffs that remains unchanged, situation calculus has a succint way to specify this.
+
+We say **NORMAL FORM** of a clause is the following:
+a = move(x)
+... Some clause... -> AgentAt(y,do(a,s));
+
+So for example we convert $$a = move(x) \wedge \forall x\forall y\forall s.ItemAt(x,y,s) \rightarrow AgentHas(x,do(move(y),s))$$
+we just added a = move(x).
+Here:
+$$\exists y.a = move(y) \wedge \forall x\forall y\forall s.ItemAt(x,y,s) \rightarrow AgentHas(x,do(a,s))$$
+and here we normalize:
+$$a = move(y) \implies\forall x\forall y\forall s.\neg ItemAt(x,y,do(move(y),s))$$
+
+Now, effect axioms for action drop:
+
+1. $$a = drop()\implies \forall x.\neg AgentHas(x,do(a,s))$$
+2. $$a = drop() \wedge AgentAt(x,s)\wedge AgentHas(y,s)\implies Item(x,y,drop(a,s))$$
+End for exit:
+1.$$a = exit() \wedge AgentAt(x,s)\rightarrow \neg AgentAt(x,do(exit(),s))$$

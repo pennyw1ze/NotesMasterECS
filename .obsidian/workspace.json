@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Practical lecture Advanced Crypto.md",
+                "file": "AI&ML/LectureNotes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Practical lecture Advanced Crypto"
+              "title": "LectureNotes"
             }
           }
         ]
@@ -179,13 +179,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "00468bf5e07fd608",
+  "active": "3e285f574389d852",
   "lastOpenFiles": [
+    "Practical lecture Advanced Crypto.md",
     "AI&ML/LectureNotes.md",
     "AIML_9_04_2025.md",
     "DataManagement/LectureNotes.md",
     "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
-    "Practical lecture Advanced Crypto.md",
     "README.md",
     "RIPETIZIONI",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
