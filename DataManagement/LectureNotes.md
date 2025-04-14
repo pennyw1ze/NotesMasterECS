@@ -395,3 +395,23 @@ We can insert consrtraints on the data that are inserted in our schema.
 dbcreatecollection{
 
 }
+
+
+---
+
+	  /------------------      **PERSON**      --------------------\
+	 /                                                                                           \
+	/                                                                                              \
+ **Student**      <--rdf:domain--  has supervisor    --rdf:range->  **Researcher** 
+   ^                                                                                                      ^
+   |                                                                                                       |
+**Frank**                           ----   has supervisor   --->                     **Jean**
+
+Can this graph be regarder as a database ?
+
+We know what is a graph database, but now we ask: What is a Knowledge Graph ?
+Remember that the closed world assumption is not valid in a graph knowledge base.
+Delta I is the set of all URIs.
+The interpretation is not necessarly coherent with the graph, but it must be coherent with the alphabet. That's not the same if we talk about **models**.
+We call **Models** of the graph a good interpretation, an interpretation that respects all the triples of the graph.
+Blank node in a graph database allows us to choose between different interpretations, unlike the Null value in the regular database.

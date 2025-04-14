@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AI&ML/LectureNotes.md",
+                "file": "DataManagement/LectureNotes.md",
                 "mode": "source",
                 "source": false
               },
@@ -179,10 +179,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3e285f574389d852",
+  "active": "00468bf5e07fd608",
   "lastOpenFiles": [
-    "Practical lecture Advanced Crypto.md",
     "AI&ML/LectureNotes.md",
+    "Practical lecture Advanced Crypto.md",
     "AIML_9_04_2025.md",
     "DataManagement/LectureNotes.md",
     "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
