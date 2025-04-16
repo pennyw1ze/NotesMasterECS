@@ -777,3 +777,4 @@ Now, effect axioms for action drop:
 2. $$a = drop() \wedge AgentAt(x,s)\wedge AgentHas(y,s)\implies Item(x,y,drop(a,s))$$
 End for exit:
 1.$$a = exit() \wedge AgentAt(x,s)\rightarrow \neg AgentAt(x,do(exit(),s))$$
+In this Effect axioms we are not specifying what does not changes.
