@@ -778,3 +778,4 @@ Now, effect axioms for action drop:
 End for exit:
 1.$$a = exit() \wedge AgentAt(x,s)\rightarrow \neg AgentAt(x,do(exit(),s))$$
 In this Effect axioms we are not specifying what does not changes.
+	
