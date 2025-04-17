@@ -4,25 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "fc9b1b3eb4dde1bb",
+        "id": "2dfc0f1ede55f563",
         "type": "tabs",
         "children": [
           {
-            "id": "6b84485d0ee54af1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "AI&ML/LectureNotes.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "LectureNotes"
-            }
-          },
-          {
-            "id": "e8dd8e98cf5e39de",
+            "id": "00468bf5e07fd608",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -35,8 +21,7 @@
               "title": "LectureNotes"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -93,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 292.5
+    "width": 292.5,
+    "collapsed": true
   },
   "right": {
     "id": "9871f49b6fcc4020",
@@ -194,17 +180,17 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3e285f574389d852",
+  "active": "00468bf5e07fd608",
   "lastOpenFiles": [
-    "AIML_9_04_2025.md",
     "DataManagement/LectureNotes.md",
     "AI&ML/LectureNotes.md",
-    "conflict-files-obsidian-git.md",
-    "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
     "Practical lecture Advanced Crypto.md",
+    "AIML_9_04_2025.md",
+    "DependableDistributedSystems/Exams/DDS_2025_01_29.md",
     "README.md",
     "RIPETIZIONI",
     "Lecture dm to merge to DataManagement.LectureNotes.md",
+    "conflict-files-obsidian-git.md",
     "Untitled.canvas"
   ]
 }

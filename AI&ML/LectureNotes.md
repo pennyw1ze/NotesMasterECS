@@ -1,4 +1,4 @@
-### CFU
+ ### CFU
 
 9 CFU =
 
@@ -748,6 +748,8 @@ For this reason we defines Poss (preconditions) and formulas as constraint on th
 What we defined in the example above is also called the set of formulas that defines the initial situation (theory of initial situation).
 We call $D_{AP}$ the set of action-precondition Poss constraints formulas.
 
+### Effect Axiom
+
 Now we have to write an effect axiom (we defined constraint and precondition, now we describe the effects of a funciton).
 
 For example, if I move(x) in s', I will have that AgentAt(x,s').
@@ -778,3 +780,64 @@ Now, effect axioms for action drop:
 End for exit:
 1.$$a = exit() \wedge AgentAt(x,s)\rightarrow \neg AgentAt(x,do(exit(),s))$$
 In this Effect axioms we are not specifying what does not changes.
+But there would be a lot of stuffs to specify in this case!
+We will specify what changes, and assume that all the rest does not change. How ?
+start having a normal form:
+#### Normal form:
+- right side:
+	atomic formula mentioning 1 fluent and the result of executing an action on situation s;
+- left side:
+	condition under witch the fact becames true or false;
+We replace all the actions inside the do() predicate/function into a, for example like this:
+$\neg A(y,do(Act(x),s)) = (a=Act(x)\rightarrow \neg A(y,do(a,s)))$
+Notice that, we specific transformations, we can always turn an effect axiom into a normal form like ($\forall$ statements are implied):$$\exists x.(A(y,s)ecc...a=Act(x)\implies \neg A(y,do(a,s))$$
+To solve our previous problem, now we introduce:
+### Successor state axioms (SSA):
+How to construct them?
+We take all the effect axioms that affects the fluents (for example move(x)) affects AgentAt(x) and also exit() affect AgentAt.
+First, if we have:
+$\neg AgentAt(x,s) \wedge AgentAt(x,do(a,s))$
+then we know that a is move.
+$\neg AgentAt(x,s) \wedge AgentAt(x,do(a,s)) \implies a=move(x)$
+$a = exit() \wedge AgentAt(x,s) \implies \neg AgentAt(x,do(a,s))$
+So we know that if AgentAt has been affected, either the agent has moved or it has exited.
+We can take the $\gamma$ conditions of the move or exit statement and say that:$AgentAt(x,s) \wedge \neg AgentAt(x,do(a,s)) \implies \gamma_1^-(x,y,a,s) \vee \gamma_2^-(x,a,s)$
+where $\gamma_1^-$ is the condition for move and $\gamma_2^-$ is the condition of exit.
+We call this axoms the **Explanations closure axioms**.
+#### Integrity of effect axioms:
+We place constraints for example:
+Unique names for actions:$$A(x_1,...,A_n) = A(y_1,...,y_n) \implies x_1=y_1\wedge ... \wedge x_n=y_n$$
+Or other costraints like:$$A(x_1,...,A_n) \neq B(y_1,...,y_n)$$
+So we get **SSA** for example:$$AgentAt(x,do(a,s))\iff a=move(x)\vee AgentAt(x,s)\wedge \neg (\exists y.a= move(y)\wedge x\neq y \wedge AgentAt(x,s) \vee (a=exit()\wedge AgentAt(x,s)) $$
+So the agent is in x after an action only if he moved in x or he perfomed an action that does not move him or exit.
+
+---
+So we will build our effect axioms and normalize them in the form:
+$\exists y_1.\gamma _1(x,y,a,s) \implies F(x,do(a,s))$
+...
+and many more axioms like this (we can have $\gamma^+$ or $\gamma ^-$ if we have positive or negative axioms).
+We build SSAs for fluent F:
+$F(x,do(a,s)) \iff \vee _i \exists y_i. \gamma ^+(x,y,a,s) \vee (F(x,s) \wedge \neg(\vee _j \exists y_j.\gamma ^-(x,y,a,s) )$
+
+This tells us if F changes, but also if it does not changes because is an if and only if condition.
+
+So from scratch we do:
+1. Collect what Fluent changes for every actions and we write the effect axioms;
+2. Then we write SSA from the fluent;
+
+
+---
+So basically we could describe
+$D = \Sigma \cup D_{UNA} \cup D_{S_0} \cup D_{AP}  \cup D{SSA}$
+Where:
+- $\Sigma$ = Fundational axioms of STATCALC;
+- UNA = Unique Names for Actions;
+- S0 = description for initial state;
+- AP = Actions precondtions;
+- SSA = Successor State Axioms;
+
+This is a set of first order logic.
+Whit the situation calculus we can do also planning.
+We will see 2 tasks:
+- Legality for executability: given a sequence of actions, check weathere every action in the sequence is executable (POSS is true when the action is executed);
+- Protection task: given a sequence of actions $p  = a_1, a_2, ... , a_n$ and a formula $\phi(s)$ that talk about a state of situation s, check weather the following holds: $D \models \phi(do(a_n, a_{n-1},...,a_1))$ so starting from S0 you execute the actions and you end up in a state where $\phi$ still holds.
