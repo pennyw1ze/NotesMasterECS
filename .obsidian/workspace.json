@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DataManagement/LectureNotes.md",
+                "file": "AI&ML/LectureNotes.md",
                 "mode": "source",
                 "source": false
               },
@@ -179,7 +179,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3e285f574389d852",
+  "active": "e9d99b4556da957b",
   "lastOpenFiles": [
     "DataManagement/LectureNotes.md",
     "PDF.md",
