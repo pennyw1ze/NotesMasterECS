@@ -415,3 +415,114 @@ Delta I is the set of all URIs.
 The interpretation is not necessarly coherent with the graph, but it must be coherent with the alphabet. That's not the same if we talk about **models**.
 We call **Models** of the graph a good interpretation, an interpretation that respects all the triples of the graph.
 Blank node in a graph database allows us to choose between different interpretations, unlike the Null value in the regular database.
+
+---
+# Buffer
+
+The **database buffer** (also called simply buffer or buffer pool) is a
+non-persistent main memory space used to cache database pages.
+
+The **buffer manager** is responsible of the transfer of the pages from
+the secondary storage to the buffer pool, and back from the buffer
+pool to the secondary storage
+
+![[Pasted image 20250424101628.png]]
+This is the buffer architecture.
+
+### Operations
+
+The buffer manager uses the following **primitive operations**:
+- Fix: load a page;
+- Unfix: releases a page;
+- Use: registers the use of a page in the buffer;
+- Force: synchronous transfer to secondary storage;
+- Flush: asynchronous transfer to secondary storage;
+
+#### Fix
+The fix operation **load** a specific secondary storage page into the buffer.
+The buffer manager manages this operations using 2 counters:
+- **pin-count(F)**: how many transactions are using the page contained in F (initially, set to 0).
+- **dirty(F):** a bit whose value indicates whether the content of the frame F has been modified (true) or not (false) from the last load (initially, set to false).
+So the buffer manager will have to load a page in a Frame.
+If the page is already in a frame, he will just increase his pin-counter.
+If the page is not in a frame, he will have to find a free frame, or replace a page in a frame with the new one by means of a  **replacing policy**.
+
+#### Unfix:
+Transaction T certifies that it does not need the content of a
+specific frame anymore
+The pin-counter of that frame is decremented
+
+#### Use:
+The transaction modifies the content of a frame
+The dirty bit of that frame is set to true
+
+
+#### Force: 
+Synchronous (i.e., the transactions waits for the successful
+completion of the operation) transfer to secondary storage of the
+page contained in a frame
+
+
+#### Flush: 
+Asynchronous (i.e., executed when the buffer manager is
+not busy) transfer to secondary storage of the pages used by a
+transaction
+
+But, what is a transaction ?
+For example, in database we did:
+begin transaction:
+...
+end transaction.
+Transactions are operations defined in brackets that must be treated as **atomic operations**.
+
+There are 4 basic properties that we want to achieve: **ACID**
+1. **Atomicity**: for each transaction execution, either all or
+none of its actions have their effect
+2. **Consistency**: each transaction execution brings the
+database to a correct state (as state where no integrity
+constraint is violated)
+3. **Isolation**: each transaction execution is independent of
+any other concurrent transaction executions
+4. **Durability**: if a transaction execution succeeds, then its
+effects are registered permanently in the database
+
+We have to be sure that even if a transaction satisfies the ACID properties, also the other concurrent executions behaves correctly.
+
+We have to schedule transaction in a correct order.
+
+A schedule S is serializable if there exists a serial schedule which is **equivalent** to S.
+equivalent = $\forall input$ they produce the same output.
+
+#### Scheduler
+
+A schedule represents the sequence of actions of transactions presented to the data
+manager. The **scheduler** is the part of the transaction manager that is responsible of
+managing the schedule.
+
+#### Class of schedules
+We have different class of schedules:
+
+All
+schedules
+							
+Serializable
+schedules
+							
+Serial
+schedules
+
+##### Reads-from
+In a schedule S, we say that ri(x) READS-FROM wj(x) if wj(x) preceeds ri(x) in S, and there is no action of type wk(x) between wj(x) and ri(x).
+##### Final-write
+In a schedule S, we say that wi(x) is a FINAL-WRITE if wi(x) is the last
+write action on x in S. 
+
+####  view-equivalence
+Let S1 and S2 be two (total) schedules on
+the same transactions. Then S1 is view-equivalent to S2 if S1 and S2 have
+the same READS-FROM relation, and the same FINAL-WRITE set.
+
+#### view-serializability
+A (total) schedule S on {T1,…,Tn} is view-
+serializable if there exists a serial schedule S’ on {T1,…,Tn} that is view-
+equivalent to S.
