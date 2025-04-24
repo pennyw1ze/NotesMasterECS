@@ -811,7 +811,7 @@ We call this axoms the **Explanations closure axioms**.
 We place constraints for example:
 Unique names for actions:$$A(x_1,...,A_n) = A(y_1,...,y_n) \implies x_1=y_1\wedge ... \wedge x_n=y_n$$
 Or other costraints like:$$A(x_1,...,A_n) \neq B(y_1,...,y_n)$$
-So we get **SSA** for example:$$AgentAt(x,do(a,s))\iff a=move(x)\vee AgentAt(x,s)\wedge \neg (\exists y.a= move(y)\wedge x\neq y \wedge AgentAt(x,s) \vee (a=exit()\wedge AgentAt(x,s)) $$
+So we get **SSA** for example:$$AgentAt(x,do(a,s))\iff a=move(x)\vee AgentAt(x,s)\wedge \neg (\exists y.a= move(y)\wedge x\neq y \wedge AgentAt(x,s) \vee (a=exit()\wedge AgentAt(x,s))$$
 So the agent is in x after an action only if he moved in x or he perfomed an action that does not move him or exit.
 
 ---
@@ -844,3 +844,33 @@ Whit the situation calculus we can do also planning.
 We will see 2 tasks:
 - Legality for executability: given a sequence of actions, check weathere every action in the sequence is executable (POSS is true when the action is executed);
 - Protection task: given a sequence of actions $p  = a_1, a_2, ... , a_n$ and a formula $\phi(s)$ that talk about a state of situation s, check weather the following holds: $D \models \phi(do(a_n, a_{n-1},...,a_1))$ so starting from S0 you execute the actions and you end up in a state where $\phi$ still holds.
+
+---
+# Regression
+
+$AgentAt(B, do(move(c),do(move(B),do(move(A),S_0))))$
+This is the situation resulting from moving agent from A to B to C, starting from initial situation $S_0$, but is pretty long to represent.
+Our aim si to produce a new formula which is equisatisfiable with respect to the previous one.
+Let's see regression operator:
+Take a formula$$\phi = \exists x.AgentAt(x,do(B,S_0))\wedge \exists z.RightOf(x,z)$$
+$R[\phi]$
+- Regression operator R;
+Now we have different cases:
+- If $\phi$ is a situation independent atom, e.g.:$\exists x.Right(x,y)$, then:$$R[\phi] = \phi$$
+- If $\phi$ is a (relational) fluent of the formula $F(x,S_0)$, then:$$R[\phi] = \phi$$
+  For example: $\phi(x) = AgentAt(x,S_0), R[\phi(x)] = \phi(x) = AgentAt(x,S_0)$.
+- If $\phi = Poss(A(t),\sigma)$ and precondtion axiom $\phi \iff \Pi_A(x,s)$, then:$$R[\phi] = R[\Pi_A(x,S_0)]$$
+  Example:$$\phi = Poss(move(B),do(drop(),S_0))$$$$Poss(move(x),s)\iff \exists y.AgentAt(y,s)\wedge Right(x,y)$$
+  $$R[Poss(move(B),do(drop(),S_0))] = R[\exists y.AgentAt(y,do(drop(),S_0))\wedge Right(y,B)]$$
+  where $\sigma = do(drop(),S_0)$ and $t = B$.
+- If $\phi$ is a (relational) atom of the form $F(x, do(\alpha, \sigma))$, with $\alpha$ being action term and $\sigma$ the situation term with SSA $$F(x,do(a, s)) \leftrightarrow \Phi_F(x,a,s)$$
+  Example:
+  $\phi = AgentAt(B,do(move(B),S_0)), \alpha = move(B)$ and $\sigma = S_0$.
+  We will have:$$R[F(x,do(\alpha,\sigma)] = R[\Phi_F(x,\alpha,\sigma)]$$
+  So "do" does not occur in the new formula, which is apparently good for us!
+  So, back to the example we have that:$$AgentAt(x,do(a,s))\iff a=move(x)\vee AgentAt(x,s)\wedge \neg (\exists y.a= move(y)\wedge x\neq y \wedge AgentAt(x,s) \vee (a=exit()\wedge AgentAt(x,s)) $$
+  $$R[AgentAt(B,do(move(B),S_0)] = R[a = move(B) \vee \neg (\exists y.a = move(y)\wedge B\neq y \wedge AgentAt(B,S_0) \vee (move(B)=exit()\wedge AgentAt(B,S_0))]$$
+  So we replace x with B, a with move(B) and s with S0 in the SSA, we will end up with the right regressive axiom.
+- Then we have the following properties:$$R[\neg \phi] = \neg R[\phi]$$$$R[\phi \vee \gamma] = R[\phi] \vee R[\gamma]$$$$\phi = \exists x.\psi \implies R[\phi] = \exists x.R[\psi]$$
+---
+## Regression exercise exam 10_06_2024
