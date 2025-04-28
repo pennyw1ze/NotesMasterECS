@@ -872,5 +872,13 @@ Now we have different cases:
   $$R[AgentAt(B,do(move(B),S_0)] = R[a = move(B) \vee \neg (\exists y.a = move(y)\wedge B\neq y \wedge AgentAt(B,S_0) \vee (move(B)=exit()\wedge AgentAt(B,S_0))]$$
   So we replace x with B, a with move(B) and s with S0 in the SSA, we will end up with the right regressive axiom.
 - Then we have the following properties:$$R[\neg \phi] = \neg R[\phi]$$$$R[\phi \vee \gamma] = R[\phi] \vee R[\gamma]$$$$\phi = \exists x.\psi \implies R[\phi] = \exists x.R[\psi]$$
+### Regression theorem
+if $\phi$ is a regressable formula, and we want to check if it safisfies every situation, we can just check if his regression satisfies the initial situation and another situation:$$D \models \phi \iff D_{S_0} \cup D_{una} \models R[\phi]$$
+because we get rid of any situation $\Sigma$, of the axiom precondition $D_{AP}$ and of the successor state axioms $D_{SSA}$.
+We can get rid of them because every time we regress, we are already considering them (if we regress a formula about a successor situation we consider SSA and when we regress a formula about Poss we consider the AP).
+Remember that $D_{UNA}$ is here only to remember us that different action terms refers to different actions.
+
 ---
 ## Regression exercise exam 10_06_2024
+
+Check whether p = move(B)move(C)move(D) is executable in S_0 for D as above.xd
