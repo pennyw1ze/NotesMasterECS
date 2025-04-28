@@ -514,15 +514,89 @@ schedules
 ##### Reads-from
 In a schedule S, we say that ri(x) READS-FROM wj(x) if wj(x) preceeds ri(x) in S, and there is no action of type wk(x) between wj(x) and ri(x).
 ##### Final-write
-In a schedule S, we say that wi(x) is a FINAL-WRITE if wi(x) is the last
-write action on x in S. 
+In a schedule S, we say that wi(x) is a FINAL-WRITE if wi(x) is the last write action on x in S. 
 
 ####  view-equivalence
-Let S1 and S2 be two (total) schedules on
-the same transactions. Then S1 is view-equivalent to S2 if S1 and S2 have
-the same READS-FROM relation, and the same FINAL-WRITE set.
+Let S1 and S2 be two (total) schedules on the same transactions. 
+Then S1 is view-equivalent to S2 if S1 and S2 have the same READS-FROM relation, and the same FINAL-WRITE set.
 
 #### view-serializability
-A (total) schedule S on {T1,…,Tn} is view-
-serializable if there exists a serial schedule S’ on {T1,…,Tn} that is view-
-equivalent to S.
+A (total) schedule S on {T1,…,Tn} is view-serializable if there exists a serial schedule S’ on {T1,…,Tn} that is view-equivalent to S.
+Checking a schedule for view-serializability is NP Complete.
+So in practice, it is not possible to use it.
+
+#### serializability
+Something
+
+A schedule can be serializable but not view-serializable;
+
+---
+## **EXERCISES**
+#exercises
+
+• Consider the schedules:
+1. w0(x) r2(x) r1(x) w2(x) w2(z)
+2. w1(y) r2(x) w2(x) r1(x) w2(z)
+3. w1(x) r2(x) w2(y) r1(y)
+4. w0(x) r1(x) w1(x) w2(z) w1(z)
+and tell which of them are view-serializable
+• Consider the following schedules, verify that they are not view-
+serializable, and tell which anomalies they suffer from
+5. r1(x) w2(x) r1(x)
+6. r1(x) r2(x) w1(x) w2(x)
+7. w1(x) w2(y) w1(y) w2(x)
+
+Exercise 1a
+• Consider the schedules:
+8. w0(x) r2(x) r1(x) w2(x) w2(z)
+9. w1(y) r2(x) w2(x) r1(x) w2(z)
+10. w1(x) r2(x) w2(y) r1(y)
+11. w0(x) r1(x) w1(x) w2(z) w1(z)
+and tell which of them are view-serializable
+
+• Consider the following schedules, verify that they are not view-
+serializable, and tell which anomalies they suffer from
+12. r1(x) w2(x) r1(x) -- unrepeatable read
+13. r1(x) r2(x) w1(x) w2(x) -- lost update
+14. w1(x) w2(y) w1(y) w2(x) -- ghost update
+
+Exercise 1b
+Consider the following schedule
+S = r1(x) w3(x) w3(z) w2(x) w2(y) r4(x) w4(z) w1(y)
+and tell whether S is view-serializable or not, explaining the answer in
+detail.
+
+---
+
+### Conflicts and commutations
+We consider arbitrary actions.
+There are actions that are confilcting.
+Based on conf(S), we can define the **commutativity rule** for a sequence S as follows: if p,q are adiacent actions in S belonging to different transactions, and they are such that <p,q> is not in conf(S), then the sequence p,q can be replaced by the sequence q,p (in other words, p and q can be swapped).
+
+#### Conflict-equivalence
+A sequence is conflict equivalent to another if you can produce it by swapping non-conflicting actions between each other.
+
+#### Conflict serializable
+A sequence is conflict serializable if it is conflict equivalent with another sequence.
+
+To better visualize this conflicting sequence, we can draw a precedence graph, and the build an alogotihm on the graph.
+Every edge is a constraint on the set of the conflict-equivalent possible sequence.
+So we need to search another graph with the same topological order.
+If we find another graph with the same topological order, we have found a conflict-equivalent. But a graph can't have a topological order if it has cycles.
+So we can say that if a graph has a cycle it is not conflict-serializable.
+
+---
+## **EXERCISE**
+#exercises 
+
+Exercise 4
+Check whether the following schedule is conflict-serializable
+w1(x) r2(x) w1(z) r2(z) r3(x) r4(z) w4(z) w2(x)
+
+---
+Trying to prove something:
+
+$READFROM (S) \neq READFROM(S')$
+Supposing we have a pair $(w_j(x), r_i(x))$ in the relation for S but not in the relation for S'.
+Now, if S' has not the same sequence, what happens is:
+- 
