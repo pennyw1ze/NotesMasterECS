@@ -912,7 +912,9 @@ So the first condition is executable!
 **2nd condition**
 $D\models Poss(move(C),S_1)$ ?
 $R[Poss(move(C),S_1)] = R[Poss(move(C),do(move(B),S_0))]$
-![[Pasted image 20250426195247.png]]
+Since we know that:
+$Poss(move(C),do(move(B),S_0)) \iff \exists y.AgentAt(y,do(move(B),S_0))\wedge Right(y,C)$
 So we replace into the regression formula:
 $R[\exists y.AgentAt(y,do(move(B),S_0))\wedge Right(y,C)]$
 And then we split all the regression like before.
+$∃y.R[AgentAt(y, do(move(B), S_0))] ∧ Right(y, C)$
