@@ -918,3 +918,54 @@ So we replace into the regression formula:
 $R[\exists y.AgentAt(y,do(move(B),S_0))\wedge Right(y,C)]$
 And then we split all the regression like before.
 $∃y.R[AgentAt(y, do(move(B), S_0))] ∧ Right(y, C)$
+ecc...
+
+---
+
+# **MACHINE LEARNING**
+
+example:
+I give you a table of input/output data.
+Then I ask what is the output on an input, and the machine returns data based on what she learned.
+
+Usefull when:
+- No experties available;
+- Humans can't explain how they carry out task;
+- General solution must be tuned for specific case;
+
+#### Supervised learning
+Input-output example based, the task is to learn approximate a function that relates input to output.
+Two specific tasks:
+- Classification: given input data, return class (e.g., dog, cat, horse)
+- Regression: given input data, return (real) value (e.g., stock price)
+
+#### Unsupervised learing
+Tracking data are just input, no outputs, and the task is to cluster similar data.
+#### Reinforcement learning
+Tracking data according to state action reward schema.
+The task here is to learn an optimal policy.
+We have to give to the machine different rewards for task completation.
+
+---
+## Linear regression
+
+Hypotesis are linear functions:
+$h(x:w) = w_0 + w_1x_1 + ... + w_mx_m = w^Tx$
+where 
+$x = [1 x_1 x_2 ... x_m]^T$
+$w = [w_0 w_1 x_2 ... w_m]^T$
+For example, we could use ML to predict price of houses in relation with the size of the houses.
+
+We have to best fit the data in our model.
+We have to measure error with quadratic distance wrt ground truth.
+
+**Loss function: squared errors (wrt D)**
+	$$E(w) = {1\over2} \sum_{<X,t>\in D}(t-h(x;w))^2 = {1\over2}\sum_{<X,t>\in D}(t-w^Tx)^2$$
+This is the error functin and we will always try to minimize it.
+Minimize errors: $w*=argmin_wE(w)$
+So we have to do the gradient (partial differential), and compute the partial derivatives of the error function in order to minimize it.
+Starting from the data:
+- We compute the pseudo invers;
+- We multiply by T;
+- And we have the solution;
+
