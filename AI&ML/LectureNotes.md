@@ -994,4 +994,25 @@ We will introduce a parameter called learning rate, wich will be fixed before th
 So w will be reduced by this quantity:$$w = w - \gamma {dE(w)\over dw}$$
 where gamma is our learning rate (>0).
 This kind of parameter decided before even looking to the function and used from the AI to learn are called hyperparameters.
-We can repeat our optimization operation until we reach a termination condition.
+We can repeat our optimization operation until we reach a **termination condition**.
+So an hypotethical algorithm could be:
+- Init w with random values;
+- while (not termination condition):
+	- for each $w_i$:
+		- $w_i = w_i - \gamma {dE(w)\over dw_i}$
+This works because the function is covess so we do not have local minimum.
+We might have a function wich is not differential and we should approximate it in order to make it become differential.
+Obviously, since the points in the Domani could be a lot, the operation of sum might be really expensive.
+So sometimes instead of considering all the data, we consider just a subset of them (**batch**).
+Obviously this will speed up the update but is an approximation so will reduce accuracy.
+
+#### Stochastic Gradient Descent
+- We compute a random subset of elements in D: $S \subset D$;
+- We perfor the sum only on S elements: ${dE(w)\over dw_i}=-{1\over2}\sum_{<X,t>\in S}(t-w^Tx)x_i$
+We can expect this subset to be representative of the data due to random pick.
+This is used in practice by a lot of algorithms.
+
+##### Squared errors
+Why we use it ?
+because there might be some gaussian noise that affects the measures we take.
+Using least squared errors we maximize the probability that our function, effected by noise, will return the right value.
