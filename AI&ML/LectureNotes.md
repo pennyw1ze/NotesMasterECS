@@ -964,8 +964,34 @@ We have to measure error with quadratic distance wrt ground truth.
 This is the error functin and we will always try to minimize it.
 Minimize errors: $w*=argmin_wE(w)$
 So we have to do the gradient (partial differential), and compute the partial derivatives of the error function in order to minimize it.
-Starting from the data:
+##### **Recap**
+So to contruct error function, given our approx function (w1x + w0):
+- We take an $x_i$ on the axis;
+- We take the the corresponding data on that $x_i$ wich will be $t_i$;
+- We compute the difference between this 2 values ($(w1x_i + w0)-t_i$);
+- We square it and we generalize it for every x:$$((w_1x_i + w_0)-t_i)^2$$
+Since we compute the sum for every x in the domain, x is know.
+The unknown values are the one of the w array.
+We add the 1/2 constant because we want to simplify the differentiation calculus.
+
+Then we claim that our error function is a **CONVESS** function.
+We can claim this because it is a linear function of squared elements, so we are using also a quadratic error.
+This means that our function will have one point of absolut minimum.
+So to minimize the error function we will have to compute:$${dE(w)\over dw} = 0;$$
+So we have to compute all the partials derivatives and we end up with a system of n linear equations.
+To do it, we have to compute the **design matrix**:
+X =  [1 x11 ... x1m]
+	...
+    [1 xN1 ... xNN]
+Where each raw is a copy of the input tuples <x1,t1>,...,<xN,tN> at wich we add a 1 at the beginning.
+Then starting from the design matrix:
 - We compute the pseudo invers;
 - We multiply by T;
 - And we have the solution;
 
+So know the point is to update the gradient iteratively, in order to continuously decrease the errors.
+We will introduce a parameter called learning rate, wich will be fixed before the computation and will be used by our AI to reduce the errors.
+So w will be reduced by this quantity:$$w = w - \gamma {dE(w)\over dw}$$
+where gamma is our learning rate (>0).
+This kind of parameter decided before even looking to the function and used from the AI to learn are called hyperparameters.
+We can repeat our optimization operation until we reach a termination condition.
