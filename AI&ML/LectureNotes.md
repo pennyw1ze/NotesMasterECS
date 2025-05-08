@@ -1016,3 +1016,51 @@ This is used in practice by a lot of algorithms.
 Why we use it ?
 because there might be some gaussian noise that affects the measures we take.
 Using least squared errors we maximize the probability that our function, effected by noise, will return the right value.
+
+
+### Linear model for classification
+
+Classification problem:
+- Target function $f:X\rightarrow Y$
+- $X\subseteq \mathbb{R}$
+- $Y = \{c_1,...,c_k\}$
+
+We call our set **linearly separable** if there exists an hyperspace that separates instances from different classes.
+Ex:
+$X\subseteq \mathbb{R} ^2$, then we will have our plane $Y = \{+,-\};$
+
+Linear discriminant function y(x) defines separate hyperplans.
+With k classes to distinguish $(x = x_1,...,x_m)$, we will have:
+- $y_1(x_1,...,x_m) = w_{11}x_1 + ... + w_{1m}x_m + w_{k0}$
+- ...
+- $y_k(x_1,...,x_m) = w_{k1}x_1 + ... + w_{km}x_m + w_{k0}$
+- Prediction: $h(X) = c_i, i = argmax_{i = 1,...,k}y_i(X)$
+- Separating hyperplanes: $\{⟨x_1, . . . , x_m⟩ | y_i(x_1, . . . , x_m) = y_j(x_1, . . . , x_m)\}$
+
+We can use a compact notation by means of matrix and transposed matrix rapresentation.
+Now we just have to find w that minimize the least squared errors upon the distance between the data and the hyperplan that we define to distinguish the data.
+![[Pasted image 20250507093020.png]]
+Obviously we get errors if there are outliers since our function is linear.
+
+### Perceptron
+We add non-linearity to our system, by adding a **step function**, after the linear function, where its output is $\{-1,+1\}$, using a threshold over the objective function.
+In this case though we cannot use Stocastic Gradient Discend directly, since it's non-differentiable, and in most of the cases the gradient will be zero!
+We can, instead, apply the SGD on the untresholded unit, but we are not interested in the ERROR, but in the pure classification in itself.
+
+We can also update the parameters of the w variable by using weighted-update variant.
+We use the sign function to express the fact that we are going to sample only 1 or -1.
+Support Vector Machines (SVM) for Classification
+maximum margin for better generalization
+We maximize the distance of the line in order to obtain a better approximation.
+
+### Non linearly-separable data
+What if we have non linearly separable data ?
+
+Example:
+Polynomial curve fitting:
+We must be carefull, because if our machine is too powerfull it could perfectly fit the input provided (dataset) but could not fit well against unknown inputs.
+![[Pasted image 20250507113326.png|600]]
+Another option to correctly fit non linear separable data is to transform them in order to make them linearly-separable (for example, we could use polar coordinates).
+Sometimes it is hard to understand what transformation to apply.
+
+
