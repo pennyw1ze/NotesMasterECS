@@ -1,4 +1,4 @@
-  ### CFU
+f  ### CFU
 
 9 CFU =
 
@@ -1063,4 +1063,45 @@ We must be carefull, because if our machine is too powerfull it could perfectly 
 Another option to correctly fit non linear separable data is to transform them in order to make them linearly-separable (for example, we could use polar coordinates).
 Sometimes it is hard to understand what transformation to apply.
 
+### Classification Evaluation
+In this situation, we sample over a set of instances, and we want to compute the error.
+How can we do this?
+$error_d(h) = Pr[f (x) ̸= h(x)]$
+probability that h misclassifies random instance x∼d
+We can compute error_d on all the space and error_s on just a sample space subset of the domain. 
+We can define the accuracy as:
+$accuracy(h) = 1 - error_s(h)$
+How well $error_s(h)$ extimate $error_d(h)$ ?
+Well, if we recognize very well over a sample of the domain we are not guaranteed to work well on the wall domain space.
+
+How to compute $error_S(h)$
+1. Partition data set as D = {T, S} (T ∩ S = ∅), where:
+	- T is the Training Set;
+	- S is the Test Set;
+	- |T| = 2/3|D| (rule of thumb);
+2. Compute h using training set T;
+3. Evaluate error on test set S: $error_S (h) = {1\over n}\sum _{x\in S} \delta (x)$;
+
+How to detect overfit:
+Hypothesis h ∈ H overfits training data if for some alternative h′ ∈ H:
+
+errorT (h) < errorT (h′) (h′ performs worse than h on T ) 
+but 
+errord (h) > errord (h′) (estimated as: errorS (h) > errorS (h′))
+(h′ performs better than h on unseen instances)
+
+
+##### K-Fold Cross Validation:
+Perform many experiments and compute errorSi(h) for different independent test sets Si
+
+**K-Fold Cross Validation Algorithm**:
+1. Partition dataset D = {S1, S2, . . . , Sk };
+2. For i = 1,...,k do:
+	Use $S_i$ as test setm and remaining data as training set $T_i$:
+	- $T_i = {D - S_i}$;
+	- $h_i = L(T_i)$;
+	- $\mu_i = error_{s_i}(h_i)$;
+3. Return $\mu = {1\over k}\sum_{i = 1}^ k \mu_i$
+
+#### Performance metrics in classification
 
