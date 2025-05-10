@@ -281,7 +281,7 @@ Queries:
 ---
 # RDF
 New NoSQL database.
-Resource Description Framework is considered a  data model for the web.
+Resource Description Framework is considered a data model for the web.
 Basically is a graph database.
 Every entry in this database is a triple, subject, predicate, object.
 Every edge in a graph database, at the end, is actually a triple.
@@ -600,3 +600,31 @@ $READFROM (S) \neq READFROM(S')$
 Supposing we have a pair $(w_j(x), r_i(x))$ in the relation for S but not in the relation for S'.
 Now, if S' has not the same sequence, what happens is:
 - 
+  
+
+Ex:
+w1(y),w2(y),w2(x),w1(x),w3(x)
+
+It is view-serializable but not conflic-serializable.
+We can group all the transaction with the same number togheter.
+T1 = w1(y)w1(x)
+T2 = w2(y)w2(x)
+T3 = w3(x)
+
+#### Transaction scheduler
+![[Pasted image 20250505133417.png|550]]
+
+That's it
+
+---
+Primitives for exclusive lock
+
+We have 2 primitives:
+- lock;
+- unlock;
+
+Each actions performed in critical section must lock element before using and unlock it after using.
+
+How does a scheduler works?
+Passive lock-scheduler:
+- Lock table: wich transaction holds the lock for each variable;
