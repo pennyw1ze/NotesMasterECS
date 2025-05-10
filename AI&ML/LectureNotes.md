@@ -1,4 +1,4 @@
-  ### CFU
+f  ### CFU
 
 9 CFU =
 
@@ -1016,3 +1016,92 @@ This is used in practice by a lot of algorithms.
 Why we use it ?
 because there might be some gaussian noise that affects the measures we take.
 Using least squared errors we maximize the probability that our function, effected by noise, will return the right value.
+
+
+### Linear model for classification
+
+Classification problem:
+- Target function $f:X\rightarrow Y$
+- $X\subseteq \mathbb{R}$
+- $Y = \{c_1,...,c_k\}$
+
+We call our set **linearly separable** if there exists an hyperspace that separates instances from different classes.
+Ex:
+$X\subseteq \mathbb{R} ^2$, then we will have our plane $Y = \{+,-\};$
+
+Linear discriminant function y(x) defines separate hyperplans.
+With k classes to distinguish $(x = x_1,...,x_m)$, we will have:
+- $y_1(x_1,...,x_m) = w_{11}x_1 + ... + w_{1m}x_m + w_{k0}$
+- ...
+- $y_k(x_1,...,x_m) = w_{k1}x_1 + ... + w_{km}x_m + w_{k0}$
+- Prediction: $h(X) = c_i, i = argmax_{i = 1,...,k}y_i(X)$
+- Separating hyperplanes: $\{⟨x_1, . . . , x_m⟩ | y_i(x_1, . . . , x_m) = y_j(x_1, . . . , x_m)\}$
+
+We can use a compact notation by means of matrix and transposed matrix rapresentation.
+Now we just have to find w that minimize the least squared errors upon the distance between the data and the hyperplan that we define to distinguish the data.
+![[Pasted image 20250507093020.png]]
+Obviously we get errors if there are outliers since our function is linear.
+
+### Perceptron
+We add non-linearity to our system, by adding a **step function**, after the linear function, where its output is $\{-1,+1\}$, using a threshold over the objective function.
+In this case though we cannot use Stocastic Gradient Discend directly, since it's non-differentiable, and in most of the cases the gradient will be zero!
+We can, instead, apply the SGD on the untresholded unit, but we are not interested in the ERROR, but in the pure classification in itself.
+
+We can also update the parameters of the w variable by using weighted-update variant.
+We use the sign function to express the fact that we are going to sample only 1 or -1.
+Support Vector Machines (SVM) for Classification
+maximum margin for better generalization
+We maximize the distance of the line in order to obtain a better approximation.
+
+### Non linearly-separable data
+What if we have non linearly separable data ?
+
+Example:
+Polynomial curve fitting:
+We must be carefull, because if our machine is too powerfull it could perfectly fit the input provided (dataset) but could not fit well against unknown inputs.
+![[Pasted image 20250507113326.png|600]]
+Another option to correctly fit non linear separable data is to transform them in order to make them linearly-separable (for example, we could use polar coordinates).
+Sometimes it is hard to understand what transformation to apply.
+
+### Classification Evaluation
+In this situation, we sample over a set of instances, and we want to compute the error.
+How can we do this?
+$error_d(h) = Pr[f (x) ̸= h(x)]$
+probability that h misclassifies random instance x∼d
+We can compute error_d on all the space and error_s on just a sample space subset of the domain. 
+We can define the accuracy as:
+$accuracy(h) = 1 - error_s(h)$
+How well $error_s(h)$ extimate $error_d(h)$ ?
+Well, if we recognize very well over a sample of the domain we are not guaranteed to work well on the wall domain space.
+
+How to compute $error_S(h)$
+1. Partition data set as D = {T, S} (T ∩ S = ∅), where:
+	- T is the Training Set;
+	- S is the Test Set;
+	- |T| = 2/3|D| (rule of thumb);
+2. Compute h using training set T;
+3. Evaluate error on test set S: $error_S (h) = {1\over n}\sum _{x\in S} \delta (x)$;
+
+How to detect overfit:
+Hypothesis h ∈ H overfits training data if for some alternative h′ ∈ H:
+
+errorT (h) < errorT (h′) (h′ performs worse than h on T ) 
+but 
+errord (h) > errord (h′) (estimated as: errorS (h) > errorS (h′))
+(h′ performs better than h on unseen instances)
+
+
+##### K-Fold Cross Validation:
+Perform many experiments and compute errorSi(h) for different independent test sets Si
+
+**K-Fold Cross Validation Algorithm**:
+1. Partition dataset D = {S1, S2, . . . , Sk };
+2. For i = 1,...,k do:
+	Use $S_i$ as test setm and remaining data as training set $T_i$:
+	- $T_i = {D - S_i}$;
+	- $h_i = L(T_i)$;
+	- $\mu_i = error_{s_i}(h_i)$;
+3. Return $\mu = {1\over k}\sum_{i = 1}^ k \mu_i$
+
+#### Performance metrics in classification
+
