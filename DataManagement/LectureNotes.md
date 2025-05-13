@@ -629,3 +629,58 @@ Each actions performed in critical section must lock element before using and un
 How does a scheduler works?
 Passive lock-scheduler:
 - Lock table: wich transaction holds the lock for each variable;
+
+### 2PL scheduler
+Using commands like lock and unlock.
+- With exclusive lock: A class of schedule such that:{ DT(S) | there exists a schedule S' such that S is the output of a 2PL scheduler with exclusive locks when processing S'};
+
+#### Exclusive lock
+The following two rules must be satisfied in order for a lock-extended schedule to
+be **meaningful**:
+- Rule 1: **well formed transactions**: a transaction is well-formed if it lock and unlock are not issued more then once, and if every operation is delimited by a pair of lock-unlock operations;
+- Rule 2: **legal schedule**: a schedule is legal if no transaction in it locks an element when a different transaction has already locked it.
+Locking scheduler can be **passive** or **active**.
+##### Passive locking scheduler:
+When processing a step oi(x) of the input lock-extended schedule S
+(where oi ∈ {r,w}), the passive locking scheduler proceeds as follows:
+if x is locked by Ti then oi (x) proceeds,else Ti is blocked (and re-executed later on).
+The locking scheduler makes sure that, before dimissing Ti, the command ui(x) is present in the output for each item x such that li(x) is present in the output.
+![[Pasted image 20250512133011.png]]
+
+As show in the picture, even if a sequence is not legal is valid for the extended-lock passive scheduler wich will just let the transaction locking an already locked variable wait for it.
+This could lead to **deadlock** if 2 transactions operating on 2 different variables tries to locks each other variables (wait indefinitely).
+
+The **active** locking scheduler behavior is more complex, because it may decide atonomously to issue lock or unlock commands in order not to block the transactions.
+Examples:
+Input : l1(x) r1(x) w2(x) l2(y) w2(y) u2(y) c1 c2
+Possible output : l1(x) r1(x) u1(x) l2(x) w2(x) l2(y) w2(y) u2(y) u2(x) c1 c2
+Input : r1(x) w2(x) w2(y) c1 c2
+Possible output : l1(x) r1(x) u1(x) l2(x) l2(y) w2(x) u2(x) w2(y) u2(y) c1 c2
+
+Now we define **DT(S)** as the data action projection of s (we consider only  read, write, commit and abort of a schedule).
+Example:
+Schedule S = l1(x) r1(x) w2(x) l2(y) w2(y) u2(y) c1 c2
+DT(S) = r1(x) w2(x) w2(y) c1 c2
+
+---
+**Multiversial transactions**
+
+Never stop a read operation.
+We insert different version of write function.
+
+---
+### Transactions in SQL
+
+We have 3 anomalies in SQL:
+- Dirty read:
+- Non repeatable read: when a transaction read same element twice;
+- Phantom read: this happens when we operate on a range of tuples, and in the same time another transaction operates on that tuples. Then our range operation will be disturbed. We need to range lock the elements;
+
+In postgreSQL the minimum level of isolation is Read Committed (no dirty read is possible).
+
+---
+
+# **Access file manager**
+
+We organize items on pages and records. 
+Records contains data, wich could have variable length, and for this reason the allocation of pages 
