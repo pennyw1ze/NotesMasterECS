@@ -690,4 +690,8 @@ In postgreSQL the minimum level of isolation is Read Committed (no dirty read is
 # **Access file manager**
 
 We organize items on pages and records. 
-Records contains data, wich could have variable length, and for this reason the allocation of pages 
+Records contains data, wich could have variable length, and for this reason the allocation of pages could be dynamic.
+Pages can be organized trought different data structures.
+##### Heap
+With heap, we have basically a linked list.
+Cost to insert is constant, and cost to search and remove is linear.
