@@ -695,3 +695,79 @@ Pages can be organized trought different data structures.
 ##### Heap
 With heap, we have basically a linked list.
 Cost to insert is constant, and cost to search and remove is linear.
+
+##### Hashed file
+Pages are organized into groups, where each group is a bucket.
+Example:
+
+>Search for professor "Mecella";
+
+- "Mecella" will be the key of our research;
+- We search for the bucket indexed with $h'(Mecella)$;
+
+To evaluate the cost of the execution we will use the big O notation on parameter B, where B = number of pages accessed.
+Operations could be:
+- Scanning;
+- Search for equality;
+- Search in range;
+- Insert;
+- Delete;
+
+Heap cost analysis:
+- Scan: $O(B)$;
+- Search for equality: $O(B)$;
+- Search in range: $O(B)$;
+- Insert: $O(1)$;
+- Delete: $O(B)$;
+
+In a sorted heap, we could use a more efficient way to search:
+- Binary search: O(logB)
+- interpolation search: $$i = a_1 +{ (K – K_{min}) \over (K_{max} – K_{min})} × (a_B – a_1);$$
+Cost of interpolation: $O(loglogB)$;
+In the hashed file model we have to keep the page up to the 80% of occuped space, because otherwise it will not work very well in terms of performance, indeed with 80% we can manage very well the pages with this ratio.
+
+To sort 2 different and already sorted pages, we use a merge mechanism.
+We sort 2 sorted pages by putting each element into a third one used to merge the sorted pages.
+We obtain a new sorted list of pages.
+#### 2 way sort
+- Pass 0: input unsorted page: output sorted page;
+- Pass 1: input 2 sorted pages: output 1 sorted page containing both:
+- ...
+- Pass K: input 2 sorted page: output 1 sorted page and no pages left.
+When the buffer is full, we write in secondary storage.
+
+Why is 2 way alogrithm ? Because we are using 2 buffer frames plus 1!
+I always merge 2 files.
+Each fragment, at the beginning, contains 1 page.
+
+If I use F frames in the buffer, I will merge F-1 page at each step.
+So in this case we will have that pass 0 performs B operations, pass 1 performs B/F operations, pass 2 B/{F*(F-1)} ecc...
+
+### The notion of index
+> An index is siomething associated with a relation.
+
+Any **index** organization is based on the value of one or more predetermined fields of the records of the relation we are interested in, which form the so-called **search key**.
+
+An index has some properties:
+- **Organization**:
+	We can organize index as:
+	- Sorted index;
+	- Tree-base index;
+	- Hash-based index;
+
+- **Data entries**:
+	K* is the value of the data entry wich index is K.
+	We have different way to store entries:
+	data record, pair storing (k,r) where r is a reference to data record, and pair storing (k,r-list) where r-list is a list of references (usefull when there are many records with the same key)
+
+- **Clustering**:
+	An index is clustering if data entries stored order are coherent with the order of data record.
+	If an index is clustered then it could be used for internal range search.
+
+- **Primary** or **secondary**:
+	Primary: the search key is the key of the relation.
+	The primary index cannot contain duplicates, otherwise it could contain duplicates.
+
+- **Dense** or **sparse**:
+	Dense: if every value of the search key that appears in the data file appears also in at least one data entry of the index. Basically the index must contain all the elements.
+	Sparse is not dense.
