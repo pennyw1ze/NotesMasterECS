@@ -771,3 +771,5 @@ An index has some properties:
 - **Dense** or **sparse**:
 	Dense: if every value of the search key that appears in the data file appears also in at least one data entry of the index. Basically the index must contain all the elements.
 	Sparse is not dense.
+
+- **Single** vs **composite key**:
