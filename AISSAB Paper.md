@@ -84,6 +84,4 @@ We can extiamate the range and the velocity of the object as follows:
 
 						... Calculus here ...
 
-   However, the phase of demodulated FMCW signals is much more sensitive on movements.
-3. RadSee can demodulate only the handwriting movements, thanks to its FMCW modulation and high-directional patch antennas. Thanks to modulation, RadSee can focus only on signal of its interest.
 
