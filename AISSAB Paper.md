@@ -45,3 +45,5 @@ How RadSee address this challenges:
    To achieve range resolution of $1mm$ it requires $$B = {3\times 10^8\over 2\times 10^{-3}} = 150GHz;$$
    which is impossible in practice.
    However, the phase of demodulated FMCW signals is much more sensitive on movements.
+3. RadSee can demodulate only the handwriting movements, thanks to its FMCW modulation and high-directional patch antennas. Thanks to modulation, RadSee can focus only on signal of its interest.
+
