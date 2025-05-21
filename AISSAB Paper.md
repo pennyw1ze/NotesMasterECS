@@ -40,16 +40,22 @@ The project challenge:
 How RadSee address this challenges:
 1. Solved by means of FMCW, high-gain patch antenna and baseband analog filter. The optimized antenna has 36 dBi gain for wall penetration;
 2. Using the phase information of demodulated FMCW signals:
-   - Range resolution:$$R = {c\over 2B};$$
+   - Range resolution:$$R = {c\tau\over 2},\tau = {1\over B},R = {c\over 2B};$$
    where $c$ is the speed of light and $B$ is the bandwith of the antennas.
    To achieve range resolution of $1mm$ it requires $$B = {3\times 10^8\over 2\times 10^{-3}} = 150GHz;$$
    which is impossible in practice.
-   However, the phase of demodulated FMCW signals is much more sensitive on movement of objects.
+   However, the phase of demodulated FMCW signals is much more sensitive on movement of objects:$$\phi = {4\pi R\over \lambda},\ \Delta \phi = {4\pi \Delta R\over \lambda};$$
+   where $\lambda$ is the wave length of the signal.
    Therefore, RadSee uses the phase of the demodulated FMCW signals.
 3. RadSee can demodulate only the signal of the hand movement. This happens thanks to the FMCW signal modulation and high-directional patch antennas.
+	- FMCW signal is transformed trougth a Fourier transform function which divides the signal in bin, small intervals which corresponds to different distances. This is possible thanks to the FFT that transport the signal from the frequency domain to the space domain. In this way RadSee can analyze only the bin corresponding to the hand distance. A bin containing a spike correspond to an object relevation;
+	- Thanks to highly directional patch antennas RadSee is able to ignore signals from other direction except a small zone to which he is pointing to; 
+
 Also if the detection goes well, we still have 62 possible characters (26 letters + 26 capital letters + 10 numbers).
 RadSee uses a **BiLSTM** (Bidirectional Short Term Memory) to classify handwriting characters.
-In a phase data sequence RadSee analyze only the most relevant parts of the phase data sequence.
+LSTM are a kind of neural network designed to analyze data streams (words, texts or pahse sequences signals).
+LSTM has a memory that allows them to remember important past informations and forget the usless one. This is really important when data has a time sequenced structure.
+The BiLSTM has 2 LSTM, one of them read the sequence forward from start to end, and the other one reads the same sequence in the reverse order.
 Since the writing activity consists in a coninuous phase movement for the writing hand, in practice each letter generates a unique temporal phase pattern.
 For instance, we will be more interested in detecting the turning points more then the horizontal strokes. For this reason RadSee is focused on the BiLSTM model to pay attention to those important parts.
 
@@ -79,8 +85,10 @@ where $f_0$ is the starting frequency, $K$ is the frequency ramp rate, $\alpha$ 
 The 2 signals are mixed togheter and generates an Intermediate Frequence $IF$ as:$$s_{IF}(t) = s_T(t)s_R(t)^* = e^{(j4\pi K{d\over ct} + j4\pi f0{d\over c} - j4\pi K {d^2\over c^2})}$$
 where the last exponentiation is negligible due to the square light speed, and the first and second part which represents the phase and the frequency of the signals are both in function of the distance.
 We can extiamate the range and the velocity of the object as follows:
-- **Range**: 
-- **Velocity**:
+- **Range**: we use FFT operation to conver the chirp in the frequency domain and we apply the previous formula:$$\Delta d = {c\over 2B};$$
+  where $B$ is the bandwidth;
+- **Velocity**: Suppose that the time duration of one chirp is $T$ and that the size of the FFT is $M$: in this case, a peak is identified at the $k$th FFT bin. We will have:$$\Delta v = {c\over 2MTf_0};$$
+  determined by the initial frequency $f_0$, the number of chirps $M$ and the time duration of a chirp $T$.
 
 						... Calculus here ...
 
