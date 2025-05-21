@@ -766,10 +766,81 @@ An index has some properties:
 
 - **Primary** or **secondary**:
 	Primary: the search key is the key of the relation.
-	The primary index cannot contain duplicates, otherwise it could contain duplicates.
+	The primary index cannot contain duplicates, otherwise it is called secondary index.
+	A secondary index is called unique if its search key contains a non-primary key (in this case it does not contain duplicates obviously).
 
 - **Dense** or **sparse**:
 	Dense: if every value of the search key that appears in the data file appears also in at least one data entry of the index. Basically the index must contain all the elements.
 	Sparse is not dense.
 
 - **Single** vs **composite key**:
+	A search key is called **simple** if it is constituted by a single field, otherwise is called composite.
+
+## Sorted index organization
+Example:
+We have a relation constituted by 10'000 pages.
+Relation R is constituted by 10 attributes.
+Each pages contains 20 data records (So in every pages I can store 200 values).
+So if we choose to represent indexes as <SearchValue, PointerToData>, we will have 2 values for each data, this means I can store 100 data record in a page.
+
+> A **sorted index** is a sorted file of data entries.
+
+#### Clustering
+
+The most popular and implemented was the clustering sorted index (keep the relation sorted on primary key and build the cluster on the search key being equals to the primary key). 
+
+> When we have a **SPARSE** index we usually have 1 data entry for each page!
+> With the **DENSE** one, we have one data entry for each value.
+
+![[Pasted image 20250521113942.png]]
+EX: Search for data entry having 70 < Index < 175:
+We search for the value (70), we go in the sequential file and scan all until the range is no more valid.
+
+> **Strongly dense**: As many data entries as the data values;
+
+If we have secondary non unique sorted index how can we do?
+We will have dense index.
+If there are more than 1 value for the same key, we can use non strongly dense and just aggregate the pointers for the same search values.![[Pasted image 20250521114636.png]]
+
+What about an insertion algorithm ? Think about it.
+
+#### Non clustering
+
+- Non-clustering, primary (or unique) sorted index:
+- Non-clustering, secondary non-unique sorted index
+
+A sparse index does not make any sense.
+Suppose we have an unclustered secondary index.
+One possible implementation is the one with backets.
+In the bucket implementation for each index we point to a bucket, wich is a list of indexes.
+Then depending on the query, you can perform different operations on the query.
+
+### Clustered file organization:
+I use 1 file for more then 1 realtion (2,3,...). We used to have 1 file for 1 realtion only in the regular version (previous one).
+This property could be helpfull if for example we are querying.
+
+Sorted index is nice but:
+- It has only **one level**;
+- **Insertion** and **deletion** are a nightmare;
+
+## Tree based index
+Are trees, where every index is a tree of pages. Data entries (search value and pointer) are leaves of the tree. Data file is not part of the index.
+The tree is structured as follows:
+- Each node correspond to a page;
+- We have a key and a pointer: each pointer Pi points at a right subtree with key value higher then the actual value and at a left tree with key value lower then the actual key value;
+- The links between the nodes correspond to the link between pages;
+
+We have 2 different kind of trees structure:
+- ISAM: when the relation is static (no insertion nor deletion);
+- B+-tree: Dynamic situation;
+
+#### ISAM
+Index Sequential Access Method.
+Every intermidiate node has the same number of children. This makes the tree balanced so every path from root to leaf has the same length.
+The cost to search into this tree will be $log_f(N$) where $f$ is the number of children.
+
+#### B+- trees
+We define the **rank** of the tree the number of search key values that can be fin in a page.
+The B+- trees are still balanced, but the number of children for every node may not be the same: every node contain a number of data entries $m_i\ s.t.$ $${(d+1)\over 2}\le m_i \le d$$
+where $d$ is the rank of the tree.
+We need to keep the occupancy rate at 66% in order to have an efficient tree structure.
