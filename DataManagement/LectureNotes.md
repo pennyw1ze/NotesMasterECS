@@ -891,7 +891,7 @@ I can do it in 2 passes.
 - based on hashing;
 We have our buffer with M frames. We have our relation R. Our R does not fit in M-2 (no one-pass allowded).
 We can create M-1 sorted sublists.How ?
-I load the first M pages on the buffer, I sort them and I write the sublist in M.
+I load the first M pages on the buffer, I sort them and I write the sublist in  .
 Let's assume that after a scanning I will have N-1 sublists $s_1, s_2, ... , s_n-1$.
 Now I run a sort of merging algorithm by writing in our output frame.
 Condition to group by: $B \le M\times (M-1)$.

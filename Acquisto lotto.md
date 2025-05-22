@@ -1,6 +1,6 @@
 | Carta/Deck | # copie* | Valore | Offerta |
 | ---------- | -------- | ------ | ------- |
-| Memento    |          | 25     | 15      |
+| Memento    |          | 35     | 15      |
 | Fenrir     | 3        | 45     | 20      |
 | Magna      | 1        | 5      | 2       |
 | Druis      | 1        | 10     | 3       |
