@@ -844,3 +844,54 @@ We define the **rank** of the tree the number of search key values that can be f
 The B+- trees are still balanced, but the number of children for every node may not be the same: every node contain a number of data entries $m_i\ s.t.$ $${(d+1)\over 2}\le m_i \le d$$
 where $d$ is the rank of the tree.
 We need to keep the occupancy rate at 66% in order to have an efficient tree structure.
+
+---
+## Query evaluation algorithm
+
+Algorithm to evaluate queries in an efficient way.
+
+## One-pass algorithm
+Needs only 2 frames, evaluates the query on one frame per time and when the other frame used to store the results is full the result are written on the buffer.
+
+Examining particular queries:
+- **Duplicate elimination**: our buffer needs to be at minimum as long as the frame we want to operate on;
+- **Grouping** (not sorted)
+	Suppose we have:
+	
+	Select A,B, avarage(C)
+	from R
+	group by A,B
+	
+	Having the relation R:
+	R(A,B,C)
+	Size of our frame M must be equal to the size of the relation;
+- **Bag union**: Always in One Pass because I can parse frame by frame 
+- **Set union**: Given 2 relation S and R, can do it in one pass if min ( B(S), B(R)) <= M-2
+  This means if the number of frames in the first or second set (minimum number of frames) is smaller of equal then the number of frames in our M comparison set (-2 because we need to keep 2 frames, 1 for storing input frames and 1 for storing output frames);
+- **Join**: Same as before, I can do it in one pass when the smaller fits in M-2 frames;
+
+#exercises 
+Exercise 2 Slides 32
+
+### Nested loop techinques
+Is used when I cannot do something with one-pass.
+- **Set-union**(not sorted): The alogirthm is just loading page by page each set and compare each instance in a dumb and costly (quadratic) way. We have 2 sets S and R, we have M + 2 frames in our buffers. In this case the cost is $B(S) + B(S)\times B(R)$. If I have M frames, we have the cost  $B(S) + {B(S)\times B(R)\over M}$. One pass can be seen as a special case of Nested loop where M = B(S) or B(R basically.
+- **Duplicate elimination**: I store M pages of my relation, and when I find a collision (2 equal frames), I delete the frame from the M pages stored in my buffer. The cost is:$B\times ({3\over 2}+ {B\over 2M}) + M$;
+- All the other operations like join, ecc... are just like Set union.
+- We cannot do group by in block nested loop! Because when you processs a set of blocks the point of nested loop is that you can forget about it after you processed it, but you cannot forget about blocks in some operations like bag intersection and group by;
+
+---
+## Two-pass algorithm
+
+We have 1 pass algorithms for some operation.
+Suppose I cannot do grouping in one pass, and neither in block nested loops.
+I can do it in 2 passes.
+2 kinds of two-passes alg:
+- based on sorting;
+- based on hashing;
+We have our buffer with M frames. We have our relation R. Our R does not fit in M-2 (no one-pass allowded).
+We can create M-1 sorted sublists.How ?
+I load the first M pages on the buffer, I sort them and I write the sublist in M.
+Let's assume that after a scanning I will have N-1 sublists $s_1, s_2, ... , s_n-1$.
+Now I run a sort of merging algorithm by writing in our output frame.
+Condition to group by: $B \le M\times (M-1)$.
