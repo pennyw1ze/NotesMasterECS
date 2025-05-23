@@ -89,7 +89,3 @@ We can extiamate the range and the velocity of the object as follows:
   where $B$ is the bandwidth;
 - **Velocity**: Suppose that the time duration of one chirp is $T$ and that the size of the FFT is $M$: in this case, a peak is identified at the $k$th FFT bin. We will have:$$\Delta v = {c\over 2MTf_0};$$
   determined by the initial frequency $f_0$, the number of chirps $M$ and the time duration of a chirp $T$.
-
-						... Calculus here ...
-
-
