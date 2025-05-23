@@ -89,3 +89,6 @@ We can extiamate the range and the velocity of the object as follows:
   where $B$ is the bandwidth;
 - **Velocity**: Suppose that the time duration of one chirp is $T$ and that the size of the FFT is $M$: in this case, a peak is identified at the $k$th FFT bin. We will have:$$\Delta v = {c\over 2MTf_0};$$
   determined by the initial frequency $f_0$, the number of chirps $M$ and the time duration of a chirp $T$.
+
+When the object moves 1 mm, RadSee will observe ${2df_0\over c} 2π = 0.25$ radian (about 14◦) phase change on the corresponding Range-FFT bin. Typically, handwriting movement is larger than 5 mm, which will generate 70◦ phase change on the Range-FFT bin. Therefore, the radar will measure the phase pattern over time when a victim is writing, and use the temporal phase pattern to classify the letters being written.
+The static objects detected by RadSee will not cause any trouble because their reflective signal will appear in our reflected signal as a constant component which can be easily removed or adjusted.
