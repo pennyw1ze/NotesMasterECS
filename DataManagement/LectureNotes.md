@@ -931,3 +931,61 @@ Exercise one:
    I merge the first 149 runs, which will result in 150\*149 pages = 22,350
    Now I will have 4'000/149 = 27 merge runs and one last step.
    Cost = 2 * number of passes * file size.
+
+---
+### Exercise on concurrency control
+
+We will have to proof or disproof this kind of theorem:$$\forall x. \alpha (x) \implies \beta(x);$$
+We have to look for a counterexample to prove that the statement is false, or we can reverse the formula otherwise if we think that the statement is true.
+
+### Exercise 1
+
+1. True:
+   The reduced precedence graph is a subset of the precedence graph;   
+2. False:
+   I can do a counterexample: $R_1(x)R_2(x)W_3(x)W_3(y)W_1(y)$;
+3. False:
+   If has cycle in reduced graph is not conflict, but we cannot infer that it is not view a priori. We only know $Conflict \implies View$.
+
+
+### Exercise 2
+In our one-write version:
+1. $Conflict \iff View$:
+   - $Conflict \implies View$ well known for every sequence;
+   - $View \implies Conflict$: Let's take a view equivalent sequence. We must have the same read from set and the same last write set of transactions. Is thise view equivalent set also conflict serializable? 
+2. $2PL \implies Conflict$ 
+
+
+ ---
+ 
+ #### RELATIONS
+
+### Exercise 6
+
+R(A,B,C,D) relation whith 15'000'000
+15 tuple in 1 page
+R contains 31250 different values of attributes C.
+There is a  clustering secondary non unique sparse sorted index using alternative 2 for R, C the a search key.
+Which is the number of pages required to answare to the following query ?
+
+select B,C,D
+from R
+where C = 70
+
+Using index.
+
+We can put 30 indexes and we need 1 million page.
+We have 33'334 pages to store indexes.
+To find an element since are ordered I perform binary search so cost is log2(33'334) = 16;
+On avarage the number of record with the same number of C record is 15 million divided by 31250. = n.
+n/15 is the expected number of pages that in which I will find an element with a conflicting C index as my index, and to that number I will sum the cost I computed to search the page with binary search.
+
+
+### Exercize 7
+
+R(A,B,..,L) with 6'000'000 and 100 entries for each page
+
+1. We have a linear scan on the number of the page: $6'000'000/100 = 60'000$;
+2. The cost of page access is linear on the number of tuples that satisfies the costraint plus a binary search on the whole file which costs log2(60000);
+3. We have dense index, so we have 9 attributes times 100 space for each page which is 900, to store 3 slots for each index we have 300 space. We need 20'000 pages. Search cost is still binary search, log2(20'000) = ...;
+4. 20'000/300 page on second level. access is 
