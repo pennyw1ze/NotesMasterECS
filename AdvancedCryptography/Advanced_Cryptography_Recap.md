@@ -14,10 +14,16 @@ know the solution. This is the worst of all possible worlds, since not only can
 we not solve hard problems on average but we apparently do not get any
 cryptographic advantage from the hardness of these problems.
 
-Impagliazzo teorized world's where the NP completeness theory is resolved (P = NP) or similar. The 2 most interesting are:
+Impagliazzo teorized worlds where the NP completeness theory is resolved (P = NP) or similar. The 2 most interesting are:
 - **Minicrypt**: One way functions exists, but public key cryptography does not exists ( this is a possible world when quantum computers will be used in practice since diffie hellman and RSA will be broken );
 - **Cryptomania**: One way functions and public cryptography both exists (the actual world);
-Problems with RSA and DIFFIE-HELLMAN: Shor algorithm.
+
+Post quantum advent brings in new challenges. The most important is:
+
+> **Shor algorithm**
+> Shor algorithm brakes both Diffie-Hellman encryption and RSA encryption. This implies the end of Public Key cryptography as we actually knows it.
+
+
 new algorithms have been theorized to resist quantum attacks, but everything is in research field.
 
 ##### Grover's algorithm
