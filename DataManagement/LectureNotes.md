@@ -895,3 +895,39 @@ I load the first M pages on the buffer, I sort them and I write the sublist in  
 Let's assume that after a scanning I will have N-1 sublists $s_1, s_2, ... , s_n-1$.
 Now I run a sort of merging algorithm by writing in our output frame.
 Condition to group by: $B \le M\times (M-1)$.
+
+Block nested loop is the only technique that works for computing cartesian product.
+- Bag difference using 2-pass sorting algorithm costs 3*(B(R) + B(S))
+
+New algorithm to compute join with 2 pass algorithm:
+##### Simple sort join
+We sort R, we produce a sublist and we merge it.
+1) We sort R;
+2) We produce the 2 sublists;
+3) We merge the sublists;
+The cost here is $5\times(B(S)+ B(R))$
+Cost of sorting: $2B\times \#passes$
+
+##### General costs
+General costs for 2pass algorithm:
+![[Pasted image 20250526135215.png]]
+
+### Hashing based Two-pass algorithm
+Use hash functions to generate indexes.
+I read every page in the input, and I have 1 frame for each sublist ( = bucket ).
+I apply hash function to each tuple, and it returns the right bucket in which to put the tuple.
+When the bucket is full, I write it in a bucket in the secondary memory.
+
+
+### Multipass algorithm
+If we cannot do it in 2 pass we can do it (maybe) in multipass.
+
+
+
+### EserciziSortedIndexConSoluzioni
+Exercise one:
+600'000 pages and 150 free frames.
+1) Multipass merge-sort method: We have to sort R. We have M = 150 which is our buffer. First of all we have to produce the sublist. I will have 600'000/150 = 4'000 sublists. This will be 4'000 runs. Now I cannot do the merging phase because I have too much runs to merge.
+   I merge the first 149 runs, which will result in 150\*149 pages = 22,350
+   Now I will have 4'000/149 = 27 merge runs and one last step.
+   Cost = 2 * number of passes * file size.

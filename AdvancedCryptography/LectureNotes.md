@@ -17,6 +17,3 @@ This must be taken into account, but can be fixed by just increasing the size of
 (ex. AES256 instead of AES128 ecc...)
 
 For this scope has been invented some technologies such as **quantum key distribution**, used to distribute keys, and when the key is opened, it's bits get phisically altered and is compromised.
-
-# Zero-knowledge
-Used for zcash or cryptocurrencies.
