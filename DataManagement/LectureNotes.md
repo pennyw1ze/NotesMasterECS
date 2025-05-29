@@ -988,4 +988,68 @@ R(A,B,..,L) with 6'000'000 and 100 entries for each page
 1. We have a linear scan on the number of the page: $6'000'000/100 = 60'000$;
 2. The cost of page access is linear on the number of tuples that satisfies the costraint plus a binary search on the whole file which costs log2(60000);
 3. We have dense index, so we have 9 attributes times 100 space for each page which is 900, to store 3 slots for each index we have 300 space. We need 20'000 pages. Search cost is still binary search, log2(20'000) = ...;
-4. 20'000/300 page on second level. access is 
+4. 20'000/300 page on second level. access is no
+
+---
+### Index-based algorithms
+
+Index-based algorithms use indexes. We introduce notion of **conformance** of an index to a condition: 
+
+> An index **conforms** to a condition C when it can be used effectively to evaluate C.
+
+**Prefix of a search key**: initial non-empty segment of attributes for a composite search key.
+
+### Conformance of conunction
+An Index is said to conform to the conjunction of atomic conditions` (att, op, value) and (att, op, value) , and ..` if:
+- In the tree-based index, there exist a prefix P of the seach key such that, for each att in P, there exist a term in the form (att, op, value) in the conjunction
+- In the hash-based index, for each attribute of the search key there exist an equality term in the conjunction
+
+As an example:
+
+A tree index with search key <r,b,s> conforms to the condition (r > ‘J’ and b = 7 and s = 5), and to (r = ‘H’ and s = 9) <since we have 'r' as the prefix, and it is present as a condition>, not to (b = 8 and s = 10) \<no prefix>
+
+### Parallel algorithms
+Not sharing anything, they can just comunicate with other systems by sending messages to each others.
+So basically we have a distributed database system.
+
+We will have horizontal data partitioning:
+- Round Robin;
+- Range based partitioning on one attribute of R, we choose an attribute and we decide that in a Node we store all the tuples who's value of that attribute is the choosen one;
+
+Projection cost:
+	B(R)/P where P is the number of parallelized data base.
+	
+The cost of duplicate elimination for parallelized algorithm is still B(R)/P;
+In the case of natural join we will need to do a multipass algorithm to achieve the goal.
+
+---
+
+### Exercise 1
+
+R stored in 8000 pages, S in 24000 pages and we have 200 free frames.
+We want the bag difference.
+1. Among 1 pass and 2 pass what do we choose?
+2. Describe algorithm choosen compute size and number of sublist produced and tell how many page access.
+###### Answares
+1) For the bag difference in one pass we need the number of frames to be $\ge$ than the smallest number of pages between $R$ and $S$, but in this case we does not have this property satisfied so we will need to use a nested loop. We will instead use 2 pass algorithm. Since we have M = 200, and $M*(M-1) = 39'800 \ge B(R) + B(S) = 32000$, we can use 2 pass algorithm.
+
+2) Size of sublist: $M = 200$, number of sublist $n = 8000 + 24000/200 = 160$, page access are $3\times (B(R)+B(S)) = 96'000$.
+
+2nd scenario:
+1) Also if S is sorted, the answare does not change at all from the previous one;
+
+2) I would store S and R again and compute binary search to find an element, so for every element we will have $3\times B(R)+B(S) = 48'000$.
+
+
+### Exercise 8
+
+Travel relation with 4 attributes sorted on attribute cost. The relatoin has 3'000'000 tuples, stored in 300'000 pages, and 10'000 different values.
+
+Query:
+select code,nation
+from TRAVEL
+where cost > 1500 and cost <= 1500
+
+Number of page access?
+20 data entries for each pages of our indexes. But we will only have 13 datas for sure, so I will need 300'000/23'077.
+The funout is the avarage between half and full nodes, so if the full page is 20 and half is 10, we will have 15 as funout.
