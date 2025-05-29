@@ -46,15 +46,15 @@ Basically, if the proover has a correct witness $w$ for a problem $x$ in the len
 $$\exists \epsilon(x)\ negligible\ function\ s.t.\ \forall x\notin L\ and \forall P*, Pr[<P*,V>(x)\ =\ 1] < \epsilon(x);$$
 The probability that during an execution of the alogrithm a malicious proover $P*$ that does not own any witness convinces a verifier $V$ is negligible (small probability w.r.t. x).
 
-#### Proof of knowledge
+#### Proof of knowledge (Knowledge soundness)
 If a malicious prover $P*$ can prove $x\in L$ with non negligible probability, then an extractor algorithm can obtain the witness in polinomial time.
-
+In real life, usually, we say that if someone claims she knows something secret, then there must be a way to extract the secret from her!
 
 #### Zero knowledge
 A proof system $Pi=(P,V)$ is zero knowledge if exists an expected PPT alogrithm S s.t. $\forall V*$, any  $(x,w)\in R_L$  and  any $z\in\{0,1\}*$, the followin 2 distribution are computationally indistinguishable:$$\{<P(w),V*(z)>(x)\},\{S^{V*}(x,z)\}$$
 This basically means that we can run an internal simulation without the knowledge of the witness, and produce a sequence of comunication identical to the one produced by a prover that actually ownes a valid witness. This means that a proof that holds the zero knowledge property can be runned succesfully also by a single player not knowing the witness.
 
-> **Blam's protocol**
+> **Blum's protocol**
 > Goal: proof the knowledge of an hamiltonian cycle in a graph.
 > Prover sends a committed random permutation of a graph (sends commitment of a graph obtained by permuting the original graph into a new one);
 > Verifier sends a bit b = 0 or 1
@@ -64,3 +64,49 @@ This basically means that we can run an internal simulation without the knowledg
 > b = 1:
 > 	Opens all the commitment and send the permutation;
 > If b = 0, the prover shows his knowledge of the witness (the cycle in the graph), if b = 1 the prover shows that the permutation he sent is a valid permutation and that he is not cheating. 
+
+### Commitment scheme
+
+Send a committed message. We want to get the following properties:
+- **Correctness**: honest Alice accept opening if Bob is honest;
+- **Binding**: Unlucky that Bob can open 2 different messages;
+- **Hiding**: Unlucky that Alice get info on m before the opening is sent;
+
+#### Pederson commitment scheme
+
+> $Comm(m) = g^mh^r$, where r is a random number;
+
+- Computationally binding;
+- Perfect hiding;
+
+#### Random oracle
+Random oracle model:
+SHA256
+Generate random string based on the input. Same input same string.
+Use heuristic assumption but is post quantum secure.
+
+
+### Schnorr protocol
+Prooving Dlog of $y = g^x$
+A -----$g^r$------>B
+A<----$c$---------B
+A----$z = r  + cx$-->B
+
+B verify:
+$g^z = ay^c = g^rg^{xc} = g^{r+cx}= g^z$
+
+> **Completeness**: guaranteed by the proof that the B verification is correct;
+
+> **Soundness**: There is nothing to cheat on, verifier is just sending challenge c;
+
+> **PoK** (Proof of Knowledge): Malicious verifier V with his extractor algorithm can run 2 times the proover with the same randomness and get $z = r + cx$ and $z' = r + c'x$. Now the verifier can easily compute x as: $x = {(z'-z)\over (c'-c)}$
+
+> **HVZK** (Honest Verifier Zero Knowledge): Is a particular instance of the Zero Knowledge property in which the verifier is honest.
+
+
+#### Fiat shamir transform
+The Schnorr protocol can be transformed by means of the Random Oracle model. We need SHA256 to perform a transformation so we can run the protocol in a single message and compute it by our own.
+New paradigm:
+
+A --------- $(a = g^r, c = H(y||a), z = r + cx)$ -------> B
+In this way we commit c in a univoque way and we tie c to our random generated r and our instance y of the discrete log, and we are for sure taking a random $c$ since we are SHA256 compliant. We introduce heuristic assumptions.
