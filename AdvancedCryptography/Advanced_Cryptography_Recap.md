@@ -110,3 +110,20 @@ New paradigm:
 
 A --------- $(a = g^r, c = H(y||a), z = r + cx)$ -------> B
 In this way we commit c in a univoque way and we tie c to our random generated r and our instance y of the discrete log, and we are for sure taking a random $c$ since we are SHA256 compliant. We introduce heuristic assumptions.
+
+Fiat Shamir obviously keeps the same property as the Schnorr version of the protocol.
+The fiat-shamir transform of the Shnorr protocol satisfies the Zero Knowledge property also with dishonest verifier, since the verifier cannot interact in the protocol, and the only verification that he will do will be the check of the correctness of the statement sent by the prover. But how can the prover prove correctly the knowledge?
+The prover will compute a random c and a random z, and compute a as: $a = {g^z\over y^c}$;
+The verifier check will be correct except for the fact that $H(y||a)$ would be different from c. This does not matter at all because inside the simulation we can control the Random Oracle model even for the malicious verifier.
+
+
+Schnor ID ?
+Special Soundness ?
+
+> [!NOTE]
+> Special Soundness $\not \Rightarrow$ Soundness
+
+
+#### Schnorr signature
+We can use schnorr protocol to sign messages.
+We can just do the normal fiat shamir transform of Schnorr protocol and then insert into the hashing function also the signed message, and c will be $c = H(y||a||m)$.
