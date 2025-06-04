@@ -127,3 +127,9 @@ Special Soundness ?
 #### Schnorr signature
 We can use schnorr protocol to sign messages.
 We can just do the normal fiat shamir transform of Schnorr protocol and then insert into the hashing function also the signed message, and c will be $c = H(y||a||m)$.
+Schnorr signature is aggregatable: this means that if 2 person signed the same message m, we can aggregate those signature by means of an easy opeartion
+Given the frist signature $a_1,c_1,s_1 = x_1 + c_1x_1$ and the second one $a_2,c_2,s_2 = x_2 + c_2x_2$
+we can aggregate signature in the following way:$$s = s_1 + s_2 = r_1 + r_2 + (x_1 + x2)c,\ a = a_1 a_2, y = y_1y_2\ , g^s = ay^c = g^{r_1+r_2}g^{(x_1+x_2)c}$$
+where s is our combined signature obtained as shown above.
+
+
