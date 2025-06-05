@@ -664,11 +664,11 @@ Functions in FOL.
 Functions symbols:
 - Symbols representing functions: parent-of/1;
 
-Terms: either a variable v of a constant c of a function term.
+Terms: either a variable v or a constant c or a function term.
 function term: if f/n is an n-ary function symbol then f(t1,t2,...,tn) where ti is a term, is a term.
 Interpretation I is a pair $<\Delta,I>$function s.t. for every constant c,: I(c) $\in$ I.
 For every predicate P/n:
-I (P) $\subseteq \Delta ^n$ 
+I(P) $\subseteq \Delta ^n$ 
 
 
 For every function symbol f/n:
@@ -702,8 +702,8 @@ S0: all blocks on the table.
 Action: pick-up(b1),$S_0$;
 
 
-$\Sigma$ Set of constraints, foundational axioms of Situational Calculus Analis Tesseractes del Duxis.
-Gogogò go gogogò go ...
+$\Sigma$ Set of constraints, foundational axioms of Situational Calculus.
+	
 We have a tree of state.
 
 Fluents are predicates whos values can change from situations to situations.
@@ -777,9 +777,7 @@ Now, effect axioms for action drop:
 End for exit:
 1.$$a = exit() \wedge AgentAt(x,s)\rightarrow \neg AgentAt(x,do(exit(),s))$$
 In this Effect axioms we are not specifying what does not changes.
-<<<<<<< HEAD
-	
-=======
+
 But there would be a lot of stuffs to specify in this case!
 We will specify what changes, and assume that all the rest does not change. How ?
 start having a normal form:
@@ -803,7 +801,7 @@ $a = exit() \wedge AgentAt(x,s) \implies \neg AgentAt(x,do(a,s))$
 So we know that if AgentAt has been affected, either the agent has moved or it has exited.
 We can take the $\gamma$ conditions of the move or exit statement and say that:$AgentAt(x,s) \wedge \neg AgentAt(x,do(a,s)) \implies \gamma_1^-(x,y,a,s) \vee \gamma_2^-(x,a,s)$
 where $\gamma_1^-$ is the condition for move and $\gamma_2^-$ is the condition of exit.
-We call this axoms the **Explanations closure axioms**.
+We call this axioms the **Explanations closure axioms**.
 #### Integrity of effect axioms:
 We place constraints for example:
 Unique names for actions:$$A(x_1,...,A_n) = A(y_1,...,y_n) \implies x_1=y_1\wedge ... \wedge x_n=y_n$$
@@ -828,7 +826,7 @@ So from scratch we do:
 
 ---
 So basically we could describe
-$D = \Sigma \cup D_{UNA} \cup D_{S_0} \cup D_{AP}  \cup D{SSA}$
+$D = \Sigma \cup D_{UNA} \cup D_{S_0} \cup D_{AP}  \cup D_{SSA}$
 Where:
 - $\Sigma$ = Fundational axioms of STATCALC;
 - UNA = Unique Names for Actions;
@@ -870,7 +868,7 @@ Now we have different cases:
   So we replace x with B, a with move(B) and s with S0 in the SSA, we will end up with the right regressive axiom.
 - Then we have the following properties:$$R[\neg \phi] = \neg R[\phi]$$$$R[\phi \vee \gamma] = R[\phi] \vee R[\gamma]$$$$\phi = \exists x.\psi \implies R[\phi] = \exists x.R[\psi]$$
 ### Regression theorem
-if $\phi$ is a regressable formula, and we want to check if it safisfies every situation, we can just check if his regression satisfies the initial situation and another situation:$$D \models \phi \iff D_{S_0} \cup D_{una} \models R[\phi]$$
+if $\phi$ is a regressable formula, and we want to check if it safisfies every situation, we can just check if his regression satisfies the initial situation:$$D \models \phi \iff D_{S_0} \cup D_{una} \models R[\phi]$$
 because we get rid of any situation $\Sigma$, of the axiom precondition $D_{AP}$ and of the successor state axioms $D_{SSA}$.
 We can get rid of them because every time we regress, we are already considering them (if we regress a formula about a successor situation we consider SSA and when we regress a formula about Poss we consider the AP).
 Remember that $D_{UNA}$ is here only to remember us that different action terms refers to different actions.
