@@ -1,10 +1,58 @@
-# **Tableux**
+# DPLL
+
+We need Tseitin’s transformation to turn a propositional logic formula into an equisatisfiable 3 CNF formula.
+The equisatisfiable 3 CNF formula will be later used to run DPLL and find staisfiability or validity.
+
+- CNF($q \iff \neg p$) = $(\neg q \vee \neg p) \wedge (p \vee q)$;
+- CNF($q \iff (p\wedge r)$) = $(q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p) ∧ (¬q ∨ r)$;
+- CNF$(q ≡ (p ∨ r))$ = $(¬q ∨ p ∨ r) ∧ (q ∨ ¬p) ∧ (q ∨ ¬r)$;
+- CNF($q ≡ (p → r)$) = $(¬q ∨ ¬p ∨ r) ∧ (p ∨ q) ∧ (¬r ∨ q)$;
+- CNF(q ≡ (p ≡ r)) = $(q ∨ p ∨ r) ∧ (q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p ∨ ¬r) ∧ (¬q ∨ ¬p ∨ r)$;
+
+```Algorithm
+DPLL(φ, I′)
+	(ψ, I) := UnitPropagation(φ, I′);
+	if ψ contains {}
+		then return ({{}}, ∅)
+	elseif ψ = {} 
+		then return ({}, I)
+	else select a literal λ ∈ C ∈ ψ;
+		if DPLL(ψ ∪ {{λ}}, I) = ({}, I′′)
+			then return ({}, I′′)
+		else 
+			return DPLL(ψ ∪ {{¬λ}}, I)
+```
+
+# First order logic (FOL)
+
+Elements of the first order logic:
+- **Terms:** costants or variables, like Mary, John, 1, 2, blue, ecc...;
+- **Functions:** fatherOf(), motherOf(), ecc...;
+- **Predicates:** Mortal, Prime, ecc...;
+- **Quantifiers**: like $\exists,\ \forall$ ecc...;
+
+
+# Tableux
 Tableux in FOL:
 ![[Pasted image 20250604101534.png]]![[Pasted image 20250604101446.png]]
 ##### Free term
 When a variable in a FOL formula does not occur in the scope of any quantifier.
 
-1. To test 
+1. To test a formula $\phi$ is **valid**, we form a tableau starting from $\neg \phi$. If the tableau is closed off, then $\phi$ is valid;
+2. To test **logical implication**( weather $\Gamma \models \phi$ ), we can check if $\Gamma \cup \neg \phi$ is unsatisfiable. If it is unsat, then the implication is respected;
+3. To test **satisfiability**, we can just check on the formula given in input if we find an open path appliyng the tableau rules and that's it;
+
+Different from propositional logic, in FOL models can be **infinite**!
+
+
+# Classical Planning
+We will define a planning problem, composed of:
+- Domain;
+- Initial state;
+- Set of goal G;
+
+# PDDL
+Planning Domain Definition Lenguage
 
 
 

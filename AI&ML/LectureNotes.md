@@ -1,4 +1,4 @@
-f  ### CFU
+### CFU
 
 9 CFU =
 
@@ -132,8 +132,6 @@ for x,y ∈ {1,2,3,4}
 
 Basics on satisfiability and unsatisfiability ( We now ).
 **Validity**: all the possible interpretations of a formula must satisfy it.
-
-<<<<<<< HEAD
 To check if a pit is in a certain cell, we need to check if the conditions imposed by the semantic of the logic are satisfied or not. To do this, we accumulate a knowledge base, storing all the experience and the inference that we are able to collect during our journey in the Wumpus world.
 To automatically check satisfiability we need an algorithm to solve sat.
 
@@ -151,7 +149,6 @@ Deduction Theorem: if Γ∪{φ} ⊨ φ' then Γ ⊨ φ→φ'
 Deduction Principle: Γ∪{φ} ⊨ φ' iff Γ ⊨ φ→φ'
 Refutation Principle: Γ ⊨ φ iff Γ∪{¬φ} is unsatisfiable
 
-=======
 ### Expansion rules
 
 | ψ∧γ |
@@ -159,9 +156,9 @@ Refutation Principle: Γ ⊨ φ iff Γ∪{¬φ} is unsatisfiable
 | ψ   |
 | γ   |
 
-| ψ∨γ | =     |
+| ψ∨γ |     |
 | --- | --- |
-| ψ γ   γ  γ  |
+| ψ   | γ   |
 
 ecc...
 
@@ -195,7 +192,7 @@ Logical implication(Γ, φ):
 Γ|= φ Is every model of the set of formulas Γ a model of φ as
 
 Logical inference(Γ, φ): 
-⊢Σ φ Is there a proof of φ in Σ from Γ ?
+$\Gamma ⊢_Σ φ$ Is there a proof of φ in Σ from Γ ?
 
 **Tseitin’s transformation** converts any propositional formula φ into an equi-satisfiable formula φ in CNF with only a linear increase in size.
 
@@ -293,7 +290,7 @@ $\exists x_1,...,x_n ( \cap_{i=1...n}\phi(x) \cap \cap_{i\neq j = 1...n}x_i\neq 
 At most n students:
 $\forall x_1,...,x_{n+1}.(\cap_{i=1...n+1}\phi (x) -> \cup_{i \neq j = 1...n+1} x_i = x_j)$
 
-### Tableux and FOL
+### Tableau and FOL
 We've seen how to expand propositional logic formulas with tableux, but we do not know how to expand existential and universal quantifier.
 
 We can translate this formulas as follows:
@@ -433,7 +430,7 @@ Each node is a state, each edge connects the states which are reachable and corr
 I start from the initial state and keep a fronteer variable. The fronteer contains all the neighbors of the visited states.
 If a goal state is in the fronteer, I reach it and I found a valid plan, otherwise I continue the exploration.
 
-We start with a fronteer, a set of pairs, plan and state. a plan is  a set of actions that brought us from S0 to S.
+We start with a fronteer, a set of pairs, plan and state. A plan is  a set of actions that brought us from $S_0$ to $S$.
 
 ##### Flaws:
 - We have to save the whole space in memory;
