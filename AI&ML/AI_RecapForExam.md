@@ -165,7 +165,6 @@ It will look like this:
 
 $D_{AP} =$
 - $Poss(move(x), s) \leftrightarrow \exists y.AgentAt(y, s) \wedge Right(y,x)$;
-- $Poss(move(x), s) \leftrightarrow \exists y.AgentAt(y, s) \wedge Right(y,x)$;
 - ecc ...
 
 Then we will have the effect axioms. 
@@ -184,7 +183,9 @@ Given a list of normalized effect axioms:
 We can create SSAs for the fluent F like:
 - $F(\overrightarrow{x}, do(a,s)) \leftrightarrow (\bigvee_i \exists \overrightarrow{y_i}. \gamma_i^+(\overrightarrow{x}, \overrightarrow{y_i},a,s)) \vee (F(\overrightarrow{x},s) \wedge \neg(\bigvee_j \exists \overrightarrow{y_j}. \gamma_j^-(\overrightarrow{x}, \overrightarrow{y_j},a,s)))$
 
-So basically we could describe
+# Basic Action Theory
+
+So basically we should describe
 $D = \Sigma \cup D_{UNA} \cup D_{S_0} \cup D_{AP}  \cup D_{SSA}$
 Where:
 - $\Sigma$ = Fundational axioms of STATCALC;
@@ -207,3 +208,5 @@ How does the regression operator works:
 	- $R[\neg \phi] = \neg R[\phi]$
 	- $R[\phi \vee \gamma] = R[\phi] \vee R[\gamma]$$
 	- $\phi = \exists x.\psi \implies R[\phi] = \exists x.R[\psi]$
+
+
