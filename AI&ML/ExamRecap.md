@@ -1,5 +1,5 @@
 # DPLL
-
+ 
 We need Tseitin’s transformation to turn a propositional logic formula into an equisatisfiable 3 CNF formula.
 The equisatisfiable 3 CNF formula will be later used to run DPLL and find staisfiability or validity.
 
