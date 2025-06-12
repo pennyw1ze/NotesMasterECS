@@ -6,7 +6,7 @@ The equisatisfiable 3 CNF formula will be later used to run DPLL and find staisf
 - CNF($q \iff \neg p$) = $(\neg q \vee \neg p) \wedge (p \vee q)$;
 - CNF($q \iff (p\wedge r)$) = $(q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p) ∧ (¬q ∨ r)$;
 - CNF$(q ≡ (p ∨ r))$ = $(¬q ∨ p ∨ r) ∧ (q ∨ ¬p) ∧ (q ∨ ¬r)$;
-- CNF($q ≡ (p → r)$) = $(¬q ∨ ¬p ∨ r) ∧ (p ∨ q) ∧ (¬r ∨ q)$;
+- CNF($q ≡ (p → r)$) = $(¬q ∨ ¬p ∨ r) ∧ (q ∨ p) ∧ (q ∨ r)$;
 - CNF(q ≡ (p ≡ r)) = $(q ∨ p ∨ r) ∧ (q ∨ ¬p ∨ ¬r) ∧ (¬q ∨ p ∨ ¬r) ∧ (¬q ∨ ¬p ∨ r)$;
 
 ```Algorithm
