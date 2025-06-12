@@ -90,7 +90,7 @@ Domain file:
 		:parameters (?b1 ?b2)
 		:precondition (and clear(?b1) (on ?b1 ?b2))
 		:effect ( and(not (on ?b1 ?b2)) (onTable ?b1) (clear ?b2))
-	)
+	) 
 	(:action moveFromBlock
 	:parameters (?b1 ?b2 ?b3)
 	:precondition (and (clear ?b1) (clear ?b3) (on ?b1 ?b2))
@@ -203,6 +203,7 @@ How does the regression operator works:
 - If $\phi$ is a situation independent atom, e.g.:$\exists x.Right(x,y)$, then: $R[\phi] = \phi$;
 - If $\phi$ is a fluent of the formula $F(x,S_0)$, then: $R[\phi] = \phi$;
 - If $\phi = Poss(A(t),\sigma)$ and precondtion axiom $\phi \iff \Pi_A(x,s)$, then: $R[\phi] = R[\Pi_A(x,S_0)]$;
+- If $\phi$ is a (relational) atom of the form $F(x, do(\alpha, \sigma))$, with $\alpha$ being action term $(A(x), A(\overrightarrow{t}))$ and $\sigma$ the situation term, then we'll take the SSA $F(\overrightarrow{x},do(a, s)) \leftrightarrow \Phi_F(\overrightarrow{x},a,s)$ (for which we can see we have no "do" action). $R[F(x,do(\alpha,\sigma)] = R[\Phi_F(x,\alpha,\sigma)]$
 - Then we have the following **properties**:
 	- $R[\neg \phi] = \neg R[\phi]$
 	- $R[\phi \vee \gamma] = R[\phi] \vee R[\gamma]$$
