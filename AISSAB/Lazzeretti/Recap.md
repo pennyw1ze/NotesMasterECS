@@ -24,9 +24,9 @@ The structure of an IOT Device is usually the following:
 
 The number of IOT devices is continuously increasing and has currently become larger then the number of humans on the planet.
 There are several problems in the security of IOT devices. Some of them are:
-- moving from private to public networks;
-- Low security from early design;
-- Difficulty in updating old systems;
+- Moving from private to **public networks**;
+- Low security from **early design**;
+- Difficulty in **updating** old systems;
 
 
 
