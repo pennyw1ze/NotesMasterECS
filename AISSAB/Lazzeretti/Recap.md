@@ -231,11 +231,15 @@ A PUF is a little “silicon fingerprint.” Tiny manufacturing variations make 
 ~ChatGPT
 Beyond the authentication application, PUFs is a physical device and can be used also as a PRNG and a **random horacle model**, and to store biometric informations.
 
-#### Fuzzy extractor
+##### Fuzzy extractor
 The fuzzy extractor is an algorithm that tries to clean data from noises by generation of random numbers performed with PUFs.
 A fuzzy extractor has the following properties:
 - **Robustness**: detection of helper data tampering;
 - **Weak reusability**: security of key if adversary knows all helper data;
+
+##### X-lock algorithm
+The X-lock algorithm is used to encrypt data on device like sensor nodes or whatever.
+The vault can be unlocked with majority voting algorithm. If the majority is reached, the vault is decrypted by means of a pseudo-secret sharing.
 
 ### UAVS: Unmanned Aerial Vehicles
 For example, drones. In UAVs, the comunications happens wireless.
