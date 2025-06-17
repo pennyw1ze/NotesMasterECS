@@ -303,6 +303,39 @@ We can track out data like:
 
 But what are the risks?
 
+### Data privacy
+One of the biggest issue is the data privacy.
+A lot of data are collected by XR devices, taken by user, sensor or third parties (like other applications)l.
+This data collection must be compliant to the GPDR which is the actual collection of rules about data privacy in Europe.
+This data are used to render the virtual reality, enhance realism and improve user experience, but are also sold to advertisment network provider, services provider and others.
+The devices have many sensors that are “always-on”.
+So, it is crucial to address the security and privacy vulnerabilities that could cause attacks
+on XR devices.
+
+### Attacks
+Now let's talk about common attacks to XR devices and users.
+
+1. **Password stealing**: With XR devices like gogles users might type password on virtual keyboard while being observed by hackers, that can understand the passwd by just recording the hand movements.
+   Attackers can understand what letter the user is typing also by obtaining the gyroscope informations about the head rotation of the writer, and in general users head location;
+2. **Behavioural authentication**: Such as pointing, grabbing, walking, typing, but these authentication methods are easily manipulated by attackers (for example, the task of ball-throwing for authentication);
+3. **Social Engineering Attacks**: Extensive data collection in XR devices creates an opportunity for impersonation and social engineering attacks;
+4. **De-anonymization Attacks**: Biometric data can also be stored in XR devices;
+and others...
+
+#### Defence mechanism 
+- Permission-based model;
+- Local differential privacy;
+- Actuator’s Noise;
+- Machine Learning;
+- Multi-Party Computation;
+- Trusted Execution Environments;
+
+#### Negative impacts
+- Identity-based harms;
+- Persuasion, Coercion, and Manipulation;
+- Reality Censorship and Information Disorder;
+
+So basically there is need to define new human rights to govern this technology.
 
 ---
 # Security and Machine Learning
