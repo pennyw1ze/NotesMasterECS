@@ -369,14 +369,18 @@ The most **delicate phase** of neural network training is the one between the da
 
 ### Attacks
 Let's see some attacks that could be performed to AI models.
+Attacks are classified as **targeted** if their aim is to turn a specific elem (ex. dog) into something else, or just **untargeted** if their aim is the general compromization of the neural network.
 
-1. **Exploitation of empty regions**
+1. **Random noise**
+	Add random noise to the data, but it must be proportioned to the weight.
+	This attack requires the knowledge of the classification function, so a white box approach is easier.
+2. **Exploitation of empty regions**
 	- Regions of the feature space for which no examples are provided are classified randomly and can be exploited by the attacker (again by adding a tailored noise);
-2. **Label poisoning**
+3. **Label poisoning**
 	The introduction of corrupted labels aims at modifying the detection region so to ease attacks carried out at test time.
 	**Solution**
 	- To avoid contamination attack, we must perform and adversary-aware re-training;
-3. **Backdoor attack**
+4. **Backdoor attack**
 	The adversary **poison** the training set. This could be done also without any knowledge about the system.
 	**Solution**:
 	1. Prevent:
