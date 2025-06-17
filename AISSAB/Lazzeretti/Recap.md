@@ -240,6 +240,7 @@ A fuzzy extractor has the following properties:
 ##### X-lock algorithm
 The X-lock algorithm is used to encrypt data on device like sensor nodes or whatever.
 The vault can be unlocked with majority voting algorithm. If the majority is reached, the vault is decrypted by means of a pseudo-secret sharing.
+We xor vault entries with bits taken from PUF.
 
 ### UAVS: Unmanned Aerial Vehicles
 For example, drones. In UAVs, the comunications happens wireless.
@@ -277,6 +278,30 @@ In this devices we can have different types of issues:
 
 ---
 # XR Security
+
+**Augmented Reality** (AR) is an enhanced version of the real physical world that is
+achieved through the use of digital visual elements, sound, or other sensory stimuli and
+delivered via technology.
+
+**Virtual Reality** (VR) is the use of computer technology to create simulated environment
+(virtual reality places) where the user is inside of a three-dimensional experience.
+
+**Mixed Reality** (MR) is a medium consisting of immersive computer-generated
+environments in which elements of a physical and virtual environment are combined.
+
+General elements of XR devices:
+- Field of view;
+- Lens and display;
+- Positional tracking;
+- Audio and speaker;
+- Haptic feedback;
+
+We can track out data like:
+1. User **motion tracking**: movement of the user (by means of accelerometer, gyroscope, ecc...);
+2. User **interaction tracking**: for example speech and eye-movement recognition;
+3. **Environment tracking**: outward facing cameras;
+
+But what are the risks?
 
 
 ---
