@@ -207,6 +207,31 @@ We can compute the approximate numbe of elements in the network by counting the 
 
 With this protocol we have security against adversarial comunication since the self attestation is generated in TEE, the only thing that adversary can do is not partecipating in the protocol because he cannot produce a valid attestation.
 
+## IOT Authentication
+
+### PUF
+Something we own, used for authentication which is uniquely generated.
+A PUF is a little “silicon fingerprint.” Tiny manufacturing variations make each chip respond uniquely to a given challenge.
+1. **Enrollment**
+    
+    - The device (chip) is **physically connected** to a trusted server.
+        
+    - The server issues a series of random **challenges** and records the corresponding **responses**.
+        
+    - These CRP (Challenge–Response Pairs) are stored in the server’s database.
+        
+    - The chip is then embedded in the field device.
+        
+2. **Authentication**
+    
+    - When the device wants to prove its identity, the server sends it one of the previously‐seen challenges.
+        
+    - The chip computes and sends back its PUF response.
+        
+    - The server checks that the response matches its stored value.
+~ChatGPT
+
+
 ---
 # XR Security
 
