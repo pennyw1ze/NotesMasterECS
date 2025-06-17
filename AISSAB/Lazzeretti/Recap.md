@@ -213,7 +213,6 @@ With this protocol we have security against adversarial comunication since the s
 Something we own, used for authentication which is uniquely generated.
 A PUF is a little “silicon fingerprint.” Tiny manufacturing variations make each chip respond uniquely to a given challenge.
 1. **Enrollment**
-    
     - The device (chip) is **physically connected** to a trusted server.
         
     - The server issues a series of random **challenges** and records the corresponding **responses**.
@@ -223,13 +222,53 @@ A PUF is a little “silicon fingerprint.” Tiny manufacturing variations make 
     - The chip is then embedded in the field device.
         
 2. **Authentication**
-    
     - When the device wants to prove its identity, the server sends it one of the previously‐seen challenges.
         
     - The chip computes and sends back its PUF response.
         
     - The server checks that the response matches its stored value.
+    
 ~ChatGPT
+Beyond the authentication application, PUFs is a physical device and can be used also as a PRNG and a **random horacle model**, and to store biometric informations.
+
+#### Fuzzy extractor
+The fuzzy extractor is an algorithm that tries to clean data from noises by generation of random numbers performed with PUFs.
+A fuzzy extractor has the following properties:
+- **Robustness**: detection of helper data tampering;
+- **Weak reusability**: security of key if adversary knows all helper data;
+
+### UAVS: Unmanned Aerial Vehicles
+For example, drones. In UAVs, the comunications happens wireless.
+We have the UAV network which could be:
+- Centralized;
+- Decentralized:
+  - Single backbone;
+  - Multiple backbone;
+In this devices we can have different types of issues:
+1. **Sensor**:
+	   - GPS jamming;
+	   - False data injection;
+    Solutions:
+    - Physical isolation;
+    - Autonomous navigation;
+2. **Hardware**:
+	   - Supply chain;
+	   - Battery attack;
+	Solutions:
+	- fine-grained circuit analysis;
+	- pre-flight battery check;
+3. **Software**:
+	   - Operating system;
+	   - Tampering captured signal;
+	Solutions:
+	- Os updates;
+	- Data encryption;
+4. **Comunication**:
+	   - Usual attacks on network (DoS, Reply, ecc...);
+	   - Attacks on routing protocols;
+	Solutions:
+	- Authentication;
+	- Encryption;
 
 
 ---
