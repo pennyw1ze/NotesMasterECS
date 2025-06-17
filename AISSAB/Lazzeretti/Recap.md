@@ -338,8 +338,58 @@ and others...
 So basically there is need to define new human rights to govern this technology.
 
 ---
-# Security and Machine Learning
+# Machine Learning
+Section divided in 2 categories:
+- Securing with ML;
+- Adversiarial ML;
+## **Securing IOT**
+We can adopt Reinforced based authentication and learning based access control.
+#### Reinforcement learning based authentication
 
+• Model: Q-learning based authentication;
+• Features: received signal strength indicators (RSSIs);
+• The state observed by the receiver at time t consists of the false alarm rate and the missed detection rate of the spoofing detection at time t−1;
+• The receiver chooses its action at based on the state $S_t$ to maximize its expected sum utility;
+• Update utility and acceptance threshold;
+
+#### Learning-based access control
+Intrusion Detection Systems.
+ML techniques help build lightweight access control protocols to save energy and extend the lifetime of IoT systems.
+Access control will monitor:
+- Collision rate;
+- Packet request rate;
+- Waiting time;
+
+## **Adversarial Machine Learning**
+
+For example, is easy to confuse a machine that tries to distinguish image by adding noise to that image. **Fooling image recognition** in real world is considered an AI attack.
+
+Also neural networks are vulnearble to attacks.
+The most **delicate phase** of neural network training is the one between the data acquisition and the model training. In this phase, an adversary could inject whatever data and try to create **backdoors** in the model.
+
+### Attacks
+Let's see some attacks that could be performed to AI models.
+
+1. **Exploitation of empty regions**
+	- Regions of the feature space for which no examples are provided are classified randomly and can be exploited by the attacker (again by adding a tailored noise);
+2. **Label poisoning**
+	The introduction of corrupted labels aims at modifying the detection region so to ease attacks carried out at test time.
+	**Solution**
+	- To avoid contamination attack, we must perform and adversary-aware re-training;
+3. **Backdoor attack**
+	The adversary **poison** the training set. This could be done also without any knowledge about the system.
+	**Solution**:
+	1. Prevent:
+		- Stealthiness at training time is also required;
+		- Only limited forms of corruption are possible;
+	2. Care:
+		 -  Partially retraining the network;
+		 - Backdoors often rely on dormant nodes, pruning inactive nodes on benign samples may help removing the backdoor;
+	**Challenges**:
+	- Trigger invisibility (test time);
+	- Trigger robustness;
+	**Honeypots**:
+	Backdoors can be used also as honeypots to detect adversarial attacks.
 
 ---
 # Future networking
