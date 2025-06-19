@@ -215,27 +215,46 @@ If a hacker is able to secure control of more than half of the network (51%), th
 
 
 ### Proof of Stake
-The idea is that if we can fairly reduce the number of participants to the consensus we can speed up the process.
-We will do a weighted lottery where participants will place stake that they hold to participate to the lottery and the probability to win the lottery will be proportioned to the stake placed. If the validator choosen in the lottery is malicious and tries to validate a malicious block, his stake will be sliced an he will loose money. There is a minimum and a maximum amount of eth with which the participants can join the lottery with their stake.
-There is a set of **active validators**, and 128 between them are randomly choosen to validate the proposed block. The algorithm is called randao.
 
+**General idea**
+The idea is that if we can fairly reduce the number of participants to the consensus we can speed up the process. We will do a weighted lottery where participants will place stake that they hold to participate to the lottery and the probability to win the lottery will be proportioned to the stake placed. If the validator choosen in the lottery is malicious and tries to validate a malicious block, his stake will be sliced an he will loose money. There is a minimum and a maximum amount of eth with which the participants can join the lottery with their stake.
+
+**Details**
 How does the block production works in the PoS architecture?
-An epoch is created, which last around 6.4 minutes.
-In an epoch, 32 blocks are proposed, circa 12 second per slot, which correspond to a block.
+An epoch is created, which last around 6.4 minutes. In an epoch there are 32 time slots, circa 12 second per slot. In each slot there will be a block proposal (can also be NULL if the proposer is offline).
+
 How does the process works?
-1.  A random validator proposes his block for a certain slot (some slots may be empty due to validator missing);
-	
-2. There is a pseudo-random process to select the commettee memebers, at least 128, that will create attestation to vote for a block. Attestations are weighted on the stake. Both validators and proposers are randomly picked trough the RANDAO algorithm;
-	
-3. If more then 2/3 of the committee validates the proposed block, it is attached to the beacon chain;
-	
-4. Validators also police each other and are rewarded for reporting other validators that make conflicting votes, or propose multiple blocks;
+Let's analise what happens in a single time slot:
 
+**Settings**
+There is a **Staking Smart Contract** which contains a list of validators, with thier withdrawal address (t allows users to receive their cryptocurrency, such as staking rewards), their public address as validator and their stake (to simplify the voting process, the stake will be 32 ETH for all validators). Your validators digital signature becomes your proof of stake because anyone can chek your stake in the contract with your public address.
 
-### RANDAO
+**Process**
+1. All validator staking in the smart contract are randomly split into equal committees by the random algorithm taken into account (Randao/Alogrand). Each committee is assigned to one time slot in the epoch;
+	
+2. The first member of the committee is choosen to propose a block for his time slot (some slots may be empty due to validator offline). The other members of the committee must produce attestation for the proposed block (attestation is produced if the block is correctly generated). If the block is not proposed in the timeslot by the first validator, the other validators must vote for the previous block;
+	
+3.  
+	
+4. If more then 2/3 of the committee validates the proposed block, it is attached to the beacon chain;
+	
+5. Validators also police each other and are rewarded for reporting other validators that make conflicting votes, or propose multiple blocks;
+	
+6. If a validator is caught cheating, his stakes are slashed (basically he loose some of his ethereum);
+
+#### BLS signature
+Ethereum uses BLS signature aggregation property to make the whole process efficient.
+BLS signature are a kind of signature which are easily aggregatable, thanks to the property of EC field on which the signature is produced. This property allows to aggregate all the signature produced into a unique signature.
+
+#### RANDAO
 RANDAO is a decentralized algorithm designed to generate random numbers in a decentralized way. The idea is to combine different inputs from a large group of people instead of simply trusting a person.
-
 If we select a fixed committee we could use BFT (Byzantine Fault Tolerant) algorithms to achieve consensus.
+
+#### Fork
+In presence of forks, there are different methods to solve the problem.
+###### **Casper**
+With Casper we apply the usual method of the **longest chain**, considering that not only the lenght of the chain is considered, but also the **heigt**, so the total number of the blocks produced after the fork is what really matters. 
+If the number of blocks is the same, the **number of attestation** produced by the validators is taken into account: the chain with the grater number of attestation is taken into account, the other are discarded.
 
 ---
 # **Beyond Transactions**
