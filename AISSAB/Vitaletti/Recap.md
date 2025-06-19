@@ -123,6 +123,37 @@ A new address is generated each time you receive bitcoin. Basically the wallet i
 This addresses are tracked by the blockchain, but the blockchain has no way to know which wall has generated those addresses.
 So the UTXO model is really different from that state model in which the user owns an account.
 
+#### Transaction validation
+Bitcoin transaction validation rule:
+- **Syntax** check;
+- Respect allowed range **value**;
+- For each input, if the referenced **output exists** in any other transaction in the pool, the transaction must be rejected;
+- For each input, if the referenced output transaction is a coinbase output, it must have at least COINBASE_MATURITY (100) confirmations;
+- Reject if the sum of input values is less than sum of output values;
+- For each input, the referenced output must exist and cannot already be spent;
+- The unlocking scripts for each input must validate against the corresponding output locking scripts;
+
+Coinbase transaction is the first transaction in a block, has TXID 0s and VOUT max and represent the generation of new coins given to the miners as a reward.
+The block reward can be sent to multiple locations.
+It's placed there by the miner when they construct their candidate block so they can **claim the block reward** (block subsidy + fees) if they are successful in mining the block.
+The outputs from coinbase transactions are the **source of new bitcoins**.
+
+#### Merkle tree
+Already seen in advanced cryptography course.
+This structure allows the miners to aggregate all the transactions in a single SHA256 string, by computing SHA256 of all the transactions and then aggregating the hashing until reaching the "root" of this tree.
+In this way, to verify if a transaction is actually in a block, we will need only to hash the transaction and to provide the hashing of all the siblings in the path from the transaction (leaf) to the merke root, which is embedded in the block. So instead of providing all the transactions and computing $N$ hashes, we will just provide and compute $log(N)$ hashes and we decrease the cost of checking the transaction.
+**PROs**:
+- Efficiently verify the presence of a transaction in a block;
+    
+- Efficiently verify the integrity of a block (e.g. a transaction integrity);
+    
+- Limit the memory to use Bitcoin to support light clients (e.g. mobile devices);
+
+#### Nodes
+There are 3 types of nodes in the bitcoin blockchain:
+- **Full nodes**: full nodes verifies and relays the transactions and the blocks. They has to independently validate the complete copy of the blockchain since they have to download the entire blockchain;
+- **Light nodes**: they connects to full nodes to interact with the blockchain. It needs only the chain of the blocks headers to operate. Light nodes don't have to trust full nodes since they provide merkle proofs of the provided data. They cannot validate the entire blockchains, but can check the existance of a node, so they do not earn anything;
+- **Client nodes**: relies on 3rd party host providing APIs to look into the blockchain.These clients connect to a remote node and **completely trust** its responses in a non-cryptographically-proven manner.
 
 ---
 # **Consensus**
