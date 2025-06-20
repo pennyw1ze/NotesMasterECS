@@ -377,3 +377,11 @@ Gas is paid in ethereum. More precisely, for the gas is usually used a specific 
 
 
 ---
+# Anonimity
+
+
+---
+# WEB3
+
+
+---
