@@ -198,7 +198,7 @@ Let's start talking about how consensus is actually achieved in the bitcoin bloc
 Since the lenght of the forked chain is not the same to everybody and forks could grow in different way in different machines around the world, a timer is added to slow down the growth of the blockchain.
 This timer is the proof of work.
 
-### Proof of Work
+## Proof of Work
 The proof of work consists in a complicated math puzzle that is slow to be solved for every machine and requires enough computational power to solve the challenge.
 Nowadays a bitcoin puzzle requires 10 minutes circa.
 Who solves the puzzle becomes the leader and can attach the next block to the blockchain.
@@ -214,7 +214,27 @@ There are a lot of controversial about the sustainability of the proof of work m
 If a hacker is able to secure control of more than half of the network (51%), they are able to alter a blockchain and manipulate transactions to steal from the network. In blockchain, the more nodes, the more security.
 
 
-### Proof of Stake
+#### PoW to PoS
+In PoW we had:$$H(previous\_hash,merkle\_root,nonce)<K;$$
+The miner tries nonces up to the time in which he find the right one which makes the hashing output less then K (with a fixed amount of 0s at the begging of the hash).
+In PoS we have:$$VRF(sk_i, ts, previous\_hash) < K\times stake;$$
+- $ts$: otherwise there could be stall (no parameters matching the desired output);
+- $stake$: we need the difficulty of the challenge to be proportioned to the stake;
+- $sk_i$: the outcome is bounded to the single identity;
+- $VRF$: function that given an input generates a pseudo-random number and a proof that the generated number as been obtained with $ts,\ previous\_hash$ and a $sk$ associated to $pk$;
+
+##### Nothing at stake attack
+The adversary tries to grow blocks everywhere in the blockchain, since the only element on which he can try to cheat is the previous_hash inside the VRF. The NaS attack has been proved to be successful when $eβλ > (1 − β)λ$, $i.e., β \ge {1\over(1 + e)} = 26.89\%$, where $\beta\lambda$ s the adversarial mining rate.
+**Solutions**
+Ouroboros PoS Protocol:$$VRF(hash(Genesis), ts, sk_n) < T · stake_n$$
+Fails in the bribe attack (winner can be precomputed and bribed).
+Correlation PoS Protocol:$$VRF(RandSource(parent), ts, sk_n) < T · stake_n$$
+where$$RandSource(b) = \begin{cases}
+   VRF(RandSource(parent(b)), ts, sk) &\text{if } depth(b)\%c = 0, \\
+   RandSource(parent(b)) &\text{otherwise. }
+\end{cases}
+$$
+## Proof of Stake
 
 **General idea**
 The idea is that if we can fairly reduce the number of participants to the consensus we can speed up the process. We will do a weighted lottery where participants will place stake that they hold to participate to the lottery and the probability to win the lottery will be proportioned to the stake placed. If the validator choosen in the lottery is malicious and tries to validate a malicious block, his stake will be sliced an he will loose money. There is a minimum and a maximum amount of eth with which the participants can join the lottery with their stake.
@@ -234,30 +254,55 @@ There is a **Staking Smart Contract** which contains a list of validators, with 
 	
 2. The first member of the committee is choosen to propose a block for his time slot (some slots may be empty due to validator offline). The other members of the committee must produce attestation for the proposed block (attestation is produced if the block is correctly generated). If the block is not proposed in the timeslot by the first validator, the other validators must vote for the previous block;
 	
-3.  
+3.  Committees are divided in 128 subnets, and from this subnets with 100 participants per subnet circa, a signature is taken, so at the end we will have 128 signatures that represents 12'000 signatures;
 	
 4. If more then 2/3 of the committee validates the proposed block, it is attached to the beacon chain;
 	
-5. Validators also police each other and are rewarded for reporting other validators that make conflicting votes, or propose multiple blocks;
+5. Validators also police each other and are rewarded for reporting other validators that make conflicting votes, or propose multiple blocks. If a validator is caught cheating, his stakes are slashed (basically he loose some of his ethereum);
 	
-6. If a validator is caught cheating, his stakes are slashed (basically he loose some of his ethereum);
-
+6. Validators get a reward for their actions: the block proposal as an higher reward, the attestation has a lower reward;
 #### BLS signature
 Ethereum uses BLS signature aggregation property to make the whole process efficient.
 BLS signature are a kind of signature which are easily aggregatable, thanks to the property of EC field on which the signature is produced. This property allows to aggregate all the signature produced into a unique signature.
 
 #### RANDAO
-RANDAO is a decentralized algorithm designed to generate random numbers in a decentralized way. The idea is to combine different inputs from a large group of people instead of simply trusting a person.
-If we select a fixed committee we could use BFT (Byzantine Fault Tolerant) algorithms to achieve consensus.
+RANDAO is a decentralized algorithm designed to generate random numbers in a decentralized way. The idea is to combine different inputs from a large group of people instead of simply trusting a person. If there is at least one honest party between the n proposer, the number will be random.
+In the case of ethereum, this random number is the digital signature of the file which is produced with the private key of each verifier. The output is unpredictable unless the private key is known. The signatures are aggregated togheter with BLS to produce the final random number.
 
 #### Fork
 In presence of forks, there are different methods to solve the problem.
-###### **Casper**
+###### **Ghost**
 With Casper we apply the usual method of the **longest chain**, considering that not only the lenght of the chain is considered, but also the **heigt**, so the total number of the blocks produced after the fork is what really matters. 
 If the number of blocks is the same, the **number of attestation** produced by the validators is taken into account: the chain with the grater number of attestation is taken into account, the other are discarded.
 
+###### **Casper**
+Shows when a block becames final.
+When we adopt a Byzantine Fault Tolerant algorithm to reach consensus, we run 2 rounds of voting, and when the block reaches the 2/3rd of the committee votes it becames final.
+In the first round the validators committs the votes, and in the second round they go trough the votes.
+We need 2 rounds because at the first round we could have an attacker double voting and placing the block in a situation where there is an equal number of votes and it exceeds the 50% each (since he voted twice). After the first round he will be slashed heavily and go under the 16ETH, which is the minimum amount to vote, so he will not be able to cause trouble again.
+
+
+#### **Algorand**
+Alternative approach to PoS.
+- Among the multitude of participants, few are publicly and randomly selected to form a committee and make block proposals → VRF (weighted lottery);
+- Among the committee a leader is elected and its proposal is considered. Node certify the proposal if it receives more than ⅔ of votes. Each node can either certify or not the proposal. Commeettee can receive more then one proposal if multiple nodes win the challenge: the committee will certify the propopsal of the winner with the lower VRF hash;
+- A new committee can efficiently run a binary Byzantine Agreement, reach consensus and sign the result;
+- After the process, either a block is approved if it received enough votes, and it is attached to the blockchain, or an empty block is finalized and attached to the blockchain;
+
+
 ---
 # **Beyond Transactions**
+
+## Ethereum
+Ethereum can be seen as a chain of states. Each state represent the world state, and transactions represent link between a previous and a successive state.
+The world state is a mapping between address and account state.
+
+### Accounts
+An account is an object in the world state, that maps an address to an account state.
+There are 2 types of account:
+- EOA: externally owned account, controlled by a user that owns the private key of respective address, contains nonces and the actual balance;
+- Contract Account: controlled by the EVM, it contains nonces, balance, evm code and hashes stored insidel;
+
 
 
 
