@@ -329,6 +329,10 @@ A transaction in ethereum contains:
 - v,r,s;
 - init or data: contract creation or message call;
 
+The order of the transactions in a block is determined by miners.
+The order between blocks is decide with consensus mechanism (PoS).
+
+
 ### Merkle Patricia Tree
 It is a key-value tree used to store states. The key is the address and the value is the balance, nonces, storageRoot and codeHash.
 We need additional features wrt merke trees:
@@ -338,8 +342,30 @@ We need additional features wrt merke trees:
 As we said, we are able to store key value dataset.
 The key identifies the path in the tree, the leaf are the values.
 
+### Transaction database
+In ethereum we have a decentralized shared database.
+There are the **full nodes** which keeps a consistent updated value of the world state, which contains the transaction of the entire ethereum chain and are connected p2p with each others.
+The access for transactions, validators ecc... to the ethereum world state, which is needed to keep up to date with the blockchain, is made through a peer 2 peer connection with a full node throught the **web3** interface.
 
 
+### Ethereum Virtual Machine (EVM)
+The EVM code is executed in the EVM. The EVM is the environment in which are runned all the smart contracts.
+
+**Architecture**
+The EVM has the following architecture:
+- Virtual ROM(EVM code);
+- Program counter;
+- Available GAS;
+- Stack: 256 bits x 1024 elements;
+- Memory: byte addressing linear memory;
+- Account storage: 256 bits to 256 bits key-value store;
+Counter gas stack and memory defines the machine state.
+All operations are performed on the stack. The code of the EVM ROM is similar to the assembly code. We have instructions like PUSH, POP, COPY ecc...
+EVM can send messages to other EVM or to EOA, but the dept of the message level is limited to 1024.
+
+### GAS
+The gas is the unit that measures the computational effort required to perform an operation.
+Gas is paid in ethereum. More precisely, for the gas is usually used a specific unit, the GWEI which is equal to $10^{-9}\ eth$.
 
 
 ---
