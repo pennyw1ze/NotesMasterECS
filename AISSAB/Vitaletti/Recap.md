@@ -303,6 +303,42 @@ There are 2 types of account:
 - EOA: externally owned account, controlled by a user that owns the private key of respective address, contains nonces and the actual balance;
 - Contract Account: controlled by the EVM, it contains nonces, balance, evm code and hashes stored insidel;
 
+**Nonces**
+There are 2 nonces:
+- The first is the one used to solve PoW(wtf there is no PoW here!);
+- The second one is used as sent_transaction_counter. It is used to keep order of transactions and to protect from reply attack;
+
+**Address**
+The address is a 160 bits code used for account identification.
+For EOA account, it is obtained with the public key. For Contract account, it is generated with account addresses and nonces.
+
+### Transactions
+There are 2 main type of transactions:
+- Contract creation: creates a contract account;
+- Message call: send message from EOA to EOA or a contract;
+
+**Messages** are data and values (bytes and eth) passed between 2 accounts.
+Messages can be triggered by transactions or by EVM.
+
+A transaction in ethereum contains:
+- nonce;
+- gasPrice;
+- gasLimit;
+- destinationAddress: 0 if is a contract creation;
+- value;
+- v,r,s;
+- init or data: contract creation or message call;
+
+### Merkle Patricia Tree
+It is a key-value tree used to store states. The key is the address and the value is the balance, nonces, storageRoot and codeHash.
+We need additional features wrt merke trees:
+- Easy to edit;
+- Root of the tree must depend only on data;
+- Limited depth;
+As we said, we are able to store key value dataset.
+The key identifies the path in the tree, the leaf are the values.
+
+
 
 
 
