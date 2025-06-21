@@ -173,7 +173,7 @@ Permissionless and public blockchains must achieve consensus in the following se
 - Byzantine and crashing nodes;
 Paxos can satisfy the first requirement but not the second one. 
 How do we deal with byzantinte ?
-If there are $f$ byzantine process, the consensus can be achieved only if there are $3f + 1$ total nodes (look at [[Dependable Distributed System Recap#Byzantine tolerant Consensus]]).
+If there are $f$ byzantine process, the consensus can be achieved only if there are $3f + 1$ total nodes (look at [[Dependable Distributed System Recap#Byzantine tolerant Consensus|Byzantine tolerant consensus]]).
 We adopt new comunication primitives:
 - Every message that is sent is delivered correctly;
 - The receiver of a message knows who sent it;
@@ -369,19 +369,71 @@ Gas is paid in ethereum. More precisely, for the gas is usually used a specific 
 
 
 ---
-# **Blockchain and IOT**
 
-
----
 # **Scaling the blockchain**
 
+> **Blockchain trilemma**:
+> Try to find a balane between scalability, security and decentralization;
+
+## Sharding (Scaling layer 1)
+To improve the scalability of the blockchain, there is a technique called sharding that consists in splitting horizontally the database of transaction to spread the load over more nodes.
+
+For example, sharding in the PoS blockchain is when the blockchain is sharded and divided into "slices" of blockchain, each of which is assigned to a group of validators. This shards must be synchronyzed between them, increasing the amount of comunications and making it a non efficient solution. In this way, we don't have all the network focused in the production on one block, but the network is splitted and blocks are produced in parallel, optimizing time and space in the chain.
+
+## Verification (Scaling layer 2)
+An efficient method for verifying blocks and transaction is required.
+Now, we need to know that the computations from some node have been done correctly and all the data needed to check the validity of the process are available.
+In other words, we need to verify that the node operated correctly.
+### Rollup scaling 
+We can have:
+#### Fraud proof
+Fraud proof works in the following way: a proover with a staked amount certify a block by signing a message of the type "If you compute C with input X, you get Y".
+If there is a contestation on this proof by other nodes, a verification is performed and stakes are slashed for eventual frauds.
+#### ZK-Snarks
+Zk-SNARK is an acronym that stands for “Zero-Knowledge Succinct Non-Interactive argument of Knowledge.” A zk-SNARK is a cryptographic proof that allows one party to prove it possesses certain information without revealing that information.
+
+#### Rollup mechanism
+Now, we would have 2 kind of rollup mechanism (to attach blocks to the chain).
+- Optimistic rollup: a block is attached to the chain and a proof is produced. If no fraud proof are produced, the state is accepted. If there are fraud proofs, the previous state is recovered;
+- ZK rollup: batch of transactions and ZK proof that the computation where correctly made are sent to a Smart Contract that verifies the proof and eventually attach the batch to the chain, producing a new state;
+
+#### Mina
+Mina is a lightweight blockchain based on zk proofs. Mina is fast because it does not require the full past blockchain to attach a new block, but it produces a ZK proof only over the last block, involving the current data.
 
 ---
 # Anonimity
+Already had a deeper look into this topics in Advanced cryptography.
+Look at:
 
+1. Mixer: [[AdvancedCryptography/Recap#Tornado Cash|Tornado Cash]]
+2. ZK-SNARKs: [[AdvancedCryptography/Recap#ZK-SNARKs|ZK-SNARKs]];
+3. Zerocash: [[AdvancedCryptography/Recap#ZCash|ZCash]];
 
 ---
 # WEB3
+Brief introduction to web3
+## WEB2
+Web2 is the classical web structure that we are used to deal with in our everyday life.
+The actual web is composed by layers:
+1. **Users** interacts with **browser**;
+	
+2. Broser navigates throught internet and renders **Front-end** scripts (HTML,CSS,JS);
+	
+3. Front-end makes call to **back-end** throught Python, Node-JS, etc...;
+	
+4. Back-end takes his sources from **databased** stored in **servers**;
 
+## WEB3
+The web3 structure is slightly different. It is composed different layers.
+We have:
+1. The user is still interacting with the **browser**;
+	
+2. The browser renders **front-end** websites through usual lenguage;
+	
+3. Front-end renders contents from **providers**, like metamask, alchemy, ecc...;
+	
+4. Providers directly connects to the **ethereum blockchain**, allowing to contact smart contracts or to visualize blocks in the chain;
+	
+5. There is an althernative which is "**the graph**", that allows users to directly visualize blockchains data as GraphQL database;
 
 ---

@@ -133,3 +133,12 @@ we can aggregate signature in the following way:$$s = s_1 + s_2 = r_1 + r_2 + (x
 where s is our combined signature obtained as shown above.
 
 
+# Blockchain
+
+## Tornado Cash
+
+## ZCoin
+
+## ZCash
+
+## ZK-SNARKs
