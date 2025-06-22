@@ -36,7 +36,7 @@ In [this](https://www.law.berkeley.edu/wp-content/uploads/2018/08/Do-you-need-a-
 
 
 ##### Oracles
-Oracles are components that allow a blockchain, or a smart contract, to get inputs from  utside the blockchain. They inject data coming from outside the blockchain into regular  lockchain transactions. In this way, they become part of the blockchain history and can be handled deterministically by all blockchain nodes.
+Oracles are components that allow a blockchain, or a smart contract, to get inputs from  outside the blockchain. They inject data coming from outside the blockchain into regular  blockchain transactions. In this way, they become part of the blockchain history and can be handled deterministically by all blockchain nodes.
 
 ---
 # **Tech Ingredients**
@@ -79,9 +79,8 @@ In the bitcoin blockchain:
 	- The blockchain can be analyzed to link transactions to real people: i.e. identities;
 	- A bitcoin address per se doesn't say anything about you, but your transaction history does;
 	- Create new personal addresses is free;
-Wallet address are public keys, private keys are using to show ownership and perform payments.
-Verifiers blocks, as well as nodes that performs a transaction, sign the block/transaction, and for the digital signature the asymmetric encryption paradigm is adopted.
-inputs
+Wallet address are public keys, private keys are used to show ownership and perform payments.
+Verifier blocks, as well as nodes that performs a transaction, sign the block/transaction, and for the digital signature the asymmetric encryption paradigm is adopted.
 
 #### Transactions
 To spend or unlock a Bitcoin **UTXO**(Unspent Transaction Output), you typically follow these steps:
@@ -214,7 +213,7 @@ There are a lot of controversial about the sustainability of the proof of work m
 If a hacker is able to secure control of more than half of the network (51%), they are able to alter a blockchain and manipulate transactions to steal from the network. In blockchain, the more nodes, the more security.
 
 
-#Paper
+#paper
 ### Double spending
 Now we will follow a double spending attack analysis to nakamoto's protocol reported in
 [this](https://drive.google.com/file/d/1Tu_h4Ajr58udMjTcO-XWOVuXvxsNLhzp/view) paper.
@@ -225,12 +224,12 @@ Let's call:
 - $p = 1-q$ the amount of computational power controlled by the honest players;
 
 
+...
 
 
 
 
-
-#Paper 
+#paper 
 ### PoW to PoS
 In PoW we had:$$H(previous\_hash,merkle\_root,nonce)<K;$$
 The miner tries nonces up to the time in which he find the right one which makes the hashing output less then K (with a fixed amount of 0s at the begging of the hash).
