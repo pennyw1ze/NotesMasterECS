@@ -214,7 +214,24 @@ There are a lot of controversial about the sustainability of the proof of work m
 If a hacker is able to secure control of more than half of the network (51%), they are able to alter a blockchain and manipulate transactions to steal from the network. In blockchain, the more nodes, the more security.
 
 
-#### PoW to PoS
+#Paper
+### Double spending
+Now we will follow a double spending attack analysis to nakamoto's protocol reported in
+[this](https://drive.google.com/file/d/1Tu_h4Ajr58udMjTcO-XWOVuXvxsNLhzp/view) paper.
+To recall, the double spending attack is when an adversary spend some BTC in a transaction recorded in a block in the blockchain towards address $A$, and then creates a fork that becomes longer than the chain in which he spent the money and in which he sends the same money to address $B$. The chain in which he spent to $B$ will be taken into account by everyone and he will have spent twice his money.
+
+Let's call:
+- $q$ the amount of computational power controlled by the adversary;
+- $p = 1-q$ the amount of computational power controlled by the honest players;
+
+
+
+
+
+
+
+#Paper 
+### PoW to PoS
 In PoW we had:$$H(previous\_hash,merkle\_root,nonce)<K;$$
 The miner tries nonces up to the time in which he find the right one which makes the hashing output less then K (with a fixed amount of 0s at the begging of the hash).
 In PoS we have:$$VRF(sk_i, ts, previous\_hash) < K\times stake;$$
