@@ -73,7 +73,7 @@ Stuxnet was one of the biggest cyberattack involving IOT devices.
 	– Services can always access the data;
 
 
-
+	
 ## Source of securtiy threat in IOT devices
 
 ### Security issues at sensing layer
