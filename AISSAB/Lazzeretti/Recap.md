@@ -126,17 +126,19 @@ Stuxnet was one of the biggest cyberattack involving IOT devices.
 • Reprogram attacks
 
 
+# Attestation
+
 ## Remote attestation
 There is a challenger that asks for an attestation and a proover that must prove his identity.
 There are 2 main approach to solve this problem which are hardware based and software based.
 
-### SWATT: Software Attestation.
+### SWATT: Software Attestation
 Basically, challenger verify the memory content of the prover device, which is known. If an adversary is here, he must've changed the content.
 If the adversary redirect the challenge, the overhead will be noticed.
 We add a nonce to avoid reply attack, and we omitt part of the memory that will change.
 The response time is limited, and the scan of the memory is not linear. The memory of the device is scanned following a PRG that use the nonce as a seed and touch every memory location with probability $O(nlogn)$.
 
-### SCUBA: Secure Code Update By Attestation.
+### SCUBA: Secure Code Update By Attestation
 The goal is to securely recover original code in presence of malicious code.
 Having nodes that can comunicate with each other and with a safe base station, can dispose of public cryptography and where adversary can compromise sensors but not the base, we can reach the goal.
 
@@ -161,6 +163,9 @@ We have secure **Inter Process** **Comunication** and **secure task** loading at
 We will also use a secure storage to store data received from task, that are encrypted with a public key related to the task.
 We can also achieve a non-interactive attestation with the use of a real time clock and an attestation trigger.
 A possible attack to this protocol is the Denial of Service.
+
+## Device Attestation
+The device, before executing code in itself, wants to check if he has been compromised.
 
 ### SEDA: Secure Embedded Device Attestation
 We want to guarantee integrity for a network of devices. We use a spanning tree, where each node “attests” its children and reports to its parent.
@@ -207,7 +212,7 @@ We can compute the approximate numbe of elements in the network by counting the 
 
 With this protocol we have security against adversarial comunication since the self attestation is generated in TEE, the only thing that adversary can do is not partecipating in the protocol because he cannot produce a valid attestation.
 
-## IOT Authentication
+# IOT Authentication
 
 ### PUF
 Something we own, used for authentication which is uniquely generated.
