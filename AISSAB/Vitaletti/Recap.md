@@ -186,9 +186,9 @@ How do we achieve consensus ?
 Let's start talking about how consensus is actually achieved in the bitcoin blockchain.
 1. All the mining nodes pull transactions when they are published and creates blocks;
 	
-2. The block must then be attached to the blockchain (Proof of work);
+2. The block must then be attached to the blockchain by solving a challenge (Proof of work);
 	
-3. If 2 ore more miners achieve the result simultaniously, then more blocks are attached at the same time to the same block and the a fork is created in the blockchain;
+3. If 2 ore more miners achieve the result simultaniously, then more blocks are attached at the same time to the same block and a fork is created in the blockchain;
 	
 4. At this point, new transactions will be generated and new miners will create new blocks. This new blocks will be attached to one of the 2 "new chain" that forked from the original one;
 	
@@ -266,8 +266,8 @@ Let's analise what happens in a single time slot:
 There is a **Staking Smart Contract** which contains a list of validators, with thier withdrawal address (t allows users to receive their cryptocurrency, such as staking rewards), their public address as validator and their stake (to simplify the voting process, the stake will be 32 ETH for all validators). Your validators digital signature becomes your proof of stake because anyone can chek your stake in the contract with your public address.
 
 **Process**
-1. All validator staking in the smart contract are randomly split into equal committees by the random algorithm taken into account (Randao/Alogrand). Each committee is assigned to one time slot in the epoch;
-	
+1. All validator staking in the smart contract are randomly split into equal committees by the random algorithm taken into account (Randao). Each committee is assigned to one time slot in the epoch;
+		 q
 2. The first member of the committee is choosen to propose a block for his time slot (some slots may be empty due to validator offline). The other members of the committee must produce attestation for the proposed block (attestation is produced if the block is correctly generated). If the block is not proposed in the timeslot by the first validator, the other validators must vote for the previous block;
 	
 3.  Committees are divided in 128 subnets, and from this subnets with 100 participants per subnet circa, a signature is taken, so at the end we will have 128 signatures that represents 12'000 signatures;
