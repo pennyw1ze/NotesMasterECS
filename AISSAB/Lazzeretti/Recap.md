@@ -153,7 +153,7 @@ We need tamper resistance, and to obtain it we need:
 - A secure boot;
 We basically have a safe code zone in our memory in which we can run the attestation procedure and that memory zone cannot be tampered. So the question here is about hardware compromision of that zone since via software is a read-only section.
 
-**Hybrid attestation**
+### **Hybrid attestation**
 We also have hybrid attestation which involves both hardware and software based approach in part.
 
 ### TyTAN
