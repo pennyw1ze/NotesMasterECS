@@ -247,7 +247,7 @@ The X-lock algorithm is used to encrypt data on device like sensor nodes or what
 The vault can be unlocked with majority voting algorithm. If the majority is reached, the vault is decrypted by means of a pseudo-secret sharing.
 We xor vault entries with bits taken from PUF.
 
-### UAVS: Unmanned Aerial Vehicles
+### UAV: Unmanned Aerial Vehicles
 For example, drones. In UAVs, the comunications happens wireless.
 We have the UAV network which could be:
 - Centralized;
@@ -313,9 +313,7 @@ One of the biggest issue is the data privacy.
 A lot of data are collected by XR devices, taken by user, sensor or third parties (like other applications)l.
 This data collection must be compliant to the GPDR which is the actual collection of rules about data privacy in Europe.
 This data are used to render the virtual reality, enhance realism and improve user experience, but are also sold to advertisment network provider, services provider and others.
-The devices have many sensors that are “always-on”.
-So, it is crucial to address the security and privacy vulnerabilities that could cause attacks
-on XR devices.
+The devices have many sensors that are “always-on”, so, it is crucial to address the security and privacy vulnerabilities that could cause attacks on XR devices.
 
 ### Attacks
 Now let's talk about common attacks to XR devices and users.
