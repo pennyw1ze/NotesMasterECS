@@ -267,7 +267,7 @@ There is a **Staking Smart Contract** which contains a list of validators, with 
 
 **Process**
 1. All validator staking in the smart contract are randomly split into equal committees by the random algorithm taken into account (Randao). Each committee is assigned to one time slot in the epoch;
-		 q
+	
 2. The first member of the committee is choosen to propose a block for his time slot (some slots may be empty due to validator offline). The other members of the committee must produce attestation for the proposed block (attestation is produced if the block is correctly generated). If the block is not proposed in the timeslot by the first validator, the other validators must vote for the previous block;
 	
 3.  Committees are divided in 128 subnets, and from this subnets with 100 participants per subnet circa, a signature is taken, so at the end we will have 128 signatures that represents 12'000 signatures;
@@ -321,7 +321,7 @@ There are 2 types of account:
 
 **Nonces**
 There are 2 nonces:
-- The first is the one used to solve PoW(wtf there is no PoW here!);
+- The first is the one used to solve PoW (ETH once used PoW before updating to PoS);
 - The second one is used as sent_transaction_counter. It is used to keep order of transactions and to protect from reply attack;
 
 **Address**

@@ -285,8 +285,7 @@ In this devices we can have different types of issues:
 # XR Security
 
 **Augmented Reality** (AR) is an enhanced version of the real physical world that is
-achieved through the use of digital visual elements, sound, or other sensory stimuli and
-delivered via technology.
+achieved through the use of digital visual elements, sound, or other sensory stimuli and delivered via technology.
 
 **Virtual Reality** (VR) is the use of computer technology to create simulated environment
 (virtual reality places) where the user is inside of a three-dimensional experience.
@@ -310,8 +309,8 @@ But what are the risks?
 
 ### Data privacy
 One of the biggest issue is the data privacy.
-A lot of data are collected by XR devices, taken by user, sensor or third parties (like other applications)l.
-This data collection must be compliant to the GPDR which is the actual collection of rules about data privacy in Europe.
+A lot of data are collected by XR devices, taken by user, sensor or third parties (like other applications).
+This data collection must be compliant to the GDPR which is the actual collection of rules about data privacy in Europe.
 This data are used to render the virtual reality, enhance realism and improve user experience, but are also sold to advertisment network provider, services provider and others.
 The devices have many sensors that are “always-on”, so, it is crucial to address the security and privacy vulnerabilities that could cause attacks on XR devices.
 
