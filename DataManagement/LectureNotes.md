@@ -499,6 +499,13 @@ We have to schedule transaction in a correct order.
 A schedule S is serializable if there exists a serial schedule which is **equivalent** to S.
 equivalent = $\forall input$ they produce the same output.
 
+### Anomaly
+There are different classes of anomaly:
+- **Reading temporary data** (a write modify the value I want to read in the middle of my transaction);
+- **Update loss** (Another transaction occurs between my read and write opeartion, modifying the element I wanted to write);
+- **Unrepeatable read** (read twice same variable, but get 2 different results);
+- **Ghost update** (Write on an element from a transaction occurs immediatly before it is modified by another transaction);
+
 #### Scheduler
 
 A schedule represents the sequence of actions of transactions presented to the data
@@ -517,22 +524,28 @@ schedules
 Serial
 schedules
 
+### Assumptions
+2 important assumptions:
+ - No transaction read or write the same element twice;
+ - No transaction reads an element that it has written;
+ - Transactions are just composed by read and write;
+
 ##### Reads-from
 In a schedule S, we say that ri(x) READS-FROM wj(x) if wj(x) preceeds ri(x) in S, and there is no action of type wk(x) between wj(x) and ri(x).
 ##### Final-write
 In a schedule S, we say that wi(x) is a FINAL-WRITE if wi(x) is the last write action on x in S. 
 
-####  view-equivalence
+## view-equivalence
 Let S1 and S2 be two (total) schedules on the same transactions. 
 Then S1 is view-equivalent to S2 if S1 and S2 have the same READS-FROM relation, and the same FINAL-WRITE set.
 
-#### view-serializability
+## view-serializability
 A (total) schedule S on {T1,…,Tn} is view-serializable if there exists a serial schedule S’ on {T1,…,Tn} that is view-equivalent to S.
 Checking a schedule for view-serializability is NP Complete.
 So in practice, it is not possible to use it.
 
-#### serializability
-Something
+## serializability
+A schedule $S$ is serializable if exists a schedule $S' \neq S$ that, for every input, will provide the same output as $S$.
 
 A schedule can be serializable but not view-serializable;
 
@@ -569,8 +582,14 @@ serializable, and tell which anomalies they suffer from
 Exercise 1b
 Consider the following schedule
 S = r1(x) w3(x) w3(z) w2(x) w2(y) r4(x) w4(z) w1(y)
-and tell whether S is view-serializable or not, explaining the answer in
-detail.
+and tell whether S is view-serializable or not, explaining the answer in detail.
+
+READ FROM = {r4(x) reads from w2(x)};
+FINAL WRITE = {w2(x),w1(y),w4(z)};
+
+I take this set and compute a different sequence with the same set, respecting the anomalies rules.
+
+$S' =$ r1(x) w3(x) w3(z) w2(x) r4(x) w2(y) w4(z) w1(y)
 
 ---
 
