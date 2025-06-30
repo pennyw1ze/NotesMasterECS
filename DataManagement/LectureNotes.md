@@ -418,7 +418,11 @@ We call **Models** of the graph a good interpretation, an interpretation that re
 Blank node in a graph database allows us to choose between different interpretations, unlike the Null value in the regular database.
 
 ---
-# Buffer
+# Buffer manager
+
+### Secondary storage
+A database is a set of database files, where each file is constituted by a set of pages.
+Using a page requires to bring it in main memory.
 
 The **database buffer** (also called simply buffer or buffer pool) is a
 non-persistent main memory space used to cache database pages.

@@ -206,8 +206,7 @@ The dynamic part of the network is implemented when the device share their knowl
 	○ Adding a new node => reconfiguration of all the devices;
 
 ##### Bloom filter
-A space efficient probabilistic data structure in which we hash the name of the device and we use the hashed string as index to access an array in which we store bits(1 or 0) depending on known infos.
-Of course we can have collisions.
+A space efficient probabilistic data structure in which we hash the name of the device and we use the hashed string as index to access an array in which we store bits(1 or 0) depending on known infos. Of course we can have collisions.
 We can compute the approximate numbe of elements in the network by counting the number of bits in the array and dividing by the assigned number of beats for each element.
 
 With this protocol we have security against adversarial comunication since the self attestation is generated in TEE, the only thing that adversary can do is not partecipating in the protocol because he cannot produce a valid attestation.
@@ -377,7 +376,7 @@ Attacks are classified as **targeted** if their aim is to turn a specific elem (
 	Add random noise to the data, but it must be proportioned to the weight.
 	This attack requires the knowledge of the classification function, so a white box approach is easier.
 2. **Exploitation of empty regions**
-	- Regions of the feature space for which no examples are provided are classified randomly and can be exploited by the attacker (again by adding a tailored noise);
+	Regions of the feature space for which no examples are provided are classified randomly and can be exploited by the attacker (again by adding a tailored noise);
 3. **Label poisoning**
 	The introduction of corrupted labels aims at modifying the detection region so to ease attacks carried out at test time.
 	**Solution**
