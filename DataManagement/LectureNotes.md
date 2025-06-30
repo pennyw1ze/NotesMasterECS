@@ -427,9 +427,8 @@ Using a page requires to bring it in main memory.
 The **database buffer** (also called simply buffer or buffer pool) is a
 non-persistent main memory space used to cache database pages.
 
-The **buffer manager** is responsible of the transfer of the pages from
-the secondary storage to the buffer pool, and back from the buffer
-pool to the secondary storage
+The **buffer manager** is responsible of the transfer of the pages from the secondary storage to the buffer pool, and back from the buffer pool to the secondary storage.
+It's scope is to minimize secondary memory access.
 
 ![[Pasted image 20250424101628.png]]
 This is the buffer architecture.
@@ -450,7 +449,9 @@ The buffer manager manages this operations using 2 counters:
 - **dirty(F):** a bit whose value indicates whether the content of the frame F has been modified (true) or not (false) from the last load (initially, set to false).
 So the buffer manager will have to load a page in a Frame.
 If the page is already in a frame, he will just increase his pin-counter.
-If the page is not in a frame, he will have to find a free frame, or replace a page in a frame with the new one by means of a  **replacing policy**.
+If the page is not in a frame, he will have to find a free frame, or replace a page in a frame with the new one by means of a  **replacing policy**:
+- RU (least recently used): this is done through a queue  containing the frames F with pin-count(F)=0;
+- Clock replacement;
 
 #### Unfix:
 Transaction T certifies that it does not need the content of a
