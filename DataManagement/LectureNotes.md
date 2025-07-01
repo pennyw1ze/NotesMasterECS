@@ -462,12 +462,10 @@ The pin-counter of that frame is decremented
 The transaction modifies the content of a frame
 The dirty bit of that frame is set to true
 
-
 #### Force: 
 Synchronous (i.e., the transactions waits for the successful
 completion of the operation) transfer to secondary storage of the
 page contained in a frame
-
 
 #### Flush: 
 Asynchronous (i.e., executed when the buffer manager is
@@ -618,6 +616,20 @@ Exercise 4
 Check whether the following schedule is conflict-serializable
 w1(x) r2(x) w1(z) r2(z) r3(x) r4(z) w4(z) w2(x)
 
+We have the following constraints 
+```mermaid
+stateDiagram
+
+direction TB
+
+1 --> 2:w1(x) r2(x)
+
+1 --> 4:w1(x) r3(x)
+
+1 --> 3:w1(z) r4(z)
+```
+No cycle, so there exists a conflict serializable schedule.
+
 ---
 Trying to prove something:
 
@@ -635,6 +647,36 @@ We can group all the transaction with the same number togheter.
 T1 = w1(y)w1(x)
 T2 = w2(y)w2(x)
 T3 = w3(x)
+
+## Exercise
+$S = r1(x) w2(x) w1(x) w3(x)$
+1. Is $S$ view-serializable ? 
+2. Is $S$ Conflict serializable ?
+
+Answare:
+1. Analyze:
+	   - READ-FROM = {};
+	   - FINAL WRITE = {w3(x)};
+	Is view serializable!
+2. Analyze:
+
+### OCSR 
+Let CSR denote the conflict-serializable schedules.
+We will say that OCSR are order-preserving conflict serializable schedules, in which, if a transaction t precedes t' completely in S, then it does also in S'.
+This schedule is conflict serializable but not OCSR:
+S = w1(x) r2(x) c2 w3(y) c3 w1(y) c1
+
+
+
+
+
+
+
+
+
+
+
+
 
 #### Transaction scheduler
 ![[Pasted image 20250505133417.png|550]]
