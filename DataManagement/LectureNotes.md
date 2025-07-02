@@ -596,6 +596,12 @@ We consider arbitrary actions.
 There are actions that are confilcting.
 Based on conf(S), we can define the **commutativity rule** for a sequence S as follows: if p,q are adiacent actions in S belonging to different transactions, and they are such that <p,q> is not in conf(S), then the sequence p,q can be replaced by the sequence q,p (in other words, p and q can be swapped).
 
+## Swapping
+We are here introducing the concept of swapping.
+When can we swap actions in our context (read write operations only) ?
+- Swapping 2 consecutive reads in different transactions;
+- More generally, when swapping 2 actions will result in changing the result, then the actions are conflicting. Otherwise, they can be swapped.
+
 #### Conflict-equivalence
 A sequence is conflict equivalent to another if you can produce it by swapping non-conflicting actions between each other.
 
