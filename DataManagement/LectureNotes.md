@@ -666,22 +666,23 @@ We will say that OCSR are order-preserving conflict serializable schedules, in w
 This schedule is conflict serializable but not OCSR:
 S = w1(x) r2(x) c2 w3(y) c3 w1(y) c1
 
+### COCSR
+Commit order preserving conflict serializable. Simply means that is OCSR and the transactions close **and is committed** before the successive transactions are performed.
+
+###### Implications order
+![[Pasted image 20250701182620.png]]
 
 
 
-
-
-
-
-
-
-
-
-
-#### Transaction scheduler
+## Transaction scheduler
 ![[Pasted image 20250505133417.png|550]]
 
-That's it
+That's it.
+The transaction scheduler must adopt a protocol to order and correctly perform the stream of transactions that he receives.
+
+#### SGT
+Serialization graph testing. The method consists in crafting a priority graph for the transactions in a schedule and update the graph each time a new transaction is received. Then proceed to execute transactions following the graph order.
+Mantaining the graph could be costly so is not used in practice.
 
 ---
 Primitives for exclusive lock
