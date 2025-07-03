@@ -721,8 +721,7 @@ Using commands like lock and unlock.
 - With exclusive lock: A class of schedule such that:{ DT(S) | there exists a schedule S' such that S is the output of a 2PL scheduler with exclusive locks when processing S'};
 
 #### Exclusive lock
-The following two rules must be satisfied in order for a lock-extended schedule to
-be **meaningful**:
+The following two rules must be satisfied in order for a lock-extended schedule to be **meaningful**:
 - Rule 1: **well formed transactions**: a transaction is well-formed if it lock and unlock are not issued more then once, and if every operation is delimited by a pair of lock-unlock operations;
 - Rule 2: **legal schedule**: a schedule is legal if no transaction in it locks an element when a different transaction has already locked it.
 Locking scheduler can be **passive** or **active**.
@@ -748,7 +747,6 @@ Example:
 Schedule S = l1(x) r1(x) w2(x) l2(y) w2(y) u2(y) c1 c2
 DT(S) = r1(x) w2(x) w2(y) c1 c2
 
----
 **Multiversial transactions**
 
 Never stop a read operation.
