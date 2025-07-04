@@ -222,8 +222,6 @@ Exercise:
 1) DFM schema:
 Exercise on paper.
 
-<<<<<<< HEAD
-
 ---
 
 # NO SQL
@@ -606,7 +604,7 @@ When can we swap actions in our context (read write operations only) ?
 A sequence is conflict equivalent to another if you can produce it by swapping non-conflicting actions between each other.
 
 #### Conflict serializable
-A sequence is conflict serializable if it is conflict equivalent with another sequence.
+A sequence is conflict serializable if it is conflict equivalent with another serial sequence.
 
 To better visualize this conflicting sequence, we can draw a precedence graph, and the build an alogotihm on the graph.
 Every edge is a constraint on the set of the conflict-equivalent possible sequence.
