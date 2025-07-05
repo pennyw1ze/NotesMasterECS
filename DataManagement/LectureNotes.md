@@ -222,8 +222,6 @@ Exercise:
 1) DFM schema:
 Exercise on paper.
 
-<<<<<<< HEAD
-
 ---
 
 # NO SQL
@@ -606,7 +604,7 @@ When can we swap actions in our context (read write operations only) ?
 A sequence is conflict equivalent to another if you can produce it by swapping non-conflicting actions between each other.
 
 #### Conflict serializable
-A sequence is conflict serializable if it is conflict equivalent with another sequence.
+A sequence is conflict serializable if it is conflict equivalent with another serial sequence.
 
 To better visualize this conflicting sequence, we can draw a precedence graph, and the build an alogotihm on the graph.
 Every edge is a constraint on the set of the conflict-equivalent possible sequence.
@@ -942,7 +940,7 @@ Index Sequential Access Method.
 Every intermidiate node has the same number of children. This makes the tree balanced so every path from root to leaf has the same length.
 The cost to search into this tree will be $log_f(N$) where $f$ is the number of children.
 
-#### B+- trees
+#### B+ trees
 We define the **rank** of the tree the number of search key values that can be fin in a page.
 The B+- trees are still balanced, but the number of children for every node may not be the same: every node contain a number of data entries $m_i\ s.t.$ $${(d+1)\over 2}\le m_i \le d$$
 where $d$ is the rank of the tree.
