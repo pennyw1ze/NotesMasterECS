@@ -752,8 +752,18 @@ DT(S) = r1(x) w2(x) w2(y) c1 c2
 Never stop a read operation.
 We insert different version of write function.
 
----
+#### Shared lock
+We add an operation, $sl_i(A)$, wich means shared lock by transaction i of the resource A, and is used just to allow transaction to read concurrently the same element. To perform a write operation, an $xl$ (exclusive lock) operation is required.
+
+We say that a scheduler is a 2 phase locking protocol with shared locks if unlock of Ti are all after the locks (shared or not) of Ti.
+
+###### Exercise
+**sl1(a)** r1(A) **sl2(A) sl2(B)** r2(A) r2(B) **xl1(A)** w1(A) w2(D) r3(C) r1(C) w3(B) c2 r4(A) c1 c4 c3 
+Is 2pl shared excl lock ?
+
 ### Transactions in SQL
+Now we introduce the last problem. We have seen concurrency with reads and writes, we have seen problems by introducing locks, unlocks and commits, now we introduce our last element: The **rollback** operation.
+The rollback operation occurs when a transaction in a schedule execute the rollback action and the action that the transaction performed before will not effect the database.
 
 We have 3 anomalies in SQL:
 - Dirty read:
@@ -761,6 +771,22 @@ We have 3 anomalies in SQL:
 - Phantom read: this happens when we operate on a range of tuples, and in the same time another transaction operates on that tuples. Then our range operation will be disturbed. We need to range lock the elements;
 
 In postgreSQL the minimum level of isolation is Read Committed (no dirty read is possible).
+
+We say that:
+- S is **recoverable** if no transaction in S commits before the commit of all the transactions it has “read from;
+- S is **ACR**, i.e., Avoids Cascading Rollback, if no transaction “reads from” a transaction that has not committed yet;
+- We say that a schedule S is **rigorous** if for each pair of conflicting actions ai (belonging to transaction Ti) and bj (belonging to transaction Tj) appearing in S, with ai appearing before bj, the commit command ci of Ti appears in S between ai and bj;
+
+###### Implications
+
+![[Pasted image 20250703203623.png]]
+
+#### The complete picture
+Actual state of the situation
+
+![[Pasted image 20250703204621.png]]
+
+
 
 ---
 
