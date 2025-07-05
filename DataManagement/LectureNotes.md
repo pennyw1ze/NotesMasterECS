@@ -763,11 +763,6 @@ Is 2pl shared excl lock ?
 Now we introduce the last problem. We have seen concurrency with reads and writes, we have seen problems by introducing locks, unlocks and commits, now we introduce our last element: The **rollback** operation.
 The rollback operation occurs when a transaction in a schedule execute the rollback action and the action that the transaction performed before will not effect the database.
 
-We have 3 anomalies in SQL:
-- Dirty read:
-- Non repeatable read: when a transaction read same element twice;
-- Phantom read: this happens when we operate on a range of tuples, and in the same time another transaction operates on that tuples. Then our range operation will be disturbed. We need to range lock the elements;
-
 In postgreSQL the minimum level of isolation is Read Committed (no dirty read is possible).
 
 We say that:
@@ -785,17 +780,67 @@ Actual state of the situation
 ![[Pasted image 20250703204621.png]]
 
 
+### Timestamp
+Concurrency based on timestamp. We define a total order based on the order in which the schedule are received from the scheduler.
+The scheduler timestamps the transactions in increasing order and execute transactions following timestamps order.
+
+For each element X we keep the following data:
+- **rts(X)** next X reader;
+- **wts(X)** next X writer;
+- **wts-c(X)** last X writer;
+- **cb(X)** a bit that is false if the transaction who wrote X lastly has not committed yet.
+
+The system manages 2 temporal axes, **physical** and **logical** time.
+The phisical time is when an action of a transaction occurs in a schedule, the logical time is the "transaction order" in which they appear in the schedule itself.
+To see if transactions are compatible with each other we must have non conflicting order between phisical and logical time i.e. no transaction that has greater phisical time must have lower logical time or viceversa.
+When we find a conflict, the conflicting transaction is aborted and executed again later with a new timestamp.
+
+Also with timestamp based method we do not avoid the possibility of deadlock.
+- Timestamp-based method is superior when transactions are “read-only”, or when concurrent transactions rarely write the same elements;
+- 2PL is superior when the number of conflicts is high because the probability of rollback is higher in the timestamp-based method;
+
+### Transactions in SQL
+We have 3 anomalies in SQL:
+- Dirty read:
+- Non repeatable read: when a transaction read same element twice;
+- Phantom read: this happens when we operate on a range of tuples, and in the same time another transaction operates on that tuples. Then our range operation will be disturbed. We need to range lock the elements;
 
 ---
 
 # **Access file manager**
 
-We organize items on pages and records. 
-Records contains data, wich could have variable length, and for this reason the allocation of pages could be dynamic.
-Pages can be organized trought different data structures.
-##### Heap
-With heap, we have basically a linked list.
-Cost to insert is constant, and cost to search and remove is linear.
+### Pages and records
+The dimension of a page is usually the dimension of a block.
+A **page** has an address and is constituted by a set of slots. A **slot** is a memory space that contains a record of a relation.
+
+A **file** is a collection of pages. Usually all records in a page belongs to the same relation.
+Usually a file organizatio supports the following operations:
+- **insert**;
+- **delete**;
+- **update**;
+- **read**;
+- **scan**;
+
+### Heap
+In a heap file organization the file representing the relation contains a set of pages, each with a set of records. There is **no order criteria** in this structure.
+We can imagine the structure of heap files as a linked lists of pages, where there are 2 lists: the first contains the full pages, and the second contains the free pages.
+
+Pages of the same relation are associated into **buckets**.
+A set of fields of the relation is choosen as **search key**.
+To search for a relation, we can imagine the heap file as an array, and using search key hashed to index the relations stored in the file.
+
+##### Costs
+Where B is the number of pages of the file;
+- **Insertion**: O(1);
+- **Deletion**: O(1);
+- **Update**: O(1);
+- **Scan**: O(B);
+- Equality selection:
+
+In a sorted heap, we could use a more efficient way to search:
+- Binary search: O(logB)
+- interpolation search: $$i = a_1 +{ (K – K_{min}) \over (K_{max} – K_{min})} × (a_B – a_1);$$
+Cost of interpolation: $O(loglogB)$;
 
 ##### Hashed file
 Pages are organized into groups, where each group is a bucket.
@@ -806,43 +851,28 @@ Example:
 - "Mecella" will be the key of our research;
 - We search for the bucket indexed with $h'(Mecella)$;
 
-To evaluate the cost of the execution we will use the big O notation on parameter B, where B = number of pages accessed.
-Operations could be:
-- Scanning;
-- Search for equality;
-- Search in range;
-- Insert;
-- Delete;
+Costs of hashed file:
+- **Scan:** O(B);
+- **Equality selection:** O(1);
+- **Range selection:** O(B);
+- **Insertion:** O(1);
+- **Deletion:** O(1);
 
-Heap cost analysis:
-- Scan: $O(B)$;
-- Search for equality: $O(B)$;
-- Search in range: $O(B)$;
-- Insert: $O(1)$;
-- Delete: $O(B)$;
-
-In a sorted heap, we could use a more efficient way to search:
-- Binary search: O(logB)
-- interpolation search: $$i = a_1 +{ (K – K_{min}) \over (K_{max} – K_{min})} × (a_B – a_1);$$
-Cost of interpolation: $O(loglogB)$;
 In the hashed file model we have to keep the page up to the 80% of occuped space, because otherwise it will not work very well in terms of performance, indeed with 80% we can manage very well the pages with this ratio.
 
-To sort 2 different and already sorted pages, we use a merge mechanism.
-We sort 2 sorted pages by putting each element into a third one used to merge the sorted pages.
-We obtain a new sorted list of pages.
-#### 2 way sort
-- Pass 0: input unsorted page: output sorted page;
-- Pass 1: input 2 sorted pages: output 1 sorted page containing both:
-- ...
-- Pass K: input 2 sorted page: output 1 sorted page and no pages left.
-When the buffer is full, we write in secondary storage.
+#### Sorting 
+Now we wander if a user wants to receive an ordered result of a query or for whatever other reason, we might need to have ordered data stored.
+But how do we order data ?
+It is not as simple as it looks because data are stored in secondary storage so accessing data is slow. We need more efficient algorithms. We might do this job with the help of a special element: **the buffer**.
+We want to do sorting based on pages, not on records!
+We could run merge sort on our buffer that stores pages 2 at a time and merge them.
+In this way we will pay $2\times B\times (log_2(B) +1)$.
+In this way our buffer is only using 3 frames, 2 to store inputs and 1 to store merged output.
 
-Why is 2 way alogrithm ? Because we are using 2 buffer frames plus 1!
-I always merge 2 files.
-Each fragment, at the beginning, contains 1 page.
+How can we **reduce the number of passes**?
+Well that happens if we increase the number of buffers. In this way, we can merge more block in the same step. This will increase the base of the logarithm of B in the cost equation.
 
-If I use F frames in the buffer, I will merge F-1 page at each step.
-So in this case we will have that pass 0 performs B operations, pass 1 performs B/F operations, pass 2 B/{F*(F-1)} ecc...
+So the new cost will be:$$2\times B \times (log_{F-1}B)$$
 
 ### The notion of index
 > An index is siomething associated with a relation.
@@ -862,8 +892,11 @@ An index has some properties:
 	data record, pair storing (k,r) where r is a reference to data record, and pair storing (k,r-list) where r-list is a list of references (usefull when there are many records with the same key)
 
 - **Clustering**:
-	An index is clustering if data entries stored order are coherent with the order of data record.
-	If an index is clustered then it could be used for internal range search.
+	An index is **clustering** (strongly clustering) when its data entries are sored with the same order as data records.
+	We say that an index is **weakly clustering** if all the data indexed for a certain search key appears in the same page.
+	
+	We can also say  (easy definition):
+>	An index is **clustered** only if the data records are sorted in the data file according to the order of the values of the search key.
 
 - **Primary** or **secondary**:
 	Primary: the search key is the key of the relation.
@@ -883,8 +916,11 @@ We have a relation constituted by 10'000 pages.
 Relation R is constituted by 10 attributes.
 Each pages contains 20 data records (So in every pages I can store 200 values).
 So if we choose to represent indexes as <SearchValue, PointerToData>, we will have 2 values for each data, this means I can store 100 data record in a page.
-
+Basically what we've seen before, the idea here is to create an auxiliary sorted file (index) which contains the values for the search key and pointers to records in the data file.
+In this case, the binary search can be performed on a smaller file (the indexes file).
 > A **sorted index** is a sorted file of data entries.
+
+![[Pasted image 20250704144036.png]]
 
 #### Clustering
 
@@ -899,22 +935,35 @@ We search for the value (70), we go in the sequential file and scan all until th
 
 > **Strongly dense**: As many data entries as the data values;
 
-If we have secondary non unique sorted index how can we do?
-We will have dense index.
-If there are more than 1 value for the same key, we can use non strongly dense and just aggregate the pointers for the same search values.![[Pasted image 20250521114636.png]]
+![[Pasted image 20250521114636.png]]
 
-What about an insertion algorithm ? Think about it.
+#### Clustering version
+##### Unique version
+Unique version means that for each key is associated only one relation.
+The clustering sorted index can be sparse or dense. In the dense case we can use **binary search**. But since an index takes less spaces, the index page is smaller.
+With a sparse index (that contains one entry per page), we will have that the data entry points to the first record of the page.
+So:
+- Dense:
+  - Can tell if record exists without accessing it;
+  - Requires more space;
+- Sparse:
+  - Less space, can keep more index in memory;
+  - Checking record exists require page access;
+##### Non-unique version
+This means that values of the search key can represent more relations, so we can have duplicates.
+In the dense mode we will have more pointers with same values of the key, we could have buckets (lists), or simply different copy of the pointer with the same key pointing to different entries. In either case we will have to examine all the entries.
+If the page access are still too much we can have a multilevel sparse index structure, with multiple layer of pointers in order to reduce the dimension of the final index file. The higher level of this structure must be sparse tho, because a dense index would still keep the same number of entries and would not bring any advantage on the dimension of the data structure.
 
-#### Non clustering
+#### Non-clustering version
 
-- Non-clustering, primary (or unique) sorted index:
-- Non-clustering, secondary non-unique sorted index
+##### Primary
+In a non clustering version with primary search key, a sparse index does not make any sense because the order of the records is not defined well. So we keep only dense index.
+This could also apply the multiple level paradigm, and in this case we will adopt a sparse index on the higher level which points not to the data records, but to other index files which indeed have a predetermined order.
 
-A sparse index does not make any sense.
-Suppose we have an unclustered secondary index.
-One possible implementation is the one with backets.
-In the bucket implementation for each index we point to a bucket, wich is a list of indexes.
-Then depending on the query, you can perform different operations on the query.
+##### Secondary
+Now there might be duplicates in our non clustering structure. How do we do?
+We introduce the concept of buckets. Bucktes here are used to point to all possible records all over the record file which matches to a certain search key. The index file will point to different buckets associated with search key. The index are dense since for each index correspond one bucket (the contrary is not true).
+
 
 ### Clustered file organization:
 I use 1 file for more then 1 realtion (2,3,...). We used to have 1 file for 1 realtion only in the regular version (previous one).
@@ -936,15 +985,30 @@ We have 2 different kind of trees structure:
 - B+-tree: Dynamic situation;
 
 #### ISAM
-Index Sequential Access Method.
-Every intermidiate node has the same number of children. This makes the tree balanced so every path from root to leaf has the same length.
-The cost to search into this tree will be $log_f(N$) where $f$ is the number of children.
+Indexed sequential access mode:
+- The structure is **static**;
+- **Data entries** are the leafs;
+- Is a **balanced** tree;
+- **Fun-out**: nodes have the same number of leaves, which is named fun-out;
+Usually the number of funout is 100, such that when at height 4, it has 100 million leaves.
+**COSTS**:
+- **Index creation**: Linear cost O(1), leaves are inserted sequentially;
+- **Search**: $log_F(N)$ where N is the number of leaves and F is the fun-out;
+- Insertion and deletion are rare since is a static structure, but requires the allocation of an overflow page or delete the record;
 
-#### B+ trees
-We define the **rank** of the tree the number of search key values that can be fin in a page.
-The B+- trees are still balanced, but the number of children for every node may not be the same: every node contain a number of data entries $m_i\ s.t.$ $${(d+1)\over 2}\le m_i \le d$$
+ISAM example:
+
+![[Pasted image 20250704163324.png]]
+
+#### B+ tree
+Is again a balanced tree, where the lenght of the path from root to leaf is the same for all nodes.
+We define the **rank** of the tree the number of search key values that can be found in a page.
+The B+ trees are still balanced, but the number of children for every node may not be the same: every node contain a number of data entries $m_i\ s.t.$ $${(d+1)\over 2}\le m_i \le d$$
 where $d$ is the rank of the tree.
 We need to keep the occupancy rate at 66% in order to have an efficient tree structure.
+
+How to search trough B+ tree ?
+Search a leaf with the first value in the range:
 
 ---
 ## Query evaluation algorithm
