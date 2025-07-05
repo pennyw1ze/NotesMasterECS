@@ -1010,6 +1010,7 @@ We need to keep the occupancy rate at 66% in order to have an efficient tree str
 How to search trough B+ tree ?
 Search a leaf with the first value in the range:
 
+
 ---
 ## Query evaluation algorithm
 
