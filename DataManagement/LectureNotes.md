@@ -1008,7 +1008,12 @@ where $d$ is the rank of the tree.
 We need to keep the occupancy rate at 66% in order to have an efficient tree structure.
 
 How to search trough B+ tree ?
-Search a leaf with the first value in the range:
+Search a leaf with the first value in the range and then go to look at the file that the leaf is pointing to.
+B+ trees are ideal for range search, and also very efficient for equality search.
+
+Insertion in a B+ tree is complicated and requires the splitting of a node into  multiple peace if needed (i.e. the node as reached the maximum number of child (funout)).
+
+Deletion requires strategies based on the number of leafes of the node and on the values of the pointer associated to the deleted element. Usually, it requires a reformatting of the nodes that appears in the path from the root to the deleted leaf.
 
 
 ---
