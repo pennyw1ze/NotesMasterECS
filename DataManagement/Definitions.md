@@ -23,6 +23,10 @@
 > We say that a schedule S is rigorous if for each pair of conflicting actions ai (belonging to transaction Ti) and bj (belonging to transaction Tj) appearing in S, with ai appearing before bj, the commit command ci of Ti appears in S between ai and bj
 
 
+> **2PL**
+> Legal sequence (no lock while an elem is already locked), valid (only one lock per transaction per element), ordered lock (no lock after unlocks)
+
+
 > **Strict 2PL**
 > A schedule S follows the strict 2PL protocol if it follows the 2PL protocol, and all exclusive locks of every transaction T are kept by T until either T commits or rollbacks
 
