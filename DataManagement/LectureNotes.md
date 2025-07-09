@@ -926,7 +926,9 @@ In this case, the binary search can be performed on a smaller file (the indexes 
 
 The most popular and implemented was the clustering sorted index (keep the relation sorted on primary key and build the cluster on the search key being equals to the primary key). 
 
-> When we have a **SPARSE** index we usually have 1 data entry for each page!
+> When we have a **SPARSE** index we usWe have 2 different kind of trees structure:
+- ISAM: when the relation is static (no insertion nor deletion);
+- B+-tree: Dynamic situation;ually have 1 data entry for each page!
 > With the **DENSE** one, we have one data entry for each value.
 
 ![[Pasted image 20250521113942.png]]
