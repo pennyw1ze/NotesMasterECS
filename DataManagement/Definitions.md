@@ -35,6 +35,55 @@
 > A schedule S follows the strong strict 2PL protocol if it follows the 2PL protocol, and all locks of every transaction T are kept by T until either T commits or rollbacks
 
 
+> **TimeStamp based**
+> Algorithm:
+```pseudocode
+Action ri(X):
+if ts(Ti) >= wts(X)
+then
+	if cb(X)=true or ts(Ti) = wts(X)
+		then set rts(X) = max(ts(Ti), rts(X)) and execute ri(X)
+	else put Ti in “waiting” for the commit or the
+		rollback of the last transaction that wrote X
+else
+	rollback(Ti)
+
+
+Action wi(X):
+if ts(Ti) >= rts(X) and ts(Ti) >= wts(X)
+then 
+	if cb(X) = true
+		then set wts(X) = ts(Ti), cb(X) = false, and execute wi(X)
+	else 
+		put Ti in “waiting” for the commit or the rollback of the last transaction that wrote X
+else
+	if ts(Ti) >= rts(X) and ts(Ti) < wts(X)
+		then if cb(X)=true
+			then ignore wi(X)
+		else put Ti in “waiting” for the commit or the rollback of the last transaction that wrote X
+	else rollback(Ti)
+```
+
+
 ## IMPLICATIONS
 
 ![[Pasted image 20250708210018.png]]
+
+## File Organization COMPARISON
+• Heap file
+	– Efficient in terms of space occupancy
+	– Efficient for scan and insertion
+	– Inefficient for search and deletion
+• Sorted file
+	– Efficient in terms of space occupancy
+	– Inefficient for insertion and deletion
+	– More efficient search with respect to heap file
+• Clustered tree index
+	– Limited overhead in space occupancy
+	– Efficient insertion and deletion
+	– Efficient search
+	– Optimal support for search based on range
+• Static hash index
+	– Efficient search based on equality, insertion and deletion
+	– Optimal support for search based on equality
+	– Inefficient scan and search based on range
