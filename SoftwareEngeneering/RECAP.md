@@ -535,7 +535,175 @@ Defines the use of blocks in composition. Internal structure becomes expliciting
 
 ###### SysML Ports
 Specifies interaction pouint on blocks and ports
-Integrate behavious with structure, the syntax is:		
+Integrate behaviour with structure, the syntax is:		
 			`portname:TypeName`
 
+Types of ports:
+- Standard port (UML) operation oriented;
+- Flow port uses for physical signals, and are typed by blocks;
 
+###### Parametrics Diagrams
+Can be used to express constraints between value properties. Constraint are defined by another block.
+Bounding of constraints parameters to value properties of blocks (ex. vehicle mass bound to param m in $F = m\times a$).
+
+###### Behavioural diagram
+Is an activity diagram. Transformation of an input into an output through controlled sequence of actions (similar to dataflow).
+SysML adds support for continuous flow modelling (continuous-time system).
+
+Represent wide range of applications:
+- Tradeoff between generality vs understandability;
+Application spectrum is between 2 endpoints according to way activities accept input and provide output.
+Non-streaming activities: activities that accept input only when start, and output only at the end.
+
+At the opposite, streaming activities pass items between each other anytime while executing.
+
+Modelling is advantage: obliges you to question yourself about the system you want to create.
+Engineer build and design first, we don't want to represent reality.
+
+### Foundamentals of Informations systems interoperability
+
+#definition **Interoperability**
+> Ability of two or more systems to adapt on a same kind of file, format or protocol
+
+Examples are in amazon maneplace -> payment system -> payment -> shipment -> customer center
+
+All modern systems are modules that work with other servers (by other information systems too).
+
+###### Integration
+Integration is the main issue. 
+It is possible in different application domain level:
+- GUI integration: done through Portals and mashups (should be done only when other options not necessary);
+- Process integration: Process engines;
+- Function integration: Message-passing, publish-subscribe system;
+- Data-information integration: Is query based, no procedure to carry on, but just data;
+
+###### XML Foundation
+XML (Extensible Markup Lenguage) is an important standard for exchange of data, usually web-based application.
+It's comprehended in trees, with elements containing texts, in which that can be added some attributes.
+It supports the addition of generatores, pagers, ecc.
+Features:
+- Namespaces;
+- Queries;
+- Transformation;
+
+Another common scenario is the creation of standards to describe domain specific informations utilizing XML files. Creates common data structures.
+Well formed: Doc is written to syntax in xml;
+Valid: Document is compliant with the schema;
+
+XML is a good way to exchange data!
+For example, we may want to export database information from a relationa DB. We can translate it through XML as a way to exchange data.
+
+RPC (Remote Procedure Call) can be exposed to internet with standard.
+We might have problems with security. Difficult to work over firewall for example. inver XML based protocol that could work over HTTP.
+
+#### SOAP
+Inter-application communication through HTTP, martialled over XML to encode. We have a SOAP envelope (standardized) with inside it a SOAP body, containing requests.
+Response is the same.
+Everything is standardized to use HTTP POST.
+
+PROS:
+- HTTP reliant;
+- Portable and interoperable;
+- Universally accepted;
+
+CONS:
+ - Too much reliant over HTTP;
+ - Stateless;
+ - Serilaization by value, not by reference;
+
+It comunicates by RPC or by documents, used maybe more as a request-reply of docs.
+
+The **Service Description** is a way for clients to discover interfaces, XML that provides intefaces using WSDL (Web Service Description Lenguage).
+It's a contract between requestor and replier, divided in 2 different parts:
+- Definition -> how to use it;
+- Implementation -> where to find it;
+
+
+#### Restful services
+Representational stato transfer is a paradigm, references to simple application interfaces transmitting data over HTTP without any additional layers (requires specific archytectural styles).
+Metaphorically, we have URIs as nouns and HTTP commands as verbs. Has state, meaning having application state.
+Methods have been previously defined -kinfd of RPC-.
+Example:
+`getStokcPrice` cannot be linked to a verb (GET, POST, PUT).
+if we change it to `currentStockPrice` it does
+Verbs are:
+- `GET`
+- `PUT`
+- `POST`
+- `DELETE`
+
+##### E-Services
+Application accessible via the web, that provides functionality to business or individuals.
+Another definition, more popular and mature, defines component as an e-service following 3 points:
+- **Openness**: Indipendent, as much as possible, of specific platforms and computing paradigm;
+- **Developed mainly for inter-organization applications**: Used mostly between different organization/application;
+- **Easily composable**: Well bounded, so that it can be used as building block for other applications.
+
+##### Web-Service
+W3C standardized also tis term: SW system identified by URI, whose public interfaces and bindings are defined using XML.
+Definition is discoverable by other systems, and used mostly by other systems.
+XML because REST wasn't still invented.
+For building an e-service, a designer may need to implement many web-services.
+
+##### Process orchestration
+We need to orchestrate everything so that every information acquired using interoperability is correctly used.
+This can be done by modelling it through a SysML diagram.
+Internally, other than having diagrams to represent orchestration, usually YAML or XML gets used to actually orchestrate.
+For projects, we need to have:
+- Containers
+- Orchestration
+Docker is used to compose XML.
+PetriNCT is a mathematical semantic model to describe orchestration, and is useful for formal verification.
+
+
+### Domain Driven Design and microservices
+We have small, indipendent modules contanerized, that can communicate between each other. Microservices are deployed per container.
+Idea is agile methods and devops, in which we deliver small chunks of functionalities, derived also with user stories.
+It's a MODEL-DRIVEN design approach, based on collection of principles and pattern that helps crafting elegant systems.
+A DDD is a way to get set of priorities to deal with complicated domains.
+
+A **domain** is a sphere of knowledge or activity. Whan an organization does and the world it does it in.
+
+A **model** is a system of abstractions that describes selected aspects of a domain and ignores extraneous details. It's a distilled version of a domain. It should model EVENTS-OF-LIFE, and it is independent from the methodology of programming.
+
+It's ubquitous lenguage, in which models are explored in collaboration between domain and software practicioners.
+Focuses on the core domain, that bounds models and implementation together.
+A change in lenguage means a change in model and code.
+Model expression is agnostic to the modellng lenguage, and it's expressed in the code.
+
+###### Big design upfront
+When building a model with this way, at the they'll be created "clusters of concept" similar to one another.
+EX:
+e-commerce
+- promotion
+- shipping
+- product building
+- inventory
+- ecc...
+
+###### Bounded contexts
+Clusterizes concepts related to one another ( that they'll be candidates for microservice building ).
+Domain can be generalized int 3:
+- **Core**
+- **Supporting**
+- **Generic**
+
+###### Layers
+We have multiple layers:
+- User interface (presentation layer);
+- Application (app. logic);
+- Domain (app. logic);
+- Infrastructure.
+
+The infrastructure is a supporting library for all other layers.
+The domain layer contains the idea of the domain. Persistence is infrastructure's job.
+The application layer is an orchestration that coordinates information presentation.
+Concepts will be modelled as:
+- Entities;
+- Factories;
+- Value object;
+- Aggregates;
+- Services;
+- Association;
+- Modules;
+- Repositories;
