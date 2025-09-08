@@ -1,6 +1,5 @@
-  # Software estimation
+# Software estimation
 How to estimate the cost of software development.
-
 ## **Direct metrics**
 Metrics that can extimate the costs directly from the code of the software.
 ### **Line of codes**
@@ -10,7 +9,7 @@ It also involves a "fault rate":
 It may depend on the programming lenguage or on the style of code.
 ISO standard doesn't use LOC to estimate the cost of a software software.
 
-### Function pointer
+### **Function pointer**
 Proposed in the 80s, it's an empirical formula based on functionality.
 It is ISO standardized and expands the proposal.
 We start by considering the application a black box, and we want to measure how many external input, external output and external query does the app offers to a user.
@@ -620,7 +619,7 @@ It's a contract between requestor and replier, divided in 2 different parts:
 
 
 #### Restful services
-Representational stato transfer is a paradigm, references to simple application interfaces transmitting data over HTTP without any additional layers (requires specific archytectural styles).
+Representational status transfer is a paradigm, references to simple application interfaces transmitting data over HTTP without any additional layers (requires specific archytectural styles).
 Metaphorically, we have URIs as nouns and HTTP commands as verbs. Has state, meaning having application state.
 Methods have been previously defined -kinfd of RPC-.
 Example:
