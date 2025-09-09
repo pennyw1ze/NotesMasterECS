@@ -101,11 +101,20 @@ We have CoCoMo ll for the following motivations:
 - Different level of extimation precision;
 This technique is based on interpolation of statistics.
 We have the new formulas:
-- $PM = A\times SIZE^E \times \Pi _{i=1} ^ nEM_i$
+- $PM = A\times KLOC^E \times \Pi _{i=1} ^ nEM_i$
   where $E = B + 0,01\times \Sigma _{j = 1}^5 SF_j$;
-- $TDEV = C(PM_{NS})^FSCED/100$
+- $TDEV = C(PM)^F$
   where $F = D + 0,2(E-B)$;
 - $A,B,C,D$ are constants that are calibrated depending on time.
+- PM = person/month;
+- A = 2,94;
+- E = complexity and risk exponent;
+- EM = effort multipliers;
+- TDEV = duration in month;
+- C = 3,67;
+- D = 0,28;
+- B = 0,91;
+- Avarage team dimension = $PM/DEV$
 
 **Backfiring**
 Based on statistics, tells us how much LOC per function pointer we need.
