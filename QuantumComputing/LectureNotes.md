@@ -10,6 +10,9 @@
 > **Reversable Turing machine**
    Quantum computers must be reversable (when you do computations, you can always recover previous state). So basically we do not have a one-way computation anymore.
 
+---
+> **second lecture**
+
 ## Review of complex numbers
 
 > Complex numbers:
@@ -68,3 +71,6 @@ The not gate should reverse the probability of measuring a qbit and obtaining 1 
 **Pauli matrix**
 $Not = \sigma_x = \begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}$
 notice:$$\begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}\times \begin{pmatrix}\alpha\cr\beta\cr\end{pmatrix} = \begin{pmatrix}\beta\cr\alpha\cr\end{pmatrix}$$
+
+---
+> **third lecture**
