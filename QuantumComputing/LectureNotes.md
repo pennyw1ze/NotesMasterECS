@@ -73,4 +73,10 @@ $Not = \sigma_x = \begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}$
 notice:$$\begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}\times \begin{pmatrix}\alpha\cr\beta\cr\end{pmatrix} = \begin{pmatrix}\beta\cr\alpha\cr\end{pmatrix}$$
 
 ---
-> **third lecture**
+## Exercise
+#### Ex 1)
+Compute $(4 + {i \over 2})(1 + i) = 4 + 4i + {i\over 2} - {1\over 2} = {7\over 2} +  {9i\over 2}$
+#### Ex 2)
+${3 + 7i\over 2 + 5i}$
+To get in standard form I multiply over and above for the complementar complex number.
+
