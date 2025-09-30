@@ -15,8 +15,6 @@
 
 ## Review of complex numbers
 
-> Complex numbers:
-
 **Syntax**
 $$a + ib;$$
 $C= \{a + ib| a,b \in R\}, Re(z) = a, Im(z) = b$
@@ -74,3 +72,41 @@ notice:$$\begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}\times \begin{pmatrix}\alpha\cr
 
 ---
 > **third lecture**
+
+What can we do with a qbit ?
+- **Measure**:$$\alpha |0> + \beta |1>\ \rightarrow \{Pr(0) = \alpha^2,\ Pr(1) = \beta ^2\};$$
+- **Transformations (unitary)**: 
+  Pauli matrices:
+	- **Not** gate: $$Not = \sigma_x = \begin{bmatrix}0&1\cr1&0\cr\end{bmatrix};$$
+	- $$\sigma_y = \begin{bmatrix}0&-i\cr i&0\cr\end{bmatrix};$$
+	- $$\sigma_z = \begin{bmatrix}1&0\cr0&-1\cr\end{bmatrix};$$
+	Hadamard transform
+	- Hadamard matrix:$$H = {1\over \sqrt 2}\begin{bmatrix}1&1\cr1&-1\cr\end{bmatrix};$$
+	Useful for:$$H|0> = {1\over \sqrt2}\begin{bmatrix}1&1\cr1&-1\cr\end{bmatrix}\begin{pmatrix}1\cr 0\cr\end{pmatrix} = {1\over \sqrt 2}\begin{pmatrix}1\cr 1\cr\end{pmatrix} = {1\over \sqrt 2}(|0> + |1>);$$
+	So this process produces true randomness because we have 50% probability that the bit will be either 1 or 0.
+
+DEF:
+> A transformation is **unitary** iff it preserves the norm of input.
+
+- Prove that hadamard transformation is unitary
+$$|\psi> = cos{\theta \over 2}|0> + e^{i\phi}sin{\theta \over 2}|1>;$$
+### Interesting quantum systems
+$$\sum_{i = 1}^n \alpha _ie_i$$
+General reperesentation for a column vector of entries $\alpha_1, \alpha_2, ..., \alpha _n$, where $e_i$ is a vector with all 0s except for the entry in position $i$.
+
+When we operate with qbits, cartesian product is not enough. We will have to deal with **tensor** product.
+
+##### Tensor product 
+Symbol used: $\otimes$. Product rules:$$\begin{pmatrix}\alpha_0\cr\alpha_1\end{pmatrix}\otimes\begin{pmatrix}\beta_0\cr \beta_1\cr\end{pmatrix} = \begin{pmatrix}\alpha_0\beta_0\cr \alpha_0\beta_1\cr \alpha_1\beta_0\cr\alpha_1\beta_1\cr\end{pmatrix};$$
+That's how the product rule works.
+Sometimes symbol $\otimes$ is dropped and is written like:$$|0>\otimes|1> = |01>;$$
+###### EX: show that the resulting vector has norm 1
+$$\begin{pmatrix}{1\over \sqrt 2}\cr{1\over \sqrt 2}\end{pmatrix}\otimes\begin{pmatrix}{1\over \sqrt 2}\cr {1\over \sqrt 2}\cr\end{pmatrix} = \begin{pmatrix}{1\over 2}\cr{1\over  2}\cr{1\over 2}\cr{1\over 2}\cr\end{pmatrix} = {1\over 2}(|00> + |01> + |10> + |11>);$$
+This is the random state for a tensor product of 2 random states, it keeps random and his norm is still 1.
+
+Any combination of 2 qbits that satisfies the property that the norm is 1, is a valid quantum state of 2 qbits.
+
+There are states that cannot be represented as a tensor products, which are called **entangled states**. This state of entaglement forces a qbit to be 0 or 1 if the other entangled qbit is found to be 1 or 0.
+
+##### EPR "paradox" 1935
+Einstein P** Rosen
