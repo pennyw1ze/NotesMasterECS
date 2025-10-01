@@ -1,30 +1,13 @@
-# Thesis Title
-**Evaluation of Private Benchmarks on Privacy-Preserving Machine Learning Models**
+# Evaluation of Private Benchmarks on Privacy-Preserving Machine Learning Models
 # Introduction and Motivation
-Machine learning models today are very important assets. They are often the result of long
-and expensive training processes on large and private datasets. The final models, with their
-trained weights, represent valuable intellectual property, so owners usually want to keep
-them private and only give access to paying users.
-At the same time, users who want to buy access to a model need to be sure that the model
-has good quality and is suitable for their tasks. Normally, before paying, users would like to
-test the model by asking some queries and checking the answers. However, this simple idea
-creates a serious problem. If the user can ask many queries for free during the test phase,
-they might get all the information they need from the model and then walk away without ever paying. This would mean a loss for the model owner.
-Because of this, there is a clear conflict. On one side, the model owner wants to keep the
-model secret and safe from exploitation. On the other side, the user wants to keep their own
-benchmark private, since it often contains specific test data or policies that they do not want
-to reveal. The challenge is how to let the user test the model in a fair way, while protecting
-both the model and the benchmark.
-This problem is becoming more and more relevant with the idea of “marketplaces for
-machine learning models,” where different models can be offered to users, who can then
-decide which one to buy. For such a marketplace to be trustworthy, we need clear
+Machine learning models today are very important assets. They are often the result of long and expensive training processes on large and private datasets. The final models, with their trained weights, represent valuable intellectual property, so owners usually want to keep them private and only give access to paying users.
+At the same time, users who want to buy access to a model need to be sure that the model has good quality and is suitable for their tasks. Normally, before paying, users would like to test the model by asking some queries and checking the answers. However, this simple idea creates a serious problem. If the user can ask many queries for free during the test phase, they might get all the information they need from the model and then walk away without ever paying. This would mean a loss for the model owner.
+Because of this, there is a clear conflict. On one side, the model owner wants to keep the model secret and safe from exploitation. On the other side, the user wants to keep their own benchmark private, since it often contains specific test data or policies that they do not want to reveal. The challenge is how to let the user test the model in a fair way, while protecting both the model and the benchmark.
+This problem is becoming more and more relevant with the idea of “marketplaces for machine learning models,” where different models can be offered to users, who can then decide which one to buy. For such a marketplace to be trustworthy, we need clear
 mechanisms for testing models privately and securely.
 
 # Research Directions
-This thesis will look at two main directions. Both approaches will require the use of secure
-multiparty computation (MPC), since MPC is the tool that allows the user and the model
-owner to jointly check if the answers satisfy the benchmark without revealing their private
-information to each other.
+This thesis will look at two main directions. Both approaches will require the use of secure multiparty computation (MPC), since MPC is the tool that allows the user and the model owner to jointly check if the answers satisfy the benchmark without revealing their private information to each other.
 
 # Optimistic Solution
 Our protocol works for deterministic models or, in the case of a Large Language Model
