@@ -111,3 +111,55 @@ There are states that cannot be represented as a tensor products, which are call
 
 ##### EPR "paradox" 1935
 Einstein P** Rosen
+
+---
+> **4th lecture**
+
+CNOT primitve:
+If a = 1, then b = Not(b)
+
+| a   | b   | CNot(a,b) |
+| --- | --- | --------- |
+| 0   | 0   | 0         |
+| 0   | 1   | 1         |
+| 1   | 0   | 1         |
+| 1   | 1   | 0         |
+
+How  to represent this operation on Quantum Computing?
+We apply |10> transformation.
+CNOT(|00ۧ>) = |00ۧ>;
+CNOT(|01ۧ>) = |01ۧ>;
+CNOT(|10ۧ>) = |11ۧ>;
+CNOT(|11ۧ>) = |10ۧ>;
+
+We can use CNOT to create entangled state in QC.
+
+### Notation
+|a> --- x ---> |$\neg a$>
+|a>--- H ---> ${1\over \sqrt 2}(|0> + (-1)^a|1>)$
+CNOT
+|a> --- . --- |a>
+	   |
+|b> ---x-----|a$\oplus$b>
+
+
+Circuit example
+In tensor product matrix grows exponentially with the number of multpicliactions.
+
+### No-cloning theorem 
+You can't copy a qbit.
+There is no quantum transformation that copies an unknown quantum state.
+PROOF
+Suppose we have our copy machine, that given in input a file performs a copy. 
+$\exists y \forall x CP(x,y) = (x,x)$
+$\exists y \forall x,a CP(x+a,y) = (x+a,x+a) = x+a \otimes x+a$
+$\exists y \forall x CP(x,y) = CP(x\otimes y + a\otimes y) = CP(x\otimes y) + CP(a\otimes y) = x\otimes x = a \otimes a$
+while on the other side we have:
+$x\otimes x + x\otimes a + a\otimes x + a \otimes a$
+if we take x = 0 and a =1, this is disproved.
+But you can still copy some states.
+
+### Teleport a qbit
+We can't clone it. We need 2 qbits and 2 normal bits.
+Let's take the following quantum states for 2 qbits:$${1\over \sqrt 2}(|00> + |11>)$$
+

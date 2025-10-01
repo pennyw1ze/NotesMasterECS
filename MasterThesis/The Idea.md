@@ -116,7 +116,7 @@ verification.
 Solidity and Ethereum Testnets: Solidity for smart contract implementation,
 leveraging Ethereum-compatible test networks to conduct cost-free experiments and
 validations.
-https://github.com/uiuc-kang-lab/zkml repository of the paper of Kang et al. easy to
+	https://github.com/uiuc-kang-lab/zkml repository of the paper of Kang et al. easy to
 use to compute SNARKs for machine learning model
 MPC development framework, still not defined which one:
 ○​ MP-SPDZ: https://mp-spdz.readthedocs.io/en/latest/index.html
