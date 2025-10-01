@@ -71,6 +71,7 @@ $Not = \sigma_x = \begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}$
 notice:$$\begin{bmatrix}0&1\cr1&0\cr\end{bmatrix}\times \begin{pmatrix}\alpha\cr\beta\cr\end{pmatrix} = \begin{pmatrix}\beta\cr\alpha\cr\end{pmatrix}$$
 
 ---
+
 > **third lecture**
 
 What can we do with a qbit ?
@@ -110,4 +111,3 @@ There are states that cannot be represented as a tensor products, which are call
 
 ##### EPR "paradox" 1935
 Einstein P** Rosen
-Measurement of 
