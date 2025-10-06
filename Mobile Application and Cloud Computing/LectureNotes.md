@@ -4,10 +4,7 @@ A softwarre is made of several **components**, that can interact in a **synchron
 
 There are several basic interaction patterns between components.
 The **main patterns** are:
-- **Request/Response**'
-- **One-Way message**;
-- **Publish/Subscribe**;
-- **Event Notification**;
+
 - **REQUEST/RESPONSE**
 	The most common patter. It is based on **synchronous** comunication.
 	Basically, the caller commits a request, and **wait** for a response.
@@ -19,4 +16,11 @@ The **main patterns** are:
 	**Publisher** sends event to an intermediary (**broker**) on a specific **topic**.
 	**Subscribers** receive notification to the topics they are subscripted to.
 - **EVENT NOTIFICATION**
-	Passive components that reacts only to **events**.
+	Passive components that reacts only to **events**. We have an event manager that handles event.
+	Foundation of event-driven programming.
+	All android softwares are event driver.
+
+##### Activity
+An activity is an Android software components that reacts to events. Each activity responds to a set of predefined events by implementing callback methods.
+Events are comunicated by special messages called **intents**.
+Components like activities usually have states, and states usually changes during the lifetime of the software.
