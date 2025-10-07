@@ -163,3 +163,21 @@ But you can still copy some states.
 We can't clone it. We need 2 qbits and 2 normal bits.
 Let's take the following quantum states for 2 qbits:$${1\over \sqrt 2}(|00> + |11>)$$
 
+---
+# Algebra recap
+
+## Groups
+A group is a set with a "multiplication" operation personalized.
+This "multiplication" has some properties, such as:
+- a(bc) = (ab)c;
+- Identity;
+- Inverse;
+
+## Complex vector space
+
+We can have a linear map L s.t.:$$V^* = \{L:V\rightarrow \mathbb{C}: L\ linear\}$$
+EX:
+Given $V$ such that $S = \{e_1,...,e_n\},\ [S]=V$.
+then $\forall v\in V, v = \Sigma_{i = 1}^n\alpha_i e_i$ given $\alpha_1,...,\alpha_n\in \mathbb{C}$.
+The complex coefficients are unique.
+
