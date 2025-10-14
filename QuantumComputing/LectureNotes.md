@@ -181,3 +181,30 @@ Given $V$ such that $S = \{e_1,...,e_n\},\ [S]=V$.
 then $\forall v\in V, v = \Sigma_{i = 1}^n\alpha_i e_i$ given $\alpha_1,...,\alpha_n\in \mathbb{C}$.
 The complex coefficients are unique.
 
+We have a particular definition of scalar product:
+$(<u|v>) = (u_1* u_2* ... u_n*)\begin{pmatrix}v_1\cr v_2\cr ...\cr v_n\cr\end{pmatrix}$
+We call this scalar product BRAKET, and we denote "<u|" as BRA, and "|v>" as KET.
+
+**Swarz's inequality**
+	$$|<u,v>| \leq \sqrt{<u|u><v|v>}$$
+**Orthogonal**
+Two vectors are ortogonal iff:$$<u|v> = 0$$
+**Orthonormal**
+Two vectors are orthonormal iff:$$<u_i,u_j> = \delta_{ij} \forall i,j\in \{1,...,m\}$$
+Orthonormal bases:
+$\forall u\in V,\ u =\Sigma_{i=1}^n\alpha_i e_i,\ \alpha_i \in \mathbb{C}$
+$<e_j|u>=<e_j|\Sigma \alpha_i e_i> = \Sigma \alpha_i <e_j|e_i> = \Sigma \delta_{ij} = \alpha _j$
+
+**Cauchy sequence**
+$$\forall \epsilon>0,\ \exists n_\epsilon | \forall n,m \ge n_\epsilon ||v_n-v_m|| \leq \epsilon$$
+**Hilber space**
+Given:
+$v_m \in V$ converges strongly to $v \in V$.
+$lim_{m\rightarrow \infty}||v-v_m|| = 0$
+Weak converges: $lim{m \rightarrow \infty}||v_m|| = ||v||$
+Weak converges implies: $<u|v> = lim_{m\rightarrow \infty} <u|v_m>$
+
+We want:
+- Complex vector space;
+- All cauchy sequences converge strongly to an element of space;
+All finite dimension vector spaces are **Hilber**.
