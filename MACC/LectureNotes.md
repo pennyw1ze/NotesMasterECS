@@ -118,4 +118,16 @@ IaaS are evolution of classical data center. It includes:
 Data centers turns energy into computation.
 Servers are designed for 24/7 operation, and have 2 CPUs per board. They usually have large RAM size (>1TB), they have network cards with large bandwidth, and high storage capabilities.
 
-(pg.10 pacchetto di slides n.4)
+We have different types of servers:
+- **Web server**: Designed for hosting websites;
+- **Database server**: Specialized for data storage and retrieval;
+- **File server**: Serves files or filesystems to clients;
+- **DNS server**: Specialized in name resolution in computer networks.
+
+**POPEK AND GOLDBERG VIRTUALIZATION REQUIREMENTS**
+Classification of 3 instructions groups:
+- **Priviledged:** Trap when in user mode (ex: MOV CR3, EAX (changes the CR3 register, which contains the base of the page table);
+- **Sensitive:** Change underlying resources (ex: PUSHF / POPF (save or restore the processor flags);
+- **Innocuous:** Not sensitive (ex: ADD EAX);
+
+
