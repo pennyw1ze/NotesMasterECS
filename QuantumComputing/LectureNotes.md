@@ -208,3 +208,27 @@ We want:
 - Complex vector space;
 - All cauchy sequences converge strongly to an element of space;
 All finite dimension vector spaces are **Hilber**.
+
+**Adjoint** of operator A is $A^+$a and we have that:$$\forall u,v\in H\ <u,A^+v> = <Au|v>$$
+and we call it self-adjoint if $A^+ = A$.
+
+U is **unitary** iff $UU^+ = U^+U = I$
+U is **surjective** (each element in the codomain is the image of at least an element in the domain)  and <Uu|Uv> = <u|v> (so basically ||Uu|| = ||Uv||).
+
+DEF:
+$\lambda \in \mathbb{C}$ is d-fold degenerate if there are d linearly independent eigenvectors.
+How to obtain the adjoint operator ?
+$A^+_{ij} = A^*_{ji}$
+Then  I can write any vector:
+|v> as (|$\Sigma e_i$><$e_i$|v>)
+So we can write the Identity operator as: |$\Sigma e_i$><$e_i$
+
+Other properties:
+- $(AB)^+ = B^+A^+$;
+- $(\lambda A^+) = \lambda^*A^+$;
+- $A^{+^+} = A$;
+
+**Orthogonal complement**
+$V^\bot = \{v\in H:\ \forall u\in V\ <u,v>=0\}$
+$V^{\bot^\bot} = V$
+
