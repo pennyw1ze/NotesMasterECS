@@ -181,3 +181,115 @@ Given $V$ such that $S = \{e_1,...,e_n\},\ [S]=V$.
 then $\forall v\in V, v = \Sigma_{i = 1}^n\alpha_i e_i$ given $\alpha_1,...,\alpha_n\in \mathbb{C}$.
 The complex coefficients are unique.
 
+We have a particular definition of scalar product:
+$(<u|v>) = (u_1* u_2* ... u_n*)\begin{pmatrix}v_1\cr v_2\cr ...\cr v_n\cr\end{pmatrix}$
+We call this scalar product BRAKET, and we denote "<u|" as BRA, and "|v>" as KET.
+
+**Swarz's inequality**
+	$$|<u,v>| \leq \sqrt{<u|u><v|v>}$$
+**Orthogonal**
+Two vectors are ortogonal iff:$$<u|v> = 0$$
+**Orthonormal**
+Two vectors are orthonormal iff:$$<u_i,u_j> = \delta_{ij} \forall i,j\in \{1,...,m\}$$
+Orthonormal bases:
+$\forall u\in V,\ u =\Sigma_{i=1}^n\alpha_i e_i,\ \alpha_i \in \mathbb{C}$
+$<e_j|u>=<e_j|\Sigma \alpha_i e_i> = \Sigma \alpha_i <e_j|e_i> = \Sigma \delta_{ij} = \alpha _j$
+
+**Cauchy sequence**
+$$\forall \epsilon>0,\ \exists n_\epsilon | \forall n,m \ge n_\epsilon ||v_n-v_m|| \leq \epsilon$$
+**Hilber space**
+Given:
+$v_m \in V$ converges strongly to $v \in V$.
+$lim_{m\rightarrow \infty}||v-v_m|| = 0$
+Weak converges: $lim{m \rightarrow \infty}||v_m|| = ||v||$
+Weak converges implies: $<u|v> = lim_{m\rightarrow \infty} <u|v_m>$
+
+We want:
+- Complex vector space;
+- All cauchy sequences converge strongly to an element of space;
+All finite dimension vector spaces are **Hilber**.
+
+**Adjoint** of operator A is $A^+$a and we have that:$$\forall u,v\in H\ <u,A^+v> = <Au|v>$$
+and we call it self-adjoint if $A^+ = A$.
+
+U is **unitary** iff $UU^+ = U^+U = I$
+U is **surjective** (each element in the codomain is the image of at least an element in the domain)  and <Uu|Uv> = <u|v> (so basically ||Uu|| = ||Uv||).
+
+DEF:
+$\lambda \in \mathbb{C}$ is d-fold degenerate if there are d linearly independent eigenvectors.
+How to obtain the adjoint operator ?
+$A^+_{ij} = A^*_{ji}$
+Then  I can write any vector:
+|v> as (|$\Sigma e_i$><$e_i$|v>)
+So we can write the Identity operator as: |$\Sigma e_i$><$e_i$
+
+Other properties:
+- $(AB)^+ = B^+A^+$;
+- $(\lambda A^+) = \lambda^*A^+$;
+- $A^{+^+} = A$;
+
+**Orthogonal complement**
+$V^\bot = \{v\in H:\ \forall u\in V\ <u,v>=0\}$
+$V^{\bot^\bot} = V$
+
+---
+> New lecture
+
+**Tensor product between vectors**
+Given $u,v\in \mathbb{C}^n$ we define:$$u\otimes v = \begin{pmatrix}u\times v_1\cr u\times v_2\cr ...\cr u\times v_n\cr\end{pmatrix}\in \mathbb{C}^{n^2}$$
+Property of the tensor product:
+Given 4 matrices, L,M,N,P, we have:$$(MN)\otimes(LP) = (N\otimes P)(M\otimes L)$$
+### Spectral theory
+
+Remember self-adjoint and unitary implies Normal.
+
+**Thorem:**
+1. The eigenvalues of a **self-adjoint** operation are **real numbers**;
+2. The eigenvalues of a **unitary** operator are complex numbers of modulus 1;
+3. The eigenvectors of **self-adjoint and unitary** operators extracted to different eigenvalues are **ortogonal**;
+
+Spectral theorem:$$\forall v\in H\ v=\Sigma _{i=1}^m(\Sigma_{j=1}^{d_i}\alpha_{ij}u_{ij})$$
+where $u_{ij}$ are eigenvectors and $\alpha_{ij}$ are the parameters.
+We have 2 indeces because every eigenvalue can be associated to every number of eigenvectors, so we have m eigenvalues ($\lambda_1,...,\lambda_m$) where:
+$dim(H)=\Sigma _{i=1} ^n d_i$
+where $d_i$ is the degeneracy of eigenvalue (is **degenerate** if it corresponds to two or more different measurable states of a [quantum system](https://en.wikipedia.org/wiki/Quantum_system "Quantum system") "La molteplicità degli autovalori").
+We will represent with |$\lambda$> the eigenvector associated with the eigenvalue $\lambda$.
+
+And for some reason:$$A = \sum_{i=1}^m\lambda_iP_i$$
+### Axioms of quantum mechanics
+1. The sate space of a quantum system is a Hilbert space;
+	
+2.  Measurements are represented by self-adjoint operators;
+	
+3. Given an observable (measurement) A and a state $v\in H$, the expected result of measure A is $$<v|Av>=\sum_{i=1}^m \lambda_i<v|P_iv>;$$
+4. A **closed** system evolves over time according to:$$i\hbar {dv(t)\over dt} = Hv(t)$$
+   where H is called Hamiltonian (Closed = no interaction with extern).
+
+3'. Given observable A and a state $v\in H$:
+- The only possible results for measuring A are its eigenvalues;
+- $Prob(A=\lambda;v)=<v|P_\lambda v>$;
+
+---
+For $t_2 \ge t1$ we have $v(t_2) = e^{-{i\over \hbar}H(t_2 - t_1)}v(t_1) = \sum_{j=1}^m e^{-{i\over \hbar}\lambda_j(t_2 - t_1)}P_j$
+m eigenvalues for H.
+
+Every quantum computation in a closed system have to be reversable.
+
+### Quantum oracle
+Let's say we have a complicate function (like hash function) 
+$f:B \rightarrow B$
+$U_f : (x,y) \rightarrow (x,y\oplus f(x))$ for example we could call f(x) "oracle".
+In Qbits world:
+$U_f : (x\otimes y) \rightarrow (x \otimes (y\oplus f(x)))$
+example:
+$U_f(({1\over \sqrt 2}|0> + |1>)\otimes |0>) = {1\over \sqrt 2}(|0f(0)> + |1f(1)>)$
+
+```circuit
+|0> ---[H]---|====|---[H]---[MEASURE]___: 0
+			 | Hf |                  \__: 1
+|1> ---[H]---|====|
+```
+
+Applying U_f in this case means to change phase (sign) to the complex number such that:
+$$U_f|a>\otimes ({|0>-|1>\over \sqrt2}) = (-1)^{f(a)}|a>({|0>-|1>\over \sqrt2})$$
+
