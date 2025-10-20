@@ -290,6 +290,6 @@ $U_f(({1\over \sqrt 2}|0> + |1>)\otimes |0>) = {1\over \sqrt 2}(|0f(0)> + |1f(1)
 |1> ---[H]---|====|
 ```
 
-Applying U_f in this case means to change phase (sign) to the complex number such that:
+Applying $U_f$ in this case means to change phase (sign) to the complex number such that:
 $$U_f|a>\otimes ({|0>-|1>\over \sqrt2}) = (-1)^{f(a)}|a>({|0>-|1>\over \sqrt2})$$
 
