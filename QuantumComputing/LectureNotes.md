@@ -164,6 +164,7 @@ We can't clone it. We need 2 qbits and 2 normal bits.
 Let's take the following quantum states for 2 qbits:$${1\over \sqrt 2}(|00> + |11>)$$
 
 ---
+> 7/10/2025
 # Algebra recap
 
 ## Groups
@@ -178,7 +179,7 @@ This "multiplication" has some properties, such as:
 We can have a linear map L s.t.:$$V^* = \{L:V\rightarrow \mathbb{C}: L\ linear\}$$
 EX:
 Given $V$ such that $S = \{e_1,...,e_n\},\ [S]=V$.
-then $\forall v\in V, v = \Sigma_{i = 1}^n\alpha_i e_i$ given $\alpha_1,...,\alpha_n\in \mathbb{C}$.
+then $\forall v\in V, v = \sum_{i = 1}^n\alpha_i e_i$ given $\alpha_1,...,\alpha_n\in \mathbb{C}$.
 The complex coefficients are unique.
 
 We have a particular definition of scalar product:
@@ -192,8 +193,8 @@ Two vectors are ortogonal iff:$$<u|v> = 0$$
 **Orthonormal**
 Two vectors are orthonormal iff:$$<u_i,u_j> = \delta_{ij} \forall i,j\in \{1,...,m\}$$
 Orthonormal bases:
-$\forall u\in V,\ u =\Sigma_{i=1}^n\alpha_i e_i,\ \alpha_i \in \mathbb{C}$
-$<e_j|u>=<e_j|\Sigma \alpha_i e_i> = \Sigma \alpha_i <e_j|e_i> = \Sigma \delta_{ij} = \alpha _j$
+$\forall u\in V,\ u =\sum_{i=1}^n\alpha_i e_i,\ \alpha_i \in \mathbb{C}$
+$<e_j|u>=<e_j|\sum \alpha_i e_i> = \sum \alpha_i <e_j|e_i> = \sum \delta_{ij} = \alpha _j$
 
 **Cauchy sequence**
 $$\forall \epsilon>0,\ \exists n_\epsilon | \forall n,m \ge n_\epsilon ||v_n-v_m|| \leq \epsilon$$
@@ -220,8 +221,8 @@ $\lambda \in \mathbb{C}$ is d-fold degenerate if there are d linearly independen
 How to obtain the adjoint operator ?
 $A^+_{ij} = A^*_{ji}$
 Then  I can write any vector:
-|v> as (|$\Sigma e_i$><$e_i$|v>)
-So we can write the Identity operator as: |$\Sigma e_i$><$e_i$
+|v> as (|$\sum e_i$><$e_i$|v>)
+So we can write the Identity operator as: |$\sum e_i$><$e_i$
 
 Other properties:
 - $(AB)^+ = B^+A^+$;
@@ -233,7 +234,7 @@ $V^\bot = \{v\in H:\ \forall u\in V\ <u,v>=0\}$
 $V^{\bot^\bot} = V$
 
 ---
-> New lecture
+> 15/10/2025
 
 **Tensor product between vectors**
 Given $u,v\in \mathbb{C}^n$ we define:$$u\otimes v = \begin{pmatrix}u\times v_1\cr u\times v_2\cr ...\cr u\times v_n\cr\end{pmatrix}\in \mathbb{C}^{n^2}$$
@@ -248,10 +249,10 @@ Remember self-adjoint and unitary implies Normal.
 2. The eigenvalues of a **unitary** operator are complex numbers of modulus 1;
 3. The eigenvectors of **self-adjoint and unitary** operators extracted to different eigenvalues are **ortogonal**;
 
-Spectral theorem:$$\forall v\in H\ v=\Sigma _{i=1}^m(\Sigma_{j=1}^{d_i}\alpha_{ij}u_{ij})$$
+Spectral theorem:$$\forall v\in H,\ v=\sum_{i=1}^m(\sum_{j=1}^{d_i}\alpha_{ij}u_{ij})$$
 where $u_{ij}$ are eigenvectors and $\alpha_{ij}$ are the parameters.
 We have 2 indeces because every eigenvalue can be associated to every number of eigenvectors, so we have m eigenvalues ($\lambda_1,...,\lambda_m$) where:
-$dim(H)=\Sigma _{i=1} ^n d_i$
+$dim(H)=\sum _{i=1} ^n d_i$
 where $d_i$ is the degeneracy of eigenvalue (is **degenerate** if it corresponds to two or more different measurable states of a [quantum system](https://en.wikipedia.org/wiki/Quantum_system "Quantum system") "La molteplicità degli autovalori").
 We will represent with |$\lambda$> the eigenvector associated with the eigenvalue $\lambda$.
 
