@@ -294,3 +294,66 @@ $U_f(({1\over \sqrt 2}|0> + |1>)\otimes |0>) = {1\over \sqrt 2}(|0f(0)> + |1f(1)
 Applying $U_f$ in this case means to change phase (sign) to the complex number such that:
 $$U_f|a>\otimes ({|0>-|1>\over \sqrt2}) = (-1)^{f(a)}|a>({|0>-|1>\over \sqrt2})$$
 
+### Deutsh-Jozsa problem
+Evaluating weather a function is constant or balanced (outputs always the same value, or outputs half of the times 0 and half of the time 1).
+Given a function that is either balanced ot constant , we need $2^{n-1}+1$ evaluation of that funciton in order to establish weather it is constant or balanced.
+We use the same circuit as before:
+```circuit
+|0^n> --/^n--[H^n] --/^n-- |====|---[H]---[MEASURE]___: |0^n> => f is constant
+                           | Hf |                  \__: else  => f is balanced
+|1> ----------[H]----------|====|
+```
+The amplitude (probability of measuring)  the state $|0^n>$ is +/- 1 if f is constant, is 0 if the function is balanced. So if the measurement output is $|0^n>$ we are sure that the function is constant.
+
+---
+# Finding a needle in a haystack (1996)
+| 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 'A' | 'G' | 'I' | 'T' | 'T' | 'R' | '0' | '1' |
+**Setting**
+We have an array. Let's take the length of the array and say is a power of 2: $N = 2^n$
+We have $M$ solution elements. Classically, the best we can do is random search $O({N\over M})$.
+Quantum case: $O(\sqrt{n\over m})$ (we have a small probability of error).
+$f:\{0,...,N-1\}\rightarrow B$
+$f(x) = 1 if A[x]$ in SOL, $0$ otherwise.
+
+Remeber our oracle flips amplitudes of the solutions (the indexes).
+New oracle:
+$O_f|x> = (-1)^{f(x)}|x>$
+```circuit
+|0^n> --- [H^n] ---|---|--- .... ---|---| --- [Measure] ___: pointer to solution;
+				   | G |            | G |               \__: non solution;
+Ancilia qubits --- |---|--- .... ---|---|
+```
+where G is the grover operator and is applied exactly $\sqrt{N\over M}$ times.
+$\psi = \sum \alpha_x|x>$
+$<\alpha> = {1\over N}\sum\alpha_x$
+$W|x> = (-\alpha _x + 2<\alpha>)|x>$
+$G=WO_f$
+W maps the basic state into another basic state.
+
+Graphically:
+at the beginning we have scrotus.
+
+Execution of the algorithm
+
+|                   | \|00> | \|01> | \|10> | \|11> |
+| ----------------- | ----- | ----- | ----- | ----- |
+| Actual amplitude: | 1     | 0     | 0     | 0     |
+| $H\otimes H$      | 1/2   | 1/2   | 1/2   | 1/2   |
+| $O_f$             | 1/2   | 1/2   | 1/2   | -1/2  |
+| $W$               | 0     | 0     | 0     | 1     |
+given $<\alpha> = -{1\over 4};$
+
+## Fixed point quantum search 
+We define a unitary operator U such that:$$|<t|Us>|^2 = 1 - \epsilon;$$
+U drives s to t with probability 1-e;
+If we apply:$$UR_sU^+R_tU|s>$$
+We drive s (1-r)^3 closer to t.
+And we have iterations such that:$$U_{m+1}=U_mR_sU_m^+R_tU_m$$
+So we will get an operator which grows up a lot and will reach goal with (1-e)^{3m}.
+where:
+$R_s =  I - [1-e^{i\Theta}]|s><s|$
+$R_t =  I - [1-e^{i\Theta}]|t><t|$
+with $\Theta = {\pi\over 3}$;
+
