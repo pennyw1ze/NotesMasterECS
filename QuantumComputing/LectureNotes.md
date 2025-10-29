@@ -377,4 +377,76 @@ $$q(x) = \sum_{j=0}^{n-1}b_jx^j$$
 same for bj.
 $$p(x)q(x) = \sum_{i,j}^{n-1}a_ib_jx^{i+j} = \sum_{k=0}^{2n-2}x^k\sum_j^{n-1}a_jb_{k-j}$$
 
+Continue on samsung notes
+#SamsungNotes
+### Quantum Fourier Transform
+Most important unitary transformation on quantum computers.
+We live on an Hilbert space of dimension N (|0> |1> ... |N-1> )
+The j-th basis state happens to:
+Continue on samsung notes
+#SamsungNotes 
 
+### Phase extimation
+The problem:
+For any unitary operator any eigenvalue is complex of modulus 1.
+means if $\lambda = e^{2\pi i\psi},\psi \in\{0,1\}$
+How to find the phase ?
+Suppose that U is unitary, $U|u> = e^{2\pi i \psi}|u>$
+
+Circuit **C**:
+```circuit
+|0>---[H]---------------------------x-----x-
+.                                   |
+.                                   |
+.                                   |
+|0>---[H]x---------|----------------|
+         |         |                |
+|u>---[U^2^1]---[U^2^2]---...---[U^2^t-1]----|u>
+```
+
+Where u is an eigenvector of size n.
+
+Suppose $\psi = 0.\psi_1...\psi_t$:$${1\over \sqrt2^t}(|0> + e^{2\pi i 2^{t-1}\psi}|1>)\otimes ...\otimes(|0> + e^{2\pi i \psi}|1>) $$
+Notice that the final state of the circuit to find the phase is the same of the quantum fourier transform.
+So now we can obtain our phases by applying the inverse Quantum Fourier Transform.
+This will get my phases.
+We apply this full circuit (**QPE**) Quantum Phase Extimation:
+
+```circuit
+|0>---|===|---|======|---|phi_1>
+...   | C |   |QFT^-1|--- ...
+|0>---|===|---|======|---|phi_t>
+```
+
+If we want to describe phi with n bits of precision with probability $1-\epsilon$, we have to run QPE with ($n + log(2+{1\over 2^\epsilon})$) qubits.
+
+**Order-finding** problem
+given x,N integer where x < N and coprime(x,N = gcd(x,N) = 1.
+
+I need to find the smallest exponent of 4 such that 4 mod 7 = 1.
+The complexity is exponential in the size of the input.
+
+# Shor algorithm
+Braking DLog.
+**Order-finding** problem
+given x,N integer where x < N and coprime(x,N = gcd(x,N) = 1.
+
+I need to find the smallest exponent of 4 such that 4 mod 7 = 1.
+The complexity is exponential in the size of the input.
+
+$U_x$|y> = |xy mod N>
+$L = logN, y\in \{0,1\}^L$
+if y > N then U_x does nothing.
+
+>**Claim**
+>U_x is unitary.
+
+Proof
+$U_x$|y> = |xy mod N>  $\implies U_x$ = |xy mod N><y|
+$(AB)^+ = B^+A^+$
+U_x^+=|y>< xy mod N|
+$$U_x^+U_x = (\sum_y|y>< xy \bmod N|)(\sum_z<xz \bmod N|<z|)$$
+$$= \sum_{y=z}|y><z| + \sum_{y\neq z}|y><...|..><z|$$
+$$= I + \sum_{y+z\ge N}|y><...><z| + ...$$
+
+Nice book Hardy theory of numbers
