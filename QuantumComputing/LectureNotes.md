@@ -346,14 +346,35 @@ Execution of the algorithm
 given $<\alpha> = -{1\over 4};$
 
 ## Fixed point quantum search 
-We define a unitary operator U such that:$$|<t|Us>|^2 = 1 - \epsilon;$$
+We build a sequence of operation recursively, we will collapse to the goal state no matter how many iterations we perform (no 'cooking souffle' problem).
+We define a unitary operator U such that:$$U_{ts} = |<t|Us>|^2 = 1 - \epsilon;$$
 U drives s to t with probability 1-e;
 If we apply:$$UR_sU^+R_tU|s>$$
-We drive s (1-r)^3 closer to t.
+We drive s $(1-r)^3$ closer to t.
 And we have iterations such that:$$U_{m+1}=U_mR_sU_m^+R_tU_m$$
-So we will get an operator which grows up a lot and will reach goal with (1-e)^{3m}.
+So we will get an operator which grows up a lot and will reach goal with ($1-e)^{3m}$.
 where:
 $R_s =  I - [1-e^{i\Theta}]|s><s|$
 $R_t =  I - [1-e^{i\Theta}]|t><t|$
 with $\Theta = {\pi\over 3}$;
+
+where $s$ and $t$ are the $x$ and $y$ axis of our vector.
+$t$ is our target, we want to be as close as possible to $t$.
+We have that $$UR_sU^+R_tU|s> = [U|s>(e^{i\theta}+|U_{ts}|^2(e^{i\theta}-1)^2)+|t>U_{ts}(e^{i\theta}-1)]$$
+$|<t|U_{m}s>|^2=1-\epsilon^{2q_m-1}$
+where $q_m$ is the number of oracle calls at step m.
+It increases beacause at each level the Rt operation which is the only one that calls the oracle is duplicated ad each iteration of the unitary operator.
+Now let us call $P_s = |s><s|$ and the same for t:
+
+# Shor's algorithm
+
+#### Discrete fourier transform
+Can be performed in polynomial time in quantum computing, and only exponentially in classical computing.
+It's applications are applied to the polynomail multiplication.
+
+$$p(x) = \sum_{i=0}^{n-1}a_ix^i$$
+$$q(x) = \sum_{j=0}^{n-1}b_jx^j$$
+same for bj.
+$$p(x)q(x) = \sum_{i,j}^{n-1}a_ib_jx^{i+j} = \sum_{k=0}^{2n-2}x^k\sum_j^{n-1}a_jb_{k-j}$$
+
 
