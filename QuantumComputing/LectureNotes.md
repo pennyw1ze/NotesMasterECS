@@ -471,4 +471,22 @@ $$= {1\over \sqrt r}e^{2\pi is\over r}\sum_{k=0}^{r-1}e^{-2\pi is(k+1)\over r}\k
 $$= {1\over \sqrt r}e^{2\pi is\over r}\sum_{k=0}^{r-1}e^{-2\pi is(k)\over r}\ket{x^{k}\bmod N} =$$
 $$= {1\over \sqrt r}e^{2\pi is\over r}\ket{u_s}$$
 where ${1\over \sqrt r}e^{2\pi is\over r}$ is an eigenvalues with modulus one (our $\lambda$).
-To extimate the phase of the eigenvalues which corresponds to finding the $U_x$ transformation
+To extimate the phase of the eigenvalues which corresponds to finding the $U_x$ transformation. To implement the circuit we need t qbits and t U gates. To build U (modular exponentiation) it can be done in $O(L^3)$.
+This circuits acts in polynomial time.
+Instead of inserting u_s in our circuit we will insert $\ket 1$ which is a super position of all the possible quantum state of our phase. To show this we have a proof:
+$$\ket 1 = {1\over \sqrt r}\sum_{s=0}^{r-1}\ket{u_s}$$
+**Proof**
+$$\ket 1 = {1\over \sqrt r}\sum_{s=0}^{r-1}\ket{u_s} =$$
+$$= {1\over \sqrt r}\sum_{s=0}^{r-1}{1\over \sqrt r}\sum_{k=0}^{r-1}e^{-2\pi i sk\over r} \ket{x^k\bmod N}= $$
+$$= {1\over r}\sum_{s,k=0}^{r-1}e^{-2\pi i sk\over r} \ket{x^k\bmod N}= $$
+$$= {1\over r}\sum_{s=0}^{r-1}\ket1 + \sum_{s=0,k=1}^{r-1}e^{-2\pi i sk\over r} \ket{x^k\bmod N}= $$
+$$= \ket1 + \sum_{k=1}^{r-1}\ket{x^k\bmod N}
+\sum_{s=0}^{r-1}{e^{-2\pi i sk\over r}} = $$
+$$= \ket1 + \sum_{k=1}^{r-1}\ket{x^k\bmod N}
+\sum_{s=0}^{r-1}{e^{({-2\pi i k\over r})^s}} = $$
+geometric series:$$= \ket 1 + \sum_{k=1}^{r-1}\ket{x^k\bmod N}{1-e^{({-2\pi i k\over r})^r}\over 1-e^{-2\pi i k\over r}} = \ket 1$$
+because $e^{({-2\pi i k\over r})^r} = e^{-2\pi i k} = 1$
+
+**Integer factoring**
+Any integer number N can be written as product of prime numbers.
+Factory can be reduced to order finding.
