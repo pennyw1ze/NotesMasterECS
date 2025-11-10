@@ -434,19 +434,41 @@ given x,N integer where x < N and coprime( gcd(x,N) = 1).
 I need to find the smallest exponent of 4 such that 4 mod 7 = 1.
 The complexity is exponential in the size of the input.
 
-$U_x$|y> = |xy mod N>
+$U_x$|y> = |xy mod N> for $y \le N$
 $L = logN, y\in \{0,1\}^L$
-if y > N then U_x does nothing.
+if y > N then $U_x$ does nothing.
 
 >**Claim**
->U_x is unitary.
+>$U_x$ is unitary.
 
 Proof
 $U_x$|y> = |xy mod N>  $\implies U_x$ = |xy mod N><y|
 $(AB)^+ = B^+A^+$
-U_x^+=|y>< xy mod N|
+$U_x^+=\ket y\bra{ xy \bmod N}$
 $$U_x^+U_x = (\sum_y|y>< xy \bmod N|)(\sum_z<xz \bmod N|<z|)$$
 $$= \sum_{y=z}|y><z| + \sum_{y\neq z}|y><...|..><z|$$
 $$= I + \sum_{y+z\ge N}|y><...><z| + ...$$
 
 Nice book Hardy theory of numbers
+
+**Recap on shor:**
+Order-finding problem:
+$U_x\ket y = \ket{xy \bmod N}$ for $y \le N$
+$L = logN, y\in \{0,1\}^L$
+What are eigenvalues and eigenvectors of $U_x$?
+For any $s \in \{0,R-1\}$ where R is the order of x, we have that:$$\ket {u_s} = {1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket {x^k\bmod N}$$
+is an eigenvector of $U_x$. To prove this, we have to find $\lambda\ s.t.\ U_x\ket{u_s} = \lambda\ket{u_s}$.
+$\lambda$ is just a complex number with modulus one! (eigenvalue of our unitary quantum transformation).
+Notice that if y > N, then our eigenvalues are 1 ($U_x$ is the identity because the output of the modulus operation is y itself, does not get changed).
+**Proof**:
+$$U_x\ket{u_s} = U_x{1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket {x^k\bmod N} =$$
+$$= {1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}U_x\ket {x^k\bmod N} =$$
+$$= {1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket{ x (x^k\bmod N)\bmod N} =$$
+$$= {1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket{x^{k+1}\bmod N} =$$
+$$= {1\over \sqrt r}e^{2\pi is\over r}e^{-2\pi is\over r}\sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket{x^{k+1}\bmod N} =$$
+$$= {1\over \sqrt r}e^{2\pi is\over r}\sum_{k=0}^{r-1}e^{-2\pi is(k+1)\over r}\ket{x^{k+1}\bmod N} =$$
+
+$$= {1\over \sqrt r}e^{2\pi is\over r}\sum_{k=0}^{r-1}e^{-2\pi is(k)\over r}\ket{x^{k}\bmod N} =$$
+$$= {1\over \sqrt r}e^{2\pi is\over r}\ket{u_s}$$
+where ${1\over \sqrt r}e^{2\pi is\over r}$ is an eigenvalues with modulus one (our $\lambda$).
+To extimate the phase of the eigenvalues which corresponds to finding the $U_x$ transformation
