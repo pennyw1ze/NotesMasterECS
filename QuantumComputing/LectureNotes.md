@@ -490,3 +490,50 @@ because $e^{({-2\pi i k\over r})^r} = e^{-2\pi i k} = 1$
 **Integer factoring**
 Any integer number N can be written as product of prime numbers.
 Factory can be reduced to order finding.
+
+# Quantum Crypto
+...
+
+---
+#### Principle of deferred measurement
+We can put measurements at the beginning or at the end of the circuit, the outcome does not change at all.
+b = measure(q_0)
+if b then q_1: = U(q1)
+
+is equal to:
+q0,q1: = Control-U(q0,q1)
+b:= measure(q0)
+
+ecc...
+##### Base changing
+How to change unitarly from a basis to another ? With projection.
+Given 2 finite hilber space {e_i} and {f_i}, and we want to change from f to e.
+Two orthonormal bases for our Hilber space.
+$$\sum_{i=0}^n\ket{e_i}\bra{f_i}$$
+For example we can turn from |0>, |1> into |+>, |- >.
+Given $H|0> = |+>$ and $H\ket 1 = \ket - \ and\ H = H^+$.
+
+#### Bell's inequalities
+Alice measures Q or R (self adjoint operators on single qbit)
+Bob measures Sor T (self adjoint operators on single qbit)
+Q,R,S,T have +/- 1 as eigenvalues.
+Alice and Bob decide what to measure after receiving their qbit (realism).
+Alice and Bob measure at the same time (locality).
+
+**Inequality**:
+$QS + RS + RT - QT \le 2$
+$E[QS + RS + RT - QT] = E[QS] + E[RS] + E[RT] - E[QT] \le 2$
+
+We define: 
+Q = Z (Pauli operator)
+R = X (not)
+S = -Z-X / sqrt(2)
+T = Z-X / sqrt(2)
+
+Expected value of measuring A on v (A self-adjoint) = <v, Av>;
+The result of measuring Q and S on state $\psi$ is:$$E[QS] = \braket{\psi,QS\psi}= \braket{QS}_\psi = {1\over\sqrt2} = E[RS] = E[RT] = -E[QT]$$
+The sum is $2\sqrt2$ which is higher then 2.
+Applications of this theorem: Quantum key distribution.
+This check can be used in comunication channel in order to check weather we are being spied by eavesdropper or if there is too much noise in the comunication channel.
+
+How to compute $E[QS] ?$$$E[QS] = \braket{\psi|QS\psi} = \braket{\psi|Z\otimes{-Z-X\over\sqrt2}\times \psi}$$
