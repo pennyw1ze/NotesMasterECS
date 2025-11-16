@@ -332,9 +332,6 @@ $W|x> = (-\alpha _x + 2<\alpha>)|x>$
 $G=WO_f$
 W maps the basic state into another basic state.
 
-Graphically:
-at the beginning we have scrotus.
-
 Execution of the algorithm
 
 |                   | \|00> | \|01> | \|10> | \|11> |
