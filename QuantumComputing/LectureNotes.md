@@ -424,7 +424,7 @@ I need to find the smallest exponent of 4 such that 4 mod 7 = 1.
 The complexity is exponential in the size of the input.
 
 # Shor algorithm
-Braking DLog.
+Braking DLog and RSA.
 **Order-finding** problem
 given x,N integer where x < N and coprime( gcd(x,N) = 1).
 
