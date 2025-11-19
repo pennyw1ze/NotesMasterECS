@@ -534,3 +534,46 @@ Applications of this theorem: Quantum key distribution.
 This check can be used in comunication channel in order to check weather we are being spied by eavesdropper or if there is too much noise in the comunication channel.
 
 How to compute $E[QS] ?$$$E[QS] = \braket{\psi|QS\psi} = \braket{\psi|Z\otimes{-Z-X\over\sqrt2}\times \psi}$$
+
+---
+## Programming lenguages for quantum computers
+
+Some known lenguages:
+
+- **Q#**: open source, by microsoft;
+- **Quipper (Academia)**;
+- **Qwire**;
+- **Qiskit** (IBM);
+- **CIRQ** (Google);
+
+# Silq
+Academic lenguage. It has the better abstraction with respect to others. Not so fast to run. You got to write quantum cicuits to program.
+**Main features**:
+1. Implements the **QRAM** model (System composed by CPU and quantum bits, and CPU manipulates this quantum bits);
+2. **Type system**: silq has statical types. Types for data and for functions.
+3. **Automatic uncomputations** of subroutines.
+
+### Types
+**B** for boolean values (actual qbit);
+**N** for natural numbers;
+**Q** for rational numbers;
+int[n] for n bits integer (array of n bits, that are actually nqbits);
+So our quantum types are **B** and **int[n]**.
+
+We have cartesian product (s_1\*s_2), we have lists(s[]), we have an n vector of types(s^n).
+!s is classical type for classic elements generation.
+We also have to assign types to functions.
+
+#### Type table
+
+| Annotation | Applies    |                                                                                                                            |
+| ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------- |
+| mfree      | functions  | does not measure its input.                                                                                                |
+| qfree      | functions  | does neither introduce nor destroy any superposition.<br>Example: an oracle. Hadamard is not qfree. Not gate is qfree.<br> |
+| const      | parameters | function does not modify its input                                                                                         |
+| lifted     | function   | qfree and all parameters are constant                                                                                      |
+If your function does not modify the input, it's parameters **must** be const.
+
+Silq is able to duplicate quantum bits which differs from clonig quantum bits because:
+Duplication:$$\alpha\ket0+ \beta\ket1\rightarrow\alpha\ket{00} + \beta\ket{11}$$
+Cloning:$$\alpha\ket0 + \beta\ket1 \rightarrow (\alpha\ket0 + \beta\ket1)\otimes(\alpha\ket0 + \beta\ket1)$$
