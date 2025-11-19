@@ -577,3 +577,32 @@ If your function does not modify the input, it's parameters **must** be const.
 Silq is able to duplicate quantum bits which differs from clonig quantum bits because:
 Duplication:$$\alpha\ket0+ \beta\ket1\rightarrow\alpha\ket{00} + \beta\ket{11}$$
 Cloning:$$\alpha\ket0 + \beta\ket1 \rightarrow (\alpha\ket0 + \beta\ket1)\otimes(\alpha\ket0 + \beta\ket1)$$
+
+---
+
+# Quantum counting
+
+An array of N elements with M solutions: find M.
+Costs:
+- $O(N)$ in classical computing;
+- $O(\sqrt N)$ in quantum computing;
+
+We need M in many applications such as grover algorithm (find number of solutions is needed in order to know how many times to "flip" the souffle).
+
+Grover G is:$$G = \begin{bmatrix}cos\theta &-sen\theta\cr sen\theta&cos\theta\cr\end{bmatrix};$$
+**Proof**
+...
+
+---
+# Variational quantum algorithms
+
+There is this wonderfull new algorithm, **VQE** variational quantum eigensolver.
+A is an hermitian matrix. Find the extremal eigenvalues of A (the largets or the smallest).
+An hermitian matrix has all real eigenvalues.
+Optimization problem: c:X -> R cost function, and I have to find the min C(x) x in S.
+
+Assume X finite.$$H_c=\sum_{x\in X}C(x)\ket x\bra x$$
+is hermitian (projection is selfadjoint (|x><x|) ).$$H_c\ket a= C(a)\ket a \forall a \in X$$
+Generate candidates: v
+depending on parameters theta in R^p
+Theta \in R^p 
