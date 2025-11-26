@@ -606,3 +606,49 @@ is hermitian (projection is selfadjoint (|x><x|) ).$$H_c\ket a= C(a)\ket a \fora
 Generate candidates: v
 depending on parameters theta in R^p
 Theta \in R^p 
+
+---
+# Quantum error correction
+
+![[Pasted image 20251126142611.png]]
+
+Suppose now that we are in a quantum environment and Alice wants to send α0 |0⟩ + α1 |1⟩.
+Then she'll send: (α0 |0⟩ + α1 |1⟩) ⊗ |00⟩ = α0 |000⟩ + α1 |100⟩.
+We can do a parity check on the received qbits.
+In a single qbit flip how the detection happens?
+Single bit-flip α0 |100⟩ + α1 |011⟩ or α0 |010⟩ + α1 |101⟩ or α0 |001⟩ + α1 |110⟩
+
+Note that the four vectors are pairwise orthogonal. Bob can then build four
+projectors that tell him which bit has flipped!
+
+| Projector                   | Error occurred         |
+| --------------------------- | ---------------------- |
+| \|000⟩⟨000\| + \|111⟩⟨111\| | No error               |
+| \|100⟩⟨100\| + \|011⟩⟨011\| | **First** bit flipped  |
+| \|010⟩⟨010\| + \|101⟩⟨101\| | **Second** bit flipped |
+| \|001⟩⟨001\| + \|110⟩⟨110\| | **Third** bit flipped  |
+
+![[Pasted image 20251126143311.png]]
+
+**Phase flip**
+Applies $\sigma_z$. so does nothing on the 0 state and flip the phase (sign) on the 1 state.
+How can we detect errors?
+We use this translations:
+- |0⟩ → |+ + +⟩;
+- |1⟩ → |− − −⟩;
+
+We apply the same method as before:
+
+| Projector                           | Error occurred         |
+| ----------------------------------- | ---------------------- |
+| \|+ + +⟩⟨+ + +\| + \|- - -⟩⟨- - -\| | No error               |
+| \|- + +⟩⟨- + +\| + \|+ - -⟩⟨+ - -\| | **First** bit flipped  |
+| \|+ - +⟩⟨+ - +\| + \|- + -⟩⟨- + -\| | **Second** bit flipped |
+| \|+ + -⟩⟨+ + -\| + \|- - +⟩⟨- - +\| | **Third** bit flipped  |
+- To flip signs we apply $\sigma_z$;
+- To go back to the original state we apply the Hadamard again;
+
+### Arbitrary errors
+
+THM:
+If you can correct up to k pauli errors (on k different qbits), then u can correct arbitrary errors.
