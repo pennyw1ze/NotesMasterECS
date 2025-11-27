@@ -652,3 +652,48 @@ We apply the same method as before:
 
 THM:
 If you can correct up to k pauli errors (on k different qbits), then u can correct arbitrary errors.
+Proof: lol
+
+# Hamming code
+(Classical)
+Maps 4 bits to 7 bits.
+$$G = \begin{bmatrix}0&0&&0&1&1&1\cr0&1&1&0&0&1&1\cr1&0&1&0&1&0&1\cr1&1&1&1&1&1&1\cr\end{bmatrix}$$
+This is called the generator matrix.
+
+I insert a message and I get back a codeword. The message is 4 bits long. The codeword will be 7 bits long.
+How to decode:
+We take 4 linear independent columns of G in our new matrix G*. Then we compute $G^{*-1}$.
+
+
+**Hamming weight** number of 1's in the bitstring.
+**Hamming distance** between 2 codewords c1, c2 d(c1,c2) is the weight of c1 minus c2.
+
+If a code has min weight d>0, then this code can correct t = $d-1\over2$ errors and detect d-1 errors.
+We define:
+$G = (I_k|-A^T)$
+$H = (A|I_{n-k})$
+
+THM:
+First, we show that if a codeword w has at most t errors we can correct with the
+unique codeword within distance t from w.
+
+Parity check: H^T
+
+Assume e = (0,0,0,0,1,0,0)
+Where 1 is a bitflip error.
+$r = mG \oplus e$.
+to check for errors we compute:
+$rH^t  = (mG \oplus e)H^T = mGH^T \oplus eH^T = eH^T$
+If there is 1 error I get back  1 of the raws of $H^T$.
+
+## Quantum Hamming
+
+We map:
+- $\ket0 \rightarrow {1\over\sqrt 8}\sum_{c\in[H]} \ket c$;
+- $\ket1 \rightarrow {1\over\sqrt 8}\sum_{c\in[H]} \ket {c\oplus 1111111}$;
+
+We compute a 3-bit syndrom similar to classical computing:
+\[(b4 ⊕ b5 ⊕ b6 ⊕ b7),( b2 ⊕ b3 ⊕ b6 ⊕ b7),( b1 ⊕ b3 ⊕ b5 ⊕ b7)\]
+
+![[Pasted image 20251126165040.png]]
+
