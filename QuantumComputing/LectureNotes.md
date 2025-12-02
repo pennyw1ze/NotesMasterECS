@@ -697,3 +697,6 @@ We compute a 3-bit syndrom similar to classical computing:
 
 ![[Pasted image 20251126165040.png]]
 
+---
+**Remember**:$$\forall U \ unitary, \ Uu=\lambda u \implies |\lambda|=1 $$
+Unitary transformations has eigenvalues with modulus 1 (complex).
