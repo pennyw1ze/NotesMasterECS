@@ -700,3 +700,32 @@ We compute a 3-bit syndrom similar to classical computing:
 ---
 **Remember**:$$\forall U \ unitary, \ Uu=\lambda u \implies |\lambda|=1 $$
 Unitary transformations has eigenvalues with modulus 1 (complex).
+
+## Quantum recurrence theorem
+The Grover behaviour of cooking the souffle is a common behaviour in quantum computing algorithms.
+Suppose we have a unitary operator U on a finite-dimension hilbert space.
+$\forall v \in H, \forall \epsilon > 0, \exists k \ge 1 ||U^ku-v||< \epsilon$ 
+
+---
+# Solving linear equations HHL
+
+NxN hermitian matrix A, unit values b. Find x: Ax=b
+x = $A^{-1}b$
+
+Condition number:
+k =  |largest eigenvalue of A| over |smallest eigenvalue of A|
+
+Assumption of HHL: 
+1. The singular values of A are between 1/k and 1. Square root of the eigeinvalues of $A^+A$;
+2. A is a s-sparse, A has at most s non-zero elements per row;
+3. A is efficiently computed entries of A can be computed in O(s) time;
+
+COST:
+- **Classical**: $O(Nsklog({1\over \epsilon}))$ so we could arrive to $n^3$ complexity;
+- **Quantum**: $O(logN)s^2k^2{1\over \epsilon}$;
+
+Input matrix $$A = \sum_{j=1}^N \lambda_i\ket{u_j}\bra{u_j}$$
+
+
+
+
