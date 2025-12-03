@@ -727,5 +727,38 @@ COST:
 Input matrix $$A = \sum_{j=1}^N \lambda_i\ket{u_j}\bra{u_j}$$
 
 
+T large enough to store A's eigenvalues.
+We define our unitary operator as:$$U = e^{iAt_0\over T} = \sum_{j=0}^{N-1}e^{i\lambda_jt_0\over T}\ket{u_j}\bra{u_j}$$
+where $\lambda$ are the eigenvalues of A.
+$$U\ket b$$
+where $\ket b = \sum_{k=0}^{N-1}\beta _k \ket {u_k}$
+so:$$U\ket b = \sum_{k=0}^{N-1}\beta _k U\ket {u_k} = \sum_{k=0}^{N-1}\beta _k \sum_{j=0}^{N-1}e^{i\lambda_jt_0\over T}\ket{u_j}\bra{u_j}\ket{u_k}$$
 
+---
+# Density operator
 
+$\ket v$ is a pure state, a vector in a Hilbert space.
+A **mixed state** is, given $n$ pure states and $\sum_{i=0}^{n-1}p_i = 1, p_i\ge 0$, then $p = \{\ket v_i, p_i\}$.
+This mixed state is just a regular random variable.
+A mixed state tells us that our quantum state is in a pure state with classical probability $w_i$.
+$Prob(A=\lambda_i;\ket v) = <v,P_iv>$.
+$Prob(A=\lambda_i;p) = \sum p_i Prob(A-\lambda _i;\ket v)$
+
+DEF:
+A trace of a matrix is defined as:
+$tr(A) = \sum_{i=0}^n<e_i|Ae_i>$
+This sum is actually a number.
+where $e_i$ are orthonormal basis.
+
+**Density matrix**
+- $\rho$ is positive $\forall v \in H, <v,\rho v> >= 0$;
+- $tr(\rho) =1$;
+- $\rho = \rho^+$;
+
+RULE 1) A state of a quantum system is a density matrix
+RULE 2) Discrete time: a unitary evloution starting from state p and applied to U evolves into UpU^+
+Remember that if we apply a unitary transformation to a state of a mixed state the probabilities assigned to the sates will not change.
+
+a superoperator maps density matrixes to density matrixes.
+A measurement is described by a collection of measurment operators M such that
+$\sum MM^+ = I$
