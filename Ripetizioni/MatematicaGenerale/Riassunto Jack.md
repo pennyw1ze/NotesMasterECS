@@ -8,3 +8,7 @@ Chiamiamo $P$ l'insieme delle parti di un certo insieme A, contenente tutte le p
 # Funzioni
 
 # Sommatorie
+
+# Limiti
+
+- Se il limite tende a infinito,
