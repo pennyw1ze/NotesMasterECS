@@ -762,3 +762,59 @@ Remember that if we apply a unitary transformation to a state of a mixed state t
 a superoperator maps density matrixes to density matrixes.
 A measurement is described by a collection of measurment operators M such that
 $\sum MM^+ = I$
+
+---
+**Composite systems**
+
+Systems with more then 1 qbit:
+pure states -> tensor product of vectors;
+mixed states -> tensor product of density matrix;
+
+We will have entanglement both in pure and mixed states.
+The CNOT operation for example: (1000
+							0100
+							0001
+							0010)
+
+Suppose we have our 2 qbits and 2 density matrix A and B that describes the states of those 2 qbits. We can describe the state of just one qbit with the **partial trace**.
+
+Reduced density operator:
+trB (|a1⟩⟨a2| ⊗ |b1⟩⟨b2|) = |a1⟩⟨a2|tr(|b1⟩⟨b2|)
+
+**Superoperators** = linear functinos that maps operator to operators.
+
+**DEF** any phisically allowed superop. maps density matrix to density matrix.
+T is completely positive if T$\otimes$I is positive.
+
+T:L($H_1$)$\rightarrow L(H_2)$.
+T is CPTP (completely positive, trace preserving which means physically allowded) iff $\exists$ an hilber space F s.t. $dim(F) \le dimH_1dimH_2$
+and unitary embedding V: $H_1 \rightarrow H_1$
+$\forall p\in L(H_1) T(\rho) = tr_F(V\rho V^+)$
+
+A quantum gate is a CPTP superop from k qbits to l qubits.
+
+Total variation distance:
+$|f_i - g_i| = \sum_j|f_{i,j} - g_{i,j}|$
+
+$||f_i - g_i|| = max_i|f_i - g_i|$
+
+Proposition:
+Given 2 density matrix $\rho_1, \rho_2$, the distance between those 2 matrixes is:$$||\rho_1 -\rho_2|| = max_O|P_1^O-P_2^O|$$
+
+---
+**Shannon's enropy**
+Heads: @ P
+Tails:    @ 1-P
+bernoulli random variable.
+
+H(p) is the measurement of the entropy.
+$H(p) = -plog_2(p) - (1-p)log_2(1-p)$
+H(p) is max for p = 1/2 and min for p = 0 or 1.
+
+Joint entropy:
+$H(x,y) = \sum_{x,y}p(x,y)logp(x,y)$
+
+THM: Holevo's bound
+Alice prepares $\rho_x$ with probability $p_x$ where x = 1,.., n;
+When Bob receives $\rho_x$, perform some measurments y. Then $H(X:Y) \le S(\rho) - \sum p_i ;pgS(p_i) \le H(x)$
+where $S(\rho) = \sum\rho_ip_i$.
