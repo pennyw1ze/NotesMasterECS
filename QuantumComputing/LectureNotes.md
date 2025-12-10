@@ -818,3 +818,75 @@ THM: Holevo's bound
 Alice prepares $\rho_x$ with probability $p_x$ where x = 1,.., n;
 When Bob receives $\rho_x$, perform some measurments y. Then $H(X:Y) \le S(\rho) - \sum p_i ;pgS(p_i) \le H(x)$
 where $S(\rho) = \sum\rho_ip_i$.
+
+---
+**Turing** machines are countable.
+**Quantum circuits** are uncountable.
+
+**Famous gates**:
+$X = \begin{bmatrix}0&1\cr1&0 \end{bmatrix}$
+
+$Y = \begin{bmatrix}0&-i\cr i&0 \end{bmatrix}$
+
+$Z = \begin{bmatrix}1&0\cr0&-1 \end{bmatrix}$
+
+$H = {1\over \sqrt2}\begin{bmatrix}1&1\cr1&-1 \end{bmatrix}$
+
+$S = \begin{bmatrix}1&0\cr0&i \end{bmatrix}$
+
+$T = \begin{bmatrix}1&0\cr0&e^{i{\pi \over 4}} \end{bmatrix}$
+
+T gates are considered hard to build and their number must be minimized.
+
+$R_x(\theta) = \begin{bmatrix}cos({\theta\over 2})&-isen({\theta\over 2})\cr-isen({\theta\over 2})&cos({\theta\over 2})\end{bmatrix}$
+
+THM:
+U unitary operation on a single qbit, then $\exists \alpha,\beta,\gamma,\delta\ s.t.\ U = e^{i\alpha}R_x(\beta)R_y(\gamma)R_z(\delta)$
+
+Proof:
+U is 2x2 matrix. The rows and columns of the unitary matrix are orthonormal. 
+Suppose we take: $Ue_i = (u_{i,1},...,u_{i,n})$ so $||Ue_i|| = ||(u_{i,1},...,u_{i,n})|| = 1$, so we know that columns of U have norm 1.
+Doing the same operation with $U^+$ we get the same for the rows of U.
+For orthogonality, we already know that $\forall i,j,\ \delta_{i,j}=<e_i,e_j>$.
+Since U is unitary, I can do this:  $\forall i,j,\ \delta=<e_i,e_j> = <e_i,UU^+e_j> = <Ue_i,Ue_j> = \delta_{i,j}$.
+In this way we prooved that rows and columns of U are orthonormal.
+Since rows and columns are orthonormal, and 
+$U  = \begin{bmatrix}u_{1,1}&u_{1,2}\cr u_{2,1}&u_{2,2}\end{bmatrix} = \begin{bmatrix}e^{i(\alpha-{\beta\over 2}-{\delta\over 2})}cos({\delta \over 2})&-e^{i(\alpha-{\beta\over 2}-{\delta\over 2})}sin({\delta \over 2})\cr e^{i(\alpha+{\beta\over 2}+{\delta\over 2})}sin({\delta \over 2})&e^{i(\alpha+{\beta\over 2}+{\delta\over 2})}cos({\delta \over 2})\end{bmatrix} = e^{i\alpha}\begin{bmatrix}e^{(-{\beta\over 2}-{\delta\over 2})}cos({\delta \over 2})&-e^{i(-{\beta\over 2}-{\delta\over 2})}sin({\delta \over 2})\cr e^{(+{\beta\over 2}+{\delta\over 2})}sin({\delta \over 2})&e^{i(+{\beta\over 2}+{\delta\over 2})}cos({\delta \over 2})\end{bmatrix}$
+
+**Corollary**
+U unitary single qbit, then $\exists A,B,C\ s.t.\ ABC=I,\ U=e^{i\alpha}AXBXC$
+where X is the not gate.
+$A = R_z(\beta)R_y({\delta \over 2})$
+$B = R_y({\delta \over 2})R_z({-(\delta + \beta)\over2})$
+$C = R_z({\delta-\beta \over 2})$
+
+Give XX = I.
+How to represent U as a circuit:
+```circuit
+----x----       -----x------x-------[ 1  0    ]--------------
+    |                |      |       [ 0  e^ia ]
+	|        =       |      |          
+--[ U ]--       ---[ C ]--[ B ]----[ A ]---------------------
+```
+
+We need a gate over at least 3 qbits in order to implement it in a reversible way.
+The Toffoli's gates can be used to represent any quantum reversable circuit.
+
+Exact implementation:
+single-qbit gates + CNOT are universal
+
+DEF: 
+A 2-level unitary matrix acts non-trivially on max 2 components of the target vector to which the matrix is applied.
+
+PROP:
+Unitary U on n qbits U = product of $2^{n-1}(2^n-1)$ 2-level ($2^n\times 2^n$) matrixes.
+
+THM:
+Unitary on n qbits, then U = circuit with $O(n^24^n)$ single qubits + CNOTS
+
+**Sloway Kitaev** THM:
+U single qbit, $\epsilon > 0$, U can be written up to epsilon precision with a finite sequence of H,S,T gates only. The length of the sequence is  approximately $log({2\over \epsilon})^c$ where c is circa 2.
+
+Clifford Gates = {H,S,CNOT, Single Q-measure}
+This gates are easily simulatable in polynomial time on a classical machine with use of pseudo-randomness.
+
