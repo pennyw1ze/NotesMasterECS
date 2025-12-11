@@ -1,4 +1,4 @@
-# Evaluation of Private Benchmarks on Privacy-Preserving Machine Learning Models
+ Evaluation of Private Benchmarks on Privacy-Preserving Machine Learning Models
 # Introduction and Motivation
 Machine learning models today are very important assets. They are often the result of long and expensive training processes on large and private datasets. The final models, with their trained weights, represent valuable intellectual property, so owners usually want to keep them private and only give access to paying users.
 At the same time, users who want to buy access to a model need to be sure that the model has good quality and is suitable for their tasks. Normally, before paying, users would like to test the model by asking some queries and checking the answers. However, this simple idea creates a serious problem. If the user can ask many queries for free during the test phase, they might get all the information they need from the model and then walk away without ever paying. This would mean a loss for the model owner.
