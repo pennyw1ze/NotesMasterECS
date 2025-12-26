@@ -130,4 +130,75 @@ Classification of 3 instructions groups:
 - **Sensitive:** Change underlying resources (ex: PUSHF / POPF (save or restore the processor flags);
 - **Innocuous:** Not sensitive (ex: ADD EAX);
 
+|Term|Definition|Key Characteristics|
+|---|---|---|
+|**SaaS (Software as a Service)**|Software applications delivered over the Internet as a service without user management of the underlying infrastructure or platform.|- Used by humans or software systems  <br>- Examples include most Internet applications  <br>- SaaS providers can also be IaaS users|
+|**PaaS (Platform as a Service)**|A cloud service model that provides developers with an environment to build and deploy applications without managing OS or development tools.|- Provider manages OS and development environment  <br>- Developers focus on coding  <br>- Example: Jupyter|
+|**IaaS (Infrastructure as a Service)**|Provides virtualized computing resources over the internet, underlying both PaaS and SaaS layers.|- Offers infrastructure like network, storage, computing, hypervisor
 
+### SaaS Provider Journey & API Usage
+
+- SaaS software can be accessed programmatically by other applications via **Web APIs**.
+- Web APIs commonly use **HTTP** as the communication protocol;
+- When SaaS is integrated within larger applications, APIs facilitate communication between software components.
+
+---
+
+### Web API Types and Characteristics
+
+|API Type|Description|Characteristics|
+|---|---|---|
+|**REST API**|Resource-based API adhering to HTTP semantics. Operations correspond to standard HTTP methods (GET, POST, PUT, DELETE).|- Data returned in JSON or XML  <br>- Resources represented as paths (e.g., /products)  <br>- Hierarchical resource paths improve readability  <br>- Proper HTTP status codes (e.g., 404 Not Found) used for error handling|
+|**RPC API (Action-Based)**|Single endpoint API where operations are actions with parameters, not limited to CRUD.|- One URL for all operations (e.g., /api)  <br>- Operations are function-like calls with input/output  <br>- Example: POST /api with action and parameters in the payload|
+
+### REST API Design Guidelines
+
+- Identify **resources** and map operations to HTTP methods.
+- Use hierarchical paths to represent resource relationships for clarity.
+- Processing operations that do not fit CRUD can still be mapped to resources (e.g., POST /check-out).
+- Responses consist of structured data, not HTML.
+
+---
+
+### API Security and Access Control
+
+- Essential to restrict operations and data access to authorized users.
+- Security mechanisms include:
+    - **API keys** for simple authentication.
+    - **Tokens** for fine-grained access control, scope definition, and delegated identity management.
+    - Common protocols: **OAuth 2.0** and **OpenID Connect**.
+- API gateways act as centralized control points, providing:
+    - Authorization enforcement.
+    - Rate limiting.
+    - Request transformation.
+    - Monitoring and logging.
+    - Whitelisting/blacklisting.
+- Example of scope control: different user roles have varying permissions (e.g., transfer limits).
+
+---
+
+### Other API Technologies
+
+|API Technology|Description|Advantages|
+|---|---|---|
+|**gRPC**|High-performance RPC framework using HTTP/2 and Protobuf binary format.|- Efficient serialization  <br>- Supports bidirectional streaming|
+|**GraphQL**|Query language developed by Facebook allowing clients to specify exactly the data fields needed.|- Reduces over-fetching and under-fetching  <br>- More flexible than REST|
+|**Callback API**|Asynchronous API where clients register endpoints for the server to send replies later.|- Avoids client blocking  <br>- Useful for long-running processes|
+
+### API Design and Catalog Tools
+
+- **OpenAPI Specification** (formerly Swagger) is widely used for API description and documentation.
+- API catalogs (e.g., [https://apislist.com/](https://apislist.com/)) provide centralized listings of available APIs.
+
+---
+
+### Example Use Cases of Web APIs
+
+- Weather data providers offer APIs with different subscription plans:
+    - Current weather
+    - Forecasts (hourly and daily)
+    - Solar irradiance and panel predictions
+    - Air pollution data
+- Facebook API exposes its social graph programmatically:
+    - Represents data as nodes (objects) and edges (connections)
+    - Used by apps to interact with Facebook’s data model
