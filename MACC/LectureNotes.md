@@ -141,7 +141,7 @@ Classification of 3 instructions groups:
 - SaaS software can be accessed programmatically by other applications via **Web APIs**.
 - Web APIs commonly use **HTTP** as the communication protocol;
 - When SaaS is integrated within larger applications, APIs facilitate communication between software components.
-
+zap
 ---
 
 ### Web API Types and Characteristics
@@ -202,3 +202,121 @@ Classification of 3 instructions groups:
 - Facebook API exposes its social graph programmatically:
     - Represents data as nodes (objects) and edges (connections)
     - Used by apps to interact with Facebook’s data model
+
+---
+# Resource management in cloud
+One of the best way to manage on-cloud modern resource, which are weight varying, and require a lot of effort to be managed, is through  **Reinforcement Learning** (RL).
+
+RL is a framework for learning by interactions. Agents learns through trial, feedback and adaption.
+Advatages:
+- RL optimizes a sequence of actions with delayed effects;
+- The agent improves directly from real operational data, without requiring a perfect model of the environment.
+- RL continuously adapts to workload changes, failures, and new conditions.
+
+Key concepts:
+- A **policy** defines how the agent acts in every state;
+- We can measure how good a policy is using the **value function**;
+- An alternative way to measure a policy is the **state-action** value function Q(s,a);
+- **Optimal policy**: another important concept, the best of all other policy;
+
+In RL:
+- The model of the environment is unknown;
+- Prediction: Estimate a given policy;
+- Control: Find the optimal policy;
+- States: where agents could be in the sample space;
+- Actions: What agent can do to change state;
+
+RL for autoscaling: 
+An agent modifies the treshold used to scale in or out CPU and resource used to handle data.
+
+### Edge cloud computing
+**Cloud computing limitations**:
+
+- High network latency makes cloud computing impractical for real-time and location-dependent applications.
+- Applications such as **real-time manufacturing, autonomous vehicles, drones, and cognitive assistants** produce massive data volumes and demand ultra-low latency.
+- These applications face significant challenges when relying solely on distant cloud data centers.
+
+Moving computation and storage to **edge resources** is essential for supporting latency-sensitive, location-aware applications.
+Edge cloud computing consists essentially in managing network resources locally by dividing them in areas in order to properly serve client at fast speed. Edges of the network rely on Cloud layer which cannot be reached by client at fast speed.
+
+
+---
+
+### Summary of Android Software Stack and Architecture
+
+**Android OS** is a mobile operating system built on a heavily modified **Linux kernel**.
+Changed: Memory Management, CPU Management, Communication (Implements **Binder**, a secure and efficient IPC mechanism enabling communication among apps and system services )
+
+
+**Core Android Application Components**
+
+| Component         | Description                                   |
+|-------------------|-----------------------------------------------|
+| Activity          | Represents a single UI screen                   |
+| Service           | Runs background operations without UI          |
+| BroadcastReceiver | Handles broadcast messages from system or apps |
+| ContentProvider   | Manages shared access to app data               |
+
+**ABI**
+
+- Android supports multiple CPU architectures, each requiring a specific **Application Binary Interface (ABI)**.
+- ABI defines CPU instruction sets, memory endianness, calling conventions, and integration methods for C++ code.
+
+The Android Open Source Project (AOSP) **software stack** is layered and complex:
+
+- **Applications**: Installed by users, isolated in sandboxes (Linux user-based), with permissions controlled by the user; reside in `/data/app`.
+- **System Apps**: Pre-installed in `/system/priv-app` with special permissions inaccessible to user apps; cannot be uninstalled, only disabled.
+- **Device Manufacturer Apps**: Pre-installed by OEMs to customize devices.
+
+
+**Android Framework and APIs**
+
+- **Android API Framework** is publicly accessible for app development, including packages like `android.graphics`.
+- **System APIs** (`@SystemApi`) are restricted for OEM use.
+- **Modern apps** use libraries like `androidx.*` and `kotlin.*`, which are bundled inside APKs and not shared among apps.
+- The **Java API Framework** is pre-installed on devices, with apps relying on it without bundling implementation.
+
+**Runtime and Native Components**
+
+- **Android Runtime (ART)** executes app bytecode translating it to CPU-specific instructions;
+- **Native daemons**  interact directly with the kernel.
+- **Native libraries** (C/C++) perform high-efficiency tasks;
+- **Platform Channels** enable communication between Kotlin and other code;
+
+**Application Classification**
+
+| Type              | Description                                           |
+| ----------------- | ----------------------------------------------------- |
+| Platform-native   | Uses only official Kotlin/Java APIs                   |
+| CPU-native        | Compiled directly to CPU machine code (C/C++ via NDK) |
+| Hybrid            | Combines web tech with native code (e.g., PhoneGap)   |
+| Cross-platform UI | Uses proprietary rendering engines (e.g., Flutter)    |
+
+**Augmented Reality and Cloud Services**
+
+- **ARCore** enables AR experiences by providing motion tracking, environmental understanding, and light estimation;
+- **SceneView** is a Kotlin-based 3D and AR composable using Google Filament and ARCore;
+
+**Build System and Variants**
+
+- Android apps can be built with different **variants** combining build types (debug/release), CPU architectures (arm, x86_64), and screen densities (hdpi, mdpi).
+- APKs are generated specific to these variants for optimized performance and resource usage.
+
+Android apps are structured into three **layers**:
+
+| Layer                   | Responsibility                                      |
+|-------------------------|----------------------------------------------------|
+| Presentation Layer (UI)  | Display and handle user interactions                |
+| Business Logic Layer     | Process data, enforce business rules                |
+| Data Access Layer        | Manage data sources (databases, files, services)    |
+
+- The **Model-View-ViewModel (MVVM)** pattern is predominant:
+  - View handles UI
+  - ViewModel handles business logic and UI state
+  - Model handles data access and persistence
+
+- **Design principles** emphasize:
+  - Separation of concerns
+  - UI driven by independent data models
+  - Single source of truth for data
+  - Unidirectional data flow for state management
