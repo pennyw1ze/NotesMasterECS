@@ -25,6 +25,7 @@ An activity is an Android software components that reacts to events. Each activi
 Events are comunicated by special messages called **intents**.
 Components like activities usually have states, and states usually changes during the lifetime of the software.
 Intent are not confined in single application, but are system-wide. They can link applications between each other, and can be processed by any component.
+
 **Intent flow** example:
 ![[Pasted image 20251009104614.png]]
 
