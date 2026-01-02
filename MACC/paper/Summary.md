@@ -26,7 +26,14 @@ $$
 
 where $r$ is the server capacity and $\phi_i$ is the flow weight.
 
-Since GPS **cannot be implemented directly** (Il GPS assume che il server possa servire _tutti i flussi contemporaneamente_, dividendo la capacità in porzioni infinitamente piccole. Nella realtà, invece, i pacchetti sono **discreti**: un link può trasmettere **un pacchetto alla volta**, non frazioni di pacchetto), packet-based approximations such as WFQ and SFQ are used. SFQ schedules requests based on *start tags* and defines system virtual time as the start tag of the request currently in service. These algorithms are work-conserving and perform well when flows are continuously backlogged.
+Since GPS **cannot be implemented directly** (Il GPS assume che il server possa servire _tutti i flussi contemporaneamente_, dividendo la capacità in porzioni infinitamente piccole. Nella realtà, invece, i pacchetti sono **discreti**: un link può trasmettere **un pacchetto alla volta**, non frazioni di pacchetto), packet-based approximations such as WFQ and SFQ are used. 
+
+PGPS transmits packet by packet in its entirety and only serves one packet at a time. Serves packet in the **increasing orded of their finishing time**.
+PGPS approximate bandwith allocation in GPS by serving packets in the increasing order of theri finish time F under GPS. PGPS uses notion of **virtual time** to track packets transmission.
+
+To each packet k of a flow i is assigned a start tag $S_i^k$ and a finish tag $F_i^k$ as:$$S_k^i = max\{F_i^{k-1},v(t)\},\ F_i^k=S_i^k + {L_i^k\over \phi_i}$$where $L_i^k$ is the size of the packet and $\phi_i$ is the weight of the program and v(t) is the local virtual time. Since computation of v(t) is **too expensive** other methods are implemented.
+**SQF** serves packet in the **increasing order of start time** instead.
+
 
 ---
 
