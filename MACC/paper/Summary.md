@@ -8,9 +8,9 @@ The paper identifies a fundamental deficiency in state-of-the-art multicore sche
 
 ## 1. Introduction
 
-Modern operating systems and hypervisors rely on variants of fair queuing (FQ) algorithms to manage CPU resources. While these schedulers work well on single CPUs, they are not designed to fairly allocate CPU capacity across multiple cores at the program level. This limitation becomes critical for parallel programs that rely on blocking synchronization, where threads must progress collectively. When such programs are colocated with CPU-intensive workloads, they often receive less than their fair share of CPU, even though they would fully utilize the system if run alone.
+Modern operating systems and hypervisors rely on variants of fair queuing (FQ) algorithms to manage CPU resources. While these schedulers work well on single CPUs, they are **not** designed to **fairly allocate CPU** capacity across multiple cores at the program level. This limitation becomes critical for parallel programs that rely on blocking synchronization, where threads must progress collectively. When such programs are colocated with CPU-intensive workloads, they often receive less than their fair share of CPU, even though they would fully utilize the system if run alone.
 
-This unfairness has practical consequences. Public cloud providers avoid CPU multiplexing among SMP virtual machines due to concerns about performance unpredictability, leading to poor resource utilization and higher costs. The problem also threatens the scalability of serverless computing, where many short-lived, interdependent tasks are multiplexed on multicore systems. The paper argues that addressing this issue requires rethinking fair scheduling beyond the per-core abstraction.
+This unfairness has practical consequences. Public cloud providers **avoid CPU multiplexing** among SMP virtual machines due to concerns about performance unpredictability, leading to poor resource utilization and higher costs. The problem also **threatens** the **scalability** of serverless computing, where many short-lived, interdependent tasks are multiplexed on multicore systems. The paper argues that addressing this issue requires rethinking fair scheduling beyond the per-core abstraction.
 
 ---
 
@@ -26,7 +26,7 @@ $$
 
 where $r$ is the server capacity and $\phi_i$ is the flow weight.
 
-Since GPS cannot be implemented directly, packet-based approximations such as WFQ and SFQ are used. SFQ schedules requests based on *start tags* and defines system virtual time as the start tag of the request currently in service. These algorithms are work-conserving and perform well when flows are continuously backlogged.
+Since GPS **cannot be implemented directly** (Il GPS assume che il server possa servire _tutti i flussi contemporaneamente_, dividendo la capacità in porzioni infinitamente piccole. Nella realtà, invece, i pacchetti sono **discreti**: un link può trasmettere **un pacchetto alla volta**, non frazioni di pacchetto), packet-based approximations such as WFQ and SFQ are used. SFQ schedules requests based on *start tags* and defines system virtual time as the start tag of the request currently in service. These algorithms are work-conserving and perform well when flows are continuously backlogged.
 
 ---
 
