@@ -142,7 +142,25 @@ Classification of 3 instructions groups:
 - SaaS software can be accessed programmatically by other applications via **Web APIs**.
 - Web APIs commonly use **HTTP** as the communication protocol;
 - When SaaS is integrated within larger applications, APIs facilitate communication between software components.
-zap
+
+#### Contenerization
+
+ISOLATION
+
+- **Process**
+	- Each container, being a processes, has its own PID (from the host perspective), but also an ID with numerations starting from 1 (PID=1 is the init process of the container);
+	- Processes created inside a container are independent of the host and other containers.
+- **Filesystem**
+	- Containers have their own root filesystem;
+	- Without this mechanism isolation is just based on permissions and all processes see the same FS structure;
+	- Overlay/Union is an optimization mechanism that avoids duplications.
+- **User**
+	- Containers can have their own user and group IDs, which can be mapped to host users differently.
+- **Network**
+	- Each container can have its own network interfaces, IP addresses, routing tables, and firewall rules.
+
+
+
 ---
 
 ### Web API Types and Characteristics
