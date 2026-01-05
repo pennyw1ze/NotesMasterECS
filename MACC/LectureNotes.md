@@ -1,6 +1,6 @@
 # Basic interaction patterns
 
-A softwarre is made of several **components**, that can interact in a **synchronous** or in an **asynchronous** way, and can be sharing CPUs or other component, as well as stay completely separated (if we have processes running on different CPUs, then the system is distributed).
+A software is made of several **components**, that can interact in a **synchronous** or in an **asynchronous** way, and can be sharing CPUs or other component, as well as stay completely separated (if we have processes running on different CPUs, then the system is distributed).
 
 There are several basic interaction patterns between components.
 The **main patterns** are:
