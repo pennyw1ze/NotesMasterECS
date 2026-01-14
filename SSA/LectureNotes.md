@@ -1,4 +1,4 @@
-	# Security in Software Application
+# Security in Software Application
 
 Buffer overflow section completely skipped due to previous knowledge.
 
@@ -80,3 +80,243 @@ login.executeUpdate();
 ```
 
 ---
+# Race conditions
+
+Race conditions can happen randomly and are difficult to debug or to repeat, and when exploited can lead to misuse of shared objects.
+Happens when:
+- Objects access same shared var;
+- Algorithm doesn't enforce access order;
+Avoid by:
+- Use semaphores/locks;
+- Make the instructions `atomic`;
+Example: `mkdir` instruction.
+---
+# Secure software design
+
+ISO/IEC 12207:2008. Saltzer and Schroeder have designed some principles:
+- Least common mechanism;
+- Psychological acceptability;
+- Least priviledge;
+- Economy of mechanism/simplicity;
+- Open design;
+- Complete mediation;
+- Fail-safe defaults;
+- Separation of privilege;
+
+Ways to analyze a secure software are:
+- **attack-centric**: Starting with an attacker, we evaluate ther goals and how to achieve them;
+- **design-centric**: starting with system design, step through the model and looking for types of attack;
+- **asset-centric**: start from key assets entrusted to a system;
+---
+# Secure software engineering
+
+#definition 
+Concept of creating mantaining computer application by applying computer science and project management theories.
+
+Start with **SDL** - Secure Development Lifecycle - based on 3 components:
+- Repeatable process;
+- Engineering education;
+- Metrics and accountability;
+### SDL
+![[Pasted image 20260113104648.png]]
+
+- **Requirement** phase:
+	In this phase, all the system and security requirements are gathered, analyzed and verified. CIA and other security needs are checked. Also proper documentation and early planning is developed;
+- **Design** phase:
+	Architectural and component level are defined (i.e. language, interface, ecc...). Security design: threat model, input identification and so far;
+- **Verification** phase:
+	Testing phase: code is tested, security is tested, vulnerability are tracked and code is reviewed. Documentation about this phase is crucial to specify details about possible threats;
+- **Release** phase:
+	Focus on secure deployment and operational readiness. Defined procedures for secure management, system monitoring and security updates. This ensure the product is safely introduced and maintained in production;
+- **Response/maintenance** phase:
+	Feedback, incident reports ecc. drives ongoing improvements. Maintainance is performed, updates are released, ecc.
+---
+# Capability Maturity Models (CMM)
+
+They provide a reference on mature practices, that have been tested "on the job". They are useful to identify the potential areas of improvement, while not giving operational guidance. We have 3 different CMMs:
+- **CMMI**: provides the latest best practices related to development, maintanance, acquisition. In general it has been thorougly tested by more than a 1000 organizations and 5000 projects;
+- **iCMM**: iCMM is widely used in the Federal Aviation Administration (FAA-iCMM). Provides a single model for enterprise-wide improvement and it integrates a lot of standards, like ISO9001 and CCMI-SE/SW and iso 15504.
+- **SSE-CMM**: ISO/IEC 21827. Purpose is to fill the lack of a framework for evaluating security engineering practices against principles. 129 base practices organized into 22 process areas, designed to apply across the entire lifecycle of an enterprise.
+
+### System security engineering CMM
+
+Process areas assemble related for ease of use, and relates to security engineering services. Every process areas include all base practices required to meet the goals of that PA.
+![[Pasted image 20260113113009.png]]
+**Capability levels** are a way to assess the level of integration and organization has with regards to SSE-CMM and it has 5 levels:
+![[Pasted image 20260113113121.png]]
+
+## Bug/Flaw difference
+
+In general both are caused by a defect, which can remain dormant. Bugs are issues regarding implementations, which can carry significant impacts, like a buffer overflow or a format string attack. Flaws are issues in a deeper level, usually in the designing phase like wrong access controls, priviledged block protection issue.
+To factor this there are three pillars:
+- **Applied risk management**: Analysis of architectural risk, and construction of a risk management platform creating a lifecycle of riskanalysis and mitigation;
+- **Software security touchpoints**: Ideas on how to have software security, like:
+	1. Code review;
+	2. Architectural risk analysis;
+	3. Pentesting;
+	4. ecc.
+- **Knowledge**: Involves gathering, encapsulating and sharing security knowledge, cataloguing principles, guidelines, rules, vulnerabilities, exploits, attack patterns and historical risks.
+---
+# Re-entrancy attack
+
+A **re-entrancy attack** is a type of vulnerability commonly found in smart contracts, where an attacker exploits a function's ability to call external contracts before it finishes executing.
+This attack typically targets **withdrawal** mechanism in decentralized finance applications.
+The malicious contract repeatedly calls the vulnerable contract, causing it to execute the same code multiple times, often leading to unintended outcomes, such as draining the contract's funds.
+**Prevention**:
+- Use semaphore/lock in order to **prevent** the smart contracto from doing any action until the call has ended and the balance has updated;
+- Update the state **before** calling external contracts;
+
+Vulnerable contract sample:
+```Solidity
+// Withdraw function vulnerable to re-entrancy attack
+function withdraw(uint _amount) public {
+	require(balances[msg.sender] >= _amount, "Insufficient balance");
+	
+	// External call (could be exploited by attacker)
+	(bool success, ) = msg.sender.call{value: _amount}("");
+	require(success, "Transfer failed");
+	
+	// State update after external call
+	balances[msg.sender] -= _amount;
+}
+```
+Attacker contract:
+```Solidity
+// Attack function
+function attack() public payable {
+	victim.deposit{value: msg.value}();
+	victim.withdraw(msg.value);
+	}
+// Fallback function to re-enter the victim contract
+fallback() external payable {
+	if (address(victim).balance > 0) {
+		// Re-enter victim contract and withdraw again
+		victim.withdraw(msg.value);
+	}
+}
+```
+Fix:
+```Solidity
+modifier noReentrancy(){
+	require(!lock, "Lock is up!");
+	lock = true;
+	_; //placeholder for the modifier code to go to
+	lock = false;
+}
+```
+
+---
+# Language-based security
+
+More than applying memory-safe function, validating user input, a better alternative to this is use lenguage that providen security features, for example:
+- **Memory-safe**;
+	Must avoid:
+	1. unchecked array bounds;
+	2. pointer arithmetic;
+	3. null pointers (only when behavior is undefined);
+	So they basically never access unallocated de-allocated or uninitialized memory.
+- Good **access control** like visibility restriction;
+- **Information flow control**;
+
+#### Safety vs Security
+| Safety                                        | Security                                 |
+| --------------------------------------------- | ---------------------------------------- |
+| System protected against accidental failures. | System protected against active attacks. |
+Safe programming lenguages impose restrictions and abstractions to programmers.
+For example:
+- Programming lenguage constructs are abstractions from CPU instructions;
+- Variables are memory abstractions;
+- Function calls are slack mechanism abstractions;
+- Virtual memory, virtual CPU, sandboxing ecc.;
+Abstractions reduce bugs since there are multiple audits over single code.
+The safer the language is, the more abstractions are imposed to the programmer.
+Some mechanism used to preserve safety are:
+- **Compile-time checks**;
+- **Run-time checks**;
+- Automated **memory management** with garbage collector;
+- **Safe execution engine**;
+- Eliminating **undefined behaviours**;
+Race conditions are usually addressed in code, with mutexes and semaphores.
+
+### Type checking 
+A type is a specification of data or code in a program. Types are applicable to both functions and variables. We also use:
+- Structure types;
+- Array types;
+- Pointer types;
+- ecc.
+Type checking consists of being sure to provide the right input for the function, so that the right data at memory-level gets passed around and doesn't run into undefined behaviour.
+#definition 
+A program is called safe if it's not stuck and has not crashed, so a language is **type-**
+**safe** if well-typed programs always remain safe.
+Type casting is one of the reason why C is type-unsafe, specifically with
+upcasting memory pointers (example char -> int).
+Languages can be divided into:
+- Non typing (bash,Perl);
+- Weakly typed (C);
+- Strongly typed (Java);
+
+#TODO: SLIDES PACK 20
+
+---
+# Information flow
+
+The idea of information flow is that:
+- No confidential information should be leaked;
+- No untrusted input from network should be used as it is;
+Information flow properties can be about confidentiality or integrity. It refers not only to data access, but also on what you do with it.
+We may have 2 or more levels of confidentiality: high or low in caso of 2, and top secret, secret, classified, unclassified ecc. in case of more.
+
+---
+# Java programming rules
+
+Java platform offers security features, like:
+- Memory safety;
+- Strong typing;
+- Visibility restriction (public/private);
+- Stackwalking-based sandboxes;
+Even with buggy code we can always guarantee some security features.
+Java Secure Programming Guidelines:
+
+• **Do not use public or protected fields**: All fields should be **private** to preserve integrity and prevent unauthorized changes;
+
+• **Limit access to classes, methods, and fields**: Follow the **principle of least privilege**. Make them private unless there is a documented need for more visibility;
+
+• **Do not rely on package protection**: Because anyone can extend a package or create subclasses (unless the package is sealed or the class is final), package-level visibility is not a reliable security boundary;
+
+• **Beware of Reflection**: This feature can bypass visibility restrictions (e.g., accessing private fields via `setAccessible(true)`), though the default security manager usually prevents this;
+
+• **Make components final**: Classes, methods, and fields should be declared **final** unless there is a specific need for them to be subclassed, overridden, or modified;
+
+• **Prevent malicious subclasses**: Making a class `final` ensures that its security properties cannot be subverted by an attacker-controlled subclass;
+
+• **Thread-safety**: Fields should be `final` to ensure consistent behavior in multi-threaded environments;
+
+• **Prevent representation exposure**: Never return a reference to a **mutable object** (including arrays) to untrusted code;
+
+• **Secure object storage**: Never store a reference to a mutable object obtained from untrusted code, as the external code could modify it later;
+
+• **Clone arrays**: When passing arrays into or out of a class, they should be **cloned** to ensure the class maintains exclusive control over its internal state;
+
+• **Avoid inner classes**: In Java bytecode, inner classes are transformed into package-visible classes, which can inadvertently expose the **private fields** of the outer class to other classes in the same package;
+
+• **Control inheritance**: Use the `final` keyword to prevent the creation of malicious subclasses that could compromise the intended logic;
+
+• **Make classes non-cloneable**: Prevent unauthorized duplication of objects by not implementing the `Cloneable` interface or by restricting access to the clone method;
+
+• **Make classes non-serializable and non-deserializable**: Avoid implementing `Serializable`. Specifically, do not implement `writeObject` or `readObject` unless absolutely necessary, as these can be used to bypass constructors and create insecure object states.
+
+---
+# Aliasing
+
+In computing, aliasing describes a situation in which a data location in memory can be accessed through different symbolic names in the program. Thus, modifying the data through one name implicitly modifies the values associated with all aliased names, which may not be expected by the programmer.
+
+#### Confined types
+Some system have been proposed for alias control, with many of these requiring special annotations in code like `@rep` to express the programmer.
+For example objects of type `@rep` are not assignment compatible.
+The design challenge is to define a system that is:
+- Flexible and expressive;
+- Simple to be understandable and statically checkable;
+
+#### Immutability
+Immutability prevents aliasing, given that an immutable object cannot be changed by any of its references. In factm the java.lang.String class is immutable.
+This is an advantage, because it's not needed to clone an object to share it around, but it's also a disadvantage because for every change we need a new object.
