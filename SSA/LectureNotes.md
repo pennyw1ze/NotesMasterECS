@@ -541,4 +541,26 @@ Beware of **TOCTOU attacks**, in which mutable objects may be checked but modifi
 
 ### Hardware-level sandboxing
 
-In the case of unsafe langauge (like C), there is no sandboxing techniques, so we use the support provided by underlying hardware/linux kernel.
+In the case of unsafe langauge (like C), there is no sandboxing techniques, so we use the support provided by underlying hardware/linux kernel (like VM and contenerization).
+
+- **Secure enclaves** isolates part of the code together with its data. It's less flexible than stack walking, but it's more secure because of OS & Java VM are not in the TCB;
+- **Intel SGX** provides the hardware support for enclaves, which provides a form of trusted execution environment even with regards to the OS.
+---
+# Program obfuscation
+
+It's not encryption, it's not packing, it's a way to render source code unreadable. It's done to protect reverse engineering and illegal modifications. Transform the application into one that is functionally identical to the original but is more difficult to reverse engineering.
+Quality of obfuscation is evaluated according to four criteria:
+1. **Potency**: How much obscurity it adds to the program;
+2. **Resiliance**: How difficult is to deobfuscate;
+3. **Stealth**: How well obfuscated the code is;
+4. **Cost**: How much computational overhead it adds to the obfuscated app;
+
+Works in 3 different ways:
+- **Layout obfuscation**: changes or removes informations, removing variable/function name, removes comments, ecc;
+- **Data obfuscation**: changes the data structures in the program, like doing variable encoding, splitting, merging, ecc;
+- **Control flow obfuscation**: affects the original control flow logic by reordering statements, introducing dummy control flows, aggregation, spurious computations via opaque predicats.
+
+## Program slicing
+
+To avoid program comprehension, we use a technique called program slicing, which consists of slices. A slice of a value v in a particular code part p consists of all the program code that happens before p that affect the value v. With this is possible to create a system dependency graph to avoid reverse engineering.
+To avoid obfuscation it's possible to insert fake dependencies so that automatic slicers will need to include that part too.
