@@ -320,3 +320,128 @@ The design challenge is to define a system that is:
 #### Immutability
 Immutability prevents aliasing, given that an immutable object cannot be changed by any of its references. In factm the java.lang.String class is immutable.
 This is an advantage, because it's not needed to clone an object to share it around, but it's also a disadvantage because for every change we need a new object.
+
+---
+# Testing
+
+Necessary part of development process, we'll begin listing all of the possible testing
+procedures:
+
+- **Scenario testing**:
+	Used to ensure that **requirements** are complete and consistent, by doing validation efforts, for example abuse and misuse cases in UML. Steps:
+	- Identify trust relationships and attack them;
+	- Which resources are open to me ? How can they be abused ?
+	- Are there insecure defaults or things that could easily be misconfigured or badly coded ?
+	**Key idea:**
+	"If someone interacts with this system in a particular way, does it behave safely?"
+	
+- **Specification testing**:
+	Proves the correctness and completeness of the specification by **formal proof** or by **symbolic execution**. It's a rare type of testing, usually done for high-assurance projects. Many networking protocols lacks specification testing, and have spefication vulnerabilities;
+	**Key idea:**
+	“Is the design mathematically correct?”
+	
+- **In-line testing**:
+	Execution testing, like ASSERT. In this case, checks are placed inside the code to ensure the program is always in a valid state. 
+	Main features:
+	- Allows verification of **invariants**;
+	-  Is usually turned off in the final product;
+	- Happens earlieri thanother forms of testing;
+	**Key idea:**
+	“This condition must always be true at this point.”
+	
+- **Unit testing**:
+	The single functions get tested, also a good time to test against buffer overflow and low-level coding mistake.
+	**Key idea:**
+	“Does this function behave correctly for all expected and unexpected inputs?”
+	
+- **Integration testing**:
+	The natural follow-up to unit testing, tests for discrepancies in assumptions and security models, and does the security testing of access control.
+	**Key idea:**
+	“Do these modules agree on assumptions?”
+	
+- **Human interaction testing**:
+	Regards to the user experience part. 
+	Examples:
+	- Users clicking through security warnings;
+	- Confusing permission dialogs;
+	- UI elements that enable phishing or spoofing;
+	**Key idea:**
+	“Can a user accidentally or unknowingly compromise security?”
+	
+- **Acceptance testing**:
+	Tests whether the system meets customer expectations in real usage.
+	- Customers are not security experts;
+	- Customers have no responsability;
+	**Key idea:**
+	“Is this acceptable to the user?”
+	
+-  **Final testing**:
+	Testing of the final software as a whole, but fault injecting random or grammar generated input and see if sw breaks. If system crash is usually difficult to find the flaw.
+	**Key idea:**
+	“What happens if we throw chaos at the system?”
+
+---
+# Testing suites
+
+To test a system we need to have:
+- A test suite, or more informally, a collection of data;
+- A test oracle which is able to say if the test has passed or not;
+
+**Code coverage** are stats that are used to check how good a test suites is, and we have two or more kinds of coverage:
+- **Statement Coverage:** Percentage of program's instructions executed by at least one test;
+- **Branch Coverage:** Percentage of conditional branches covered by at least one test (if-else);
+
+High coverage criteria may discourage defensive programming, since it's difficult to correctly test in the case there is defensive code which corrects/abort in case of erros.
+Normal testing looks for correct behaviour, with sensible input and checks in borderline conditions, while security testing looks for unwanted and wrong behaviours, which means that it's imperative to use negative check cases: normal use of the system is more likely to reveal functional problems than security problems.
+
+## Fuzz testing
+Basic idea: generate (semi-automatically) random input to see if the application crashes, to check if there are "special" inputs. The original form of tuzzing generated very long input to see if the system crashes with segmentation fault.
+**PROS**:
+- Little effort required (automatized);
+- 100% true positives;
+**CONS**:
+- Not all bugs will be found;
+- Crashes are not easy to analyze;
+- Specific-input bugs will not be found;
+
+## Fuzzing web apps
+Fuzzing web apps: Could a fuzzer detect SQL injections or XSS vulnerabilities ?
+- For SQL injection, monitor database for error messages;
+- For XSS, see if the website echoes HTML tags in user input.
+There are various tools in web apps, that might produce false positives/negatives.
+
+## Smart fuzzer
+- **Mutation based fuzzing**:
+	By supplying well-formed input, fuzzer generates random changes from input. This has stron bias by the initial input, but it's very easy to setup and isn't dependent on program specification.
+	
+- **Generation-based fuzzing**:
+	By supplying a specification over file format, or communication protocol, the generation-based fuzzer tries and generate slightly malformed packets or hit corner cases.
+	Useful, for example, in testing incorect lenghts, zero-length headers, or payloads too long/short.
+	- It's way more **complete** in its search;
+	- To test, a specification and an ad-hoc generator is needed;
+	
+- **Whitebox fuzzing**:
+	The idea is that we have the actual source code available, we can search deeper into all branches. Symbolic variables are used, and multiple "symbolic executions" of the program are performed in order to look for vulnerabilities in each possible branch. Each branches generates a new **constraint** and complex software like SAGE are used to solve this mathematical problems.
+	- Mathematical proof of security;
+	- Gives results unexpected from any other for of testing;
+	- Might be computational infeasible, expecially in presence of loops;
+
+---
+# Program verification
+
+Program verification deals with the issue of mathematically and formally proving that a program satisfies some properties. It's not the same as testing, wihch is a weaker form of verification.
+Program verification need:
+- A formal semantic of the programming language;
+- A specification language to express properties;
+- A logic to reason about programs and specifications;
+- A verification tool;
+We have some tools at our disposal:
+- **Symbolic execution**;
+- **Weakest preconditions** (or strongest postcondition): basically inserting asserts inside code to make sure a certain property is satisfied at a certain point in the program;
+
+**Complications**:
+1. **Loops**: mpossible to follow all paths. Solution: **Loop invariant**: code to ensure that a certain condition is met at every iteration of a loop;
+2. **Modularity**: since variables are held in the heap, it isn't always possible to monitor weather they are changed in a 
+
+---
+
