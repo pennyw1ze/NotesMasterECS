@@ -90,6 +90,8 @@ Avoid by:
 - Use semaphores/locks;
 - Make the instructions `atomic`;
 Example: `mkdir` instruction.
+TOCTOU time attack is used between the check of the folder existence and the actual creation of the folder to obtain permissions, or ownership of arbitrary files by swapping them in the victim's memory.
+
 ---
 # Secure software design
 
@@ -105,8 +107,8 @@ ISO/IEC 12207:2008. Saltzer and Schroeder have designed some principles:
 
 Ways to analyze a secure software are:
 - **attack-centric**: Starting with an attacker, we evaluate ther goals and how to achieve them;
-- **design-centric**: starting with system design, step through the model and looking for types of attack;
-- **asset-centric**: start from key assets entrusted to a system;
+- **design-centric**: Starting with system design, step through the model and looking for types of attack;
+- **asset-centric**: Start from key assets entrusted to a system;
 ---
 # Secure software engineering
 
