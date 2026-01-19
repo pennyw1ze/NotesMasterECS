@@ -10,4 +10,6 @@ Just the more quoted:
 Added to cover every topic of the course:
 1. Ways to analyze a secure software;
 	   
-2. 
+2. SDL phases;
+	   
+3.  
