@@ -130,6 +130,7 @@ Start with **SDL** - Secure Development Lifecycle - based on 3 components:
 	Focus on secure deployment and operational readiness. Defined procedures for secure management, system monitoring and security updates. This ensure the product is safely introduced and maintained in production;
 - **Response/maintenance** phase:
 	Feedback, incident reports ecc. drives ongoing improvements. Maintainance is performed, updates are released, ecc.
+
 ---
 # Capability Maturity Models (CMM)
 
