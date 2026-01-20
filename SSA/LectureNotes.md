@@ -265,19 +265,22 @@ A type is a specification of data or code in a program. Types are applicable to 
 - Pointer types;
 - ecc.
 Type checking consists of being sure to provide the right input for the function, so that the right data at memory-level gets passed around and doesn't run into undefined behaviour.
+
 #definition 
 A program is called safe if it's not stuck and has not crashed, so a language is **type-**
 **safe** if well-typed programs always remain safe.
 
 Type casting is one of the reason why C is type-unsafe, specifically with upcasting memory pointers (example char -> int).
 Languages can be divided into:
-- Non typing (bash,Perl);
-- Weakly typed (C);
-- Strongly typed (Java);]
+- **Non typing** (bash,Perl): Usually interpreted;
+- **Weakly typed** (C): Often allows unsafe cast like char[8] to char[];
+- **Strongly typed** (Java): No unsafe cast;
 
-
-
-#TODO: SLIDES PACK 20
+### Mini-C
+![[Pasted image 20260120115008.png]]
+**Semantic of expression**s: We use $\sigma$ to represent a context in which we actually do reductions. For example:$$\sigma ⊳ e \rightarrow e'$$
+**Semantic of commands**: Represent change between a state prior to the command, and a state that follows after the command is executed:$$\sigma;c\rightarrow\sigma'c'$$
+Type check for expressions is done like:$${\Delta \vdash e_1: int \ \ \ \Delta\vdash e_2:int\over \Delta \vdash e_1 + e_2: int}$$
 
 ---
 # Information flow
@@ -286,7 +289,11 @@ The idea of information flow is that:
 - No confidential information should be leaked;
 - No untrusted input from network should be used as it is;
 Information flow properties can be about confidentiality or integrity. It refers not only to data access, but also on what you do with it.
-We may have 2 or more levels of confidentiality: high or low in caso of 2, and top secret, secret, classified, unclassified ecc. in case of more.
+We may have 2 or more levels of confidentiality: high or low in case of 2, and top secret, secret, classified, unclassified ecc. in case of more.
+- **Soundness** of the type system:
+	programs that are well-typed do no leak;
+- **Completeness** of the type system:
+	programs that do not leak can be typed.
 
 ---
 # Java programming rules
@@ -330,7 +337,7 @@ Java Secure Programming Guidelines:
 ---
 # Aliasing
 
-In computing, aliasing describes a situation in which a data location in memory can be accessed through different symbolic names in the program. Thus, modifying the data through one name implicitly modifies the values associated with all aliased names, which may not be expected by the programmer.
+In computing, **aliasing** describes a situation in which a data location in memory can be accessed through different symbolic names in the program. Thus, modifying the data through one name implicitly modifies the values associated with all aliased names, which may not be expected by the programmer.
 
 #### Confined types
 Some system have been proposed for alias control, with many of these requiring special annotations in code like `@rep` to express the programmer.
@@ -340,7 +347,7 @@ The design challenge is to define a system that is:
 - Simple to be understandable and statically checkable;
 
 #### Immutability
-Immutability prevents aliasing, given that an immutable object cannot be changed by any of its references. In factm the java.lang.String class is immutable.
+Immutability prevents aliasing, given that an immutable object cannot be changed by any of its references. In fact the java.lang.String class is immutable.
 This is an advantage, because it's not needed to clone an object to share it around, but it's also a disadvantage because for every change we need a new object.
 
 ---
@@ -414,10 +421,10 @@ To test a system we need to have:
 - **Branch Coverage:** Percentage of conditional branches covered by at least one test (if-else);
 
 High coverage criteria may discourage defensive programming, since it's difficult to correctly test in the case there is defensive code which corrects/abort in case of erros.
-Normal testing looks for correct behaviour, with sensible input and checks in borderline conditions, while security testing looks for unwanted and wrong behaviours, which means that it's imperative to use negative check cases: normal use of the system is more likely to reveal functional problems than security problems.
+**Normal testing** looks for correct behaviour, with sensible input and checks in borderline conditions, while **security testing** looks for unwanted and wrong behaviours, which means that it's imperative to use negative check cases: normal use of the system is more likely to reveal functional problems than security problems.
 
 ## Fuzz testing
-Basic idea: generate (semi-automatically) random input to see if the application crashes, to check if there are "special" inputs. The original form of tuzzing generated very long input to see if the system crashes with segmentation fault.
+Basic idea: generate (semi-automatically) random input to see if the application crashes, to check if there are "special" inputs. The original form of fuzzing generated very long input to see if the system crashes with segmentation fault.
 **PROS**:
 - Little effort required (automatized);
 - 100% true positives;
@@ -445,7 +452,7 @@ There are various tools in web apps, that might produce false positives/negative
 - **Whitebox fuzzing**:
 	The idea is that we have the actual source code available, we can search deeper into all branches. Symbolic variables are used, and multiple "symbolic executions" of the program are performed in order to look for vulnerabilities in each possible branch. Each branches generates a new **constraint** and complex software like SAGE are used to solve this mathematical problems.
 	- Mathematical proof of security;
-	- Gives results unexpected from any other for of testing;
+	- Gives results unexpected from any other form of testing;
 	- Might be computational infeasible, expecially in presence of loops;
 
 ---
@@ -584,5 +591,5 @@ Works in 3 different ways:
 
 ## Program slicing
 
-To avoid program comprehension, we use a technique called program slicing, which consists of slices. A slice of a value v in a particular code part p consists of all the program code that happens before p that affect the value v. With this is possible to create a system dependency graph to avoid reverse engineering.
+	To avoid program comprehension, we use a technique called program slicing, which consists of slices. A slice of a value v in a particular code part p consists of all the program code that happens before p that affect the value v. With this is possible to create a system dependency graph to avoid reverse engineering.
 To avoid obfuscation it's possible to insert fake dependencies so that automatic slicers will need to include that part too.
