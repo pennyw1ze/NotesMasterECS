@@ -469,7 +469,7 @@ We have some tools at our disposal:
 - **Weakest preconditions** (or strongest postcondition): basically inserting asserts inside code to make sure a certain property is satisfied at a certain point in the program;
 
 **Complications**:
-1. **Loops**: mpossible to follow all paths. Solution: **Loop invariant**: code to ensure that a certain condition is met at every iteration of a loop;
+1. **Loops**: impossible to follow all paths. Solution: **Loop invariant**: code to ensure that a certain condition is met at every iteration of a loop;
 2. **Modularity**: since variables are held in the heap, it isn't always possible to monitor weather they are changed in a 
 3. **Concurrency**: even though the actual program might be satisfying some assertion, this might be invalidated by a concurrent program which is modifying the same variable.
 
