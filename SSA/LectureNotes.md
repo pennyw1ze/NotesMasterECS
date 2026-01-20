@@ -137,7 +137,7 @@ Start with **SDL** - Secure Development Lifecycle - based on 3 components:
 # Capability Maturity Models (CMM)
 
 They provide a reference on mature practices, that have been tested "on the job". They are useful to identify the potential areas of improvement, while not giving operational guidance. We have 3 different CMMs:
-- **CMMI**: provides the latest best practices related to development, maintanance, acquisition. In general it has been thorougly tested by more than a 1000 organizations and 5000 projects;
+- **CMMI**: provides the latest best practices related to **development**, **maintanance**, **acquisition**. In general it has been thorougly tested by more than a 1000 organizations and 5000 projects;
 - **iCMM**: iCMM is widely used in the Federal Aviation Administration (FAA-iCMM). Provides a single model for enterprise-wide improvement and it integrates a lot of standards, like ISO9001 and CCMI-SE/SW and iso 15504.
 - **SSE-CMM**: ISO/IEC 21827. Purpose is to fill the lack of a framework for evaluating security engineering practices against principles. 129 base practices organized into 22 process areas, designed to apply across the entire lifecycle of an enterprise.
 
@@ -150,7 +150,10 @@ Process areas assemble related for ease of use, and relates to security engineer
 
 ## Bug/Flaw difference
 
-In general both are caused by a defect, which can remain dormant. Bugs are issues regarding implementations, which can carry significant impacts, like a buffer overflow or a format string attack. Flaws are issues in a deeper level, usually in the designing phase like wrong access controls, priviledged block protection issue.
+In general both are caused by a defect, which can remain dormant:
+- **Bugs** are issues regarding **implementations**, which can carry significant impacts, like a buffer overflow or a format string attack;
+- **Flaws** are issues in a deeper level, usually in the **designing** phase like wrong access controls, priviledged block protection issue.
+
 To factor this there are three pillars:
 - **Applied risk management**: Analysis of architectural risk, and construction of a risk management platform creating a lifecycle of riskanalysis and mitigation;
 - **Software security touchpoints**: Ideas on how to have software security, like:
@@ -159,6 +162,20 @@ To factor this there are three pillars:
 	3. Pentesting;
 	4. ecc.
 - **Knowledge**: Involves gathering, encapsulating and sharing security knowledge, cataloguing principles, guidelines, rules, vulnerabilities, exploits, attack patterns and historical risks.
+
+---
+# Building Security IN
+
+The **Building Security IN** approach focuses on engineering software so that it continues to function correctly even under malicious attack. In this framework, security is treated as an **emergent property** of the entire system rather than a feature added at the end. It is built upon **three fundamental pillars**:
+
+1. **Applied Risk Management**: This involves identifying and managing business and technical risks throughout the entire software development lifecycle (SDLC) using a **Risk Management Framework (RMF)**.
+
+2. **Software Security Touchpoints**: These are process-agnostic best practices applied to various software artifacts. Key touchpoints include **Code Review** (to find implementation "bugs") and **Architectural Risk Analysis** (to identify design "flaws").
+
+3. **Knowledge**: This pillar focuses on gathering and sharing critical security information, such as **attack patterns**, principles, and historical risks, to ensure developers do not repeat past mistakes.
+
+The primary goal is to **shift security to the earliest stages** of the lifecycle to drastically reduce the **cost of fixing defects**, which increases exponentially as the project moves toward maintenance. This proactive stance is essential to combat the "Trinity of Trouble": the rising **connectivity, extensibility, and complexity** of modern software.
+ 
 ---
 # Re-entrancy attack
 
@@ -211,7 +228,7 @@ modifier noReentrancy(){
 ---
 # Language-based security
 
-More than applying memory-safe function, validating user input, a better alternative to this is use lenguage that providen security features, for example:
+More than applying memory-safe function, validating user input, a better alternative to this is use language that providen security features, for example:
 - **Memory-safe**;
 	Must avoid:
 	1. unchecked array bounds;
@@ -221,16 +238,16 @@ More than applying memory-safe function, validating user input, a better alterna
 - Good **access control** like visibility restriction;
 - **Information flow control**;
 
-#### Safety vs Security
+### Safety vs Security
 | Safety                                        | Security                                 |
 | --------------------------------------------- | ---------------------------------------- |
 | System protected against accidental failures. | System protected against active attacks. |
-Safe programming lenguages impose restrictions and abstractions to programmers.
+Safe programming languages impose restrictions and **abstractions** to programmers.
 For example:
-- Programming lenguage constructs are abstractions from CPU instructions;
-- Variables are memory abstractions;
-- Function calls are slack mechanism abstractions;
-- Virtual memory, virtual CPU, sandboxing ecc.;
+- Programming lenguage **constructs** are abstractions from CPU instructions;
+- **Variables** are memory abstractions;
+- **Function** calls are slack mechanism abstractions;
+- Virtual **memory**, virtual **CPU**, sandboxing ecc.;
 Abstractions reduce bugs since there are multiple audits over single code.
 The safer the language is, the more abstractions are imposed to the programmer.
 Some mechanism used to preserve safety are:
@@ -251,12 +268,14 @@ Type checking consists of being sure to provide the right input for the function
 #definition 
 A program is called safe if it's not stuck and has not crashed, so a language is **type-**
 **safe** if well-typed programs always remain safe.
-Type casting is one of the reason why C is type-unsafe, specifically with
-upcasting memory pointers (example char -> int).
+
+Type casting is one of the reason why C is type-unsafe, specifically with upcasting memory pointers (example char -> int).
 Languages can be divided into:
 - Non typing (bash,Perl);
 - Weakly typed (C);
-- Strongly typed (Java);
+- Strongly typed (Java);]
+
+
 
 #TODO: SLIDES PACK 20
 
