@@ -166,6 +166,20 @@ do {
 
 strcpy(buff2, buff1);
 ```
+3. Spot the defect:
+```C
+char ∗buf;
+int i, len;
+read (fd, &len, sizeof(len));
+buf = malloc(len);
+read( fd, buf, len)
+char src[9];
+char dest[9];
+char baseurl = ‘‘www.ru.nl’’;
+strncpy(src, baseurl, 9);
+strncpy(dest, src);
+```
+
 #### Answare
 1. Flaws:
 	1. Confidentiality is violated here because the substring is sharing the same content of the full string. Technically there is no substring at all, the string is returned with the full content. 
@@ -179,6 +193,12 @@ strcpy(buff2, buff1);
 	3. The url might not contain the '/' char at all, ending up in an infinite loop, with the cycle accessing unknown zone of the stack after the url string ended;
 	4. `strcpy` on non null terminated buffer leads to unknown behaviour.
 	5. Length check should be performed before checking if the url is valid.
+3. Flaws:
+	1. No check on fd;
+	2. No check on len after read (len could be negative if read fails);
+	3. No check on the malloc operation success;
+	4. No null terminator added to src after copying base url, leading to an unknown behaviour by the subsequent strcpy execution;
+	5. 
 
 
 
@@ -195,12 +215,13 @@ strcpy(buff2, buff1);
 The TOCTOU attack consists basically in exploiting that short interval of time that last between the time a check is performed and an an istruction which had to met some conditions is executed. Hackers use this attack to bypass security check, modify shared object (also via aliasing), inject filenames and instructions. The attack is hard to perform, due to the short interval of time, but that interval can be enlarged by pausing the checking process, and inject wathever before continuing his execution. In the case of x=x+1, it is more a concurrency problem. 2 threads might not achieve the goal by summing 1 instead of 2, grabbing x togheter before each other is able to sum 1 to x. A lock is needed in order to avoid this behaviour.
 
 
+### Proof Carrying Code (max 8pts)
+1. Briefly discuss pros and cons of runtime monitoring vs formal verification.
+2. Shortly describe the idea behind proof carrying codes, and the difference in terms of efficiency with respect to formal verification1.
+#### Answare
+1. Runtime monitoring observes a program while it executes and can detect policy violations in real runs, but it introduces runtime overhead and cannot guarantee that violations will not occur in unobserved executions. Formal verification analyzes the program before execution and can prove that certain properties always hold, but it is complex, time-consuming, and requires precise specifications.
+2. Proof Carrying Code is based on the idea that a code producer supplies executable code together with a formal proof that the code satisfies a given safety policy. The consumer only needs to verify the proof instead of re-verifying the program itself. This makes PCC more efficient for the consumer than full formal verification, since proof checking is significantly cheaper than proof construction.
 
-
-
-
-
-# end
 
 ---
 # Exam Question Guessing
