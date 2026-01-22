@@ -19,7 +19,7 @@
 	- Produce the same public outputs (**LOW**);
 	- Either both terminate normally or both throw the **same observable exception**.
    Thus, neither **LOW values nor exception behavior** may leak information about **HIGH**, preventing exceptions from acting as **covert channels**.
-3. The expression e and the command c are both typed at security level t.  This ensures that any information used to control the loop (the guard) is at most as sensitive as the information possibly modified by the body. Thus, no information at a higher level than t can be leaked through the loop’s effect on variables of lower level. If the condition e depends on a **HIGH** variable, then the number of loop iterations may depend on HIGH, leaking information through a **termination covert channel**, even if no LOW variables are explicitly assigned. To fix this, it must be ensured that LOW security level is applied to the loop condition:$$γ\ ├\ e : L\ \ \ \ \ γ\ ├ c :cmd\ L\over
+3. The expression e and the command c are both typed at security level t.  This ensures that any information used to control the loop (the guard) is at most as sensitive as the information possibly modified by the body. The problem is that if the condition e depends on a **HIGH** variable, then the number of loop iterations may depend on HIGH, leaking information through a **termination covert channel**, even if no LOW variables are explicitly assigned. To fix this, it must be ensured that LOW security level is applied to the loop condition:$$γ\ ├\ e : L\ \ \ \ \ γ\ ├ c :cmd\ L\over
 γ├\ while\ e\ do\ c : cmd\ L$$
 
 ### Java Programming Rules and Obfuscation (max 6 pts)
@@ -27,7 +27,7 @@
 2. Name two techniques for code obfuscation and two measures of code complexity (relative to obfuscation). Describe at least one of the two techniques and provide an example.
 #### Answare
 1. (EASY)**Prevent representation exposure**: Never return a reference to a **mutable object** (including arrays) to untrusted code.(HARD)**Do not rely on package protection**: Because anyone can extend a package or create subclasses (unless the package is sealed or the class is final), package-level visibility is not a reliable security boundary;
-2. **Program slicing** is the technique of selecting only the statements that influence a given variable or program point, garbling the rest to make the code harder to understand. An opaque predicate is a boolean expression whose value is known to the obfuscator but hard for an attacker to determine. Example: add an if condition like (x\*x + 2)%2 == 0. Measures of the code complexity are potency, resiliance, stealth and cost.
+2. **Program slicing** is the technique of selecting only the statements that influence a given variable or program point, garbling the rest to make the code harder to understand. An **opaque predicate** is a boolean expression whose value is known to the obfuscator but hard for an attacker to determine. Example: add an if condition like (x\*x + 2)%2 == 0. Measures of the code complexity are **potency**, **resiliance**, **stealth** and **cost**.
 
 ### Spot the defect (max 3 pts)
 Find the vulnerability in the code and suggest changes to remove it. Do you think Flawfinder would have found it? motivate your answer.
@@ -38,7 +38,7 @@ Find the vulnerability in the code and suggest changes to remove it. Do you thin
 #include <string.h>
 
 int bof (char *str) {
-	char buffer [ 24 ] ;
+	char buffer[24];
 	strcpy ( buffer , str ) ;
 	return 1;
 }
@@ -198,7 +198,6 @@ strncpy(dest, src);
 	2. No check on len after read (len could be negative if read fails);
 	3. No check on the malloc operation success;
 	4. No null terminator added to src after copying base url, leading to an unknown behaviour by the subsequent strcpy execution;
-	5. 
 
 
 
