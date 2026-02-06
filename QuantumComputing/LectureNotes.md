@@ -449,7 +449,7 @@ $L = logN, y\in \{0,1\}^L$
 What are eigenvalues and eigenvectors of $U_x$?
 For any $s \in \{0,R-1\}$ where R is the order of x, we have that:$$\ket {u_s} = {1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket {x^k\bmod N}$$
 is an eigenvector of $U_x$. To prove this, we have to find $\lambda\ s.t.\ U_x\ket{u_s} = \lambda\ket{u_s}$.
-$\lambda$ is just a complex number with modulus one! (eigenvalue of our unitary quantum transformation).
+$\lambda$ is just a complex number with modulus one! (eigenvalue of our unitary quantum< transformation).
 Notice that if y > N, then our eigenvalues are 1 ($U_x$ is the identity because the output of the modulus operation is y itself, does not get changed).
 **Proof**:
 $$U_x\ket{u_s} = U_x{1\over \sqrt r} \sum_{k=0}^{r-1}e^{-2\pi isk\over r}\ket {x^k\bmod N} =$$
