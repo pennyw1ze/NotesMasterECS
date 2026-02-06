@@ -417,12 +417,6 @@ We apply this full circuit (**QPE**) Quantum Phase Extimation:
 
 If we want to describe phi with n bits of precision with probability $1-\epsilon$, we have to run QPE with ($n + log(2+{1\over 2^\epsilon})$) qubits.
 
-**Order-finding** problem
-given x,N integer where x < N and coprime(x,N = gcd(x,N) = 1.
-
-I need to find the smallest exponent of 4 such that 4 mod 7 = 1.
-The complexity is exponential in the size of the input.
-
 # Shor algorithm
 Braking DLog and RSA.
 **Order-finding** problem
