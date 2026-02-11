@@ -585,9 +585,9 @@ Costs:
 
 We need M in many applications such as grover algorithm (find number of solutions is needed in order to know how many times to "flip" the souffle).
 
-Grover G is:$$G = \begin{bmatrix}cos\theta &-sen\theta\cr sen\theta&cos\theta\cr\end{bmatrix};$$
-**Proof**
-...
+Grover G is measured in the {$\alpha, \beta$} basis:$$G = \begin{bmatrix}cos\theta &-sen\theta\cr sen\theta&cos\theta\cr\end{bmatrix};$$
+Since the eigenvalues of G are $e^{i\theta}$ and $e^{-i\theta}$, the phase of the eigenvalues encodes theta, so it can be extracted with the QPE circuit.
+Since $sin({\theta \over 2}) = \sqrt{M\over N}$ and N is known, finding theta means finding M, which is the scope of quantum counting.
 
 ---
 # Variational quantum algorithms
