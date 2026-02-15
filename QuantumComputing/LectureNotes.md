@@ -732,11 +732,11 @@ so:$$U\ket b = \sum_{k=0}^{N-1}\beta _k U\ket {u_k} = \sum_{k=0}^{N-1}\beta _k \
 # Density operator
 
 $\ket v$ is a pure state, a vector in a Hilbert space.
-A **mixed state** is, given $n$ pure states and $\sum_{i=0}^{n-1}p_i = 1, p_i\ge 0$, then $p = \{\ket v_i, p_i\}$.
+A **mixed state** is, given $n$ pure states and $\sum_{i=0}^{n-1}p_i = 1, p_i\ge 0$, then $\rho = \{\ket v_i, p_i\}$.
 This mixed state is just a regular random variable.
 A mixed state tells us that our quantum state is in a pure state with classical probability $w_i$.
 $Prob(A=\lambda_i;\ket v) = <v,P_iv>$.
-$Prob(A=\lambda_i;p) = \sum p_i Prob(A-\lambda _i;\ket v)$
+$Prob(A=\lambda_i;\rho) = \sum p_i Prob(A-\lambda _i;\ket v)$
 
 DEF:
 A trace of a matrix is defined as:
