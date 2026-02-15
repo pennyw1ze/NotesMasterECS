@@ -518,8 +518,8 @@ $E[QS + RS + RT - QT] = E[QS] + E[RS] + E[RT] - E[QT] \le 2$
 We define: 
 Q = Z (Pauli operator)
 R = X (not)
-S = -Z-X / sqrt(2)
-T = Z-X / sqrt(2)
+S = $-Z-X \over \sqrt(2)$
+T = $Z-X \over \sqrt(2)$
 
 Expected value of measuring A on v (A self-adjoint) = <v, Av>;
 The result of measuring Q and S on state $\psi$ is:$$E[QS] = \braket{\psi,QS\psi}= \braket{QS}_\psi = {1\over\sqrt2} = E[RS] = E[RT] = -E[QT]$$
@@ -528,6 +528,8 @@ Applications of this theorem: Quantum key distribution.
 This check can be used in comunication channel in order to check weather we are being spied by eavesdropper or if there is too much noise in the comunication channel.
 
 How to compute $E[QS] ?$$$E[QS] = \braket{\psi|QS\psi} = \braket{\psi|Z\otimes{-Z-X\over\sqrt2}\times \psi}$$
+$$\psi = {1\over \sqrt2}({\ket{01}-\ket{10}})={1\over \sqrt2}\begin{pmatrix}0\cr1\cr-1\cr0\cr\end{pmatrix}$$
+
 
 ---
 ## Programming lenguages for quantum computers
@@ -583,9 +585,9 @@ Costs:
 
 We need M in many applications such as grover algorithm (find number of solutions is needed in order to know how many times to "flip" the souffle).
 
-Grover G is:$$G = \begin{bmatrix}cos\theta &-sen\theta\cr sen\theta&cos\theta\cr\end{bmatrix};$$
-**Proof**
-...
+Grover G is measured in the {$\alpha, \beta$} basis:$$G = \begin{bmatrix}cos\theta &-sen\theta\cr sen\theta&cos\theta\cr\end{bmatrix};$$
+Since the eigenvalues of G are $e^{i\theta}$ and $e^{-i\theta}$, the phase of the eigenvalues encodes theta, so it can be extracted with the QPE circuit.
+Since $sin({\theta \over 2}) = \sqrt{M\over N}$ and N is known, finding theta means finding M, which is the scope of quantum counting.
 
 ---
 # Variational quantum algorithms
