@@ -600,8 +600,8 @@ Optimization problem: c:X -> R cost function, and I have to find the min C(x) x 
 Assume X finite.$$H_c=\sum_{x\in X}C(x)\ket x\bra x$$
 is hermitian (projection is selfadjoint (|x><x|) ).$$H_c\ket a= C(a)\ket a \forall a \in X$$
 Generate candidates: v
-depending on parameters theta in R^p
-Theta \in R^p 
+depending on parameters theta in $R^p$
+$\theta \in R^p$
 
 ---
 # Quantum error correction
@@ -689,7 +689,7 @@ We map:
 - $\ket1 \rightarrow {1\over\sqrt 8}\sum_{c\in[H]} \ket {c\oplus 1111111}$;
 
 We compute a 3-bit syndrom similar to classical computing:
-\[(b4 ⊕ b5 ⊕ b6 ⊕ b7),( b2 ⊕ b3 ⊕ b6 ⊕ b7),( b1 ⊕ b3 ⊕ b5 ⊕ b7)\]
+\[(b4 ⊕ b5 ⊕ b6 ⊕ b7),( b2 ⊕ b3 ⊕ b6 ⊕ b7),( b1 ⊕ b3 ⊕ b5 ⊕ b7)]
 
 ![[Pasted image 20251126165040.png]]
 
