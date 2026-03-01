@@ -15,8 +15,6 @@ The audience of the ARF consists of:
 - Conformity Assessment Bodies (CABs);
 - Supervisory Bodies;
 
-# Architecture
-Overall picture:
 ![[Pasted image 20260224155454.png]]
 *Note that a single entity may combine multiple of the roles depicted in the figure, as long as that entity complies with all requirements, both legal and technical, for each of the roles. In addition, potential conflicts of interest are to be avoided, but this issue is outside the scope of this ARF.
 
@@ -41,8 +39,18 @@ Overall picture:
 |**Access Certificate Authority (Access CA)**|Issue access certificates for authentication.|[Section 3.18](https://eudi.dev/latest/architecture-and-reference-framework-main/#318-access-certificate-authorities)|
 |**Provider of Registration Certificates**|Issue certificates detailing registration status and scope.|[Section 3.19](https://eudi.dev/latest/architecture-and-reference-framework-main/#319-providers-of-registration-certificates)|
 
-## 7.4.3.5.3 Zero-knowledge proofs
-NOTE: Discussions on Zero-Knowledge Proofs (ZKPs) are ongoing. No specific ZKP has been selected to be supported by components in the EUDI Wallet ecosystem.
+---
+# Reference architecture overview
+The figure below gives an overview of the architecture of the EUDI Wallet ecosystem and its components.
+
+![[Figure_2_High-Level_Architecture.png]]
+
+
+
+
+---
+# [7.4.3.5.3 Zero-knowledge proofs](https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs)
+*NOTE: Discussions on Zero-Knowledge Proofs (ZKPs) are ongoing. No specific ZKP has been selected to be supported by components in the EUDI Wallet ecosystem.
 
 Unlike Relying Party linkability, Attestation Provider linkability cannot be fully eliminated when using attestation formats based on salted hashes. The only viable mitigation is to adopt Zero-Knowledge Proofs (ZKPs) as a verification mechanism instead of relying on salted-attribute hashes. A Zero-Knowledge Proof (ZKP) is a cryptographic protocol that allows one party (the prover) to convince another party (the verifier) that a given statement is true without revealing any additional information beyond the validity of the statement itself. This ensures that the verifier gains no knowledge about how the prover knows the statement to be true, thus preserving privacy while enabling trust.
 
