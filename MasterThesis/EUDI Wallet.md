@@ -45,6 +45,56 @@ The figure below gives an overview of the architecture of the EUDI Wallet ecosys
 
 ![[Figure_2_High-Level_Architecture.png]]
 
+---
+# **EUDI analysis**
+I will analyze the EUDI system in the following way:
+FUNCTIONALITY:
+- Description;
+- Actors;
+- Cryptographic primitives adopted;
+
+---
+## Identification and authentication
+**Description**
+Users are able to **Identify and authenticate** to online and offline services, while using **selective disclosure** of attributes or attestations.
+
+**Actors**
+- User;
+- Wallet unit: smartphone application;
+- Relying party: service provider that asks for data;
+- PID provider: 
+
+**Protocol**
+ISO/IEC 18013-5 overview:
+1. Set up a communication channel using QR code or NFC, and to subsequently communicate over BLE, NFC, or Wi-Fi Aware;
+2. Security mechanisms ensuring
+	- Confidentiality and authenticity of all data exchanged between a Wallet Unit and a Relying Party,
+	- Relying Party authentication;
+Paper about this protocol [here](https://cdn.standards.iteh.ai/samples/69084/197168b6d9e84880ae8cd3b344f8bf0e/ISO-IEC-18013-5-2021.pdf)
+
+OpenID4VP standard defines message structures, transaction flows, and an HTTP-based interface specification for attestation presentations by Wallet Units to Relying Parties. 
+1. OpenID4VP also specifies security mechanisms ensuring:
+	- Confidentiality and authenticity of all data exchanged between a Wallet Unit and a Relying Party,
+	- Relying Party authentication;
+Paper about this protocol [here](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html)
+
+The protocol specified in ISO/IEC 18013-5 is used for proximity attestation presentation flows, while the protocol specified in OpenID4VP is used for remote attestation presentation flows. Although these protocols differ in the details, on a high level, they both implement Relying Party authentication as shown in Figure below.
+![[Figure_13_Relying_Party_Authentication.png]]
+
+---
+## Exchanging user attributes
+**Description**
+Allows user to require, store and share EAA, PubEAA, QEAA, Electronic Attestation of Attributes. Wallet support selective disclosure, allowing user to share only selected attributes among the whole attestation's attributes.
+
+**Actors**:
+- User;
+- Wallet Unit;
+- Relying party;
+- Attestation provider (QEAA, PuBEAA, EAA), entity transmitting attestations;
+
+**Protocol**
+
+
 
 
 
