@@ -46,6 +46,19 @@ FUNCTIONALITY:
 - Actors;
 - Cryptographic primitives adopted;
 
+## PKI and signature schemes
+First a little clarification:
+The entire ecosystem is based on **Public Key Infrastructure (PKI)**
+- **Elliptic Curve Cryptography (ECC):** is the best choice for mobile device performance. ISO/IEC 18013-5 and SD-JWT-VS uses **COSE** (CBOR Object Signing and Encryption) and **JOSE** (JSON Object Signing and Encryption) frameworks;
+- **RSA**: Used for local device binding due to the dimension of keys is supported by **X.509** (RFC5280) certificates and ETSI standards for QES signatures. 
+
+Signature format for documents and transactions:
+Sources cites explicitly ETSI profile that should be applied to files:
+- **XAdES**;
+- **PAdES**;
+- **CAdES**;
+- **JAdES**;
+
 ---
 ## 1) Identification and authentication
 **Description**:
@@ -78,6 +91,8 @@ Paper about this protocol [here](https://openid.net/specs/openid-4-verifiable-pr
 *Protocol scheme intuition:*
 ![[Figure_5_Remote_Cross-Device_Flow.png]]
 
+In both protocol, **device binding** is achieved by including a cryptographic public key in the PID or attestation and signing it. The corresponding private key is protected by a WSCA/WSCD or keystore in the Wallet Unit.
+
 
 The protocol specified in ISO/IEC 18013-5 is used for proximity attestation presentation flows, while the protocol specified in OpenID4VP is used for remote attestation presentation flows. Although these protocols differ in the details, on a high level, they both implement **Relying Party authentication** as shown in Figure below.
 ![[Figure_13_Relying_Party_Authentication.png]]
@@ -102,6 +117,10 @@ SD-JWT VC specifies the following aspects:
 - A security mechanism enabling device binding of PIDs and attestations, see [Section 6.6.3.8](https://eudi.dev/latest/architecture-and-reference-framework-main/#6638-relying-party-instance-verifies-device-binding). This mechanism is optional in SD-JWT VC;
 
 Zero knowledge proof are still on their way to be implemented (see on the bottom of this paper).
+Actual github implementation [here](https://github.com/vcstuff/sd-jwt-vc-types).
+
+*Visual representation of the protocol:*
+![[SD-JWT-VC.png]]
 
 ---
 ## 3) Qualified Electronic Signature (QES
@@ -114,7 +133,43 @@ Allows users to create legally recognised qualified electronic signatures and se
 - **local QSCD**, local tamper resistant hardware device that provides signatures \ **QESRC** (*Provide Qualified Electronic Signature Remote Creation services*) provider;
 
 **Protocol**:
+The comunication between the local wallet unit and the QSCD/WSCD occurs via **Secure Cryptographic Interface**
+The EUDI Wallet ecosystem that use cryptographic keys, including Wallet Providers, PID Providers and Attestation Providers, Trusted List or LoTE Providers, Providers of registration certificates, and Access Certificate Authorities. Such parties will typically use a certified **Hardware Security Module** (HSM) for managing private and secret keys.
+So basically all the security is based on **HARDWARE** components, which handles key generation and managing, performs user authentication, comunicate to the wallet via hardware secure interface and provide signatures and seals.
+The use of any cryptographic protocol for key generation here is delegated to the wallet implementor.
 
+---
+## 4) Pseudonyms
+**Description**:
+Users are able to present a pseudonym to a Relying Party (RP) to authenticate in situations where it is not necessary for the Relying Party to learn the User's identity. This helps user evading tracing from service providers.
+
+**Actors**:
+- User;
+- Wallet unit;
+- Relying parties;
+
+**Protocol**:
+We have 3 different type of pseudonyms:
+- Verifiable pseudo (allows user to prove ownership);
+- Attested pseudo (subtype of verifiable ones, allowing Relying Parties to verify that a third party has attested that a pseudonym is owned by a User);
+- Scope rate-limited pseudo (subtype of a verifiable pseudo guaranteeing that the User is limited to control only a certain number of pseudonyms (called the rate) for a given scope);
+
+**W3C WebAuthn** defines the technical specification for a type of verifiable pseudonyms called Passkeys. Protocol is divided into 2 phase:
+
+1. **Registration:**
+	1. The User generates a public-private key pair and stores both the public and the private key at their secure device (referred to as an Authenticator);
+	2. The User registers the public key at the desired Relying Party service;
+
+2. **Authentication:**
+	1. When the User wishes to authenticate towards a service, the service will send them a challenge consisting of a random value;
+	2. The User uses the private key stored on their Authenticator to sign the challenge and sends this back to the service;
+	3. The service verifies that the signature on the challenge can be verified using the registered public key. If the signature verifies and the origin matches the expected origin, the User is considered authenticated and thereby granted access to the service;
+
+*Pseudonyms are stored encrypted in a local safe area on the device;*
+Actual implementation [here](https://github.com/w3c/webauthn/wiki/Explainer:-WebAuthn-immediate-mediation).
+
+*Visual representation of the authentication scheme*
+![[W3CWebAuthn.png]]
 
 ---
 # [7.4.3.5.3 Zero-knowledge proofs](https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs)
