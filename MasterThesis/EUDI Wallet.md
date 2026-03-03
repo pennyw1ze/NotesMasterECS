@@ -7,37 +7,30 @@ The functionalities of a Wallet can be grouped into the following categories:
 - **Generate and use pseudonyms** for authentication, to enhance privacy and prevent tracking.
 
 # Actors
-The audience of the ARF consists of:
-
-- Entities acting as PID Providers, QEAA Providers, PuB-EAA Providers, or EAA Providers;
-- Wallet Providers;
-- Relying Parties;
-- Conformity Assessment Bodies (CABs);
-- Supervisory Bodies;
 
 ![[Pasted image 20260224155454.png]]
 *Note that a single entity may combine multiple of the roles depicted in the figure, as long as that entity complies with all requirements, both legal and technical, for each of the roles. In addition, potential conflicts of interest are to be avoided, but this issue is outside the scope of this ARF.
 
-|Role|Primary Responsibility|Section|
-|---|---|---|
-|**User of Wallet Unit**|Manage, store, and present PIDs/attestations.|[Section 3.2](https://eudi.dev/latest/architecture-and-reference-framework-main/#32-users-of-wallet-units)|
-|**Wallet Provider**|Make the certified Wallet Solution available to Users.|[Section 3.3](https://eudi.dev/latest/architecture-and-reference-framework-main/#33-wallet-providers)|
-|**PID Provider**|Issue Person Identification Data (PID) to Users.|[Section 3.4](https://eudi.dev/latest/architecture-and-reference-framework-main/#34-person-identification-data-pid-providers)|
-|**Trusted List or LoTE Provider**|Maintain, manage, and publish Trusted Lists and/or Lists of Trusted Entities.|[Section 3.5](https://eudi.dev/latest/architecture-and-reference-framework-main/#35-trusted-list-or-lote-provider)|
-|**QEAA Provider**|Issue Qualified Electronic Attestations of Attributes (QEAAs).|[Section 3.6](https://eudi.dev/latest/architecture-and-reference-framework-main/#36-qualified-electronic-attestation-of-attributes-qeaa-providers)|
-|**PuB-EAA Provider**|Issue EAAs on behalf of a public sector body.|[Section 3.7](https://eudi.dev/latest/architecture-and-reference-framework-main/#37-eaa-issued-by-or-on-behalf-of-a-public-sector-body-responsible-for-an-authentic-source-pub-eaa-providers)|
-|**EAA Provider**|Issue Non-Qualified Electronic Attestations of Attributes (EAAs).|[Section 3.8](https://eudi.dev/latest/architecture-and-reference-framework-main/#38-non-qualified-electronic-attestation-of-attributes-eaa-providers)|
-|**Qualified Electronic Signature Remote Creation (QESRC) Provider**|Provide Qualified Electronic Signature Remote Creation services.|[Section 3.9](https://eudi.dev/latest/architecture-and-reference-framework-main/#39-qualified-electronic-signature-remote-creation-qesrc-providers)|
-|**Authentic Source**|Act as the definitive repository for specific attributes.|[Section 3.10](https://eudi.dev/latest/architecture-and-reference-framework-main/#310-authentic-sources)|
-|**Relying Party (RP) / Intermediary**|Request and receive attributes from a Wallet Unit.|[Section 3.11](https://eudi.dev/latest/architecture-and-reference-framework-main/#311-relying-parties-relying-party-instances-and-intermediaries)|
-|**Conformity Assessment Body (CAB)**|Certify Wallet Solutions and audit Trust Service Providers.|[Section 3.12](https://eudi.dev/latest/architecture-and-reference-framework-main/#312-conformity-assessment-bodies-cab)|
-|**Supervisory Body**|Review the proper functioning of ecosystem actors.|[Section 3.13](https://eudi.dev/latest/architecture-and-reference-framework-main/#313-supervisory-bodies)|
-|**Device Manufacturers / Subsystems**|Provide the underlying platform (hardware, OS, secure elements).|[Section 3.14](https://eudi.dev/latest/architecture-and-reference-framework-main/#314-device-manufacturers-and-related-subsystems-providers)|
-|**Attestation Scheme Provider**|Define and publish the Attestation Rulebooks and schemes.|[Section 3.15](https://eudi.dev/latest/architecture-and-reference-framework-main/#315-attestation-scheme-providers-for-qeaas-pub-eaas-and-eaas)|
-|**National Accreditation Body (NAB)**|Accredit CABs according to EU regulations.|[Section 3.16](https://eudi.dev/latest/architecture-and-reference-framework-main/#316-national-accreditation-bodies)|
-|**Registrar**|Manages the registration of Providers and Relying Parties.|[Section 3.17](https://eudi.dev/latest/architecture-and-reference-framework-main/#317-registrars)|
-|**Access Certificate Authority (Access CA)**|Issue access certificates for authentication.|[Section 3.18](https://eudi.dev/latest/architecture-and-reference-framework-main/#318-access-certificate-authorities)|
-|**Provider of Registration Certificates**|Issue certificates detailing registration status and scope.|[Section 3.19](https://eudi.dev/latest/architecture-and-reference-framework-main/#319-providers-of-registration-certificates)|
+| Role                                                                | Primary Responsibility                                                        | Section                                                                                                                                                                                       |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User of Wallet Unit**                                             | Manage, store, and present PIDs/attestations.                                 | [Section 3.2](https://eudi.dev/latest/architecture-and-reference-framework-main/#32-users-of-wallet-units)                                                                                    |
+| **Wallet Provider**                                                 | Make the certified Wallet Solution available to Users.                        | [Section 3.3](https://eudi.dev/latest/architecture-and-reference-framework-main/#33-wallet-providers)                                                                                         |
+| **PID Provider**                                                    | Issue Person Identification Data (PID) to Users.                              | [Section 3.4](https://eudi.dev/latest/architecture-and-reference-framework-main/#34-person-identification-data-pid-providers)                                                                 |
+| **Trusted List or LoTE Provider**                                   | Maintain, manage, and publish Trusted Lists and/or Lists of Trusted Entities. | [Section 3.5](https://eudi.dev/latest/architecture-and-reference-framework-main/#35-trusted-list-or-lote-provider)                                                                            |
+| **QEAA Provider**                                                   | Issue Qualified Electronic Attestations of Attributes (QEAAs).                | [Section 3.6](https://eudi.dev/latest/architecture-and-reference-framework-main/#36-qualified-electronic-attestation-of-attributes-qeaa-providers)                                            |
+| **PuB-EAA Provider**                                                | Issue EAAs on behalf of a public sector body.                                 | [Section 3.7](https://eudi.dev/latest/architecture-and-reference-framework-main/#37-eaa-issued-by-or-on-behalf-of-a-public-sector-body-responsible-for-an-authentic-source-pub-eaa-providers) |
+| **EAA Provider**                                                    | Issue Non-Qualified Electronic Attestations of Attributes (EAAs).             | [Section 3.8](https://eudi.dev/latest/architecture-and-reference-framework-main/#38-non-qualified-electronic-attestation-of-attributes-eaa-providers)                                         |
+| **Qualified Electronic Signature Remote Creation (QESRC) Provider** | Provide Qualified Electronic Signature Remote Creation services.              | [Section 3.9](https://eudi.dev/latest/architecture-and-reference-framework-main/#39-qualified-electronic-signature-remote-creation-qesrc-providers)                                           |
+| **Authentic Source**                                                | Act as the definitive repository for specific attributes.                     | [Section 3.10](https://eudi.dev/latest/architecture-and-reference-framework-main/#310-authentic-sources)                                                                                      |
+| **Relying Party (RP) / Intermediary**                               | Request and receive attributes from a Wallet Unit.                            | [Section 3.11](https://eudi.dev/latest/architecture-and-reference-framework-main/#311-relying-parties-relying-party-instances-and-intermediaries)                                             |
+| **Conformity Assessment Body (CAB)**                                | Certify Wallet Solutions and audit Trust Service Providers.                   | [Section 3.12](https://eudi.dev/latest/architecture-and-reference-framework-main/#312-conformity-assessment-bodies-cab)                                                                       |
+| **Supervisory Body**                                                | Review the proper functioning of ecosystem actors.                            | [Section 3.13](https://eudi.dev/latest/architecture-and-reference-framework-main/#313-supervisory-bodies)                                                                                     |
+| **Device Manufacturers / Subsystems**                               | Provide the underlying platform (hardware, OS, secure elements).              | [Section 3.14](https://eudi.dev/latest/architecture-and-reference-framework-main/#314-device-manufacturers-and-related-subsystems-providers)                                                  |
+| **Attestation Scheme Provider**                                     | Define and publish the Attestation Rulebooks and schemes.                     | [Section 3.15](https://eudi.dev/latest/architecture-and-reference-framework-main/#315-attestation-scheme-providers-for-qeaas-pub-eaas-and-eaas)                                               |
+| **National Accreditation Body (NAB)**                               | Accredit CABs according to EU regulations.                                    | [Section 3.16](https://eudi.dev/latest/architecture-and-reference-framework-main/#316-national-accreditation-bodies)                                                                          |
+| **Registrar**                                                       | Manages the registration of Providers and Relying Parties.                    | [Section 3.17](https://eudi.dev/latest/architecture-and-reference-framework-main/#317-registrars)                                                                                             |
+| **Access Certificate Authority (Access CA)**                        | Issue access certificates for authentication.                                 | [Section 3.18](https://eudi.dev/latest/architecture-and-reference-framework-main/#318-access-certificate-authorities)                                                                         |
+| **Provider of Registration Certificates**                           | Issue certificates detailing registration status and scope.                   | [Section 3.19](https://eudi.dev/latest/architecture-and-reference-framework-main/#319-providers-of-registration-certificates)                                                                 |
 
 ---
 # Reference architecture overview
@@ -54,17 +47,17 @@ FUNCTIONALITY:
 - Cryptographic primitives adopted;
 
 ---
-## Identification and authentication
-**Description**
+## 1) Identification and authentication
+**Description**:
 Users are able to **Identify and authenticate** to online and offline services, while using **selective disclosure** of attributes or attestations.
 
-**Actors**
+**Actors**:
 - User;
 - Wallet unit: smartphone application;
 - Relying party: service provider that asks for data;
 - PID provider: 
 
-**Protocol**
+**Protocol(s)**:
 ISO/IEC 18013-5 overview:
 1. Set up a communication channel using QR code or NFC, and to subsequently communicate over BLE, NFC, or Wi-Fi Aware;
 2. Security mechanisms ensuring
@@ -72,18 +65,26 @@ ISO/IEC 18013-5 overview:
 	- Relying Party authentication;
 Paper about this protocol [here](https://cdn.standards.iteh.ai/samples/69084/197168b6d9e84880ae8cd3b344f8bf0e/ISO-IEC-18013-5-2021.pdf)
 
+*Protocol scheme intuition:*
+![[Figure_3_Proximity_Flow.png]]
+
+
 OpenID4VP standard defines message structures, transaction flows, and an HTTP-based interface specification for attestation presentations by Wallet Units to Relying Parties. 
 1. OpenID4VP also specifies security mechanisms ensuring:
 	- Confidentiality and authenticity of all data exchanged between a Wallet Unit and a Relying Party,
 	- Relying Party authentication;
 Paper about this protocol [here](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html)
 
-The protocol specified in ISO/IEC 18013-5 is used for proximity attestation presentation flows, while the protocol specified in OpenID4VP is used for remote attestation presentation flows. Although these protocols differ in the details, on a high level, they both implement Relying Party authentication as shown in Figure below.
+*Protocol scheme intuition:*
+![[Figure_5_Remote_Cross-Device_Flow.png]]
+
+
+The protocol specified in ISO/IEC 18013-5 is used for proximity attestation presentation flows, while the protocol specified in OpenID4VP is used for remote attestation presentation flows. Although these protocols differ in the details, on a high level, they both implement **Relying Party authentication** as shown in Figure below.
 ![[Figure_13_Relying_Party_Authentication.png]]
 
 ---
-## Exchanging user attributes
-**Description**
+## 2) Exchanging user attributes
+**Description**:
 Allows user to require, store and share EAA, PubEAA, QEAA, Electronic Attestation of Attributes. Wallet support selective disclosure, allowing user to share only selected attributes among the whole attestation's attributes.
 
 **Actors**:
@@ -92,17 +93,34 @@ Allows user to require, store and share EAA, PubEAA, QEAA, Electronic Attestatio
 - Relying party;
 - Attestation provider (QEAA, PuBEAA, EAA), entity transmitting attestations;
 
-**Protocol**
+**Protocol**:
+SD-JWT VC stands for Selectively Disclosable JSON Web Token Verifiable Credentials and are a special form of JWTs [RFC 7519] that are selectively disclosable.
 
+SD-JWT VC specifies the following aspects:
+- The encoding to be used for attributes and metadata, namely JSON, as well as rules to prevent collisions of claim names;
+- A proof mechanisms ensuring the authenticity and integrity of a PID or attestation, while allowing selective disclosure of attributes;
+- A security mechanism enabling device binding of PIDs and attestations, see [Section 6.6.3.8](https://eudi.dev/latest/architecture-and-reference-framework-main/#6638-relying-party-instance-verifies-device-binding). This mechanism is optional in SD-JWT VC;
 
+Zero knowledge proof are still on their way to be implemented (see on the bottom of this paper).
 
+---
+## 3) Qualified Electronic Signature (QES
+**Description**:
+Allows users to create legally recognised qualified electronic signatures and seals for legally binding transactions and document signing.
+
+**Actors**:
+- User;
+- Wallet unit;
+- **local QSCD**, local tamper resistant hardware device that provides signatures \ **QESRC** (*Provide Qualified Electronic Signature Remote Creation services*) provider;
+
+**Protocol**:
 
 
 ---
 # [7.4.3.5.3 Zero-knowledge proofs](https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs)
 *NOTE: Discussions on Zero-Knowledge Proofs (ZKPs) are ongoing. No specific ZKP has been selected to be supported by components in the EUDI Wallet ecosystem.
 
-Unlike Relying Party linkability, Attestation Provider linkability cannot be fully eliminated when using attestation formats based on salted hashes. The only viable mitigation is to adopt Zero-Knowledge Proofs (ZKPs) as a verification mechanism instead of relying on salted-attribute hashes. A Zero-Knowledge Proof (ZKP) is a cryptographic protocol that allows one party (the prover) to convince another party (the verifier) that a given statement is true without revealing any additional information beyond the validity of the statement itself. This ensures that the verifier gains no knowledge about how the prover knows the statement to be true, thus preserving privacy while enabling trust.
+Unlike Relying Party linkability, **Attestation Provider linkability** **cannot be fully eliminated** when using attestation formats based on **salted hashes**. The only viable mitigation is to adopt Zero-Knowledge Proofs (ZKPs) as a verification mechanism instead of relying on salted-attribute hashes. A Zero-Knowledge Proof (ZKP) is a cryptographic protocol that allows one party (the prover) to convince another party (the verifier) that a given statement is true without revealing any additional information beyond the validity of the statement itself. This ensures that the verifier gains no knowledge about how the prover knows the statement to be true, thus preserving privacy while enabling trust.
 
 However, the integration of ZKPs in the EUDI Wallet ecosystem is still under discussion and development, due to the complexity of implementing ZKP solutions in secure hardware and the lack of support in currently available secure hardware (WSCDs). As with Relying Party linkability, organisational and enforcement measures can help deter Attestation Providers from colluding and tracking Users. Additionally, many Attestation Providers are subject to regular audits, making it easier to detect collusion and tracking compared to Relying Parties.
 
