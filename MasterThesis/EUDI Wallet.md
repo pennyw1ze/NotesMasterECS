@@ -178,6 +178,34 @@ Actual implementation [here](https://github.com/w3c/webauthn/wiki/Explainer:-Web
 ![[Figure_12_Trust_Model.png]]
 *Comprehensive schema of the trust model in the application*
 
+**Summarize of chapter 6: trust model:**
+
+**1. Trust in Ecosystem Entities**
+
+- **Wallet Providers:** They are notified to the Commission by a Member State and are responsible for all components of the Wallet Unit. Their trust anchors are published in a **Wallet Provider List of Trusted Entities (LoTE)**, allowing PID and Attestation Providers to verify that a Wallet Unit is genuine and secure.
+- **PID and Attestation Providers:** These entities must register with a national Registrar. Upon registration, they receive **access certificates** to authenticate themselves to Wallet Units and are included in **Trusted Lists** (for qualified providers like QEAA) or **LoTEs**.
+- **Relying Parties (RP):** Service providers must register to request attributes. They receive an access certificate for each of their technical setups, known as **Relying Party Instances**. Optional **registration certificates** may be issued to list the specific attributes they are authorized to request for a given service.
+
+**2. Wallet Unit Lifecycle and Security**
+
+- **Activation:** During activation, the Wallet Provider issues **Wallet Unit Attestations (WUA)** and **Wallet Instance Attestations (WIA)**. The WUA describes the security properties of the hardware (WSCD) and binds it to the user's cryptographic keys.
+- **User Authentication:** The system requires two distinct authentication mechanisms. An **OS-level mechanism** (e.g., device PIN/biometrics) is used for general access, while an additional **WSCA/WSCD-level authentication** is mandatory for sensitive cryptographic operations like issuing or presenting a PID.
+- **Maintenance and Revocation:** Wallet Providers monitor the security posture of Wallet Units (e.g., detecting jailbreaking). If a unit is compromised, or at the user's request, the provider revokes the unit by revoking its WUAs.
+
+**3. Issuance and Presentation Trust**
+
+- **Issuance:** This process requires mutual authentication. The Wallet verifies the provider's access certificate, while the provider validates the Wallet’s WUA and WIA to ensure it meets the required **Level of Assurance (LoA) High** for PIDs.
+- **Presentation and Consent:** Before any data exchange, the Wallet must authenticate the Relying Party Instance. Crucially, the Wallet must obtain **explicit User approval** after informing the user of the RP's identity, the attributes requested, and their intended use.
+- **Binding Mechanisms:**
+    - **Device Binding:** Mandatory for PIDs, it cryptographically links the attestation to the secure hardware of the device to prevent cloning.
+    - **User Binding:** Ensures the person presenting the data is the rightful holder, typically by trusting the Wallet's local authentication or through additional measures like visual/biometric comparison of a portrait.
+
+**4. Specialized Trust Scenarios**
+
+- **Wallet-to-Wallet (W2W):** Supports proximity interactions between natural persons (e.g., a private car rental). Because the Verifier in this scenario is a natural person and not a registered Relying Party, the system relies on physical proximity and specific "Wallet-to-Wallet modes" to manage trust.
+- **Intermediaries:** These are entities acting on behalf of Relying Parties. They must be registered with the Registrar of the intermediated party and are legally required to **delete all obtained data immediately** after transmission to the final Relying Party.
+
+
 ---
 # [7.4.3.5.3 Zero-knowledge proofs](https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs)
 *NOTE: Discussions on Zero-Knowledge Proofs (ZKPs) are ongoing. No specific ZKP has been selected to be supported by components in the EUDI Wallet ecosystem.
