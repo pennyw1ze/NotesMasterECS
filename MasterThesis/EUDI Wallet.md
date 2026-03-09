@@ -109,7 +109,7 @@ Allows user to require, store and share EAA, PubEAA, QEAA, Electronic Attestatio
 - Attestation provider (QEAA, PuBEAA, EAA), entity transmitting attestations;
 
 **Protocol**:
-SD-JWT VC stands for Selectively Disclosable JSON Web Token Verifiable Credentials and are a special form of JWTs [RFC 7519] that are selectively disclosable.
+SD-JWT VC stands for Selectively Disclosable JSON Web Token Verifiable Credentials and are a special form of JWTs that are selectively disclosable.
 
 SD-JWT VC specifies the following aspects:
 - The encoding to be used for attributes and metadata, namely JSON, as well as rules to prevent collisions of claim names;
@@ -123,7 +123,7 @@ Actual github implementation [here](https://github.com/vcstuff/sd-jwt-vc-types).
 ![[SD-JWT-VC.png]]
 
 ---
-## 3) Qualified Electronic Signature (QES
+## 3) Qualified Electronic Signature QES
 **Description**:
 Allows users to create legally recognised qualified electronic signatures and seals for legally binding transactions and document signing.
 
@@ -221,3 +221,19 @@ One area of development is age verification, where the European Commission is ac
 The Discussion Paper for Topic G (Zero-Knowledge Proofs) presents the (desired) privacy properties of Zero-Knowledge Proof schemes. It introduces the main families of Zero-Knowledge Proof schemes and gives an overview of representative solutions. Finally, it discusses topics related to the integration of Zero-Knowledge Proof schemes into the EUDI Wallet ecosystem.
 
 High-level requirements for Zero-Knowledge Proofs to be used in the EUDI Wallet ecosystem are included in Topic 53 of Annex 2.
+
+
+---
+APPROFONDIRE:
+1. Cosa non va bene nel semplice inviare una credenziale firmata ?
+2. Trovare livelli di sicurezza desiderati nell'attestation exchange;
+ANSWARE:
+The concept of Level of Assurance is defined for electronic identification means (and the corresponding eID scheme). For other attestations held or managed in the Wallet Unit, assurance and trust are expressed through other mechanisms (e.g. the security controls required for issuance and lifecycle management) and the regulation does not prescribe any specific level to be reached.
+
+To reflect this, the ARF uses the term level of security for non-PID attestations, to indicate that different attestations may be subject to different security requirements. Each Attestation Provider specifies the required level of security for its attestations (including, where applicable, requirements on issuance, storage, presentation, and lifecycle management).
+
+1. Capire come sono legate le attestation ed il PID;
+2. Capire perchè linkability può essere elimata su identification e non su attestation;
+
+OSSERVAZIONE:
+- Perchè non diamo direttamente attributi separati e firmati invece di fare disclosure ?
