@@ -172,6 +172,22 @@ Actual implementation [here](https://github.com/w3c/webauthn/wiki/Explainer:-Web
 ![[W3CWebAuthn.png]]
 
 ---
+## 5) Payments
+The eudi wallet is acting as an authenticator to allow user to pay.
+Unlike Google Wallet, which typically stores a tokenized version of a physical credit card, the **EUDI Wallet** functions primarily as a **secure authenticator**. Instead of storing a card number, the Wallet is issued a **Strong User Authentication (SUA) attestation**. This attestation is a verified digital document that links your Wallet Unit to your specific bank account or payment service. This SUA attestation is **device-bound**, meaning it is cryptographically tied to the secure hardware of your specific phone (the WSCD/WSCA). 
+
+PROCEDURE:
+When you make a payment, the merchant (Relying Party) sends a request to your Wallet containing **transactional data**
+You review this on your screen, and once you give consent, the Wallet **signs that specific data** using its secure internal keys to authorize the payment.
+This process is designed to meet **Strong Customer Authentication (SCA)** requirements under EU regulations (PSD2/PSD3), ensuring the payment is as secure as possible
+
+**Summary of the Payment Lifecycle**
+
+- **Phase 1 (Registration):** Link the Wallet to your bank/service via an SUA attestation.
+- **Phase 2 (Authentication):** Approve specific transactions by signing the amount and payee data.
+- **Phase 3 (Termination):** Unlink the Wallet from the service by deleting or revoking the SUA attestation.
+
+---
 # Trust model
 
 
@@ -224,16 +240,47 @@ High-level requirements for Zero-Knowledge Proofs to be used in the EUDI Wallet 
 
 
 ---
-APPROFONDIRE:
-1. Cosa non va bene nel semplice inviare una credenziale firmata ?
-2. Trovare livelli di sicurezza desiderati nell'attestation exchange;
-ANSWARE:
-The concept of Level of Assurance is defined for electronic identification means (and the corresponding eID scheme). For other attestations held or managed in the Wallet Unit, assurance and trust are expressed through other mechanisms (e.g. the security controls required for issuance and lifecycle management) and the regulation does not prescribe any specific level to be reached.
+# APPROFONDIRE
+### Trovare livelli di sicurezza desiderati nell'attestation exchange
 
-To reflect this, the ARF uses the term level of security for non-PID attestations, to indicate that different attestations may be subject to different security requirements. Each Attestation Provider specifies the required level of security for its attestations (including, where applicable, requirements on issuance, storage, presentation, and lifecycle management).
+~The concept of Level of Assurance is defined for electronic identification means (and the corresponding eID scheme). For other attestations held or managed in the Wallet Unit, assurance and trust are expressed through other mechanisms (e.g. the security controls required for issuance and lifecycle management) and the regulation does not prescribe any specific level to be reached.
 
-1. Capire come sono legate le attestation ed il PID;
-2. Capire perchè linkability può essere elimata su identification e non su attestation;
+To reflect this, the ARF uses the term level of security for non-PID attestations, to indicate that different attestations may be subject to different security requirements. Each Attestation Provider specifies the required level of security for its attestations (including, where applicable, requirements on issuance, storage, presentation, and lifecycle management).~*from eudi.dev documentation [here](https://eudi.dev/latest/architecture-and-reference-framework-main/#22-identification-and-authentication)*
 
-OSSERVAZIONE:
+---
+### Capire come sono legate le attestation ed il PID;
+
+Attestation e PID non sono legate tra loro ma sono legate al wallet unit attraverso device binding.
+
+**Device binding** is the cryptographic link that ensures a PID or attestation belongs exclusively to the **Wallet Secure Cryptographic Device (WSCD)** in the User's Wallet Unit. This key property **prevents copying or cloning**, significantly boosting the attestation's security. 
+Device binding is also a prerequisite for **User binding**, allowing the Relying Party to trust the Wallet Unit's internal User authentication mechanisms to verify the presenter is the rightful User.
+
+Within the EUDI Wallet ecosystem, implementing device binding is mandatory for PIDs, since PIDs must be managed at Level of Assurance High, which is **impossible** without device binding to a WSCA/WSCD. It is also mandatory for attestations complying with ISO/IEC 18013-5, due to the fact that this is required in that standard. For SD-JWT VC-compliant attestations, implementing device binding is recommended but not mandatory. However, note that OpenID4VP enables the Relying Party to indicate if it wants to receive a proof of device binding. ([Section 6.6.3.8](https://eudi.dev/latest/architecture-and-reference-framework-main/#6638-relying-party-instance-verifies-device-binding))
+
+| Feature          | **Device Binding**                              | **User Binding**                                           |
+| ---------------- | ----------------------------------------------- | ---------------------------------------------------------- |
+| **Binds to**     | The secure hardware/app instance.               | The physical person (natural person).                      |
+| **Primary Goal** | Prevent cloning and theft of the data itself.   | Prevent unauthorized use of a legitimate device.           |
+| **Core Method**  | Public/Private key pairs & Proof of Possession. | Local authentication (PIN/Bio) or visual/biometric checks. |
+| **LoA High**     | Mandatory for LoA High PIDs.                    | Supported by certified Wallet authentication.              |
+The device binding of PIDs is performed by the ISO/IEC 18013-5 and ISO/IEC 23220-2 algorithm (see [here](https://eudi.dev/latest/architecture-and-reference-framework-main/#532-isoiec-18013-5-and-isoiec-23220-2)).
+
+**Lo user viene autenticato dall'autority**:
+It is up to each QEAA Provider to implement the necessary User authentication processes. Note that, when User identity verification is necessary, it is likely that the User requesting a QEAA already possesses a PID. This would enable the QEAA Provider to carry out User identification and authentication at LoA high, by requesting and verifying User attributes from the PID in the Wallet Unit ([here](https://eudi.dev/latest/architecture-and-reference-framework-main/#36-qualified-electronic-attestation-of-attributes-qeaa-providers)).
+
+---
+### Capire perchè linkability può essere elimata su identification e non su attestation
+
+
+
+
+
+
+
+
+
+
+
+OSSERVAZIONI:
 - Perchè non diamo direttamente attributi separati e firmati invece di fare disclosure ?
+- Cosa non va bene nel semplice inviare una credenziale firmata ?
