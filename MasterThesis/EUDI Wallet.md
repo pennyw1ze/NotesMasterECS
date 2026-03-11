@@ -1,4 +1,4 @@
-# Functionalities
+	# Functionalities
 The functionalities of a Wallet can be grouped into the following categories:
 
 - **Secure identification and authentication**, ensuring that Users can present person identification data in a trusted environment.
