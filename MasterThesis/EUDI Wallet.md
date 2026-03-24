@@ -286,20 +286,22 @@ Capire in dettaglio:
 
 ### Risposte
 
-1. Come si aggiungono le attestations:
+1. 
+	Come si aggiungono le attestations:
 	- Allora, per quanto riguarda la patente, mDLs (mobile driving license), viene esplicitamente dichiarato nella documentazione ([qui](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/mdl/mdl-rulebook.md)) che si fa riferimento al modello ISO 18013-5, stesso usato per l'identificazione, pertanto dando per scontato la sua efficienza (l'avevamo detto insieme l'altra volta) non indagherò. Eventuale approfondimento [qui](https://www.dock.io/post/iso-18013-5#data-structure).
 	- Le altre **attestazioni** vengono **ottenute** col seguente protocollo:  User si assicura che il provider sia reliable (in Official trusted list o Lists of Trusted Entities (LoTE) ). Provider autentica lo user ( seguendo il protocollo di autenticazione OpenID4VC mostrato nel capitolo legato all'identificazione ) ([Attestation Issuance Interface](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)), e valida la wallet instance ( Usa wallet instance attestation, tutto spiegato nel capitolo del trust model ). Dopo che lo user vede e valida l'attestation, il wallet verifica la firma del provider sull'attestazione e questa viene memorizzata nel wallet.
-	- **Come vengono salvate**? EUDI specifica formati nei quali bisogna obbligatoriamente salvare le proprie attestations standardizzati:
-		- **CBOR**: Concise Binary Object Representation, usato nello standard **ISO/IEC 18013-5**. Questo formato è obbligatorio per le patenti (mDLs), può essere usato per qualsiasi altra attestazione se l'attestation provider rimane compliant allo standard ([pointer alla documentazione](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements));
-		- **JWT**: JSON token usati per **SD-JWT VC**. Non è obbligatorio esprimere nessuna credenziale in questo formato.
-		- **W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0):** Formato opzionale valido solo per non qualified EAA, ancora in fase di sviluppo quindi non ne parlerò;
+	**Come vengono salvate**? 
+		EUDI specifica formati nei quali bisogna obbligatoriamente salvare le proprie attestations standardizzati:
+	- **CBOR**: Concise Binary Object Representation, usato nello standard **ISO/IEC 18013-5**. Questo formato è obbligatorio per le patenti (mDLs), può essere usato per qualsiasi altra attestazione se l'attestation provider rimane compliant allo standard ([pointer alla documentazione](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements));
+	- **JWT**: JSON token usati per **SD-JWT VC**. Non è obbligatorio esprimere nessuna credenziale in questo formato.
+	- **W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0):** Formato opzionale valido solo per non qualified EAA, ancora in fase di sviluppo quindi non ne parlerò;
 		  
 	Come si mostrano le attestazioni:
 		In base al formato in cui sono state salvate, sono disponibili i diversi protocolli sopra citati, ISO 18013-5, SD-JWT VC ( e W3C ecc. di cui non parlerò). Per quanto riguarda ISO 18013-5 e SD-JWT VC, entrambi i protocolli consentono di mostrare attestations con selective disclosure attraverso la tecnica del salted hashes, device binding e user binding.
 		
-	-  **Salted hashes**:  
-		- **Device binding**: Le EAA sono legate ad un device attraverso una public key ed una secret key, device firma random challenge dal provider che verifica se il device (che contiene sk) è lo stesso associato all'attestation tramite la public key presente nell'attestation;
-		- **User binding**: Durante il processo di rivelazione allo user sono mostrate le credenziali che stanno per essere inviate ed è richiesta autenticazione (biometrics, pin, ecc.);
+	-  **Salted hashes**:  Some fields of the JSON token are replaced with salted hashes.
+	- **Device binding**: Le EAA sono legate ad un device attraverso una public key ed una secret key, device firma random challenge dal provider che verifica se il device (che contiene sk) è lo stesso associato all'attestation tramite la public key presente nell'attestation;
+	- **User binding**: Durante il processo di rivelazione allo user sono mostrate le credenziali che stanno per essere inviate ed è richiesta autenticazione (biometrics, pin, ecc.);
 
 Nella sezione ([5.3 Attestation formats and proof mechanisms](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)) è presente una tabella riassuntiva.
 
