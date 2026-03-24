@@ -60,6 +60,7 @@ Sources cites explicitly ETSI profile that should be applied to files:
 - **JAdES**;
 
 ---
+
 ## 1) Identification and authentication
 **Description**:
 Users are able to **Identify and authenticate** to online and offline services, while using **selective disclosure** of attributes or attestations.
@@ -272,15 +273,65 @@ It is up to each QEAA Provider to implement the necessary User authentication pr
 ### Capire perchè linkability può essere elimata su identification e non su attestation
 
 
-
-
-
-
-
-
-
-
-
 OSSERVAZIONI:
 - Perchè non diamo direttamente attributi separati e firmati invece di fare disclosure ?
 - Cosa non va bene nel semplice inviare una credenziale firmata ?
+
+---
+Updates 24/03/2026
+Capire in dettaglio:
+1. Come si aggiungono le attestazioni, come si mostrano con selective disclosure;
+2. A cosa servono gli pseudonyms, come si generano e come si usano;
+3. Perchè non si limitano a firme ? Probabilmente il motivo è legato a propietà che implicitamente o esplicitamente devono essere soddisfatte. Identificarle.
+
+### Risposte
+
+1. Come si aggiungono le attestations:
+	- Allora, per quanto riguarda la patente, mDLs (mobile driving license), viene esplicitamente dichiarato nella documentazione ([qui](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/mdl/mdl-rulebook.md)) che si fa riferimento al modello ISO 18013-5, stesso usato per l'identificazione, pertanto dando per scontato la sua efficienza (l'avevamo detto insieme l'altra volta) non indagherò. Eventuale approfondimento [qui](https://www.dock.io/post/iso-18013-5#data-structure).
+	- Le altre **attestazioni** vengono **ottenute** col seguente protocollo:  User si assicura che il provider sia reliable (in Official trusted list o Lists of Trusted Entities (LoTE) ). Provider autentica lo user ( seguendo il protocollo di autenticazione OpenID4VC mostrato nel capitolo legato all'identificazione ) ([Attestation Issuance Interface](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)), e valida la wallet instance ( Usa wallet instance attestation, tutto spiegato nel capitolo del trust model ). Dopo che lo user vede e valida l'attestation, il wallet verifica la firma del provider sull'attestazione e questa viene memorizzata nel wallet.
+	- **Come vengono salvate**? EUDI specifica formati nei quali bisogna obbligatoriamente salvare le proprie attestations standardizzati:
+		- **CBOR**: Concise Binary Object Representation, usato nello standard **ISO/IEC 18013-5**. Questo formato è obbligatorio per le patenti (mDLs), può essere usato per qualsiasi altra attestazione se l'attestation provider rimane compliant allo standard ([pointer alla documentazione](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements));
+		- **JWT**: JSON token usati per **SD-JWT VC**. Non è obbligatorio esprimere nessuna credenziale in questo formato.
+		- **W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0):** Formato opzionale valido solo per non qualified EAA, ancora in fase di sviluppo quindi non ne parlerò;
+		  
+	Come si mostrano le attestazioni:
+		In base al formato in cui sono state salvate, sono disponibili i diversi protocolli sopra citati, ISO 18013-5, SD-JWT VC ( e W3C ecc. di cui non parlerò). Per quanto riguarda ISO 18013-5 e SD-JWT VC, entrambi i protocolli consentono di mostrare attestations con selective disclosure attraverso la tecnica del salted hashes, device binding e user binding.
+		
+	-  **Salted hashes**:  
+		- **Device binding**: Le EAA sono legate ad un device attraverso una public key ed una secret key, device firma random challenge dal provider che verifica se il device (che contiene sk) è lo stesso associato all'attestation tramite la public key presente nell'attestation;
+		- **User binding**: Durante il processo di rivelazione allo user sono mostrate le credenziali che stanno per essere inviate ed è richiesta autenticazione (biometrics, pin, ecc.);
+
+Nella sezione ([5.3 Attestation formats and proof mechanisms](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)) è presente una tabella riassuntiva.
+
+|Feature|ISO/IEC 18013-5 / 23220-2|SD-JWT VC|W3C VCDM v2.0|
+|---|---|---|---|
+|**Data Format**|CBOR (Binary)|JSON Web Token (JSON)|JSON-LD (Linked Data)|
+|**Proof Type**|Embedded (Salted Hashes)|Embedded (Salted Hashes)|Detached or Embedded|
+|**Key Use Case**|Proximity (e.g., mDL)|Remote (e.g., remote identification)|General (requires profiling)|
+|**Wallet Support**|Mandatory|Mandatory|Optional|
+
+---
+## Problemi che trovo io
+
+#### **Information leaking on salted hash technique**
+Rivelare che sono maggiorenne, con salted hash e senza zero knowledge, significa rivelare il campo completo sulla mia carta di identità e quindi la mia data di nascia, rivelando informazioni. Stessa cosa per esempio per dimostrare che sono italiano rivelo che vivo a Roma o addirittura il mio indirizzo, in poche parole leaking di informazioni legato alla scarsità della granularità di cui dispone il protocollo di selective disclosure con salted hashes.
+
+Soluzione proposta da loro: chi rilascia l'attestation può inserire in essa un campo per esempio in cui dice: maggiorenne ? si/no. In questo modo puoi mostrare di essere maggiorenne senza rivelare la data di nascita.
+
+Chiaramente pessima soluzione perchè se devo dimostrare di avere più di 19 anni ? più di 20 anni ? Non ha senso questo tipo di soluzione.
+
+---
+#### **User leaking**
+**Questa era già stata affrontata e non l'ho trovata io.**
+So I have a doubt. If the relying party is asking for a  specific information to the user, for example if the user is over 18, and the user does not want to reveal any information other then that he is over 18 years old, the provider will ask the wallet a salted hash proof. Let's say for example of the PIDs. The PIDs will be signed by an entity, I will hash for example the name field, and all others field except for the birth date field.  So the provider will recieve a PID cancelled in all field except birth date (we are still leaking birth date year), and see that the document is signed by for example italian governament so is valid. Still, how are we proving that the birthdate is associated to our identity ? Would we need another proof ?
+You could argue that we may just show that we are 18, but I would say that in this implementation we are allowded for example to use another person's document in our wallet to authenticate ourself and I think this is a problem and should not be possible.
+-
+Quando viene presentata attestation viene fatta challenge e verification device binding tra user device e attestation.
+-
+In this way is easy to understand user identity tho, because selective disclosed attribtues tied to a device, device tied to pid, pid reveals identity, once identity is revealed I can link it to the device, and then to the selective disclosed attributes, vanishing privacy. Once only is overloading provider, and also a lot of load of work on users, and time limit does not change that the action I proposed can be done in a short amount of time.
+-
+**3. The Planned Solution: Zero-Knowledge Proofs (ZKP)**
+
+The sources conclude that the **"only viable mitigation"** to completely break the chain you described is the adoption of **Zero-Knowledge Proofs (ZKPs)**.
+
+Quindi questo è un buco completo nel portafogli, ed è completamente riconosciuto anche da loro, quindi qualcosa su cui si può lavorare (linkability of identity of user between relying parties, and between relying party and authentication provider (which is harder to obtain) ).
