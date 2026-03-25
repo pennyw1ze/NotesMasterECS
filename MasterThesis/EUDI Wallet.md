@@ -295,13 +295,12 @@ Capire in dettaglio:
 	- **CBOR**: Concise Binary Object Representation, usato nello standard **ISO/IEC 18013-5**. Questo formato è obbligatorio per le patenti (mDLs), può essere usato per qualsiasi altra attestazione se l'attestation provider rimane compliant allo standard ([pointer alla documentazione](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements));
 	- **JWT**: JSON token usati per **SD-JWT VC**. Non è obbligatorio esprimere nessuna credenziale in questo formato.
 	- **W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0):** Formato opzionale valido solo per non qualified EAA, ancora in fase di sviluppo quindi non ne parlerò;
-		  
-	Come si mostrano le attestazioni:
+	**Come si mostrano le attestazioni**:
 		In base al formato in cui sono state salvate, sono disponibili i diversi protocolli sopra citati, ISO 18013-5, SD-JWT VC ( e W3C ecc. di cui non parlerò). Per quanto riguarda ISO 18013-5 e SD-JWT VC, entrambi i protocolli consentono di mostrare attestations con selective disclosure attraverso la tecnica del salted hashes, device binding e user binding.
-		
-	-  **Salted hashes**:  Some fields of the JSON token are replaced with salted hashes.
+	-  **Salted hashes**:  Both in the case of CBOR or JSON token, the issuer of that token provides the user a signed token. In that token are contained informations for example: faminily_name: Rossi. Instead of being written in plaintext, in the token is contained the hashed value of this informations. Only the user can reveal that informations by sending them in clear and salt which is used to hash to the verifier, which will compute the hash and check it is the same as the one in the tokens;
 	- **Device binding**: Le EAA sono legate ad un device attraverso una public key ed una secret key, device firma random challenge dal provider che verifica se il device (che contiene sk) è lo stesso associato all'attestation tramite la public key presente nell'attestation;
 	- **User binding**: Durante il processo di rivelazione allo user sono mostrate le credenziali che stanno per essere inviate ed è richiesta autenticazione (biometrics, pin, ecc.);
+2. 
 
 Nella sezione ([5.3 Attestation formats and proof mechanisms](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)) è presente una tabella riassuntiva.
 
@@ -337,3 +336,6 @@ In this way is easy to understand user identity tho, because selective disclosed
 The sources conclude that the **"only viable mitigation"** to completely break the chain you described is the adoption of **Zero-Knowledge Proofs (ZKPs)**.
 
 Quindi questo è un buco completo nel portafogli, ed è completamente riconosciuto anche da loro, quindi qualcosa su cui si può lavorare (linkability of identity of user between relying parties, and between relying party and authentication provider (which is harder to obtain) ).
+
+---
+Come fa lo pseudonym ad essere legato all'identità dello user se poi consiste solo in un keypair generato dal wallet ?
