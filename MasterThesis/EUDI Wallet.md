@@ -191,10 +191,11 @@ This process is designed to meet **Strong Customer Authentication (SCA)** requir
 ---
 # Trust model
 
-
 ![[Figure_12_Trust_Model.png]]
 *Comprehensive schema of the trust model in the application*
 
+<<<<<<< HEAD
+=======
 **Summarize of chapter 6: trust model:**
 
 **1. Trust in Ecosystem Entities**
@@ -221,6 +222,7 @@ This process is designed to meet **Strong Customer Authentication (SCA)** requir
 
 - **Wallet-to-Wallet (W2W):** Supports proximity interactions between natural persons (e.g., a private car rental). Because the Verifier in this scenario is a natural person and not a registered Relying Party, the system relies on physical proximity and specific "Wallet-to-Wallet modes" to manage trust.
 - **Intermediaries:** These are entities acting on behalf of Relying Parties. They must be registered with the Registrar of the intermediated party and are legally required to **delete all obtained data immediately** after transmission to the final Relying Party.
+>>>>>>> origin/main
 
 
 ---
