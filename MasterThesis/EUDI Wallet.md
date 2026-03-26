@@ -174,9 +174,10 @@ Actual implementation [here](https://github.com/w3c/webauthn/wiki/Explainer:-Web
 ---
 # Trust model
 
-
 ![[Figure_12_Trust_Model.png]]
 *Comprehensive schema of the trust model in the application*
+
+
 
 ---
 # [7.4.3.5.3 Zero-knowledge proofs](https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs)
