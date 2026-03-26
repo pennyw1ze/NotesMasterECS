@@ -300,7 +300,6 @@ Capire in dettaglio:
 	-  **Salted hashes**:  Both in the case of CBOR or JSON token, the issuer of that token provides the user a signed token. In that token are contained informations for example: faminily_name: Rossi. Instead of being written in plaintext, in the token is contained the hashed value of this informations. Only the user can reveal that informations by sending them in clear and salt which is used to hash to the verifier, which will compute the hash and check it is the same as the one in the tokens;
 	- **Device binding**: Le EAA sono legate ad un device attraverso una public key ed una secret key, device firma random challenge dal provider che verifica se il device (che contiene sk) è lo stesso associato all'attestation tramite la public key presente nell'attestation;
 	- **User binding**: Durante il processo di rivelazione allo user sono mostrate le credenziali che stanno per essere inviate ed è richiesta autenticazione (biometrics, pin, ecc.);
-2. 
 
 Nella sezione ([5.3 Attestation formats and proof mechanisms](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)) è presente una tabella riassuntiva.
 
@@ -310,6 +309,22 @@ Nella sezione ([5.3 Attestation formats and proof mechanisms](https://eudi.dev/l
 |**Proof Type**|Embedded (Salted Hashes)|Embedded (Salted Hashes)|Detached or Embedded|
 |**Key Use Case**|Proximity (e.g., mDL)|Remote (e.g., remote identification)|General (requires profiling)|
 |**Wallet Support**|Mandatory|Mandatory|Optional|
+2. 
+   A cosa servono gli pseudonimi?
+	   Questi sono i possibili usecase:
+	- Gli pseudonimi possono essere usati per autenticare un utente quando non è necessario per la relying party conoscere l'identità dell'utente;
+	  - Utente che desidera registrarsi senza rivelare la propria identità come sopra, ma associando al proprio pseudonimo un informazione del tipo "vivo a roma", "ho più di 18 anni", che può essere corredata mostrando con selective disclosure attributi di una o più attestations;
+	  - Registrarsi come sopra, ma aggiungendo una garanzia per la relying party che l'utente potrà registrare sul proprio sito solo un certo numero limitato di pseudonimi;
+	- Uno pseudonimo che è utilizzabile e linkabile da diversi attori;
+	  
+	Come si generano e come si usano?
+		Nel momento di registrazione, lo user genera chiave pubblica e chiave privata, memorizza privata nel wallet secure crypto ecc. e invia la chiave pubblica al server (Relying Party), eventualmente al momento della registrazione possono essere presentati attributes come spiegato precedentemente.
+		In fase di accesso, viene generata ed inviata random challenge, che viene firmata da chiave privata dello user e inviata e verificata da relying party. Molto semplice.
+3. Perchè non si limitano a firme ? Quali propietà devono essere soddisfatte ?
+	   Effettivamente guardando bene quello che viene fatto, sono solo firme. Infatti authentication e presentare attestation si basa solo protocolli per presentare in maniera sicura credenziali firmate, facendo opportune verifiche su attendibilità di relying party, attestation authority, user e device security, revocation lists ecc. Niente di più.
+	   Per quanto riguarda selective disclosure su identità e attestations, la cosa si fa più complicata. Infatti in questo caso si usano salted hashes insieme a firme, inserendo però diverse problematiche che non garantiscono che la privacy venga preservata. Tutto nel paper suggerisce che l'unico modo per colmare questi security breach è implementare zero knowledge proofs.
+	   Gli pseudonimi invece non sono ne firme ne hanno a che fare con salted hashes, ma sono solo key pairs utilizzati per l'autenticazione evitando di rivelare la propria identità.
+
 
 ---
 ## Problemi che trovo io
@@ -339,3 +354,11 @@ Quindi questo è un buco completo nel portafogli, ed è completamente riconosciu
 
 ---
 Come fa lo pseudonym ad essere legato all'identità dello user se poi consiste solo in un keypair generato dal wallet ?
+Perchè va presentato insieme ad un attestation almeno la prima volta, o viene fornito da thrusted third party e quindi garantisce certi privilegi. Quindi comunque possibile vittima di linking attack.
+
+---
+## Concluisioni al 26/03/2026
+Le mie conclusioni in questa fase sono le seguenti:
+EUDI wallet con l'attuale architettura è una piattaforma utile per collezionare documenti (attestaion) firmati che saranno riconoscibili in tutta europa, per salvare e presentare la propria identità, e come strumento di firma elettronica con valenza legale. Queste sono funzionalità che incontrano e soddisfano tutti i irequirement sfruttando semplicemente firme digitali, secure cryptographic environment e protocolli ultra-collaudati per la presentazione di credenziali come ISO 18013-5 e OpendID4VC.
+
+Per quanto riguarda gli altri obiettivi che l'architettura ARF si propone come la presentazione di credenziali parziali attraverso salted hashes, queste non incontrano criteri di sicurezza sufficientemente robusti, e causano privacy leeaking (linking attack e l'altra vulnerabilità che avevo trovato io). Inoltre gli pseudonimi con l'implementazione attuale sembrano abbastanza inutili. Nel senso che comunque gli pseudonimi sono semplicemente credenziali salvate nel portafogli, quando non si vuole accedere con il proprio PID. Non hanno nessuna particolare funzione nè sfruttano nessuna particolare tecnologia.
