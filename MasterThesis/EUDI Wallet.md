@@ -288,8 +288,7 @@ Capire in dettaglio:
 
 ### Risposte
 
-1. 
-	Come si aggiungono le attestations:
+1. Come si aggiungono le attestations:
 	- Allora, per quanto riguarda la patente, mDLs (mobile driving license), viene esplicitamente dichiarato nella documentazione ([qui](https://github.com/eu-digital-identity-wallet/eudi-doc-attestation-rulebooks-catalog/blob/main/rulebooks/mdl/mdl-rulebook.md)) che si fa riferimento al modello ISO 18013-5, stesso usato per l'identificazione, pertanto dando per scontato la sua efficienza (l'avevamo detto insieme l'altra volta) non indagherò. Eventuale approfondimento [qui](https://www.dock.io/post/iso-18013-5#data-structure).
 	- Le altre **attestazioni** vengono **ottenute** col seguente protocollo:  User si assicura che il provider sia reliable (in Official trusted list o Lists of Trusted Entities (LoTE) ). Provider autentica lo user ( seguendo il protocollo di autenticazione OpenID4VC mostrato nel capitolo legato all'identificazione ) ([Attestation Issuance Interface](https://eudi.dev/latest/architecture-and-reference-framework-main/#51-attestation-elements)), e valida la wallet instance ( Usa wallet instance attestation, tutto spiegato nel capitolo del trust model ). Dopo che lo user vede e valida l'attestation, il wallet verifica la firma del provider sull'attestazione e questa viene memorizzata nel wallet.
 	**Come vengono salvate**? 
@@ -311,8 +310,7 @@ Nella sezione ([5.3 Attestation formats and proof mechanisms](https://eudi.dev/l
 |**Proof Type**|Embedded (Salted Hashes)|Embedded (Salted Hashes)|Detached or Embedded|
 |**Key Use Case**|Proximity (e.g., mDL)|Remote (e.g., remote identification)|General (requires profiling)|
 |**Wallet Support**|Mandatory|Mandatory|Optional|
-2. 
-   A cosa servono gli pseudonimi?
+2. A cosa servono gli pseudonimi?
 	   Questi sono i possibili usecase:
 	- Gli pseudonimi possono essere usati per autenticare un utente quando non è necessario per la relying party conoscere l'identità dell'utente;
 	  - Utente che desidera registrarsi senza rivelare la propria identità come sopra, ma associando al proprio pseudonimo un informazione del tipo "vivo a roma", "ho più di 18 anni", che può essere corredata mostrando con selective disclosure attributi di una o più attestations;
