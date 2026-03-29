@@ -362,3 +362,12 @@ Le mie conclusioni in questa fase sono le seguenti:
 EUDI wallet con l'attuale architettura è una piattaforma utile per collezionare documenti (attestaion) firmati che saranno riconoscibili in tutta europa, per salvare e presentare la propria identità, e come strumento di firma elettronica con valenza legale. Queste sono funzionalità che incontrano e soddisfano tutti i irequirement sfruttando semplicemente firme digitali, secure cryptographic environment e protocolli ultra-collaudati per la presentazione di credenziali come ISO 18013-5 e OpendID4VC.
 
 Per quanto riguarda gli altri obiettivi che l'architettura ARF si propone come la presentazione di credenziali parziali attraverso salted hashes, queste non incontrano criteri di sicurezza sufficientemente robusti, e causano privacy leeaking (linking attack e l'altra vulnerabilità che avevo trovato io). Inoltre gli pseudonimi con l'implementazione attuale sembrano abbastanza inutili. Nel senso che comunque gli pseudonimi sono semplicemente credenziali salvate nel portafogli, quando non si vuole accedere con il proprio PID. Non hanno nessuna particolare funzione nè sfruttano nessuna particolare tecnologia.
+
+--- 
+Si può aggiungere la carta di identità scannerizzandola ?
+Visionare implementazione italiana del wallet.
+Il PID è permanente ? è prevista flessibilità ? Può cambiare ?
+Verificare se posso aggiungere credenziali da entità non presenti nella Trusted List.
+W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0) approfondire.
+Mostrare più attestation come si fa ?
+Rischio di sputtanarsi andando a chiedere credenziali ad-hoc agli issuer.
