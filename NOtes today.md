@@ -11,3 +11,8 @@ Instead of garbling circuit for funciton f(x,y) he will compute output for funct
 Replacing H with random oracle model will add some kind of syntactycal problem because we should garble the circuit of the random oracle, but it has no circuit ! SHA256 comes after defining the security of the protocol.
 We cannot claim security of random oracle and then demonstrate with the circuit of SHA256, it is not secure!
 
+2 stupid things:
+- I am not satisfied with the evaluator that knows the garbler is cheating but cannot reveal the info and just take majority;
+- Evaluator can cheat using a single, fake input in order to extract informations from the honest garbler which is behaving correctly (Example in a set intersection, I could add an element in my set that I don't have and perform 2PC to understand if you have it in your set).
+
+
