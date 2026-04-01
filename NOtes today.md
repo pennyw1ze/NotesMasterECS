@@ -4,4 +4,4 @@ Evaluator:
 must perform an OT on every input he wants to submit
 
 Garbler:
-Instead of garbling circuit for funciton f(x,y) he will compute output for function
+Instead of garbling circuit for funciton f(x,y) he will compute output for function f(x,y) || H(y).
