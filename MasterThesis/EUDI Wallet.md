@@ -367,7 +367,5 @@ Per quanto riguarda gli altri obiettivi che l'architettura ARF si propone come l
 Si può aggiungere la carta di identità scannerizzandola ?
 Visionare implementazione italiana del wallet.
 Il PID è permanente ? è prevista flessibilità ? Può cambiare ?
-Verificare se posso aggiungere credenziali da entità non presenti nella Trusted List.
 W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0) approfondire.
-Mostrare più attestation come si fa ?
 Rischio di sputtanarsi andando a chiedere credenziali ad-hoc agli issuer.
