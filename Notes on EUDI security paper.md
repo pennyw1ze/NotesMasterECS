@@ -1,4 +1,4 @@
-They restrict ourselves to the analysis of three key processes that involve Level of Assurance (LoA) high, namely wallet activation and both issuance and presentation of Person Identification Data (PID) and mDL.
+They restricter their analysis of three key processes that involve Level of Assurance (LoA) high, namely wallet activation and both issuance and presentation of Person Identification Data (PID) and mDL.
 
 They formally scope our privacy evaluation to the upper application (EUDIW functional architecture), data representation (e.g., SD-JWT, mDOC, JSON, CBOR), and session layers (e.g., OpenID4VCI,VP over HTTPS). We do not formally evaluate the lower transport (e.g., TCP or UDP), network (e.g., IP), data link (e.g., Near-Field Communication (NFC), Bluetooth Low Energy (BLE)), or physical layers (e.g., Wi-Fi, Ethernet, or RFID).
 
@@ -15,6 +15,17 @@ Entity ∶= Wallet ∣ AP ∣ RP ∣ WP ∣ QTSP
 
 # Threat
 Threats that our researchers find out:
+
+Cosa sono i **quasi-identifier**:
+Il paper utilizza il termine quasi-identifier per indicare quegli elementi tecnici che, pur non rivelando direttamente il nome legale dell'utente, sono persistenti e possono essere usati per identificarlo o tracciarlo.
+
+Questi includono:
+
+- **La chiave pubblica dell'utente (**PKu​**):** Utilizzata per la verifica delle presentazioni e delle attestazioni, spesso persiste tra diverse sessioni.
+- **WUAid e EAArevoc_id:** Identificativi univoci legati all'attestazione dell'unità Wallet e allo stato di revoca delle credenziali.
+- **Fingerprint SD-JWT:** Le impronte digitali create dagli hash salati degli attributi che rimangono invariate in tutte le presentazioni di uno specifico PID.
+- **Metadati OpenID4{VCI, VP}:** Elementi come `client_id`, `access_token`, e altri parametri di sessione che, sebbene variabili, possono collegare informazioni all'interno della stessa sessione.
+- **Certificati persistenti:** Nel protocollo ISO18013-5 per l'uso offline, vengono utilizzati certificati che non cambiano nel tempo.
 
 ## 1) **Linkability of quasi-identifiers**
 When users are required to disclose their attributes, the presentation is signed with, and therefore reveals, the associated PK𝑢 for verification. Furthermore, the PK𝑢, and $EAA_{revoc\_id}$ persist regardless of the session. These quasi-identifiers, along with the PoA (Proof of Association), are used to identify the session and verify the presentation and can be leveraged to correlate repeat interactions. For salted hash technique, salted hashes remain unchanged every time the user present his attributes, therefore resulting in an easily linkable element. It should also be emphasized that not all quasi-identifiers have the same degree of linkability, e.g., PK𝑢 is involved in all of a user’s interactions with LoA high, whereas EAArevoc_id is revealed only when using a specific EAA, and a disclosure is revealed only if this specific attribute is requested. 
