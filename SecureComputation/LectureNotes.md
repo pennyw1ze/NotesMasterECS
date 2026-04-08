@@ -34,3 +34,39 @@ We cannot claim security of random oracle and then demonstrate with the circuit 
 Damage:
 - I am not satisfied with the evaluator that knows the garbler is cheating but cannot reveal the info and just take majority;
 
+---
+## Implementing SHA256 inside MP-SPDZ
+What is an oblivious PRF ?
+A PRF that can be computed in 2 party computation and can hide the inputs to the respective parties.
+PRF is a tool that with a short key simulates an array of random strings
+PRF(k,x). SHA256 is a PRF in the random oracle model.
+I downloaded sha256 circuit. It takes 2 inputs and output 256 bits.
+Inputs are 512 bits and 256 bits. 512 is the key.
+SHA256 process inputs by block, keeping his internal state of 256 bits.
+To implement sha, the second 256 bits must be provided by us and are fixed. Are written on wikipedia.
+
+```
+_Initialize hash values:_
+(first 32 bits of the _fractional parts_ of the square roots of the first 8 primes 2..19):
+h0 := 0x6a09e667
+h1 := 0xbb67ae85
+h2 := 0x3c6ef372
+h3 := 0xa54ff53a
+h4 := 0x510e527f
+h5 := 0x9b05688c
+h6 := 0x1f83d9ab
+h7 := 0x5be0cd19
+```
+
+Also we have to add padding in order to round our input in the first 512 bits. The padding bits are:
+
+```
+_Pre-processing (Padding):_
+begin with the original message of length L bits
+append a single '1' bit
+append K '0' bits, where K is the minimum number >= 0 such that (L + 1 + K + 64) is a multiple of 512
+append L as a 64-bit big-endian integer, making the total post-processed length a multiple of 512 bits
+such that the bits in the message are: <original message of length L> 1 <K zeros> <L as 64 bit integer> , (the number of bits will be a multiple of 512)
+```
+
+For the padding, we must have a 1 followed by 0s reaching 448 and the last block are the 64 bits which are supposed to encode the length of my original message.
