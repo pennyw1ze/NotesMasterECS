@@ -98,7 +98,7 @@ Preconditions: Access to quasi-identifiers that are linked to each other
 	and correlated with attributable data
 ```
 ## 3) Re-identification of pseudonymous identities
-Since implementation of pseudonyms is leaved to Member State, they could come up with legislative measures that forces RP/AP to reveal informations about the users under certain circumstances, violating their privacy.
+Since implementation of pseudonyms is leaved to Member State, they could come up with legislative measures that forces RP/AP to reveal informations about the user under certain circumstances, violating their privacy.
 
 ```table
 Misactors: MSs, supervisory bodies
