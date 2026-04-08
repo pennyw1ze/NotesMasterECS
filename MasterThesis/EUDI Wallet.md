@@ -369,3 +369,4 @@ Visionare implementazione italiana del wallet.
 Il PID è permanente ? è prevista flessibilità ? Può cambiare ?
 W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0) approfondire.
 Rischio di sputtanarsi andando a chiedere credenziali ad-hoc agli issuer.
+La questione delle entità certificate (che solo loro possano dare attestazioni) potrebbe portare dei problemi.
