@@ -1,0 +1,2 @@
+PAPER PURPOSE:
+Our work aims to provide this informational foundation and gives an overview of the two most prominent directions to build identity system from anonymous credentials: dedicated multi-message signatures with efficient proofs (such as BBS signatures with Schnorr proofs), and general-purpose zero-knowledge (ZKP) systems build on top of ECDSA.
