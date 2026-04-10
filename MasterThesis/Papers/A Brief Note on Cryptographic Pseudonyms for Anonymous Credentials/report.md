@@ -1,0 +1,1 @@
+The paper aims to describe pseudonyms for the upcoming EUDI wallet.
