@@ -24,12 +24,12 @@ Attacchi ad OpenID4VC:
 	- **Attack description**: exploits the flaw in the presentation request to inject a  stolen/leaked credential in the communication with the Verifier to access the service;
 3. Exploitation of faulty credential status check mechanism: occurs when the credential validity check mechanism is not designed in a privacy-preserving way (e.g., it demands direct communication between the Verifier and Issuer). Thus, it would leak sensitive information about the usage of credentials and enable Holder’s tracking.
 	- **Actors**: User and RP;
-	- **Attack description**:  curious Issuer can use the flaw in the Verifier’s credential validity check by the Verifier to obtain information about the Wallet’s actions and perform the Holder’s activity linking;
-4. Unauthorized presentation response (VP token) forwarding: aims to impersonate the Holder at the Verifier by forwarding the VP token extracted from the interaction of Wallet and Verifier into the attacker session with the Verifier.
+	- **Attack description**:  curious Issuer can use the flaw in the Verifier’s credential validity check by the Verifier to obtain information about the Wallet’s actions and perform the Holder’s activity **linking**;
+4. Unauthorized presentation **response** (VP token) **forwarding**: aims to impersonate the Holder at the Verifier by forwarding the VP token extracted from the interaction of Wallet and Verifier into the attacker session with the Verifier.
 	- **Actors**: Entity stoling data, RP;
 	- **Attackd description**: an attacker can send the stolen presentation to the Verifier instead of a presentation created by his Wallet;
 5. Registration of non compliant entity: aims to register a non-compliant entity to operate in the ecosystem for a malicious purpose.
-	- **Attack description**:  an attacker can misuse the flaw within a certifica- tion system to operate a non-compliant entity;
+	- **Attack description**:  an attacker can misuse the flaw within a certification system to operate a non-compliant entity;
 6. Exploitation of faulty data exchange protocol implementation: advantages the im- proper implementations of the exchange protocols without following the best practices that can lead to increasing the attack surface.
 	- **Attack description**: obtains the Holder vp_token by exploiting a flaw on presenting the access token;
 7. Data minimization violation: refers to the practice of requesting, obtaining, and storing more personal information from individuals than is strictly necessary for the intended service or transaction

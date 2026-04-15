@@ -1,5 +1,5 @@
 PAPER PURPOSE:
-Our work aims to provide this informational foundation and gives an overview of the two most prominent directions to build identity system from anonymous credentials: dedicated multi-message signatures with efficient proofs (such as BBS signatures with Schnorr proofs), and general-purpose zero-knowledge (ZKP) systems build on top of ECDSA.
+Their work aims to provide this informational foundation and gives an overview of the two most prominent directions to build identity system from anonymous credentials: dedicated multi-message signatures with efficient proofs (such as BBS signatures with Schnorr proofs), and general-purpose zero-knowledge (ZKP) systems build on top of ECDSA.
 
 What features should anonymous credentials have for the authors ? here they are:
 #### Features of anonymous credentials (AC):
@@ -30,4 +30,7 @@ The following section of the paper describes the adoptions of 2 technologies for
 
 > [!WARNING]
 > Both zkSNARKs and BBS signature schemes are **POST QUANTUM INSECURE!**
+
+> [!ATTIENTION]
+> It seems like they are actually presenting How to Prove Post-Quantum Security for Succinct Non-Interactive Reductions at EUROCRYPT Alessandro Chiesa.
 
