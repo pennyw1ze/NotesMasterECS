@@ -371,3 +371,20 @@ W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0) approfondire.
 Rischio di sputtanarsi andando a chiedere credenziali ad-hoc agli issuer.
 La questione delle entità certificate (che solo loro possano dare attestazioni) potrebbe portare dei problemi.
 Controllare se è possibile utilizzare chiavi al di fuori dell EUDI Wallet
+
+---
+PROBLEMA
+Se fare posst quantum è così semplice perchè non è stato già fatto ? Dove sta la difficoltà ?
+Un replacement di ECDSA con firma post quantum che problemi porta ?
+
+Prendi ZK system proof esistente STARK o LIGERO o LIGETRON
+Quanto ci mette LIGERO a creare proof su ML DSA/FALCON (firme post quantum sicure) ?
+è possibile usare due smartphone con due identità ?
+
+ALTRE POSSIBILI DIREZIONI: 
+- Multi factor authentication: usare due smartphone o 1 smartphone ed 1 pc e fare multiparty computation o 2 factor authentication per evitare single point of failure. Si ricollega a [Navigating secure storage] paper. Trovare comunque altri modi per bypassare il secure storage requirement. Esplorare blackbox e ipotetiche backdoor del secure storage https://news.dyne.org/privacy-in-eudi/ e https://zenroom.org/?ref=news.dyne.org analizzare queste pagine.
+- Rimpiazzare salted hash con pedersen commitment, usare interactive zero knowledge per evitare di essere schedati (deniability);
+- (eventualmente esplorare 2PC tra User e Relying Party);
+
+next step
+vedere nei lavori che posso controllare se le problemi del point of failure del secure environment e  minimizzare le informazioni condivise e deniability sono state affrontate.
