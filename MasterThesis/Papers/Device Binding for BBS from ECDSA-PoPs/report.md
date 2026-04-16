@@ -1,0 +1,1 @@
+Pairing-based BSS signatures allows for an efficient ZKP of a signature over hidden attributes values, which leads to anonymous credentials system. They have been iso standardized for a lightweight method for device binding (with some assumptions on the secure element).
