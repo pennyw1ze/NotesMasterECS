@@ -34,3 +34,7 @@ The following section of the paper describes the adoptions of 2 technologies for
 > [!ATTIENTION]
 > It seems like they are actually presenting How to Prove Post-Quantum Security for Succinct Non-Interactive Reductions at EUROCRYPT Alessandro Chiesa.
 
+---
+## Implementation
+#### BBS
+BBS with native signatures: for device binding, use Direct Anonymous Attestation. Requires a simple Schnorr sigature on pairing friendly Elliptic curve group.

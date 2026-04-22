@@ -70,3 +70,23 @@ such that the bits in the message are: <original message of length L> 1 <K zeros
 ```
 
 For the padding, we must have a 1 followed by 0s reaching 448 and the last block are the 64 bits which are supposed to encode the length of my original message.
+
+---
+Why we use Fieldman VSS ? Because we are not involving the Oblivious Transfer primitive.
+To protect ao as exponent of g ($A_0 = g^{a_0}$), let's say our secret is s:
+We compute a random $a_0$, $c = H(a_0)\oplus s$, and send c to everyone.
+
+---
+## Fully Homomorphic encryption
+El gamal:
+Cipher text: ($u = g^r$,$v = mPK^r$)
+Decryption: (plain = ${v \over u^x}$);
+I can re-randomize:
+u times $g^{r'}$ we add randomness r' to r.
+It is homomorphic with respect to multiplication property
+we can compute encryptiion of multiplication of $m_1$ and $m_2$ by just multiplying the cypertext.
+Additive elgamal allows for m1 + m2 but you will end up to bruteforce the space of the message.
+You do v = $g^{m_1}g^r$
+and the when you multiply and decrypt you obtain 
+$g^{m_1 + m_2}$ and then you will have to bruteforce.
+
