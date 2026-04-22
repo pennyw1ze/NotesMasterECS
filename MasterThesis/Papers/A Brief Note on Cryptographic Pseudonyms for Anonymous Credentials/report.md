@@ -41,6 +41,6 @@ For transferability, allowing a set of pseudonyms to be transferred from one EUD
 I THINK THIS PAPER IS NOT REALLY VALID FOR THE FOLLOWING SENTENCE:
 
 ```
-For transferability, allowing a set of pseudonyms to be transferred from one EUDIW instance to another is transferring the pns after re-provisioning the holder’s core EUDI credentials on the new devices.
+That is, adding such pseudonyms reduces perfect privacy of BBS-based ZKPs to computational privacy, which can be retroactively broken when efficient quantum computers become available. 
 ```
 

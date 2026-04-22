@@ -370,6 +370,7 @@ Il PID è permanente ? è prevista flessibilità ? Può cambiare ?
 W3C Verifiable Credentials Data Model v2.0 (W3C VCDM 2.0) approfondire.
 Rischio di sputtanarsi andando a chiedere credenziali ad-hoc agli issuer.
 La questione delle entità certificate (che solo loro possano dare attestazioni) potrebbe portare dei problemi.
+
 Controllare se è possibile utilizzare chiavi al di fuori dell EUDI Wallet
 3.9 Qualified Electronic Signature Remote Creation (QESRC)
 The Wallet Unit will allow the User to create qualified electronic signatures or seals over any data.
@@ -378,11 +379,12 @@ The Wallet Unit will allow the User to create qualified electronic signatures or
 PROBLEMA
 Se fare posst quantum è così semplice perchè non è stato già fatto ? Dove sta la difficoltà ?
 Un replacement di ECDSA con firma post quantum che problemi porta ?
+Non si può perchè, come dicono Anja Lehmann , Andrey Sidorenko , and Alexandros Zacharakis nel paper "Vision: A Modular Framework for Anonymous Credential Systems", current SEs merely support ECDSA signatures over P-256 curves. [[MasterThesis/Papers/Vision, A Modular Framework for Anonymous Credential Systems/paper.pdf#page=4&selection=43,15,44,43|paper, page 4]] . Inoltre occorre notare che gli algoritmi ZKP post quantistici sono ancora in fase di ottimizzazione e presentano una complessità circuitale più elevata (non sono entrato nello specifico, opinione dell'AI che ho trovato attendibile).
 
 Prendi ZK system proof esistente STARK o LIGERO o LIGETRON
 Quanto ci mette LIGERO a creare proof su ML DSA/FALCON (firme post quantum sicure) ?
 
-è possibile usare due smartphone con due identità ? Si è possibile, ma saranno considerate due diverse wallet unit.
+è possibile usare due smartphone con due identità ? Si è possibile, ma saranno considerate due diverse wallet unit. Questo cosa implica ? Nulla di fatto si può comunque fare digital signature, mostrare i propri attributes ecc.
 
 ALTRE POSSIBILI DIREZIONI: 
 - Multi factor authentication: usare due smartphone o 1 smartphone ed 1 pc e fare multiparty computation o 2 factor authentication per evitare single point of failure. Si ricollega a [Navigating secure storage] paper. Trovare comunque altri modi per bypassare il secure storage requirement. Esplorare blackbox e ipotetiche backdoor del secure storage https://news.dyne.org/privacy-in-eudi/ e https://zenroom.org/?ref=news.dyne.org analizzare queste pagine.
