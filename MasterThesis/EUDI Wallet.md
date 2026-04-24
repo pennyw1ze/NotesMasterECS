@@ -376,20 +376,44 @@ Controllare se è possibile utilizzare chiavi al di fuori dell EUDI Wallet
 The Wallet Unit will allow the User to create qualified electronic signatures or seals over any data.
 
 ---
-PROBLEMA
-Se fare posst quantum è così semplice perchè non è stato già fatto ? Dove sta la difficoltà ?
-Un replacement di ECDSA con firma post quantum che problemi porta ?
-Non si può perchè, come dicono Anja Lehmann , Andrey Sidorenko , and Alexandros Zacharakis nel paper "Vision: A Modular Framework for Anonymous Credential Systems", current SEs merely support ECDSA signatures over P-256 curves. [[MasterThesis/Papers/Vision, A Modular Framework for Anonymous Credential Systems/paper.pdf#page=4&selection=43,15,44,43|paper, page 4]] . Inoltre occorre notare che gli algoritmi ZKP post quantistici sono ancora in fase di ottimizzazione e presentano una complessità circuitale più elevata (non sono entrato nello specifico, opinione dell'AI che ho trovato attendibile).
-
-Prendi ZK system proof esistente STARK o LIGERO o LIGETRON
-Quanto ci mette LIGERO a creare proof su ML DSA/FALCON (firme post quantum sicure) ?
-
-è possibile usare due smartphone con due identità ? Si è possibile, ma saranno considerate due diverse wallet unit. Questo cosa implica ? Nulla di fatto si può comunque fare digital signature, mostrare i propri attributes ecc.
-
 ALTRE POSSIBILI DIREZIONI: 
 - Multi factor authentication: usare due smartphone o 1 smartphone ed 1 pc e fare multiparty computation o 2 factor authentication per evitare single point of failure. Si ricollega a [Navigating secure storage] paper. Trovare comunque altri modi per bypassare il secure storage requirement. Esplorare blackbox e ipotetiche backdoor del secure storage https://news.dyne.org/privacy-in-eudi/ e https://zenroom.org/?ref=news.dyne.org analizzare queste pagine.
-- Rimpiazzare salted hash con pedersen commitment, usare interactive zero knowledge per evitare di essere schedati (deniability);
+- Rimpiazzare salted hash con pedersen commitment e usare zk per anonimicità, inoltre usare interactive zero knowledge per evitare di essere schedati (deniability);
 - (eventualmente esplorare 2PC tra User e Relying Party);
 
 next step
 vedere nei lavori che posso controllare se le problemi del point of failure del secure environment e  minimizzare le informazioni condivise e deniability sono state affrontate.
+
+
+---
+## **FINDINGS 04/2026**:
+Problema
+Se fare posst quantum è così semplice perchè non è stato già fatto ? Dove sta la difficoltà ?
+Un replacement di ECDSA con firma post quantum che problemi porta ?
+Risposta
+Non si può perchè, come dicono Anja Lehmann , Andrey Sidorenko , and Alexandros Zacharakis nel paper "Vision: A Modular Framework for Anonymous Credential Systems", current SEs merely support ECDSA signatures over P-256 curves. [[MasterThesis/Papers/Vision, A Modular Framework for Anonymous Credential Systems/paper.pdf#page=4&selection=43,15,44,43|paper, page 4]] . Inoltre occorre notare che gli algoritmi ZKP post quantistici sono ancora in fase di ottimizzazione e presentano una complessità circuitale più elevata (non sono entrato nello specifico, opinione dell'AI che ho trovato attendibile).
+Il **device binding** richiede il coinvolgimento diretto dell'hardware sicuro (**Secure Element**), il quale è attualmente limitato a crittografia legacy come **ECDSA**.
+Finding interessante
+In sintesi:
+- **Limite Hardware:** I chip degli smartphone attuali non supportano la matematica necessaria per firme avanzate (come **BBS**) o per calcolare **ZKP** nativi.
+- **Vincolo di Sicurezza:** Per garantire l'anti-clonazione (LoA High), la chiave di binding deve risiedere nell'SE e non può essere estratta.
+- **Il "Ponte" Complesso:** Per usare firme più anonime e flessibili, bisogna "tradurre" la firma ECDSA dell'hardware nel linguaggio del protocollo avanzato tramite **ZKP esterni** (come ZKAttest o zkSNARK), rendendo l'intero sistema molto più pesante e lento rispetto a una soluzione puramente hardware.
+Senza questo vincolo hardware, il rimpiazzo con sistemi più complessi e performanti sarebbe immediato e quasi istantaneo.
+
+
+
+
+Prendi ZK system proof esistente STARK o LIGERO o LIGETRON
+Quanto ci mette LIGERO a creare proof su ML DSA/FALCON (firme post quantum sicure) ?
+Attualmente è LIGERO il software utilizzato da ZK Felllow. Questi sono i tempi:
+
+|Tipo di ZKP|Protocollo Esempio|Tempo Prover|Dimensione Prova|Note|
+|---|---|---|---|---|
+|**Sigma Protocols**|BBS + Schnorr|**Millisecondi**|**~Bypte/KB**|Massima efficienza, richiede supporto curve pairings.|
+|**SNARKs Ottimizzati**|Woo et al.|**1.6ms**|**400B**|Estremamente veloce ma privacy limitata (DL assumption).|
+|**Ibridi (Bridging)**|ZKAttest/CDLS|**~800ms**|**~150KB**|Compatibile con chip attuali (ECDSA), privacy statistica.|
+|**SNARKs Generici**|Groth16/Ligero|**Secondi**|**Variabile**|Molto complessi, ideali per statement arbitrari.|
+
+
+
+è possibile usare due smartphone con due identità ? Si è possibile, ma saranno considerate due diverse wallet unit. Questo cosa implica ? Nulla di fatto si può comunque fare digital signature, mostrare i propri attributes ecc.
