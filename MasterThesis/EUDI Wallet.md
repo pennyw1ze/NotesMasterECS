@@ -417,3 +417,35 @@ Attualmente è LIGERO il software utilizzato da ZK Felllow. Questi sono i tempi:
 Controllare se è possibile utilizzare chiavi al di fuori dell EUDI Wallet
 3.9 Qualified Electronic Signature Remote Creation (QESRC)
 The Wallet Unit will allow the User to create qualified electronic signatures or seals over any data.
+
+### Idee
+- Implementare uno schema di **Social Recovery basato su MPC** per l'EUDI Wallet. Il segreto del wallet verrebbe diviso in quote (Shamir's Secret Sharing) tra altri wallet di "fiduciari" (amici, parenti o avvocati). Per risolvere il problema del "Single Point of Failure" non solo per la computazione (come fai già con l'MPC), ma anche per il **ripristino della sovranità digitale** dell'utente, eliminando la dipendenza dai colossi del cloud durante il backup.
+
+
+A. Creazione di un "Ambiente Sicuro Virtuale" tramite MPC/2PC
+
+Invece di scegliere tra un SE fisico (limitato) o un Cloud HSM (rischioso per la privacy), la tua proposta potrebbe essere quella di **rimpiazzare l'SE con una computazione multi-parte (MPC)** tra il dispositivo dell'utente e un server di fiducia (o un secondo dispositivo).
+
+- **Perché è un miglioramento:** Elimina lo SPOF hardware e rende il sistema accessibile al 100% degli smartphone, non solo al 10.5% dei modelli flagship.
+
+B. Implementazione della Soundness Post-Quantum
+
+Mentre il lavoro di Frigo et al. offre privacy PQ-safe (grazie a Ligero), la firma sottostante rimane vulnerabile ai computer quantistici.
+
+- **Il Tuo Miglioramento:** Progettare un modulo di **Device Binding basato su MPC con primitive Post-Quantum** (es. firme basate su reticoli). Questo renderebbe il Wallet il primo sistema al mondo con **"Full Post-Quantum Security"** (sia per la privacy che per l'inviolabilità), superando i limiti di BBS e BLS che sono vulnerabili agli algoritmi di Shor.
+
+C. Integrazione con Longfellow per l'Efficienza
+
+Per non sacrificare le prestazioni, potresti proporre di usare la tua soluzione MPC Post-Quantum come un **modulo "drop-in"** all'interno del framework Longfellow/Dyne.
+
+- **Il Tuo Miglioramento:** Sostituire il circuito ECDSA di Longfellow con un circuito che verifichi la correttezza della quota di firma MPC. Questo permetterebbe di mantenere la velocità dei sumcheck-based ZKP pur avendo un'ancora di sicurezza distribuita e a prova di futuro.
+
+D. Pseudonimi Accountable e Rate-Limited
+
+Infine, potresti integrare la logica dei **pseudonimi derivati da seed (pns)** all'interno del circuito ZK.
+
+- **Il Tuo Miglioramento:** Permettere al Wallet di provare di avere un solo account per servizio (Sybil-resistance) tramite l'MPC, senza mai rivelare l'identità legale dell'utente o permettere all'Issuer di tracciare le registrazioni.
+
+Conclusione
+
+Il miglioramento definitivo consiste nel **de-materializzare il Secure Element** trasformandolo in un **processo crittografico distribuito (MPC)** che sia **Post-Quantum Sound**. Questa direzione risolve contemporaneamente il problema della frammentazione hardware, della sovranità tecnologica e della sicurezza a lungo termine, rendendo l'EUDI Wallet un'infrastruttura veramente resiliente e privata per i cittadini europei.
