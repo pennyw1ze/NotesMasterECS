@@ -403,12 +403,14 @@ Prendi ZK system proof esistente STARK o LIGERO o LIGETRON
 Quanto ci mette LIGERO a creare proof su ML DSA/FALCON (firme post quantum sicure) ?
 Attualmente è LIGERO il software utilizzato da ZK Felllow. Questi sono i tempi:
 
-|Tipo di ZKP|Protocollo Esempio|Tempo Prover|Dimensione Prova|Note|
-|---|---|---|---|---|
-|**Sigma Protocols**|BBS + Schnorr|**Millisecondi**|**~Bypte/KB**|Massima efficienza, richiede supporto curve pairings.|
-|**SNARKs Ottimizzati**|Woo et al.|**1.6ms**|**400B**|Estremamente veloce ma privacy limitata (DL assumption).|
-|**Ibridi (Bridging)**|ZKAttest/CDLS|**~800ms**|**~150KB**|Compatibile con chip attuali (ECDSA), privacy statistica.|
-|**SNARKs Generici**|Groth16/Ligero|**Secondi**|**Variabile**|Molto complessi, ideali per statement arbitrari.|
+| Tipo di ZKP            | Protocollo Esempio | Tempo Prover     | Dimensione Prova | Note                                                      |
+| ---------------------- | ------------------ | ---------------- | ---------------- | --------------------------------------------------------- |
+| **Sigma Protocols**    | BBS + Schnorr      | **Millisecondi** | **~Bypte/KB**    | Massima efficienza, richiede supporto curve pairings.     |
+| **SNARKs Ottimizzati** | Woo et al.         | **1.6ms**        | **400B**         | Estremamente veloce ma privacy limitata (DL assumption).  |
+| **Ibridi (Bridging)**  | ZKAttest/CDLS      | **~800ms**       | **~150KB**       | Compatibile con chip attuali (ECDSA), privacy statistica. |
+| **SNARKs Generici**    | Groth16/Ligero     | **Secondi**      | **Variabile**    | Molto complessi, ideali per statement arbitrari.          |
+A tale proposito occorre però leggere [[MasterThesis/Papers/Anonymous Credentials from ECDSA Matteo Frigo Google abhi shelat† Google/report|questo]] report sul paper di frigo et al.
+
 
 
 
