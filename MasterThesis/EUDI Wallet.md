@@ -411,20 +411,15 @@ Attualmente è LIGERO il software utilizzato da ZK Felllow. Questi sono i tempi:
 | **SNARKs Generici**    | Groth16/Ligero     | **Secondi**      | **Variabile**    | Molto complessi, ideali per statement arbitrari.          |
 A tale proposito occorre però leggere [[MasterThesis/Papers/Anonymous Credentials from ECDSA Matteo Frigo Google abhi shelat† Google/report|questo]] report sul paper di frigo et al.
 
-
-
-
 è possibile usare due smartphone con due identità ? Si è possibile, ma saranno considerate due diverse wallet unit. Questo cosa implica ? Nulla di fatto si può comunque fare digital signature, mostrare i propri attributes ecc.
 
 Controllare se è possibile utilizzare chiavi al di fuori dell EUDI Wallet
 3.9 Qualified Electronic Signature Remote Creation (QESRC)
-The Wallet Unit will allow the User to create qualified electronic signatures or seals over any data.
+The Wallet Unit will allow the User to create qualified electronic signatures or seals over any data. Le chiavi fisicamente come file (file contenente le chiavi) non possono essere spostate dal secure element, sono intrappolate al suo interno per motivi di sicurezza.
 
 ### Idee
-- Implementare uno schema di **Social Recovery basato su MPC** per l'EUDI Wallet. Il segreto del wallet verrebbe diviso in quote (Shamir's Secret Sharing) tra altri wallet di "fiduciari" (amici, parenti o avvocati). Per risolvere il problema del "Single Point of Failure" non solo per la computazione (come fai già con l'MPC), ma anche per il **ripristino della sovranità digitale** dell'utente, eliminando la dipendenza dai colossi del cloud durante il backup.
 
-
-A. Creazione di un "Ambiente Sicuro Virtuale" tramite MPC/2PC
+Creazione di un "Ambiente Sicuro Virtuale" tramite MPC/2PC
 
 Invece di scegliere tra un SE fisico (limitato) o un Cloud HSM (rischioso per la privacy), la tua proposta potrebbe essere quella di **rimpiazzare l'SE con una computazione multi-parte (MPC)** tra il dispositivo dell'utente e un server di fiducia (o un secondo dispositivo).
 
@@ -447,6 +442,10 @@ D. Pseudonimi Accountable e Rate-Limited
 Infine, potresti integrare la logica dei **pseudonimi derivati da seed (pns)** all'interno del circuito ZK.
 
 - **Il Tuo Miglioramento:** Permettere al Wallet di provare di avere un solo account per servizio (Sybil-resistance) tramite l'MPC, senza mai rivelare l'identità legale dell'utente o permettere all'Issuer di tracciare le registrazioni.
+
+
+- Implementare uno schema di **Social Recovery basato su MPC** per l'EUDI Wallet. Il segreto del wallet verrebbe diviso in quote (Shamir's Secret Sharing) tra altri wallet di "fiduciari" (amici, parenti o avvocati). Per risolvere il problema del "Single Point of Failure" non solo per la computazione (come fai già con l'MPC), ma anche per il **ripristino della sovranità digitale** dell'utente, eliminando la dipendenza dai colossi del cloud durante il backup.
+- MPC potrebbe anche essere usato per gestire ad esempio il documento di un utente da parte dei propri genitori/tutori/responsabili.
 
 Conclusione
 
