@@ -40,6 +40,6 @@ Ogni versione da loro trovata presenta delle vulnerabilità in caso di hardware 
 
 La loro idea **NON È POST QUANTUM SICURA**.
 
-Presenta **fughe di metadati (timing)** insormontabili nel modello Cloud HSM.
+Presenta **fughe di metadati (timing)** insormontabili nel modello Cloud HSM (osservazione e monitoraggio delle attività di un utente).
 
 HSM essendo on cloud richiede connessione (**NO OFFLINE USAGE**) e chiaramente introduce latenza e ritardi nel funzionamento.
