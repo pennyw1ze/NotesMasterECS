@@ -395,8 +395,7 @@ In sintesi:
 - **Vincolo di Sicurezza:** Per garantire l'anti-clonazione (LoA High), la chiave di binding deve risiedere nell'SE e non può essere estratta.
 - **Il "Ponte" Complesso:** Per usare firme più anonime e flessibili, bisogna "tradurre" la firma ECDSA dell'hardware nel linguaggio del protocollo avanzato tramite **ZKP esterni** (come ZKAttest o zkSNARK), rendendo l'intero sistema molto più pesante e lento rispetto a una soluzione puramente hardware.
 Senza questo vincolo hardware, il rimpiazzo con sistemi più complessi e performanti sarebbe immediato e quasi istantaneo.
-
-
+Di tale materia si occupa il paper Device bound anonymous credentials with(out) thrusted hardware, del quale si trova il report [[MasterThesis/Papers/Device-Bound Anonymous Credentials With(out) Trusted Hardware/report|qui]].
 
 
 Prendi ZK system proof esistente STARK o LIGERO o LIGETRON
