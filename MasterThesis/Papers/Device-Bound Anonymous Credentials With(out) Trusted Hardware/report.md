@@ -34,12 +34,17 @@ Tutti i protocolli utilizzano le **firme BBS** (standard IETF) per la credenzial
 Hanno risolto problema alla base di longfellow che era il secure element come single point of failure, secure element che lavorava ancora con ECDSA quindi Ligero aveva bisogno di ottimizzazioni ad hoc per essere veloce (anche se alla fine Google ci è riuscita) e hanno risolto il problema della scarsa compatibilità dei secure element.
 
 ### Difetti
+
+DICHIARATO
 Ogni versione da loro trovata presenta delle vulnerabilità in caso di hardware compromesso:
 - **BBS-Schnorr (Vulnerabilità alla sovversione):** Questa variante è esplicitamente indicata come **non resiliente alla sovversione dell'hardware**;
 - **BBS-BLS (Mancanza di Obliviousness):** Sebbene risolva il problema della sovversione essendo deterministica, questa variante **rivela all'SE il messaggio che sta firmando**;
 
+OVVIO
 La loro idea **NON È POST QUANTUM SICURA**.
 
+
+MIE
 Presenta **fughe di metadati (timing)** insormontabili nel modello Cloud HSM (osservazione e monitoraggio delle attività di un utente).
 
 HSM essendo on cloud richiede connessione (**NO OFFLINE USAGE**) e chiaramente introduce latenza e ritardi nel funzionamento. Va fatto notare che probabilmente sarà richiesto in ogni caso una sorta di connessione ad internet per il verifier o per l'user, per dimostrare che il proprio documento non si trova in una lista di documenti revocati. Queste possono pure essere scaricate offline in casi estremi ma non saranno aggiornate. Si può forse trovare un caveaut per questa cosa.
