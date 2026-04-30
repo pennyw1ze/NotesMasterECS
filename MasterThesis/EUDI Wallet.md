@@ -449,3 +449,6 @@ Infine, potresti integrare la logica dei **pseudonimi derivati da seed (pns)** a
 Conclusione
 
 Il miglioramento definitivo consiste nel **de-materializzare il Secure Element** trasformandolo in un **processo crittografico distribuito (MPC)** che sia **Post-Quantum Sound**. Questa direzione risolve contemporaneamente il problema della frammentazione hardware, della sovranità tecnologica e della sicurezza a lungo termine, rendendo l'EUDI Wallet un'infrastruttura veramente resiliente e privata per i cittadini europei.
+
+
+---
