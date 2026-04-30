@@ -42,4 +42,4 @@ La loro idea **NON È POST QUANTUM SICURA**.
 
 Presenta **fughe di metadati (timing)** insormontabili nel modello Cloud HSM (osservazione e monitoraggio delle attività di un utente).
 
-HSM essendo on cloud richiede connessione (**NO OFFLINE USAGE**) e chiaramente introduce latenza e ritardi nel funzionamento.
+HSM essendo on cloud richiede connessione (**NO OFFLINE USAGE**) e chiaramente introduce latenza e ritardi nel funzionamento. Va fatto notare che probabilmente sarà richiesto in ogni caso una sorta di connessione ad internet per il verifier o per l'user, per dimostrare che il proprio documento non si trova in una lista di documenti revocati. Queste possono pure essere scaricate offline in casi estremi ma non saranno aggiornate. Si può forse trovare un caveaut per questa cosa.
