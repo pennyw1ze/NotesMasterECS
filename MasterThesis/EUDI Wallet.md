@@ -450,5 +450,7 @@ Conclusione
 
 Il miglioramento definitivo consiste nel **de-materializzare il Secure Element** trasformandolo in un **processo crittografico distribuito (MPC)** che sia **Post-Quantum Sound**. Questa direzione risolve contemporaneamente il problema della frammentazione hardware, della sovranità tecnologica e della sicurezza a lungo termine, rendendo l'EUDI Wallet un'infrastruttura veramente resiliente e privata per i cittadini europei.
 
-
 ---
+- Leigthon micali singature in SE direction: esaminare se prove con zkSTARK sono fattibili. Dare anche un occhiata a SPHINX (stateless) ed altre signature post-quantum. Esistono anche versioni di SPHINX più efficienti ma bounded.
+- Assenza di backup su questo sistema: se smarrisco il mio portafoglio ...
+- Può essere creata una prova
