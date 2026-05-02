@@ -9,4 +9,4 @@ And official [Google security blog](https://blog.google/security/security-for-th
 
 ![[Pasted image 20260502142916.png]]
 
-Based on the analysis of
+Based on the analysis of the official google blog, specifically at [[Security for the Quantum Era_ Implementing Post-Quantum Cryptography in Android.pdf#page=3&selection=0,0,0,10|this ]] section, google claims that developers will be able to encrypt with ML-DSA-65 and 87 in new Android 17 software by just using default TEE Api calls.
