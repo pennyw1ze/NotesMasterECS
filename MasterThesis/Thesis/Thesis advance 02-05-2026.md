@@ -15,3 +15,12 @@ Cosa bisognerebbe fare:
 - Analizzare implementazione di ML-DSA all'interno dell'android secure element, ci sta già un paper che lo fa;
 - Capire se ML-DSA in TEE soddisfa LoA richiesti di EUDI dev;
 - Implementare ZK proof 
+
+Updates:
+Ho trovato diversi paper che parlano di implementazione di Post Quantum anonymous credentials system, 2 in particolare lo fanno utilizzando le tecnologie da noi prese in considerazione:
+- ML-DSA signature;
+- ZK stark module: zkDILLITHIUM;
+Queste prove su ML-DSA con dillithium sono state già costruite da esperti e valutate le loro performance. Quello che si potrebbe fare sarebbe un montaggio di tutti questi protocolli messi insieme con conseguente analisi di performance e sicurezza raggiunta.
+Queste prove sono state implementate e valutate **NON PER UN USO MOBILE** in quanto mancava la componente ML-DSA interna all'android secure element che invece noi addesso abbiamo. La novità sarebbe portarle su mobile e valutare un implementazione COMPLIANT con ARF ed EUDI wallet.
+
+Si potrebbe anche tentare un implementazione ed ottimizzazione delle prove zk stark su ML-DSA ma sarebbe molto complicato da quello che ho capito. In caso si dovesse tentare un implementazione custom, potremmo anche implementare la modifica che volevamo apportare allo schema di Frigo Shelat sulla OR proof.
