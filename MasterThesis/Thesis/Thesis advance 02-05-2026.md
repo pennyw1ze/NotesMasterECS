@@ -39,3 +39,4 @@ Looking at how many instances I would need to modify at the Frigo Shelat zk stat
 Ah no wait! This is a bit of a problem because I would loose post-quantum non linkability! If the zero knowledge proof does not allow the Relying party to look at my device public key, the quantum computer will not be able to break anything (if the ZK proof is post-quantum secure). Wait, but if the device public key or private key or any kind is made visible to the quantum computer it can track me also without breaking the key! So how does it work ? 
 What the adversary can see in the proof is a signed message I think, then the proof says the message has been signed with private key associated with public key on the document.
 
+BBS re-randomization property goes to wast when talking about PQ security unlucky!
