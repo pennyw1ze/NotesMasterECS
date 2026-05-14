@@ -55,17 +55,22 @@ Notice a problem: if the issuer stores your device public key and has a quantum 
 
 For sure the statement could be detached into:
 ### Split up proof
-Issuer's signature proof:
-	$x = (PK_{II}), w = (MSO)$
-	$e1 = SHA256(MSO[0 : 183])$
-	$true = p256.verify((r1, s1), e1, PK_{II} )$
 
-Attribute disclosure, document validity and device binding proof:
-	$x = (a,id,tr,now), w = (MSO,pk_{dx},pk_{dy})$
-	$a = MSO[id] (pkdx, pkdy) = MSO[96 : 160]$
+Issuer's signature proof:
+	$x = (PK_{II},C), w = (MSO,r)$
+	$C = Poseidon(MSO,r)$
+	$e1 = POSEIDON(MSO[0 : 183])$
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof:	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$
+	$C = Poseidon(MSO,r)$
+	$a = MSO[id]$
+	$(pkdx, pkdy) = MSO[96 : 160]$
 	$tstart = MSO[48 : 56]$
 	$tend = MSO[56 : 64]$
 	$tstart < tnow < tend$ 
 	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
 
-In this way we would have to bound proof tho because 
+In this way we would have to bound proof tho because they use the same MSO instance.
+Ok, they will have to because both device binding and issuer signature are tied to MSO. So we have to figure out a way to 
