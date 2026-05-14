@@ -43,3 +43,29 @@ What the adversary can see in the proof is a signed message I think, then the pr
 The device binding private/public key does not need to be post-quantum secure, in fact it is never shown, only a zk proof showing possession of public/private key pair and a signed nonce are shown, it is never possible for the relying party to see the device public/private key! Also if found, adversary would still need to steal your credentials in order to make you any damage.
 Notice a problem: if the issuer stores your device public key and has a quantum computer, he can revert and get also your private key, and then when you show a signed nonce to a verifier, the issuer could try to sign the same transcript with all his stored private key until find yours and linking you!
 
+---
+### Statement
+	$e1 = SHA256(MSO[0 : 183])$
+	$a = MSO[id] (pkdx, pkdy) = MSO[96 : 160]$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r1, s1), e1, PKI I )$
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+For sure the statement could be detached into:
+### Split up proof
+Issuer's signature proof:
+	$x = (PK_{II}), w = (MSO)$
+	$e1 = SHA256(MSO[0 : 183])$
+	$true = p256.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof:
+	$x = (a,id,tr,now), w = (MSO,pk_{dx},pk_{dy})$
+	$a = MSO[id] (pkdx, pkdy) = MSO[96 : 160]$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+In this way we would have to bound proof tho because 
