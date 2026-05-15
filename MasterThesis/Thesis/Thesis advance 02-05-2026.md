@@ -73,7 +73,7 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
 
 Verifier additional check:
-STARK(C) = LIGERO(C)
+	STARK(C) = LIGERO(C)
 
 In this way we would have to bound proof tho because they use the same MSO instance.
 Ok, they will have to because both device binding and issuer signature are tied to MSO. So we have to figure out a way to 
