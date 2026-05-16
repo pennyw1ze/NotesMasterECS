@@ -40,8 +40,8 @@ Ah no wait! This is a bit of a problem because I would loose post-quantum non li
 What the adversary can see in the proof is a signed message I think, then the proof says the message has been signed with private key associated with public key on the document.
 
 #### Conclusion:
-The device binding private/public key does not need to be post-quantum secure, in fact it is never shown, only a zk proof showing possession of public/private key pair and a signed nonce are shown, it is never possible for the relying party to see the device public/private key! Also if found, adversary would still need to steal your credentials in order to make you any damage.
-Notice a problem: if the issuer stores your device public key and has a quantum computer, he can revert and get also your private key, and then when you show a signed nonce to a verifier, the issuer could try to sign the same transcript with all his stored private key until find yours and linking you!
+The device binding private/public key does not need to be post-quantum secure, in fact it is never shown, only a zk proof showing possession and signing a nonce is sent, it is never possible for the relying party to see the device public/private key! Also if found, adversary would still need to steal your credentials in order to make you any damage.
+Notice a problem: if the issuer stores your device public key and has a quantum computer, he can revert and get also your private key and will be able to use your credentials having both valid attestation (he is the issuer) and valid device binding keypairs (he could also sell them beign SEMI-HONEST).
 
 ---
 ### Statement
@@ -132,3 +132,6 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 	$tend = MSO[56 : 64]$
 	$tstart < tnow < tend$ 
 	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+This implementation is FULLY compatible with POST-QUANTUM standards (ML-DSA, SHA256, LIGERO) and will be easily to merge with actual MDOCS ecc. (just changing siganture scheme and instead of getting device public key, sha256 of it), keeping ECDSA running inside secure elements.
+
