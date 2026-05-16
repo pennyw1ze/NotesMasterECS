@@ -77,3 +77,58 @@ Verifier additional check:
 
 In this way we would have to bound proof tho because they use the same MSO instance.
 Ok, they will have to because both device binding and issuer signature are tied to MSO. So we have to figure out a way to 
+
+THESIS: Post quantum transition for device bounded anonymous credentials: the EUDI wallet application
+
+Secondo Lehman et al. nel paper Vision e Device bound anonymous credentials presentato all'eurocrypt 2026, e secondo SoK, nei secure element verrà implementato ML-DSA che sarà necessario implementare per ottenere un device device binding post-quantum secure.
+
+Dove viene usata pk del device:
+- Document and attestation creation da parte dell'issuer;
+- Wallet Unit attestation (WUA);
+- Credential presentation;
+
+Abbiamo trovato un modo per evitare questo overhead pesantissimo e continuare ad usare ECDSA per il device binding in un setting post quantistico.
+Estenzioni:
+La firma dell'issuer dovrà necessariamente essere resa post-quantum secure.
+- Esiste l'opzione di dimostrare che l'issuer si trova in una trusted list ma per molte situazioni non ha senso.
+- Esiste l'opzione di implementare la revocation list ma non ce ne occuperemo.
+- Esiste l'opzione di dare deniability alle credenziali di longfellow ma non ce ne occuperemo.
+- Esiste l'opzione (?) di fare blind credential issuance dall'Issuer post-quantum ma non ce ne occuperemo.
+
+Cambiare claim di longfellow come segue per transizione full post-quantum senza mostrare all'issuer la propria signature, ma solo un commit di essa:
+
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (MSO,r_1)$
+	$C =$ SHA256$(MSO,r_1)$
+	$e1 =$ SHA256$(MSO[0 : 183])$
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof (LIGERO):	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r_1)$
+	$C =$ SHA256$(MSO,r_1)$
+	$a = MSO[id]$
+	$\textcolor{green}{SHA256}(pkdx, pkdy) = MSO[96 : 160]$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+This is because we are going to send the issuer a commitment of our device public key instead of the public key in order to avoid quantum secret key recovery from the issuer (notice that the issuer wouldn't still be able to do anything with that without having stolen our credentials). Since each device public/private key pair is generated singularly for each attestation, we do not need to add randomness inside the commitment sent to the issuer to be untracable (`Moreover, a Wallet Unit will present each WUA only once. Apart from preventing linkability, this is also to prevent that the public keys in the WUA are used in multiple PIDs or attestations.` ~eudi.dev)
+
+This could also be OPTIMIZED with a **POSEIDON** instantiation (requires the issuer to hash the MSO with Poseidon instead of SHA256) and **PARALLELIZATION** of the creation of ZK instances:
+
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (MSO,r_1)$
+	$C =$ Poseidon$(MSO,r_1)$
+	$e1 =$ Poseidon$(MSO[0 : 183])$
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof (LIGERO):	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r_1)$
+	$C =$ Poseidon$(MSO,r_1)$
+	$a = MSO[id]$
+	$\textcolor{green}{SHA256}(pkdx, pkdy) = MSO[96 : 160]$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
