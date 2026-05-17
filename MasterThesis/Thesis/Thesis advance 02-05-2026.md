@@ -45,6 +45,8 @@ Notice a problem: if the issuer stores your device public key and has a quantum 
 
 ---
 ### Statement
+
+	$x = (pk,a,id,tr,now),\ w = (MSO,pk_{dx},pk_{dy})$
 	$e1 = SHA256(MSO[0 : 183])$
 	$a = MSO[id] (pkdx, pkdy) = MSO[96 : 160]$
 	$tstart = MSO[48 : 56]$
