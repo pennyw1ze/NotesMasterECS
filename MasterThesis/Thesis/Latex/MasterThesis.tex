@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Post-quantum transition for device bounded anonymous credentials: a EUDI wallet application}
+\author{Leonardo Rufini}
+\date{July 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Goal 1: user identification
+there is a user, a wallet unit (the app), un verifier e un PiD provider che fornisce l'id all'utente
+
+c'è un protocolo standard ISO per l'identificazione in prossimità
+funziona con QR code / nfc, pairing con device
+
+c'è un prootocollo per identificazion in remoto, OpenID4vp, eseguito tra browser e verifier, mentre il browser comunica con l'app 
+
+
+per entrambi vale l'obiettivo di confidentiality e authentication
+
+le chiavi private dell'utente sono salvate in una zona trusted dello smartphone
+
+Goal 2: il wallet puo' contenere anche credenziali come la patente laurea, diploma etcc..
+si tratta di EAA (electronic attestation attribute) sono codificati in alcuni formati predefiniti; 
+è necessario prevedere selective disclosure e viene implementato come segue
+
+gli attori sono user, wallet, verifier, attestation provider
+
+questi utlimi fornisconio attestazioni che sono di 3 tipi sulla base....
+
+il protocollo si chiama SDJWTVC;
+
+da capire: 
+
+1) come si collega il PID ricevuto dal Pid provider, e verosimilmente associato a delle chiavi segrete, con le attestation ricevetue da altre parti. 
+
+2) perché non ci si limita a inoltrare le attestazioni e la prova tramite firma di essere il soggetto con un certo ID? Che tipo di problema ci sarebbe e dove è indicato nella documentazione? 
+
+3) come viene implementato il meccanismo di selective disclosure; cioè se ho varie credenziali, come mostro che ne posseggo una specifica? SDJWTVC è il modo con cui viene fatto. 
+Domanda: come dimostro che ho 1 tra 2 credenziali? è previsto?
+
+4) scrivono esplicitamente che per l'unkability di attestations non basta salted hash ma è necessario usare ZK proof
+
+questo in contrasto con lìidentificazione per la quale possono evitare linkability
+
+perché per l'identificazione si e invece le credenziali no? cosa c'è che fa la differenza?
+
+3) usare EUDI per qualified electronic signature
+
+4) pseudonym: l'utente usa pseudonimo per identificarsi senza rivelare l'effettiva identità, riuscendo comunque a realizzare selective disclosure
+
+ci sono 3 tipi di pseudonimo con scopi differenti,
+limitano il numero di psuedonimi ad un certo scope, e c'è anche la verifica che altri hanno vericicato l'ownershp di uno pseudonimo; l'ultimo tipo è che l'user prova direttamente l'owenership dello pseudonimo,
+
+
+
+
+
+
+
+\end{document}
