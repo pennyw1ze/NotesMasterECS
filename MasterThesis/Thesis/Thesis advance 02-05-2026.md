@@ -167,10 +167,11 @@ Issuer's signature proof zk-dillithium (STARK):
 	$true = Dillithium.verify((r1, s1), e_1, PK_{II} )$
 
 Attribute disclosure, document validity and device binding proof (LIGERO):	
-	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$
+	$x = (a,id,tr,now,C),\ w = (MSO,pk_{dx},pk_{dy},r)$
 	$C =$ SHA256$(MSO) \oplus r$
 	$a = MSO[id]$
-	SHA256$(pkdx, pkdy) = MSO[96 : 160]$
+	$pkd = MSO[96 : 160]$
+	$pkd =$ SHA256$(pkdx, pkdy)$
 	$tstart = MSO[48 : 56]$
 	$tend = MSO[56 : 64]$
 	$tstart < tnow < tend$ 
