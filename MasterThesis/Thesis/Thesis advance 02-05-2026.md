@@ -137,3 +137,21 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 
 This implementation is FULLY compatible with POST-QUANTUM standards (ML-DSA, SHA256, LIGERO) and will be easily to merge with actual MDOCS ecc. (just changing siganture scheme and instead of getting device public key, sha256 of it), keeping ECDSA running inside secure elements.
 
+NEW HYPOTETHICAL OPTIMIZATION:
+Instead of committing $C = H(MSO, r_1)$, we commit to $C = H(MSO) \oplus r_1$ and we cut off a proof of hash preimage knowledge on the zkSTARK.
+
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (MSO,r_1)$
+	$e1 =$ Poseidon$(MSO[0 : 183])$
+	$C = e_1 \oplus r_1$
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof (LIGERO):	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r_1)$
+	$C =$ Poseidon$(MSO) \oplus r_1$
+	$a = MSO[id]$
+	$\textcolor{green}{SHA256}(pkdx, pkdy) = MSO[96 : 160]$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$

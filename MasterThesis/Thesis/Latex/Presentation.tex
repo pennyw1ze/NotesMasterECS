@@ -1,0 +1,125 @@
+\documentclass{beamer}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
+\begin{document}
+\title{Trasformazioni del nostro algoritmo zk:}
+\maketitle
+\begin{frame}
+\frametitle{Frigo Shelat}
+$x = (pk,a,id,tr,now),\ w = (MSO,pk_{dx},pk_{dy})$\newline
+$e1 = SHA256(MSO[0 : 183])$\newline
+$a = MSO[id]$\newline $
+(pkdx, pkdy) = MSO[96 : 160]$\newline
+$tstart = MSO[48 : 56]$\newline
+$tend = MSO[56 : 64]$\newline
+$tstart < tnow < tend$\newline
+$true = p256.verify((r1, s1), e1, PKI I )$\newline
+$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+\end{frame}
+\begin{frame}
+\frametitle{Post quantum transition}
+Issuer's signature proof zk-dillithium (STARK):
+
+$\textcolor{green}{x = (PK_{II},C), w = (MSO,r)}$\newline
+$\textcolor{green}{C = SHA256(MSO,r)}$\newline
+$\textcolor{green}{e1 = SHA256(MSO[0 : 183])}$\newline
+$\textcolor{green}{true = Dillithium.verify((r1, s1), e1, PK_{II} )}$\newline
+
+Attribute disclosure, document validity and device binding proof (LIGERO):\newline
+$x = (a,id,tr,now,\textcolor{green}{C}), w = (MSO,pk_{dx},pk_{dy},r)$\newline
+$\textcolor{green}{C = SHA256(MSO,r)}$\newline
+$a = MSO[id]$\newline
+$(pkdx, pkdy) = MSO[96 : 160]$\newline
+$tstart = MSO[48 : 56]$\newline
+$tend = MSO[56 : 64]$\newline
+$tstart < tnow < tend$\newline
+$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$\newline\newline
+Verifier additional check:
+	STARK(C) = LIGERO(C)
+\end{frame}
+\begin{frame}
+\frametitle{Senza mostrare all'issuer la device public key}
+Issuer's signature proof zk-dillithium (STARK):\newline
+	$x = (PK_{II},C), w = (MSO,r)$\newline
+	$C =$ SHA256$(MSO,r)$\newline
+	$e1 =$ SHA256$(MSO[0 : 183])$\newline
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$\newline
+
+Attribute disclosure, document validity and device binding proof (LIGERO):\newline
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$\newline
+	$C =$ SHA256$(MSO,r)$\newline
+	$a = MSO[id]$\newline
+	$\textcolor{green}{SHA256}(pkdx, pkdy) = MSO[96 : 160]$\newline
+	$tstart = MSO[48 : 56]$\newline
+	$tend = MSO[56 : 64]$\newline
+	$tstart < tnow < tend$ \newline
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$\newline
+\end{frame}
+\begin{frame}
+\frametitle{Ottimizzazione con poseidon hash}
+Rimpiazziamo SHA256 con Poseidon (solo su STARK Ligero già ottimizza SHA).
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (MSO,r)$\newline
+	$C = \textcolor{green}{Poseidon}(MSO,r)$\newline
+	$e1 = \textcolor{green}{Poseidon}(MSO[0 : 183])$\newline
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$\newline
+
+    (LIGERO):\newline
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$\newline
+	$C = \textcolor{green}{Poseidon}(MSO,r)$\newline
+	$a = MSO[id]$\newline
+	$SHA256(pkdx, pkdy) = MSO[96 : 160]$\newline
+	$tstart = MSO[48 : 56]$\newline
+	$tend = MSO[56 : 64]$\newline
+	$tstart < tnow < tend$ \newline
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$\newline
+Nota che è possibile ottimizzare ulteriormente parallelizzando la creazione delle due prove.
+\end{frame}
+\begin{frame}
+\frametitle{Ottimizzazione del commitment}
+Il nuovo commitment è $C = H(MSO) \oplus r_1$. Eliminiamo di fatto una prova su SHA in zkSTARK.\newline
+Issuer's signature proof zk-dillithium (STARK):\newline
+	$x = (PK_{II},C), w = (MSO,r)$\newline
+	$e1 =$ Poseidon$(MSO[0 : 183])$\newline
+	$C = \textcolor{green}{e_1 \oplus r_1}$\newline
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$\newline
+
+Attribute disclosure, document validity and device binding proof (LIGERO):\newline
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$\newline
+	$C = \textcolor{green}{Poseidon(MSO) \oplus r_1}$\newline
+	$a = MSO[id]$\newline
+	$SHA256(pkdx, pkdy) = MSO[96 : 160]$\newline
+	$tstart = MSO[48 : 56]$\newline
+	$tend = MSO[56 : 64]$\newline
+	$tstart < tnow < tend$ \newline
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$\newline
+\end{frame}
+\end{document}
