@@ -58,18 +58,35 @@ Attribute disclosure, document validity and device binding proof (LIGERO):\newli
 Il nuovo commitment è $C = H(MSO) \oplus r$. Eliminiamo di fatto una prova su SHA in zkSTARK.\newline
 Issuer's signature proof zk-dillithium (STARK):\newline
 	$x = (PK_{II},C), w = (MSO,r)$\newline
-	$e1 =$ Poseidon$(MSO[0 : 183])$\newline
+	$e1 =$ SHA256$(MSO[0 : 183])$\newline
 	$C = \textcolor{green}{e_1 \oplus r}$\newline
 	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$\newline
 
 Attribute disclosure, document validity and device binding proof (LIGERO):\newline
 	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$\newline
-	$C = \textcolor{green}{Poseidon(MSO) \oplus r}$\newline
+	$C = \textcolor{green}{SHA256(MSO) \oplus r}$\newline
 	$a = MSO[id]$\newline
 	$SHA256(pkdx, pkdy) = MSO[96 : 160]$\newline
 	$tstart = MSO[48 : 56]$\newline
 	$tend = MSO[56 : 64]$\newline
 	$tstart < tnow < tend$ \newline
 	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$\newline
+\end{frame}
+\begin{frame}
+\frametitle{Eliminazione hash da STARK}
+Posso completamente rimuovere SHA256 da STARK!!\newline
+STARK:\newline
+$x = (PK_{II},C), w = (\textcolor{green}{e_1},r)$\newline
+$C = e_1 \oplus r$\newline
+$true = Dillithium.verify((r1, s1), e_1, PK_{II} )$\newline\newline
+LIGERO:\newline
+$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$\newline
+$C = SHA256(MSO) \oplus r$\newline
+$a = MSO[id]$\newline
+$SHA256(pkdx, pkdy) = MSO[96 : 160]$\newline
+$tstart = MSO[48 : 56]$\newline
+$tend = MSO[56 : 64]$\newline
+$tstart < tnow < tend$ \newline
+$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$\newline
 \end{frame}
 \end{document}
