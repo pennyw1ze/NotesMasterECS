@@ -178,4 +178,4 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
 
 This was for the toy credentials example, now I adapt it for the MDOC case.
-The Longfellow algorithm was
+The Longfellow algorithm was:
