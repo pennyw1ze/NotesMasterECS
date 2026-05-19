@@ -155,3 +155,24 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 	$tend = MSO[56 : 64]$
 	$tstart < tnow < tend$ 
 	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+
+WOW THIS IS AMAZING AND SOLVES A LOT OF ISSUES!!!!!!!!
+I can completly remove hashing proof from STARK!!!!!
+$C = e_1 \oplus r$
+
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (\textcolor{green}{e_1},r)$
+	$C = e_1 \oplus r$
+	$true = Dillithium.verify((r1, s1), e_1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof (LIGERO):	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$
+	$C =$ SHA256$(MSO) \oplus r$
+	$a = MSO[id]$
+	SHA256$(pkdx, pkdy) = MSO[96 : 160]$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
