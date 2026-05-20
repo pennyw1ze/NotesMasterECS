@@ -18,13 +18,25 @@ In 2026, member states of the European Union are expected to have running
 their own EUDI wallet applications instances compliant withe the ARF
 architecture guidelines. The goal of the ARF architecture is to provide privacy
 preserving anonymous credentials to users, but the current implementation fails.
+In the meantime, in 2024 the European Union has published a roadmap for the post 
+quantum digital transition of members digital infrastructures.
 
-In this thesis we will explore the current state of the art and give an overview
-of current implementations of anonymous credentials. We will then explore the
-post-quantum settings which has not been faced by the current implementations
-and we will give an important result which allowded us to implememnt efficient
-privacy preserving post-quantum anonymous credentials, preserving legacy architectures
-in their almost entirety.
+No current implementation of anonymous credentials is post quantum secure at the moment,
+with cryptologist and mathematician in top pubblications claiming that is not possible to
+build a post quantum anonymous credential scheme with the actual technologies, giving
+hardware constraints and advanced requirements. So we asked ourselves: is it 
+possible to build a post quantum device bounded anonymous credential scheme with the actual technologies, 
+giving hardware constraints and technical difficulties? The answare is \textbf{yes}, it is
+possible. 
+
+Moreover, in this thesis we present a post quantum anonymous credentials model 
+that can be deployed with the actual technologies and legacy infrastructures, with 
+NIST standardized post quantum signature schemes. We went furhter and implemented the full
+model and run it into android devices in order to benchmark the performance and the results
+are surprising. We also present some optimizations that could be implemented in order to 
+further improve the performance of the scheme, and we show how to implement them with the 
+actual technologies.
+
 \end{abstract}
     
 \tableofcontents
