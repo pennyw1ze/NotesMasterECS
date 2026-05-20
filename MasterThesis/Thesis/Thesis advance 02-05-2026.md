@@ -179,3 +179,44 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 
 This was for the toy credentials example, now I adapt it for the MDOC case.
 The Longfellow algorithm was:
+
+
+Running few tests:
+zk-dillithium in desktop with public message:
+```
+❯ cargo run --release  
+   Finished `release` profile [optimized] target(s) in 0.03s  
+    Running `target/release/zk_dilithium`  
+Generating proof for correctness of Dilithium  
+       ---------------------  
+Generated execution trace of 701 registers and 2^9 steps in 8 ms  
+Built domain of 2^11 elements in 0 ms  
+Extended execution trace of 701 columns from 2^9 to 2^11 steps (4x blowup) in 33 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 66 ms  
+Extended execution trace of 14 columns from 2^9 to 2^11 steps (4x blowup) in 2 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 7 ms  
+Evaluated constraints over domain of 2^11 elements in 104 ms  
+Converted constraint evaluations into 4 composition polynomial columns of degree 511 in 0 ms  
+Evaluated 4 composition polynomial columns over LDE domain (2^11 elements) in 0 ms  
+Computed constraint evaluation commitment (Merkle tree of depth 11) in 2 ms  
+Built DEEP composition polynomial of degree 511 in 46 ms  
+Evaluated DEEP composition polynomial over LDE domain (2^11 elements) in 0 ms  
+Computed 3 FRI layers from composition polynomial evaluations in 1 ms  
+Determined 48 query positions in 103 ms  
+Built proof object in 1 ms  
+---------------------  
+Proof generated in 381 ms  
+Proof size: 172.7 KB  
+Proof security: 115 bits  
+Proof hash: 57e972b8c94f769194cb7aba6d1f3ce145ed57714f66825c3b7445d5df71310b  
+---------------------  
+Proof verified in 35.5 ms  
+---------------------  
+Failed to verify proof on wrong inputs as expected: constraint evaluations over the out-of-domain frame are inconsistent
+```
+
+---
+Modified the zk-dilithium prover. The message is not shown to the verifier anymore.
+
+Now extracting from the Longfellow code a mdoc testcase. I will extract the hashing payload from the mdoc file, hash it on my own and pass it as input to dilithium.
+Given the modified dilithium algorithm in the zkdilithium repository, I will sign the hashed payload in order to produce  a valid post-quantum secure signature.
