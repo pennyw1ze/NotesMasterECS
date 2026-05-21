@@ -324,4 +324,13 @@ SHA256 verifier on android:
  ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
  │ Outcome       │ ACCEPTED                      │ ACCEPTED                        │ ✓           │  
  └───────────────┴───────────────────────────────┴─────────────────────────────────┴─────────────┘
-Multi threaded drops down to 1.1 ms.
+Multi threaded drops down to 1.1 s.
+
+So hashing on STARK:
+- naive 2;
+- Reasoning 1;
+	- SHA256 over MSO huge!! 12seconds
+- Optimization: pass and prove over the sha of the MSO!
+	- Amazing, took only 1,1seconds with multi-threading on android;
+- With Poseidon, took 20ms!!!
+
