@@ -239,4 +239,89 @@ zk-dillithium signature and prover performance over the SHA256 above:
  ├───────────────┼──────────┤  
  │ Security      │ 115 bits │  
  └───────────────┴──────────┘
+
+---
+After attack to previous proof construction, we managed to build another model:
+(constructing the commitment as C = e_1 xor r, with e1 and r private, allowed a malicious prover to craft arbitrary r and e).
+
+# New proof implementation still to only 1 hash proof in START
+
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (e_1,r)$
+	$C =$ SHA256$(e_1|r)$
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof (LIGERO):	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$
+	$e_1 =$ SHA256$(MSO[0:len])$
+	$C =$ SHA256$(e_1|r)$
+	$a = MSO[id]$
+	$keys = MSO[96 : 160]$
+	$keys =$ SHA256$(pkdx, pkdy)$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+In order to optimize the STARK sha, e1 inside the SHA function will be take as 32 raw bytes and truncated to 16 bytes, with 16 bytes randomness to have a input with 32 bytes total which improve performance by ~38% w.r.t. 64 bytes. 
+Security is reduced to $2^{128}$ to find a collision with another valid document, which is stil enough also against quantum threats.
+
+Now run ML-DSA verification on:
+● Samsung Galaxy S24 Ultra (SM-S928B) — real device results above. Specs:  
   
+ ┌──────────┬──────────────────────────────────────────────────────────────────────────────────────┐  
+ │ Property │                                        Value                                         │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ Device   │ Samsung Galaxy S24 Ultra (SM-S928B)                                                  │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ SoC      │ Snapdragon 8 Gen 3 ("pineapple")                                                     │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ CPU      │ 8 cores ARMv8 — 2× Cortex-X4 (0xd80), 5× Cortex-A720 (0xd81), 1× Cortex-A520 (0xd82) │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ ABI      │ arm64-v8a                                                                            │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ RAM      │ ~10.8 GB total, ~3.0 GB available                                                    │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ Android  │ 16 (API 36)                                                                          │  
+ └──────────┴──────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ Got the following result:
+ 
+  ┌─────────────┬──────────┐  
+ │   Metric    │  Value   │  
+ ├─────────────┼──────────┤  
+ │ Prove time  │ 230 ms   │  
+ ├─────────────┼──────────┤  
+ │ Verify time │ 24.0 ms  │  
+ ├─────────────┼──────────┤  
+ │ Proof size  │ 173.7 KB │  
+ ├─────────────┼──────────┤                                                                                                                                                  
+ │ Security    │ 115 bits │  
+ └─────────────┴──────────┘
+
+### SHA256 stark prover optimization
+ ┌───────────────┬────────────────────────────┬───────────────────────────┬─────────────┐  
+ │    Metric     │ Hex string (64 bytes, 2¹⁴) │ Raw bytes (32 bytes, 2¹³) │ Improvement │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Trace length  │ 16 384                     │ 8 192                     │ 2× smaller  │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Prover time   │ 1 159 ms                   │ 719 ms                    │ −38%        │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Verifier time │ 128 ms                     │ 122 ms                    │ −5%         │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Proof size    │ 80 205 bytes (78.3 KB)     │ 74 951 bytes (73.2 KB)    │ −6.6%       │
+
+
+SHA256 verifier on android:
+ ┌───────────────┬───────────────────────────────┬─────────────────────────────────┬─────────────┐  
+ │    Metric     │ Desktop x86-64 (multi-thread) │ Android aarch64 (single-thread) │    Ratio    │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Prover time   │ 757 ms                        │ 1,736 ms                        │ 2.3× slower │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Verifier time │ 122 ms                        │ 199 ms                          │ 1.6× slower │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Proof size    │ 74,951 bytes (73.2 KB)        │ 74,952 bytes (73.2 KB)          │ identical   │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Outcome       │ ACCEPTED                      │ ACCEPTED                        │ ✓           │  
+ └───────────────┴───────────────────────────────┴─────────────────────────────────┴─────────────┘
+Multi threaded drops down to 1.1 ms.
