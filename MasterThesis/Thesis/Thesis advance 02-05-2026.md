@@ -334,3 +334,45 @@ So hashing on STARK:
 	- Amazing, took only 1,1seconds with multi-threading on android;
 - With Poseidon, took 20ms!!!
 
+---
+## Full STARK verification over Samsung A53
+Samsung A53 midrange smartphone (release date: 2022, March 17):
+
+```
+❯ adb shell /data/local/tmp/zk_dilithium  
+Generating proof for correctness of Dilithium  
+       ---------------------  
+Generated execution trace of 703 registers and 2^9 steps in 22 ms  
+Built domain of 2^11 elements in 0 ms  
+Extended execution trace of 703 columns from 2^9 to 2^11 steps (4x blowup) in 50 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 66 ms  
+Extended execution trace of 14 columns from 2^9 to 2^11 steps (4x blowup) in 2 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 7 ms  
+Evaluated constraints over domain of 2^11 elements in 128 ms  
+Converted constraint evaluations into 4 composition polynomial columns of degree 511 in 0 ms  
+Evaluated 4 composition polynomial columns over LDE domain (2^11 elements) in 0 ms  
+Computed constraint evaluation commitment (Merkle tree of depth 11) in 2 ms  
+Built DEEP composition polynomial of degree 511 in 54 ms  
+Evaluated DEEP composition polynomial over LDE domain (2^11 elements) in 0 ms  
+Computed 3 FRI layers from composition polynomial evaluations in 1 ms  
+Determined 48 query positions in 13 ms  
+Built proof object in 1 ms  
+---------------------  
+Proof generated in 355 ms  
+Proof size: 173.3 KB  
+Proof security: 115 bits  
+Proof hash: 4db2ebf4e386fdb196493393c7e6b797249cc0b080207a32b0b1361a740abb10  
+---------------------  
+=== VERIFIER VIEW ===  
+Public inputs:  
+ C = Poseidon(x|r) : [BaseElement(1443109), BaseElement(6185323), BaseElement(3859759), BaseElement(2214575), BaseElement(6345543), BaseElement(3209168), BaseElement(4080139), BaseElement(  
+6955373), BaseElement(2454953), BaseElement(2050442), BaseElement(4002981), BaseElement(1911712)]  
+ PK_I              : hardcoded in AIR (A, t)  
+Proof size          : 173.3 KB  
+Proof security      : 115 bits  
+Proof hash          : 4db2ebf4e386fdb196493393c7e6b797249cc0b080207a32b0b1361a740abb10  
+---------------------  
+Proof verified in 39.5 ms  
+============================================================
+```
+
