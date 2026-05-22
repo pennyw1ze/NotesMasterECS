@@ -1,6 +1,10 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{}%
-\contentsline {subsection}{\numberline {1.1}Overview}{2}{}%
-\contentsline {section}{\numberline {2}State of the art}{2}{}%
-\contentsline {subsection}{\numberline {2.1}Anonymous Credentials}{2}{}%
-\contentsline {subsection}{\numberline {2.2}Post quantum anonymous credentials}{2}{}%
-\contentsline {section}{\numberline {3}Implementation}{2}{}%
+\contentsline {subsection}{\numberline {1.1}EUDI Wallet}{2}{}%
+\contentsline {subsection}{\numberline {1.2}Post quantum transition}{2}{}%
+\contentsline {section}{\numberline {2}State of the art/Literture overview}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Anonymous Credentials}{3}{}%
+\contentsline {subsection}{\numberline {2.2}Post quantum anonymous credentials}{3}{}%
+\contentsline {section}{\numberline {3}Implementation}{3}{}%
+\contentsline {section}{\numberline {4}Results}{3}{}%
+\contentsline {section}{\numberline {5}Future work}{3}{}%
+\contentsline {section}{\numberline {6}Conclusion}{3}{}%

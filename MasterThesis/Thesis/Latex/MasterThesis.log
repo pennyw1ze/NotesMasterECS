@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.19)  20 MAY 2026 09:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.19)  22 MAY 2026 11:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -97,31 +97,51 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 2.
-)
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 \tf@toc=\write4
 \openout4 = `MasterThesis.toc'.
 
- [1
+ (./MasterThesis.bbl [2]
+Underfull \hbox (badness 10000) in paragraph at lines 29--32
+[]\OT1/cmr/m/n/10 Christian Paquin and Greg Za-verucha.  U-prove cryp-
+ []
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./MasterThesis.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--32
+\OT1/cmr/m/n/10 to-graphic spec-i-fi-ca-tion v1.1 (re-vi-sion 3), De-cem-ber
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--32
+\OT1/cmr/m/n/10 2013.  Re-leased un-der the Open Spec-i-fi-ca-tion Promise
+ []
+
+
+Overfull \hbox (33.52866pt too wide) in paragraph at lines 29--32
+\OT1/cmr/m/n/10 (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx). 
+ []
+
+) [3] (./MasterThesis.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1321 strings out of 469515
- 21239 string characters out of 5470807
+ 1341 strings out of 469515
+ 21627 string characters out of 5470807
  441756 words of memory out of 5000000
- 30004 multiletter control sequences out of 15000+600000
- 632583 words of font info for 56 fonts, out of 8000000 for 9000
+ 30020 multiletter control sequences out of 15000+600000
+ 632929 words of font info for 57 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,6n,65p,254b,201s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on MasterThesis.pdf (2 pages, 97661 bytes).
+ 57i,6n,65p,371b,228s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on MasterThesis.pdf (3 pages, 128905 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 27 compressed objects within 1 object stream
+ 54 PDF objects out of 1000 (max. 8388607)
+ 32 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

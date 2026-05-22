@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}
+
+\bibitem{camenisch2001efficient}
+Jan Camenisch and Anna Lysyanskaya.
+\newblock An efficient system for non-transferable anonymous credentials with optional anonymity revocation.
+\newblock Cryptology {ePrint} Archive, Paper 2001/019, 2001.
+
+\bibitem{sigschemes2004}
+Jan Camenisch and Anna Lysyanskaya.
+\newblock Signature schemes and anonymous credentials from bilinear maps.
+\newblock In Matt Franklin, editor, {\em Advances in Cryptology -- CRYPTO 2004}, pages 56--72, Berlin, Heidelberg, 2004. Springer Berlin Heidelberg.
+
+\bibitem{10.1145/586110.586114}
+Jan Camenisch and Els Van~Herreweghen.
+\newblock Design and implementation of the idemix anonymous credential system.
+\newblock In {\em Proceedings of the 9th ACM Conference on Computer and Communications Security}, CCS '02, page 21–30, New York, NY, USA, 2002. Association for Computing Machinery.
+
+\bibitem{chaum1982blind}
+David Chaum.
+\newblock Blind signatures for untraceable payments.
+\newblock In David Chaum, Ronald~L. Rivest, and Alan~T. Sherman, editors, {\em Advances in Cryptology}, pages 199--203, Boston, MA, 1983. Springer US.
+
+\bibitem{lysyanskaya2002signature}
+Anna Lysyanskaya.
+\newblock {\em Signature schemes and applications to cryptographic protocol design}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2002.
+
+\bibitem{paquin2013u-prove}
+Christian Paquin and Greg Zaverucha.
+\newblock U-prove cryptographic specification v1.1 (revision 3), December 2013.
+\newblock Released under the Open Specification Promise (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
+
+\end{thebibliography}

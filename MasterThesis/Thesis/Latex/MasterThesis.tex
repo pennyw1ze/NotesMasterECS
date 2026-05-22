@@ -15,15 +15,15 @@
 \begin{abstract}
 \label{abstract}
 In 2026, member states of the European Union are expected to have running
-their own EUDI wallet applications instances compliant withe the ARF
-architecture guidelines. The goal of the ARF architecture is to provide privacy
-preserving anonymous credentials to users, but the current implementation fails.
+their own EUDI wallet applications instances compliant with the ARF
+architecture guidelines. The goal of the ARF architecture is to provide privacy-preserving 
+anonymous credentials to the users, but the current implementation fails.
 In the meantime, in 2024 the European Union has published a roadmap for the post 
 quantum digital transition of members digital infrastructures.
 
 No current implementation of anonymous credentials is post quantum secure at the moment,
 with cryptologist and mathematician in top pubblications claiming that is not possible to
-build a post quantum anonymous credential scheme with the actual technologies, giving
+build a post quantum anonymous credential scheme with the actual technologies, given
 hardware constraints and advanced requirements. So we asked ourselves: is it 
 possible to build a post quantum device bounded anonymous credential scheme with the actual technologies, 
 giving hardware constraints and technical difficulties? The answare is \textbf{yes}, it is
@@ -41,15 +41,31 @@ actual technologies.
     
 \tableofcontents
 
-
 \section{Introduction}
 \label{introduction}
+Anonymous credentials are a powerful tool for preserving privacy in digital interactions
+between users and service providers. Anonymous credentials were introduced by David Chaum in 1982~\cite{chaum1982blind}, 
+and later formalized by Camenisch and Lysyanskaya in 2001~\cite{camenisch2001efficient,sigschemes2004}. They allow users to prove their identity or 
+attributes without revealing any additional information about themselves. In the first approach~\cite{lysyanskaya2002signature},
+the issuer was signing user's credentials using a secure protocol that protects user's attributes.
+Credential(s) are then showed to a verifier via zero-knowledge proof of knowledge of a credential(s)
+whose attributes satisfy some predicate.
+
+Systems based on anonymous credentials have been studied and adopted over the years by big tech companies like Micrsoft~\cite{paquin2013u-prove},
+IBM~\cite{10.1145/586110.586114}, and are in continuous study and development by the scientific community,
+facing challenges like performance improvements, revocation lists, legacy infrastructures and hardware, and more recently post quantum security.
+
+\subsection{EUDI Wallet}
+\label{eudiwallet}
+
+\subsection{Post quantum transition}
+\label{PostQuantumTransition}
 The european union on 11 April  2024 has published a roadmap for the
 post quantum digital transition of members digital infrastructures.
-\subsection{Overview}
-\label{overview}
 
-\section{State of the art}
+The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
+
+\section{State of the art/Literture overview}
 \label{stateoftheart}
 
 \subsection{Anonymous Credentials}
@@ -60,5 +76,17 @@ post quantum digital transition of members digital infrastructures.
 
 \section{Implementation}
 \label{implementation}
+
+\section{Results}
+\label{results}
+
+\section{Future work}
+\label{futurework}
+
+\section{Conclusion}
+\label{conclusion}
+
+\bibliographystyle{plain}
+\bibliography{reference}
 
 \end{document}
