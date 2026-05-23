@@ -46,7 +46,24 @@ actual technologies.
 Anonymous credentials are a powerful tool for preserving privacy in digital interactions
 between users and service providers. Anonymous credentials were introduced by David Chaum in 1982~\cite{chaum1982blind}, 
 and later formalized by Camenisch and Lysyanskaya in 2001~\cite{camenisch2001efficient,sigschemes2004}. They allow users to prove their identity or 
-attributes without revealing any additional information about themselves. In the first approach~\cite{lysyanskaya2002signature},
+attributes without revealing any additional information about themselves. 
+
+The usual model of anonymous credentials consists of three parties: 
+\begin{itemize}
+\item The issuer, a central entity who is responsible for issuing credentials to users and eventually revoking them;
+\item The user, who asks credentials to the issuer and holds them, and eventually use them to prove their identity or attributes to verifiers.
+\item The verifier, who is responsible for verifying the user's credentials without learning any additional information about the user.
+\end{itemize}
+A basic scheme of how this entity interacts with each other is represented in figure~\ref{fig:AnonymousCredentials}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/AnonymousCredentials.png}
+    \caption{Basic scheme of anonymous credentials.}
+    \label{fig:AnonymousCredentials}
+\end{figure}
+
+In the first approach~\cite{lysyanskaya2002signature},
 the issuer was signing user's credentials using a secure protocol that protects user's attributes.
 Credential(s) are then showed to a verifier via zero-knowledge proof of knowledge of a credential(s)
 whose attributes satisfy some predicate.
@@ -59,8 +76,11 @@ facing challenges like performance improvements, revocation lists, legacy infras
 \label{eudiwallet}
 In 2021, the European Commission proposed to establish a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
 In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
-which consisted of a
-
+which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
+This general framework is needed since the commission left freedom to eaech memeber state to implement their own 
+instance of the application, due to different possible credentials structures (for example, french and german national 
+identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
+already a national identity card with an embedded chip, while others don't).
 \subsection{Post quantum transition}
 \label{PostQuantumTransition}
 The european union on 11 April  2024 has published a roadmap for the
