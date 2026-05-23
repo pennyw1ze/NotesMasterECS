@@ -72,15 +72,7 @@ Systems based on anonymous credentials have been studied and adopted over the ye
 IBM~\cite{10.1145/586110.586114}, and are in continuous study and development by the scientific community,
 facing challenges like performance improvements, revocation lists, legacy infrastructures and hardware constraints, and more recently, post quantum security.
 
-\subsection{EUDI Wallet}
-\label{eudiwallet}
-In 2021, the European Commission proposed to establish a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
-In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
-which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
-This general framework is needed since the commission left freedom to eaech memeber state to implement their own 
-instance of the application, due to different possible credentials structures (for example, french and german national 
-identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
-already a national identity card with an embedded chip, while others don't).
+
 \subsection{Post quantum transition}
 \label{PostQuantumTransition}
 The european union on 11 April  2024 has published a roadmap for the
@@ -88,7 +80,28 @@ post quantum digital transition of members digital infrastructures.
 
 The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
 
-\section{State of the art/Literture overview}
+\section{EUropean Digital Identity Wallet}
+In 2021, the European Commission proposed to adopt a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
+In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
+which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
+This general framework is needed since the commission left freedom to eaech memeber state to implement their own 
+instance of the application, due to different possible credentials structures (for example, french and german national 
+identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
+already a national identity card with an embedded chip, while others don't).
+
+\subsection{Architecture overview}
+\label{architectureoverview}
+
+\subsubsection{Functionalities}
+\label{functionalities}
+
+\subsubsection{Roles}
+\label{roles}
+
+% Ecc...
+\subsection{Vulnerabilities}
+
+\section{State of the art/Literture overview on device bounded anonymous credentials}
 \label{stateoftheart}
 
 \subsection{Anonymous Credentials}
@@ -96,6 +109,9 @@ The roadmap is a comprehensive plan that outlines the steps that the European Un
 
 \subsection{Post quantum anonymous credentials}
 \label{postquantumanonymouscredentials}
+
+\section{Our solution}
+\label{oursolution}
 
 \section{Implementation}
 \label{implementation}

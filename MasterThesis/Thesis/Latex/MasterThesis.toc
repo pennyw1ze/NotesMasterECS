@@ -1,10 +1,15 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{}%
-\contentsline {subsection}{\numberline {1.1}EUDI Wallet}{3}{}%
-\contentsline {subsection}{\numberline {1.2}Post quantum transition}{3}{}%
-\contentsline {section}{\numberline {2}State of the art/Literture overview}{4}{}%
-\contentsline {subsection}{\numberline {2.1}Anonymous Credentials}{4}{}%
-\contentsline {subsection}{\numberline {2.2}Post quantum anonymous credentials}{4}{}%
-\contentsline {section}{\numberline {3}Implementation}{4}{}%
-\contentsline {section}{\numberline {4}Results}{4}{}%
-\contentsline {section}{\numberline {5}Future work}{4}{}%
-\contentsline {section}{\numberline {6}Conclusion}{4}{}%
+\contentsline {subsection}{\numberline {1.1}Post quantum transition}{3}{}%
+\contentsline {section}{\numberline {2}EUropean Digital Identity Wallet}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Architecture overview}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Functionalities}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.2}Roles}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Vulnerabilities}{4}{}%
+\contentsline {section}{\numberline {3}State of the art/Literture overview on device bounded anonymous credentials}{4}{}%
+\contentsline {subsection}{\numberline {3.1}Anonymous Credentials}{4}{}%
+\contentsline {subsection}{\numberline {3.2}Post quantum anonymous credentials}{4}{}%
+\contentsline {section}{\numberline {4}Our solution}{4}{}%
+\contentsline {section}{\numberline {5}Implementation}{4}{}%
+\contentsline {section}{\numberline {6}Results}{4}{}%
+\contentsline {section}{\numberline {7}Future work}{4}{}%
+\contentsline {section}{\numberline {8}Conclusion}{4}{}%
