@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.19)  19 MAY 2026 17:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.18)  20 MAY 2026 12:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -7,16 +7,16 @@ entering extended mode
 (/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/Presentation.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
-(/home/pennyw1ze/texmf/tex/latex/beamer/beamer.cls
+(/usr/share/texmf-dist/tex/latex/beamer/beamer.cls
 Document Class: beamer 2026/01/22 v3.77 A class for typesetting presentations
-(/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasemodes.sty (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+(/usr/share/texmf-dist/tex/latex/beamer/beamerbasemodes.sty (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count275
 )
 \beamer@tempbox=\box53
 \beamer@tempcount=\count276
 \c@beamerpauses=\count277
- (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasedecode.sty
+ (/usr/share/texmf-dist/tex/latex/beamer/beamerbasedecode.sty
 \beamer@slideinframe=\count278
 \beamer@minimum=\count279
 \beamer@decode@box=\box54
@@ -69,7 +69,7 @@ Package: iftex 2024/12/12 v1.0g TeX engine tests
 \beamer@sectionadjust=\count298
 \beamer@toclastsection=\count299
 \beamer@tocsectionnumber=\count300
- (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseoptions.sty (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+ (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseoptions.sty (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 ))
@@ -92,20 +92,20 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layouthoffset=\dimen170
 \Gm@layoutvoffset=\dimen171
 \Gm@dimlist=\toks18
-) (/home/pennyw1ze/texmf/tex/latex/pgf/math/pgfmath.sty (/home/pennyw1ze/texmf/tex/latex/pgf/utilities/pgfrcs.sty (/home/pennyw1ze/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
+) (/usr/share/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks19
 \pgfutil@tempdima=\dimen172
 \pgfutil@tempdimb=\dimen173
-) (/home/pennyw1ze/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
+) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box62
-) (/home/pennyw1ze/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex (/home/pennyw1ze/texmf/tex/generic/pgf/pgf.revision.tex)
+) (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/usr/share/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
-)) (/home/pennyw1ze/texmf/tex/latex/pgf/utilities/pgfkeys.sty (/home/pennyw1ze/texmf/tex/generic/pgf/utilities/pgfkeys.code.tex
+)) (/usr/share/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks20
 \pgfkeys@temptoks=\toks21
- (/home/pennyw1ze/texmf/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks22
-))) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmath.code.tex (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathutil.code.tex
+))) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex
 \pgf@x=\dimen174
 \pgf@xa=\dimen175
 \pgf@xb=\dimen176
@@ -118,18 +118,18 @@ Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
 \c@pgf@countb=\count305
 \c@pgf@countc=\count306
 \c@pgf@countd=\count307
-) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen182
 \pgfmath@count=\count308
 \pgfmath@box=\box63
 \pgfmath@toks=\toks23
 \pgfmath@stack@operand=\toks24
 \pgfmath@stack@operation=\toks25
-) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathcalc.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfmathfloat.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
 \c@pgfmathroundto@lastzeros=\count309
 ))) (/usr/share/texmf-dist/tex/latex/base/size11.clo
 File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
-) (/home/pennyw1ze/texmf/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+) (/usr/share/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
  (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
@@ -144,7 +144,7 @@ File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen183
 \Gin@req@width=\dimen184
-) (/home/pennyw1ze/texmf/tex/latex/pgf/systemlayer/pgfsys.sty (/home/pennyw1ze/texmf/tex/generic/pgf/systemlayer/pgfsys.code.tex
+) (/usr/share/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@x=\dimen185
 \pgf@y=\dimen186
@@ -166,21 +166,21 @@ Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 \t@pgf@tokb=\toks27
 \t@pgf@tokc=\toks28
 \pgf@sys@id@count=\count314
- (/home/pennyw1ze/texmf/tex/generic/pgf/systemlayer/pgf.cfg
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
 )
 Driver file for pgf: pgfsys-pdftex.def
- (/home/pennyw1ze/texmf/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
 File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
- (/home/pennyw1ze/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+ (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
-))) (/home/pennyw1ze/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+))) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfsyssoftpath@smallbuffer@items=\count315
 \pgfsyssoftpath@bigbuffer@items=\count316
-) (/home/pennyw1ze/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-)) (/home/pennyw1ze/texmf/tex/latex/xcolor/xcolor.sty
+)) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
  (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
@@ -196,9 +196,9 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcore.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
- (/home/pennyw1ze/texmf/tex/generic/pgf/math/pgfint.code.tex) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+ (/usr/share/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@picminx=\dimen195
 \pgf@picmaxx=\dimen196
@@ -214,56 +214,56 @@ File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@yy=\dimen262
 \pgf@zx=\dimen263
 \pgf@zy=\dimen264
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@path@lastx=\dimen265
 \pgf@path@lasty=\dimen266
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@shorten@end@additional=\dimen267
 \pgf@shorten@start@additional=\dimen268
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfpic=\box64
 \pgf@hbox=\box65
 \pgf@layerbox@main=\box66
 \pgf@picture@serial@count=\count317
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgflinewidth=\dimen269
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@pt@x=\dimen270
 \pgf@pt@y=\dimen271
 \pgf@pt@temp=\dimen272
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
 File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfarrowsep=\dimen273
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@max=\dimen274
 \pgf@sys@shading@range@num=\count318
 \pgf@shadingcount=\count319
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfexternal@startupbox=\box67
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
 File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
 File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-) (/home/pennyw1ze/texmf/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+) (/usr/share/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
 File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-))) (/home/pennyw1ze/texmf/tex/latex/pgf/utilities/xxcolor.sty
+))) (/usr/share/texmf-dist/tex/latex/pgf/utilities/xxcolor.sty
 Package: xxcolor 2003/10/24 ver 0.1
 \XC@nummixins=\count320
 \XC@countmixins=\count321
@@ -282,7 +282,7 @@ Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
 ) (/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (/home/pennyw1ze/texmf/tex/generic/infwarerr/infwarerr.sty
+ (/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -368,7 +368,7 @@ Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
-)) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaserequires.sty (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasecompatibility.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasefont.sty (/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+)) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaserequires.sty (/usr/share/texmf-dist/tex/latex/beamer/beamerbasecompatibility.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasefont.sty (/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
  (/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
@@ -378,19 +378,27 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-))) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasetranslator.sty (/home/pennyw1ze/texmf/tex/latex/translator/translator.sty
+)) (/usr/share/texmf-dist/tex/latex/sansmathaccent/sansmathaccent.sty
+Package: sansmathaccent 2020/01/31
+ (/usr/share/texmf-dist/tex/latex/koma-script/scrlfile.sty
+Package: scrlfile 2026/02/02 v3.49.2 KOMA-Script package (file load hooks)
+ (/usr/share/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
+Package: scrlfile-hook 2026/02/02 v3.49.2 KOMA-Script package (using LaTeX hooks)
+ (/usr/share/texmf-dist/tex/latex/koma-script/scrlogo.sty
+Package: scrlogo 2026/02/02 v3.49.2 KOMA-Script package (logo)
+))))) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasetranslator.sty (/usr/share/texmf-dist/tex/latex/translator/translator.sty
 Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
-)) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasemisc.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasetwoscreens.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseoverlay.sty
+)) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasemisc.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasetwoscreens.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseoverlay.sty
 \beamer@argscount=\count331
 \beamer@lastskipcover=\skip52
 \beamer@trivlistdepth=\count332
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasetitle.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasesection.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasetitle.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasesection.sty
 \c@lecture=\count333
 \c@part=\count334
 \c@section=\count335
 \c@subsection=\count336
 \c@subsubsection=\count337
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseframe.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseframe.sty
 \beamer@framebox=\box68
 \beamer@frametitlebox=\box69
 \beamer@zoombox=\box70
@@ -405,22 +413,22 @@ Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
 \beamer@envbody=\toks30
 \framewidth=\dimen280
 \c@framenumber=\count341
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseverbatim.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseverbatim.sty
 \beamer@verbatimfileout=\write4
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseframesize.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseframesize.sty
 \beamer@splitbox=\box71
 \beamer@autobreakcount=\count342
 \beamer@autobreaklastheight=\dimen281
 \beamer@frametitletoks=\toks31
 \beamer@framesubtitletoks=\toks32
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseframecomponents.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseframecomponents.sty
 \beamer@colheight=\skip57
 \beamer@footins=\box72
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasecolor.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasenotes.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasecolor.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasenotes.sty
 \beamer@frameboxcopy=\box73
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasetoc.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasetemplates.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasetoc.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasetemplates.sty
 \beamer@sbttoks=\toks33
- (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseauxtemplates.sty (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaseboxes.sty
+ (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseauxtemplates.sty (/usr/share/texmf-dist/tex/latex/beamer/beamerbaseboxes.sty
 \bmb@box=\box74
 \bmb@colorbox=\box75
 \bmb@boxwidth=\dimen282
@@ -432,7 +440,7 @@ Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
 \bmb@prevheight=\dimen288
 )
 \beamer@blockheadheight=\dimen289
-)) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbaselocalstructure.sty (/usr/share/texmf-dist/tex/latex/tools/enumerate.sty
+)) (/usr/share/texmf-dist/tex/latex/beamer/beamerbaselocalstructure.sty (/usr/share/texmf-dist/tex/latex/tools/enumerate.sty
 Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
 \@enLab=\toks34
 )
@@ -441,9 +449,9 @@ Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
 \c@table=\count344
 \abovecaptionskip=\skip59
 \belowcaptionskip=\skip60
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasenavigation.sty (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasenavigationsymbols.tex)
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasenavigation.sty (/usr/share/texmf-dist/tex/latex/beamer/beamerbasenavigationsymbols.tex)
 \beamer@section@min@dim=\dimen290
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasetheorems.sty (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasetheorems.sty (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip61
 
@@ -520,10 +528,10 @@ Package: amsthm 2020/05/29 v2.20.6
 \dth@everypar=\toks45
 )
 \c@theorem=\count357
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerbasethemes.sty)) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerthemedefault.sty (/home/pennyw1ze/texmf/tex/latex/beamer/beamerfontthemedefault.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamercolorthemedefault.sty) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerinnerthemedefault.sty
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerbasethemes.sty)) (/usr/share/texmf-dist/tex/latex/beamer/beamerthemedefault.sty (/usr/share/texmf-dist/tex/latex/beamer/beamerfontthemedefault.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamercolorthemedefault.sty) (/usr/share/texmf-dist/tex/latex/beamer/beamerinnerthemedefault.sty
 \beamer@dima=\dimen300
 \beamer@dimb=\dimen301
-) (/home/pennyw1ze/texmf/tex/latex/beamer/beamerouterthemedefault.sty))) (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (/usr/share/texmf-dist/tex/latex/beamer/beamerouterthemedefault.sty))) (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count358
 ) (./Presentation.aux)
@@ -648,17 +656,24 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 2.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 2.
- (/home/pennyw1ze/texmf/tex/latex/translator/translator-basic-dictionary-English.dict
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 2.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
+(Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 2.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
+(Font)                  OT1/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 2.
+LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
+(Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on input line 2.
+ (/usr/share/texmf-dist/tex/latex/translator/translator-basic-dictionary-English.dict
 Dictionary: translator-basic-dictionary, Language: English 
-) (/home/pennyw1ze/texmf/tex/latex/translator/translator-bibliography-dictionary-English.dict
+) (/usr/share/texmf-dist/tex/latex/translator/translator-bibliography-dictionary-English.dict
 Dictionary: translator-bibliography-dictionary, Language: English 
-) (/home/pennyw1ze/texmf/tex/latex/translator/translator-environment-dictionary-English.dict
+) (/usr/share/texmf-dist/tex/latex/translator/translator-environment-dictionary-English.dict
 Dictionary: translator-environment-dictionary, Language: English 
-) (/home/pennyw1ze/texmf/tex/latex/translator/translator-months-dictionary-English.dict
+) (/usr/share/texmf-dist/tex/latex/translator/translator-months-dictionary-English.dict
 Dictionary: translator-months-dictionary, Language: English 
-) (/home/pennyw1ze/texmf/tex/latex/translator/translator-numbers-dictionary-English.dict
+) (/usr/share/texmf-dist/tex/latex/translator/translator-numbers-dictionary-English.dict
 Dictionary: translator-numbers-dictionary, Language: English 
-) (/home/pennyw1ze/texmf/tex/latex/translator/translator-theorem-dictionary-English.dict
+) (/usr/share/texmf-dist/tex/latex/translator/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./Presentation.nav) [1
 
@@ -670,6 +685,10 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on input line 16.
+ (/usr/share/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
+File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
 ) [2
 
 ]
@@ -707,15 +726,15 @@ Package rerunfilecheck Info: File `Presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21204 strings out of 469515
- 401457 string characters out of 5470807
- 789478 words of memory out of 5000000
- 49432 multiletter control sequences out of 15000+600000
- 634339 words of font info for 64 fonts, out of 8000000 for 9000
+ 21400 strings out of 469515
+ 406941 string characters out of 5470807
+ 791727 words of memory out of 5000000
+ 49611 multiletter control sequences out of 15000+600000
+ 634471 words of font info for 64 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 101i,14n,107p,468b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,14n,123p,468b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Presentation.pdf (6 pages, 83466 bytes).
+Output written on Presentation.pdf (6 pages, 83488 bytes).
 PDF statistics:
  207 PDF objects out of 1000 (max. 8388607)
  177 compressed objects within 2 object streams
