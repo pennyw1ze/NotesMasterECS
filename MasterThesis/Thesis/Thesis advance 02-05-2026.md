@@ -179,3 +179,200 @@ Attribute disclosure, document validity and device binding proof (LIGERO):
 
 This was for the toy credentials example, now I adapt it for the MDOC case.
 The Longfellow algorithm was:
+
+
+Running few tests:
+zk-dillithium in desktop with public message:
+```
+❯ cargo run --release  
+   Finished `release` profile [optimized] target(s) in 0.03s  
+    Running `target/release/zk_dilithium`  
+Generating proof for correctness of Dilithium  
+       ---------------------  
+Generated execution trace of 701 registers and 2^9 steps in 8 ms  
+Built domain of 2^11 elements in 0 ms  
+Extended execution trace of 701 columns from 2^9 to 2^11 steps (4x blowup) in 33 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 66 ms  
+Extended execution trace of 14 columns from 2^9 to 2^11 steps (4x blowup) in 2 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 7 ms  
+Evaluated constraints over domain of 2^11 elements in 104 ms  
+Converted constraint evaluations into 4 composition polynomial columns of degree 511 in 0 ms  
+Evaluated 4 composition polynomial columns over LDE domain (2^11 elements) in 0 ms  
+Computed constraint evaluation commitment (Merkle tree of depth 11) in 2 ms  
+Built DEEP composition polynomial of degree 511 in 46 ms  
+Evaluated DEEP composition polynomial over LDE domain (2^11 elements) in 0 ms  
+Computed 3 FRI layers from composition polynomial evaluations in 1 ms  
+Determined 48 query positions in 103 ms  
+Built proof object in 1 ms  
+---------------------  
+Proof generated in 381 ms  
+Proof size: 172.7 KB  
+Proof security: 115 bits  
+Proof hash: 57e972b8c94f769194cb7aba6d1f3ce145ed57714f66825c3b7445d5df71310b  
+---------------------  
+Proof verified in 35.5 ms  
+---------------------  
+Failed to verify proof on wrong inputs as expected: constraint evaluations over the out-of-domain frame are inconsistent
+```
+
+---
+Modified the zk-dilithium prover. The message is not shown to the verifier anymore.
+
+Now extracting from the Longfellow code a mdoc testcase. I will extract the hashing payload from the mdoc file, hash it on my own and pass it as input to dilithium.
+Given the modified dilithium algorithm in the zkdilithium repository, I will sign the hashed payload in order to produce  a valid post-quantum secure signature.
+This is a full preimage extracted from a mdoc sample test document:
+  
+**Full preimage (507 bytes):**  846a5369676e61747572653143a10126405901e8d8185901e3a66776657273696f6e63312e306f646967657374416c676f726974686d675348412d32353667646f6354797065756f72672e69736f2e31383031332e352e312e6d444c6c76616c756544696765737473a1716f72672e69736f2e31383031332e352e31a5015820adf6a333036adefc4890df38e0f737229085a9b0ba7c0719d392405d74462377025820a0a14a5aa1b336844d8f8d148ed44fd2ccc66f54d8782b70fb7713fb3c93f55603582097b0184edde399cb7dea2d7d279a456990d9f312467163787e1ba7660a5c086f045820af0b9fe7245ca9a59f64b1aa82cc2c1ab1386f77956493836297c8a84d2ae0b40058200d9854db51486ff44907bc614ffaea93dae1a89ead40263f901ae6ce412646216d6465766963654b6579496e666fa1696465766963654b6579a401022001215820c314a7abba07e40e64ae87db4ad9718013fd398e6e2317b304f57fc9accab9f5225820edb8b0230ccc98dd42cdff89a8d1e25ff8d1a7fa389e92dc8f01af985a79efcc6c76616c6964697479496e666fa3667369676e6564c074323032342d30312d32355432313a31323a35395a6976616c696446726f6dc074323032342d30312d32355432313a31323a35395a6a76616c6964556e74696cc074323032342d30322d32345432313a31323a35395a
+  
+ **SHA-256 of the above:**  
+ 15c75330a19c860e7f9e536af76123d00a4d0b6ba8c9a6e354ba487f9df3227b
+
+zk-dillithium signature and prover performance over the SHA256 above:
+ 
+ │Metric│Result│  
+ ├───────────────┼──────────┤  
+ │ Prover time   │ 284 ms   │  
+ ├───────────────┼──────────┤  
+ │ Verifier time │ 35.8 ms  │  
+ ├───────────────┼──────────┤  
+ │ Proof size    │ 173.7 KB │  
+ ├───────────────┼──────────┤  
+ │ Security      │ 115 bits │  
+ └───────────────┴──────────┘
+
+---
+After attack to previous proof construction, we managed to build another model:
+(constructing the commitment as C = e_1 xor r, with e1 and r private, allowed a malicious prover to craft arbitrary r and e).
+
+# New proof implementation still to only 1 hash proof in START
+
+Issuer's signature proof zk-dillithium (STARK):
+	$x = (PK_{II},C), w = (e_1,r)$
+	$C =$ SHA256$(e_1|r)$
+	$true = Dillithium.verify((r1, s1), e1, PK_{II} )$
+
+Attribute disclosure, document validity and device binding proof (LIGERO):	
+	$x = (a,id,tr,now,C), w = (MSO,pk_{dx},pk_{dy},r)$
+	$e_1 =$ SHA256$(MSO[0:len])$
+	$C =$ SHA256$(e_1|r)$
+	$a = MSO[id]$
+	$keys = MSO[96 : 160]$
+	$keys =$ SHA256$(pkdx, pkdy)$
+	$tstart = MSO[48 : 56]$
+	$tend = MSO[56 : 64]$
+	$tstart < tnow < tend$ 
+	$true = p256.verify((r2, s2), H(tr||hdr), (pkdx, pkdy))$
+
+In order to optimize the STARK sha, e1 inside the SHA function will be take as 32 raw bytes and truncated to 16 bytes, with 16 bytes randomness to have a input with 32 bytes total which improve performance by ~38% w.r.t. 64 bytes. 
+Security is reduced to $2^{128}$ to find a collision with another valid document, which is stil enough also against quantum threats.
+
+Now run ML-DSA verification on:
+● Samsung Galaxy S24 Ultra (SM-S928B) — real device results above. Specs:  
+  
+ ┌──────────┬──────────────────────────────────────────────────────────────────────────────────────┐  
+ │ Property │                                        Value                                         │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ Device   │ Samsung Galaxy S24 Ultra (SM-S928B)                                                  │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ SoC      │ Snapdragon 8 Gen 3 ("pineapple")                                                     │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ CPU      │ 8 cores ARMv8 — 2× Cortex-X4 (0xd80), 5× Cortex-A720 (0xd81), 1× Cortex-A520 (0xd82) │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ ABI      │ arm64-v8a                                                                            │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ RAM      │ ~10.8 GB total, ~3.0 GB available                                                    │  
+ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────┤  
+ │ Android  │ 16 (API 36)                                                                          │  
+ └──────────┴──────────────────────────────────────────────────────────────────────────────────────┘
+ 
+ Got the following result:
+ 
+  ┌─────────────┬──────────┐  
+ │   Metric    │  Value   │  
+ ├─────────────┼──────────┤  
+ │ Prove time  │ 230 ms   │  
+ ├─────────────┼──────────┤  
+ │ Verify time │ 24.0 ms  │  
+ ├─────────────┼──────────┤  
+ │ Proof size  │ 173.7 KB │  
+ ├─────────────┼──────────┤                                                                                                                                                  
+ │ Security    │ 115 bits │  
+ └─────────────┴──────────┘
+
+### SHA256 stark prover optimization
+ ┌───────────────┬────────────────────────────┬───────────────────────────┬─────────────┐  
+ │    Metric     │ Hex string (64 bytes, 2¹⁴) │ Raw bytes (32 bytes, 2¹³) │ Improvement │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Trace length  │ 16 384                     │ 8 192                     │ 2× smaller  │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Prover time   │ 1 159 ms                   │ 719 ms                    │ −38%        │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Verifier time │ 128 ms                     │ 122 ms                    │ −5%         │  
+ ├───────────────┼────────────────────────────┼───────────────────────────┼─────────────┤  
+ │ Proof size    │ 80 205 bytes (78.3 KB)     │ 74 951 bytes (73.2 KB)    │ −6.6%       │
+
+
+SHA256 verifier on android:
+ ┌───────────────┬───────────────────────────────┬─────────────────────────────────┬─────────────┐  
+ │    Metric     │ Desktop x86-64 (multi-thread) │ Android aarch64 (single-thread) │    Ratio    │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Prover time   │ 757 ms                        │ 1,736 ms                        │ 2.3× slower │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Verifier time │ 122 ms                        │ 199 ms                          │ 1.6× slower │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Proof size    │ 74,951 bytes (73.2 KB)        │ 74,952 bytes (73.2 KB)          │ identical   │  
+ ├───────────────┼───────────────────────────────┼─────────────────────────────────┼─────────────┤  
+ │ Outcome       │ ACCEPTED                      │ ACCEPTED                        │ ✓           │  
+ └───────────────┴───────────────────────────────┴─────────────────────────────────┴─────────────┘
+Multi threaded drops down to 1.1 s.
+
+So hashing on STARK:
+- naive 2;
+- Reasoning 1;
+	- SHA256 over MSO huge!! 
+- Optimization: pass and prove over the sha of the MSO!
+	- Amazing, took only 1,1seconds with multi-threading on android;
+- With Poseidon, took 20ms!!!
+
+---
+## Full STARK verification over Samsung A53
+Samsung A53 midrange smartphone (release date: 2022, March 17):
+
+```
+❯ adb shell /data/local/tmp/zk_dilithium  
+Generating proof for correctness of Dilithium  
+       ---------------------  
+Generated execution trace of 703 registers and 2^9 steps in 22 ms  
+Built domain of 2^11 elements in 0 ms  
+Extended execution trace of 703 columns from 2^9 to 2^11 steps (4x blowup) in 50 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 66 ms  
+Extended execution trace of 14 columns from 2^9 to 2^11 steps (4x blowup) in 2 ms  
+Computed execution trace commitment (Merkle tree of depth 11) in 7 ms  
+Evaluated constraints over domain of 2^11 elements in 128 ms  
+Converted constraint evaluations into 4 composition polynomial columns of degree 511 in 0 ms  
+Evaluated 4 composition polynomial columns over LDE domain (2^11 elements) in 0 ms  
+Computed constraint evaluation commitment (Merkle tree of depth 11) in 2 ms  
+Built DEEP composition polynomial of degree 511 in 54 ms  
+Evaluated DEEP composition polynomial over LDE domain (2^11 elements) in 0 ms  
+Computed 3 FRI layers from composition polynomial evaluations in 1 ms  
+Determined 48 query positions in 13 ms  
+Built proof object in 1 ms  
+---------------------  
+Proof generated in 355 ms  
+Proof size: 173.3 KB  
+Proof security: 115 bits  
+Proof hash: 4db2ebf4e386fdb196493393c7e6b797249cc0b080207a32b0b1361a740abb10  
+---------------------  
+=== VERIFIER VIEW ===  
+Public inputs:  
+ C = Poseidon(x|r) : [BaseElement(1443109), BaseElement(6185323), BaseElement(3859759), BaseElement(2214575), BaseElement(6345543), BaseElement(3209168), BaseElement(4080139), BaseElement(  
+6955373), BaseElement(2454953), BaseElement(2050442), BaseElement(4002981), BaseElement(1911712)]  
+ PK_I              : hardcoded in AIR (A, t)  
+Proof size          : 173.3 KB  
+Proof security      : 115 bits  
+Proof hash          : 4db2ebf4e386fdb196493393c7e6b797249cc0b080207a32b0b1361a740abb10  
+---------------------  
+Proof verified in 39.5 ms  
+============================================================
+```
+
