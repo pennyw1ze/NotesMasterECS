@@ -1,15 +1,16 @@
 \contentsline {section}{\numberline {1}Introduction}{2}{}%
 \contentsline {subsection}{\numberline {1.1}Post quantum transition}{3}{}%
-\contentsline {section}{\numberline {2}EUropean Digital Identity Wallet}{3}{}%
-\contentsline {subsection}{\numberline {2.1}Architecture overview}{4}{}%
-\contentsline {subsubsection}{\numberline {2.1.1}Functionalities}{4}{}%
-\contentsline {subsubsection}{\numberline {2.1.2}Roles}{4}{}%
-\contentsline {subsection}{\numberline {2.2}Vulnerabilities}{4}{}%
-\contentsline {section}{\numberline {3}State of the art/Literture overview on device bounded anonymous credentials}{4}{}%
-\contentsline {subsection}{\numberline {3.1}Anonymous Credentials}{4}{}%
-\contentsline {subsection}{\numberline {3.2}Post quantum anonymous credentials}{4}{}%
-\contentsline {section}{\numberline {4}Our solution}{4}{}%
-\contentsline {section}{\numberline {5}Implementation}{4}{}%
-\contentsline {section}{\numberline {6}Results}{4}{}%
-\contentsline {section}{\numberline {7}Future work}{4}{}%
-\contentsline {section}{\numberline {8}Conclusion}{4}{}%
+\contentsline {subsection}{\numberline {1.2}Overview}{4}{}%
+\contentsline {section}{\numberline {2}EUropean Digital Identity Wallet}{4}{}%
+\contentsline {subsection}{\numberline {2.1}Architecture overview}{5}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Functionalities}{5}{}%
+\contentsline {subsubsection}{\numberline {2.1.2}Roles}{5}{}%
+\contentsline {subsection}{\numberline {2.2}Vulnerabilities}{5}{}%
+\contentsline {section}{\numberline {3}State of the art/Literture overview on device bounded anonymous credentials}{5}{}%
+\contentsline {subsection}{\numberline {3.1}Anonymous Credentials}{5}{}%
+\contentsline {subsection}{\numberline {3.2}Post quantum anonymous credentials}{5}{}%
+\contentsline {section}{\numberline {4}Our solution}{5}{}%
+\contentsline {section}{\numberline {5}Implementation}{5}{}%
+\contentsline {section}{\numberline {6}Results}{5}{}%
+\contentsline {section}{\numberline {7}Future work}{5}{}%
+\contentsline {section}{\numberline {8}Conclusion}{5}{}%

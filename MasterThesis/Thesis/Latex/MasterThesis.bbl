@@ -1,4 +1,15 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Adkins2026Google}
+Heather Adkins and Sophie Schmieg.
+\newblock Quantum frontiers may be closer than they appear.
+\newblock Google Blog, 2026.
+\newblock Accessed: May 24, 2026.
+
+\bibitem{cryptoeprint:2026/625}
+Ryan Babbush, Adam Zalcman, Craig Gidney, Michael Broughton, Tanuj Khattar, Hartmut Neven, Thiago Bergamaschi, Justin Drake, and Dan Boneh.
+\newblock Securing elliptic curve cryptocurrencies against quantum vulnerabilities: Resource estimates and mitigations.
+\newblock Cryptology {ePrint} Archive, Paper 2026/625, 2026.
 
 \bibitem{camenisch2001efficient}
 Jan Camenisch and Anna Lysyanskaya.
@@ -31,6 +42,12 @@ David Chaum.
 \newblock {European Digital Identity Wallet Architecture and Reference Framework} — {Version} 1.4.0, 2024.
 \newblock Accessed: May 22, 2026.
 
+\bibitem{EuropeanCommission2024PQC}
+{European Commission}.
+\newblock Recommendation on a {Coordinated} {Implementation} {Roadmap} for the transition to {Post-Quantum} {Cryptography}.
+\newblock Commission Recommendation (EU) 2024/1101, 2024.
+\newblock Accessed: May 24, 2026.
+
 \bibitem{lysyanskaya2002signature}
 Anna Lysyanskaya.
 \newblock {\em Signature schemes and applications to cryptographic protocol design}.
@@ -40,5 +57,11 @@ Anna Lysyanskaya.
 Christian Paquin and Greg Zaverucha.
 \newblock U-prove cryptographic specification v1.1 (revision 3), December 2013.
 \newblock Released under the Open Specification Promise (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
+
+\bibitem{Westerbaan2026Cloudflare}
+Bas Westerbaan.
+\newblock {Cloudflare} targets 2029 for full post-quantum security.
+\newblock The Cloudflare Blog, 2026.
+\newblock Accessed: May 24, 2026.
 
 \end{thebibliography}

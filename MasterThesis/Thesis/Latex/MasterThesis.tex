@@ -38,7 +38,7 @@ further improve the performance of the scheme, and we show how to implement them
 actual technologies.
 
 \end{abstract}
-    
+
 \tableofcontents
 
 \section{Introduction}
@@ -76,11 +76,45 @@ facing challenges like performance improvements, revocation lists, legacy infras
 \subsection{Post quantum transition}
 \label{PostQuantumTransition}
 The european union on 11 April  2024 has published a roadmap for the
-post quantum digital transition of members digital infrastructures.
+post quantum digital transition of members digital infrastructures~\cite{EuropeanCommission2024PQC}.
 
-The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
+The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. 
+The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
+
+The timeline is organized into three major phases:
+
+\begin{enumerate}
+    \item \textbf{By the end of 2026}: Initial national PQC transition roadmaps have been established by all Member States, PQC transition planning 
+    and pilots for high- and medium-risk use cases have been initiated;
+    \item \textbf{By the end of 2030}: The PQC transition for high-risk use cases has been completed, PQC transition planning and pilots for medium-risk
+     use cases have been completed. Quantum-safe software and ﬁrmware upgrades are enabled by default.
+    \item \textbf{By the end of 2035}: The PQC transition for medium-risk use cases has been completed. The PQC transition for low-risk use cases has been completed as much as feasible.
+\end{enumerate}
+
+As previously said, this roadmap has been published by the European Commission in 2024. The recent advances in the field of post-quantum computing
+due to hardware improvements, artificial intelligence accelleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
+more urgent. 
+
+On 30 March 2026, Google published a drastical advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
+elliptic curves based crytography~\cite{cryptoeprint:2026/625}. In the meanwhile, between April and March 2026, big tech companies like Google~\cite{Adkins2026Google} 
+and Cloudflare~\cite{Westerbaan2026Cloudflare} have announced that they will accelerate the transition to post-quantum cryptography,
+lowering the timeline for the full transition to 2029, instead of 2035.
+
+\subsection{Overview}
+\label{overview}
+In this thesis, we present a post-quantum anonymous credentials model that can be deployed with the actual technologies and legacy protocols.
+We require the issuer to adopt ML-DSA NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
+to accomodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
+of the device public key instead of the device public key itself. 
+
+In the following sections, we are going to present an overview of the EUDI wallet~\ref{eudiw}, we perform a full ananlysis of the actual state of the art on device bounded anonymous 
+credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
+We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our results~\ref{results}, future works that we plan to 
+do~\ref{futurework} and conclusion~\ref{conclusion}.
+
 
 \section{EUropean Digital Identity Wallet}
+\label{eudiw}
 In 2021, the European Commission proposed to adopt a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
 In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
 which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
