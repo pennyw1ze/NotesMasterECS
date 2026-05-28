@@ -134,6 +134,7 @@ already a national identity card with an embedded chip, while others don't).
 
 % Ecc...
 \subsection{Vulnerabilities}
+\label{vulnerabilities}
 
 \section{State of the art/Literture overview on device bounded anonymous credentials}
 \label{stateoftheart}
@@ -147,8 +148,46 @@ already a national identity card with an embedded chip, while others don't).
 \section{Our solution}
 \label{oursolution}
 
+\subsection{Claim}
+\label{claim}
+
+\subsection{Analysis}
+\label{analysis}
+
+\subsubsection{Compliance with eIDAS 2.0 and LoA High}
+\label{ComplianceEIDAS}
+In this section we are going to analyze our solution, taking into account the requirements
+of the European Commission for the EUDI wallet application, considering both the eIDAS 2.0
+regulation and the LoA High (Level of Assurance High).
+
+\paragraph{Dynamic Authentication and Replay Protection}$\newline$
+CIR 2015/1502 requires that for LoA High, authentication must be dynamic, creating a proof 
+that changes with each session. The plan fulfills this by including a session transcript (tr) 
+in the Device Binding proof. The device's Secure Element signs this transcript, and the ZK 
+circuit verifies this signature (p256.verify), ensuring the proof cannot be replayed by an 
+attacker who has intercepted a previous proof.
+
+\paragraph{Hardware Binding}$\newline$
+The plan enforces Device Binding by extracting the public key ($pk_d$) from the signed MSO 
+and requiring a proof of possession of the corresponding private key. This ensures the 
+credential is bound to a tamper-resistant WSCD (Wallet Secure Cryptographic Device).
+    
+\paragraph{Algorithmic Soundness}$\newline$
+The extraction error of the combined STARK/Ligero system is negligible
+($O(\eta + d \cdot \log(w) / \mid F \mid)$), providing a robust mathematical barrier against forgery.
+
+\paragraph{Compliance with EUDI ARF Requirements}$\newline$
+The implementation satisfies several High-Level Requirements (HLRs) from the EUDI Architecture and Reference Framework:
+\begin{itemize}
+\item \textbf{User Sole Control}: The ZKP generation happens entirely on the user's device (orchestrated by the Wallet Unit),
+ ensuring the user has sole control over attribute disclosure;
+\item \textbf{Validity Verification}: The circuit enforces validity checks (tstart<tnow<tend) without revealing the actual 
+issuance or expiration dates, as required for privacy-preserving interactions;
+\end{itemize}
+
 \section{Implementation}
 \label{implementation}
+
 
 \section{Results}
 \label{results}
