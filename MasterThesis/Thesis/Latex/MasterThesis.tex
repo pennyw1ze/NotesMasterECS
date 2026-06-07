@@ -141,6 +141,27 @@ already a national identity card with an embedded chip, while others don't).
 In the following section, we are going to analyze the architecture of the EUDI wallet application,to give a complete 
 overview of Architecture Reference Framework, and to analyze the vulnerabilities of the proposed implementation.
 
+\subsection{Cryptographic foundations}
+\label{eudi:crypto}
+The entire ecosystem is built on a \textbf{Public Key Infrastructure (PKI)}. The main primitives and standards are the
+following:
+\begin{itemize}[noitemsep]
+  \item \textbf{Elliptic-Curve Cryptography (ECC)} is the preferred choice for mobile-device performance. The relevant
+        presentation standards, ISO/IEC~18013-5~\cite{iso18013-5} and SD-JWT~VC~\cite{sdjwtvc}, rely respectively on the
+        \textbf{COSE} (CBOR Object Signing and Encryption) and \textbf{JOSE} (JSON Object Signing and Encryption)
+        frameworks.
+  \item \textbf{RSA} is also supported, together with \textbf{X.509} certificates~\cite{rfc5280} and the ETSI standards
+        used for qualified electronic signatures.
+\end{itemize}
+For signing documents and transactions the ARF explicitly references the ETSI \emph{AdES} (Advanced Electronic
+Signature) profiles, namely \textbf{XAdES}, \textbf{PAdES}, \textbf{CAdES} and \textbf{JAdES}, depending on the data
+format being signed.
+
+It is important to stress already at this point that, although the PKI is format-agnostic in principle, the
+\emph{device-binding} keys -- the keys that anchor a credential to a specific device -- must reside in the device's
+secure hardware, which in practice today only supports ECDSA over the NIST P-256 curve. This constraint is central to
+\cref{hardwarepq}.
+
 \subsection{Functionalities}
 \label{eudi:functionalities}
 At a high level, the functionalities offered by a Wallet Unit can be grouped into four categories:
@@ -348,6 +369,58 @@ transaction by signing the amount and payee) and \emph{termination} (unlinking b
 
 \subsection{Roles}
 \label{roles}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Roles and Responsibilities within the EUDI Wallet Ecosystem}
+    \label{tab:roles}
+    \small
+    \begin{tabularx}{\textwidth}{@{}l L l@{}}
+        \toprule
+        \textbf{Role} & \textbf{Primary Responsibility} & \textbf{Section} \\
+        \midrule
+        \textbf{User of Wallet Unit} & Manage, store, and present PIDs/attestations. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#32-users-of-wallet-units}{ARF Section 3.2} \\
+        \textbf{Wallet Provider} & Make the certified Wallet Solution available to Users. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#33-wallet-providers}{ARF Section 3.3} \\
+        \textbf{PID Provider} & Issue Person Identification Data (PID) to Users. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#34-person-identification-data-pid-providers}{ARF Section 3.4} \\
+        \textbf{Trusted List/LoTE Provider} & Maintain, manage, and publish Trusted Lists and/or Lists of Trusted Entities. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#35-trusted-list-or-lote-provider}{ARF Section 3.5} \\
+        \textbf{QEAA Provider} & Issue Qualified Electronic Attestations of Attributes (QEAAs). & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#36-qualified-electronic-attestation-of-attributes-qeaa-providers}{ARF Section 3.6} \\
+        \textbf{PuB-EAA Provider} & Issue EAAs on behalf of a public sector body. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#37-eaa-issued-by-or-on-behalf-of-a-public-sector-body-responsible-for-an-authentic-source-pub-eaa-providers}{ARF Section 3.7} \\
+        \textbf{EAA Provider} & Issue Non-Qualified Electronic Attestations of Attributes (EAAs). & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#38-non-qualified-electronic-attestation-of-attributes-eaa-providers}{ARF Section 3.8} \\
+        \textbf{QESRC Provider} & Provide Qualified Electronic Signature Remote Creation services. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#39-qualified-electronic-signature-remote-creation-qesrc-providers}{ARF Section 3.9} \\
+        \textbf{Authentic Source} & Act as the definitive repository for specific attributes. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#310-authentic-sources}{ARF Section 3.10} \\
+        \textbf{Relying Party (RP)} & Request and receive attributes from a Wallet Unit. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#311-relying-parties-relying-party-instances-and-intermediaries}{ARF Section 3.11} \\
+        \textbf{CAB} & Certify Wallet Solutions and audit Trust Service Providers. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#312-conformity-assessment-bodies-cab}{ARF Section 3.12} \\
+        \textbf{Supervisory Body} & Review the proper functioning of ecosystem actors. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#313-supervisory-bodies}{ARF Section 3.13} \\
+        \textbf{Device Manufacturers} & Provide the underlying platform (hardware, OS, secure elements). & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#314-device-manufacturers-and-related-subsystems-providers}{ARF Section 3.14} \\
+        \textbf{Attestation Scheme Provider} & Define and publish the Attestation Rulebooks and schemes. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#315-attestation-scheme-providers-for-qeaas-pub-eaas-and-eaas}{ARF Section 3.15} \\
+        \textbf{NAB} & Accredit CABs according to EU regulations. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#316-national-accreditation-bodies}{ARF Section 3.16} \\
+        \textbf{Registrar} & Manages the registration of Providers and Relying Parties. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#317-registrars}{ARF Section 3.17} \\
+        \textbf{Access CA} & Issue access certificates for authentication. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#318-access-certificate-authorities}{ARF Section 3.18} \\
+        \textbf{Provider of Reg. Certs} & Issue certificates detailing registration status and scope. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#319-providers-of-registration-certificates}{ARF Section 3.19} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/Pasted image 20260224155454.png}
+  \caption{EUDI Architecture Reference Framework roles and responsibilities. Adapted from~\cite{EuropeanCommission2024EUDIARF}.}
+  \label{fig:webauthn}
+\end{figure}
+
+\clearpage
+
+\subsection{Zero-knowledge proofs in the ARF}
+\label{eudi:zkp}
+Citing ARF developer guide at section \href{https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs}{7.4.3.5.3 Zero-knowledge proofs},
+Unlike Relying Party linkability, attestation Provider linkability cannot be fully eliminated when using attestation formats based on salted hashes. The only viable mitigation, they say,
+is to adopt Zero-Knowledge Proofs (ZKPs) as a verification mechanism instead of relying on salted-attribute hashes.
+
+Furthemore, navigating the ARF developers guide, we found the following statements:
+Zero-Knowledge Proof (ZKP) mechanisms for verifying personal information are highly promising and essential for ensuring privacy in various use cases. They enable Users to prove 
+statements such as "I am over 18" without disclosing any personal data, offering a robust solution for privacy-preserving authentication and verification.
+
+However, the integration of ZKPs in the EUDI Wallet ecosystem is still under discussion and development, due to the complexity of implementing ZKP solutions in secure hardware and the 
+lack of support in currently available secure hardware (WSCDs). As with Relying Party linkability, organisational and enforcement measures can help deter Attestation Providers from 
+colluding and tracking Users. Additionally, many Attestation Providers are subject to regular audits, making it easier to detect collusion and tracking compared to Relying Parties.
 
 % Ecc...
 \subsection{Vulnerabilities}

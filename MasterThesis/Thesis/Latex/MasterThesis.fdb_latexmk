@@ -1,20 +1,20 @@
 # Fdb version 4
-["bibtex MasterThesis"] 1780858449.4106 "MasterThesis.aux" "MasterThesis.bbl" "MasterThesis" 1780858452.45055 0
+["bibtex MasterThesis"] 1780862060.09149 "MasterThesis.aux" "MasterThesis.bbl" "MasterThesis" 1780862063.45863 0
   "./reference.bib" 1780857496.56114 7066 5d5049cc0765ad9aa7cf34bb6d98759c ""
   "/usr/share/texmf-dist/bibtex/bst/base/plain.bst" 1775415801 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "MasterThesis.aux" 1780858452.2502 11947 2bb340cf6bbe69f2c8e8c9eae24a2e2c "pdflatex"
+  "MasterThesis.aux" 1780862063.25743 13461 cb433da8e0c110179fa646f0a9029100 "pdflatex"
   (generated)
   "MasterThesis.bbl"
   "MasterThesis.blg"
   (rewritten before read)
-["makeindex MasterThesis.idx"] 1780857397.71646 "MasterThesis.idx" "MasterThesis.ind" "MasterThesis" 1780858452.45035 0
-  "MasterThesis.idx" 1780858450.0872 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex MasterThesis.idx"] 1780861565.66781 "MasterThesis.idx" "MasterThesis.ind" "MasterThesis" 1780862063.45847 0
+  "MasterThesis.idx" 1780862060.79443 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "MasterThesis.ilg"
   "MasterThesis.ind"
   (rewritten before read)
-["pdflatex"] 1780858449.54652 "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesis.tex" "MasterThesis.pdf" "MasterThesis" 1780858452.45069 0
-  "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesis.tex" 1780858444.42129 26762 109c27d05e514910e14dc31c51e78fcb ""
+["pdflatex"] 1780862060.22529 "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesis.tex" "MasterThesis.pdf" "MasterThesis" 1780862063.45877 0
+  "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesis.tex" 1780862054.52843 34525 4ea0062171c9fe509ba79bdebc6f523f ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1775415801 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1775415801 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1775415801 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -107,16 +107,17 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1779059578 5385779 47c0c393a77fd4a098bacfd57d66b88a ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1779059513 2328187 216e2f03f1db68c0e784ec7eaf52ba7d ""
-  "MasterThesis.aux" 1780858452.2502 11947 2bb340cf6bbe69f2c8e8c9eae24a2e2c "pdflatex"
-  "MasterThesis.bbl" 1780858449.5372 3903 7fa5ca3d1c5a0d012fc0d255c2ca3bb8 "bibtex MasterThesis"
-  "MasterThesis.ind" 1780857397.83913 0 d41d8cd98f00b204e9800998ecf8427e "makeindex MasterThesis.idx"
-  "MasterThesis.out" 1780858452.2522 3829 6f46d1eb3306054e69a30d3539469f24 "pdflatex"
-  "MasterThesis.tex" 1780858444.42129 26762 109c27d05e514910e14dc31c51e78fcb ""
-  "MasterThesis.toc" 1780858452.2522 2625 69d4297e995e7766205c086acec6522f "pdflatex"
+  "MasterThesis.aux" 1780862063.25743 13461 cb433da8e0c110179fa646f0a9029100 "pdflatex"
+  "MasterThesis.bbl" 1780862060.21543 3903 7fa5ca3d1c5a0d012fc0d255c2ca3bb8 "bibtex MasterThesis"
+  "MasterThesis.ind" 1780861565.8284 0 d41d8cd98f00b204e9800998ecf8427e "makeindex MasterThesis.idx"
+  "MasterThesis.out" 1780862063.25943 4245 47ffb4e5d1f7f3ab6cd4aa260c571557 "pdflatex"
+  "MasterThesis.tex" 1780862054.52843 34525 4ea0062171c9fe509ba79bdebc6f523f ""
+  "MasterThesis.toc" 1780862063.25943 2833 bb16e200493dedc9df274a1eba4e615f "pdflatex"
   "figures/AnonymousCredentials.png" 1780851039.17104 433135 ab78b900e2fe8124366f3f7707c8451e ""
   "figures/Figure_13_Relying_Party_Authentication.png" 1780857002.88074 186890 6a97b55cb218fb124bb262a9cbef8bb0 ""
   "figures/Figure_3_Proximity_Flow.png" 1780857002.81061 118257 5e6072dbf20bc071a3f9b7748608cc80 ""
   "figures/Figure_5_Remote_Cross-Device_Flow.png" 1780857002.83841 154166 8e4b89eb1b443168cd2dc9b4a4d5032b ""
+  "figures/Pasted image 20260224155454.png" 1780857002.92511 497159 f44bfb2d7838ad5a42792052cd01ea8e ""
   "figures/SD-JWT-VC.png" 1780857007.43411 14419 f2a31a81a2089032a156c159a3054d59 ""
   "figures/webauthn.png" 1780857002.95711 1862508 d7fb711eb391a338b46ccab03d29ffd5 ""
   (generated)

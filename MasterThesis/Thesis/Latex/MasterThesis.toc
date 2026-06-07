@@ -2,31 +2,33 @@
 \contentsline {subsection}{\numberline {1.1}Post quantum transition}{2}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Overview}{3}{subsection.1.2}%
 \contentsline {section}{\numberline {2}EUropean Digital Identity Wallet}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Functionalities}{3}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Identification and authentication}{4}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Exchanging user attributes}{4}{subsubsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1}Cryptographic foundations}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Functionalities}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Identification and authentication}{4}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Exchanging user attributes}{4}{subsubsection.2.2.2}%
 \contentsline {paragraph}{How attestations are added.}{5}{section*.2}%
 \contentsline {paragraph}{How attestations are stored.}{5}{section*.3}%
 \contentsline {paragraph}{How selective disclosure works.}{5}{section*.4}%
-\contentsline {subsubsection}{\numberline {2.1.3}Qualified electronic signatures (QES)}{6}{subsubsection.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.1.4}Pseudonyms}{6}{subsubsection.2.1.4}%
-\contentsline {subsubsection}{\numberline {2.1.5}Payments}{8}{subsubsection.2.1.5}%
-\contentsline {subsection}{\numberline {2.2}Roles}{8}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Vulnerabilities}{8}{subsection.2.3}%
-\contentsline {section}{\numberline {3}State of the art/Literture overview on device bounded anonymous credentials}{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Anonymous Credentials}{8}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Post quantum anonymous credentials}{8}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Our solution}{8}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Claim}{8}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Analysis}{8}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Security analysis}{8}{subsubsection.4.2.1}%
-\contentsline {paragraph}{MAC witness sharing}{8}{section*.5}%
-\contentsline {subsubsection}{\numberline {4.2.2}Compliance with eIDAS 2.0 and LoA High}{9}{subsubsection.4.2.2}%
-\contentsline {paragraph}{Dynamic Authentication and Replay Protection}{9}{section*.6}%
-\contentsline {paragraph}{Hardware Binding}{9}{section*.7}%
-\contentsline {paragraph}{Algorithmic Soundness}{9}{section*.8}%
-\contentsline {paragraph}{Compliance with EUDI ARF Requirements}{9}{section*.9}%
-\contentsline {section}{\numberline {5}Implementation}{9}{section.5}%
-\contentsline {section}{\numberline {6}Results}{9}{section.6}%
-\contentsline {section}{\numberline {7}Future work}{9}{section.7}%
-\contentsline {section}{\numberline {8}Conclusion}{9}{section.8}%
+\contentsline {subsubsection}{\numberline {2.2.3}Qualified electronic signatures (QES)}{6}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.4}Pseudonyms}{6}{subsubsection.2.2.4}%
+\contentsline {subsubsection}{\numberline {2.2.5}Payments}{7}{subsubsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.3}Roles}{8}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Zero-knowledge proofs in the ARF}{10}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Vulnerabilities}{10}{subsection.2.5}%
+\contentsline {section}{\numberline {3}State of the art/Literture overview on device bounded anonymous credentials}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Anonymous Credentials}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Post quantum anonymous credentials}{10}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Our solution}{10}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Claim}{10}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Analysis}{10}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Security analysis}{10}{subsubsection.4.2.1}%
+\contentsline {paragraph}{MAC witness sharing}{10}{section*.5}%
+\contentsline {subsubsection}{\numberline {4.2.2}Compliance with eIDAS 2.0 and LoA High}{11}{subsubsection.4.2.2}%
+\contentsline {paragraph}{Dynamic Authentication and Replay Protection}{11}{section*.6}%
+\contentsline {paragraph}{Hardware Binding}{11}{section*.7}%
+\contentsline {paragraph}{Algorithmic Soundness}{11}{section*.8}%
+\contentsline {paragraph}{Compliance with EUDI ARF Requirements}{11}{section*.9}%
+\contentsline {section}{\numberline {5}Implementation}{11}{section.5}%
+\contentsline {section}{\numberline {6}Results}{11}{section.6}%
+\contentsline {section}{\numberline {7}Future work}{11}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{11}{section.8}%
