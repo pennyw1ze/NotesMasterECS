@@ -24,8 +24,3 @@ In the simulation paradigm this can be used to extract informations just like ra
 
 Impossibility result:
 We cannot have a 4 rounds coin tossing protocol.
-
-\\\\\\
-
-
-
