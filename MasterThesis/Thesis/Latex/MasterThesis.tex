@@ -38,7 +38,7 @@ further improve the performance of the scheme, and we show how to implement them
 actual technologies.
 
 \end{abstract}
-    
+
 \tableofcontents
 
 \section{Introduction}
@@ -46,7 +46,24 @@ actual technologies.
 Anonymous credentials are a powerful tool for preserving privacy in digital interactions
 between users and service providers. Anonymous credentials were introduced by David Chaum in 1982~\cite{chaum1982blind}, 
 and later formalized by Camenisch and Lysyanskaya in 2001~\cite{camenisch2001efficient,sigschemes2004}. They allow users to prove their identity or 
-attributes without revealing any additional information about themselves. In the first approach~\cite{lysyanskaya2002signature},
+attributes without revealing any additional information about themselves. 
+
+The usual model of anonymous credentials consists of three parties: 
+\begin{itemize}
+\item The issuer, a central entity who is responsible for issuing credentials to users and eventually revoking them;
+\item The user, who asks credentials to the issuer and holds them, and eventually use them to prove their identity or attributes to verifiers.
+\item The verifier, who is responsible for verifying the user's credentials without learning any additional information about the user.
+\end{itemize}
+A basic scheme of how this entity interacts with each other is represented in figure~\ref{fig:AnonymousCredentials}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/AnonymousCredentials.png}
+    \caption{Basic scheme of anonymous credentials.}
+    \label{fig:AnonymousCredentials}
+\end{figure}
+
+In the first approach~\cite{lysyanskaya2002signature},
 the issuer was signing user's credentials using a secure protocol that protects user's attributes.
 Credential(s) are then showed to a verifier via zero-knowledge proof of knowledge of a credential(s)
 whose attributes satisfy some predicate.
@@ -55,20 +72,71 @@ Systems based on anonymous credentials have been studied and adopted over the ye
 IBM~\cite{10.1145/586110.586114}, and are in continuous study and development by the scientific community,
 facing challenges like performance improvements, revocation lists, legacy infrastructures and hardware constraints, and more recently, post quantum security.
 
-\subsection{EUDI Wallet}
-\label{eudiwallet}
-In 2021, the European Commission proposed to establish a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
-In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
-which consisted of a
 
 \subsection{Post quantum transition}
 \label{PostQuantumTransition}
 The european union on 11 April  2024 has published a roadmap for the
-post quantum digital transition of members digital infrastructures.
+post quantum digital transition of members digital infrastructures~\cite{EuropeanCommission2024PQC}.
 
-The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
+The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. 
+The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
 
-\section{State of the art/Literture overview}
+The timeline is organized into three major phases:
+
+\begin{enumerate}
+    \item \textbf{By the end of 2026}: Initial national PQC transition roadmaps have been established by all Member States, PQC transition planning 
+    and pilots for high- and medium-risk use cases have been initiated;
+    \item \textbf{By the end of 2030}: The PQC transition for high-risk use cases has been completed, PQC transition planning and pilots for medium-risk
+     use cases have been completed. Quantum-safe software and ﬁrmware upgrades are enabled by default.
+    \item \textbf{By the end of 2035}: The PQC transition for medium-risk use cases has been completed. The PQC transition for low-risk use cases has been completed as much as feasible.
+\end{enumerate}
+
+As previously said, this roadmap has been published by the European Commission in 2024. The recent advances in the field of post-quantum computing
+due to hardware improvements, artificial intelligence accelleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
+more urgent. 
+
+On 30 March 2026, Google published a drastical advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
+elliptic curves based crytography~\cite{cryptoeprint:2026/625}. In the meanwhile, between April and March 2026, big tech companies like Google~\cite{Adkins2026Google} 
+and Cloudflare~\cite{Westerbaan2026Cloudflare} have announced that they will accelerate the transition to post-quantum cryptography,
+lowering the timeline for the full transition to 2029, instead of 2035.
+
+\subsection{Overview}
+\label{overview}
+In this thesis, we present a post-quantum anonymous credentials model that can be deployed with the actual technologies and legacy protocols.
+We require the issuer to adopt ML-DSA NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
+to accomodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
+of the device public key instead of the device public key itself. 
+
+In the following sections, we are going to present an overview of the EUDI wallet~\ref{eudiw}, we perform a full ananlysis of the actual state of the art on device bounded anonymous 
+credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
+We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our results~\ref{results}, future works that we plan to 
+do~\ref{futurework} and conclusion~\ref{conclusion}.
+
+
+\section{EUropean Digital Identity Wallet}
+\label{eudiw}
+In 2021, the European Commission proposed to adopt a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
+In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
+which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
+This general framework is needed since the commission left freedom to eaech memeber state to implement their own 
+instance of the application, due to different possible credentials structures (for example, french and german national 
+identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
+already a national identity card with an embedded chip, while others don't).
+
+\subsection{Architecture overview}
+\label{architectureoverview}
+
+\subsubsection{Functionalities}
+\label{functionalities}
+
+\subsubsection{Roles}
+\label{roles}
+
+% Ecc...
+\subsection{Vulnerabilities}
+\label{vulnerabilities}
+
+\section{State of the art/Literture overview on device bounded anonymous credentials}
 \label{stateoftheart}
 
 \subsection{Anonymous Credentials}
@@ -77,8 +145,49 @@ The roadmap is a comprehensive plan that outlines the steps that the European Un
 \subsection{Post quantum anonymous credentials}
 \label{postquantumanonymouscredentials}
 
+\section{Our solution}
+\label{oursolution}
+
+\subsection{Claim}
+\label{claim}
+
+\subsection{Analysis}
+\label{analysis}
+
+\subsubsection{Compliance with eIDAS 2.0 and LoA High}
+\label{ComplianceEIDAS}
+In this section we are going to analyze our solution, taking into account the requirements
+of the European Commission for the EUDI wallet application, considering both the eIDAS 2.0
+regulation and the LoA High (Level of Assurance High).
+
+\paragraph{Dynamic Authentication and Replay Protection}$\newline$
+CIR 2015/1502 requires that for LoA High, authentication must be dynamic, creating a proof 
+that changes with each session. The plan fulfills this by including a session transcript (tr) 
+in the Device Binding proof. The device's Secure Element signs this transcript, and the ZK 
+circuit verifies this signature (p256.verify), ensuring the proof cannot be replayed by an 
+attacker who has intercepted a previous proof.
+
+\paragraph{Hardware Binding}$\newline$
+The plan enforces Device Binding by extracting the public key ($pk_d$) from the signed MSO 
+and requiring a proof of possession of the corresponding private key. This ensures the 
+credential is bound to a tamper-resistant WSCD (Wallet Secure Cryptographic Device).
+    
+\paragraph{Algorithmic Soundness}$\newline$
+The extraction error of the combined STARK/Ligero system is negligible
+($O(\eta + d \cdot \log(w) / \mid F \mid)$), providing a robust mathematical barrier against forgery.
+
+\paragraph{Compliance with EUDI ARF Requirements}$\newline$
+The implementation satisfies several High-Level Requirements (HLRs) from the EUDI Architecture and Reference Framework:
+\begin{itemize}
+\item \textbf{User Sole Control}: The ZKP generation happens entirely on the user's device (orchestrated by the Wallet Unit),
+ ensuring the user has sole control over attribute disclosure;
+\item \textbf{Validity Verification}: The circuit enforces validity checks (tstart<tnow<tend) without revealing the actual 
+issuance or expiration dates, as required for privacy-preserving interactions;
+\end{itemize}
+
 \section{Implementation}
 \label{implementation}
+
 
 \section{Results}
 \label{results}
