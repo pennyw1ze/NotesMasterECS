@@ -1,5 +1,20 @@
 \documentclass{article}
-\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+
+% "demo" makes \includegraphics draw a placeholder box instead of loading a
+% file -- so this compiles with NO image files. Remove "demo" once you add the
+% real images (and set \graphicspath to their folder).
+\usepackage{graphicx}
+\usepackage{booktabs}     % \toprule \midrule \bottomrule
+\usepackage{array}
+\usepackage{tabularx}     % stretching table + the custom "L" column below
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}     % \cref \Cref
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
 \title{Post-quantum transition for device bounded anonymous credentials: a EUDI wallet application}
 \author{Leonardo Rufini}
@@ -123,13 +138,215 @@ instance of the application, due to different possible credentials structures (f
 identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
 already a national identity card with an embedded chip, while others don't).
 
-\subsection{Architecture overview}
-\label{architectureoverview}
+In the following section, we are going to analyze the architecture of the EUDI wallet application,to give a complete 
+overview of Architecture Reference Framework, and to analyze the vulnerabilities of the proposed implementation.
 
-\subsubsection{Functionalities}
-\label{functionalities}
+\subsection{Functionalities}
+\label{eudi:functionalities}
+At a high level, the functionalities offered by a Wallet Unit can be grouped into four categories:
+\begin{itemize}[noitemsep]
+  \item \textbf{Secure identification and authentication}, ensuring that users can present person identification data
+        (PID) in a trusted environment, both online and in proximity.
+  \item \textbf{Exchanging qualified and non-qualified user attributes} through secure and verifiable electronic
+        attestations of attributes (EAAs).
+  \item \textbf{Electronic signing of documents or data}, allowing users to create legally recognised qualified
+        electronic signatures and seals.
+  \item \textbf{Generation and use of pseudonyms} for authentication, to enhance privacy and prevent tracking.
+\end{itemize}
+A further, emerging use case is the wallet acting as a \emph{strong customer authentication} device for payments,
+discussed in \cref{eudi:payments}.
 
-\subsubsection{Roles}
+Now we will discuss in depth each of these functionalities, describing the involved actors and the protocols used to implement them.
+
+\subsubsection{Identification and authentication}
+\label{eudi:auth}
+\textbf{Description.} Users can identify and authenticate to online and offline services while using
+\emph{selective disclosure} of attributes or attestations.
+
+\textbf{Actors.} User; Wallet Unit (a smartphone application); Relying Party (the service requesting data); PID Provider.
+
+\textbf{Protocols.} Two complementary protocols are used:
+\begin{itemize}[noitemsep]
+  \item \textbf{ISO/IEC~18013-5}~\cite{iso18013-5} for \emph{proximity} flows. The Wallet Unit and the Relying Party set
+        up a communication channel using a QR code or NFC and then communicate over BLE, NFC or Wi-Fi Aware. The standard
+        provides confidentiality and authenticity for all exchanged data, as well as Relying Party authentication.
+        \Cref{fig:proximity} sketches the proximity flow.
+  \item \textbf{OpenID4VP}~\cite{openid4vp} for \emph{remote} (including cross-device) flows. It defines the message
+        structures, transaction flows and an HTTP-based interface for presenting attestations from a Wallet Unit to a
+        Relying Party, again providing confidentiality, authenticity and Relying Party authentication.
+        \Cref{fig:remote} sketches the remote, cross-device flow.
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/Figure_3_Proximity_Flow.png}
+  \caption{Proximity presentation flow (ISO/IEC 18013-5). Adapted from the ARF~\cite{EuropeanCommission2024EUDIARF}.}
+  \label{fig:proximity}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/Figure_5_Remote_Cross-Device_Flow.png}
+  \caption{Remote, cross-device presentation flow (OpenID4VP). Adapted from the ARF~\cite{EuropeanCommission2024EUDIARF}.}
+  \label{fig:remote}
+\end{figure}
+
+In both protocols, \textbf{device binding} is achieved by including a cryptographic public key in the PID or attestation
+and signing it; the corresponding private key is protected by a Wallet Secure Cryptographic Application/Device
+(WSCA/WSCD) or keystore inside the Wallet Unit. Although the proximity and remote protocols differ in their details, at a
+high level they both implement \textbf{Relying Party authentication} as illustrated in \cref{fig:rpauth}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/Figure_13_Relying_Party_Authentication.png}
+  \caption{Relying Party authentication, common to the proximity and remote flows. Adapted from the ARF~\cite{EuropeanCommission2024EUDIARF}.}
+  \label{fig:rpauth}
+\end{figure}
+
+\subsubsection{Exchanging user attributes}
+\label{eudi:attributes}
+\textbf{Description.} The wallet lets a user request, store and share Electronic Attestations of Attributes -- EAA,
+PuB-EAA and QEAA. The wallet supports \emph{selective disclosure}, so that the user can share only a subset of the
+attributes contained in an attestation.
+
+\textbf{Actors.} User; Wallet Unit; Relying Party; Attestation Provider (QEAA, PuB-EAA or EAA), the entity issuing the
+attestation.
+
+\textbf{Protocol.} \emph{SD-JWT~VC}~\cite{sdjwtvc} (Selectively Disclosable JSON Web Token Verifiable Credentials) is a
+special form of JWT that is selectively disclosable. It specifies the JSON encoding of attributes and metadata together
+with rules that prevent collisions of claim names; a proof mechanism that ensures the authenticity and integrity of a
+PID or attestation while allowing selective disclosure of individual attributes; and an \emph{optional} security
+mechanism enabling device binding of PIDs and attestations. \Cref{fig:sdjwt} illustrates the structure of an
+SD-JWT~VC.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/SD-JWT-VC.png}
+  \caption{Structure and selective-disclosure mechanism of an SD-JWT VC. Adapted from the SD-JWT VC specification~\cite{sdjwtvc}.}
+  \label{fig:sdjwt}
+\end{figure}
+
+\paragraph{How attestations are added.} For mobile driving licences (mDL) the Attestation Rulebook explicitly references
+the ISO/IEC~18013-5 model, the same used for identification. Other attestations are obtained as follows: the user first
+verifies that the provider is trusted (it appears on an official Trusted List or List of Trusted Entities); the provider
+authenticates the user, typically reusing the OpenID4VP authentication flow; the provider validates the Wallet Instance
+through its Wallet Instance Attestation; the user reviews and approves the attestation; and finally the wallet verifies
+the provider's signature on the attestation and stores it.
+
+\paragraph{How attestations are stored.} The ARF mandates a small set of standardised formats:
+\begin{itemize}[noitemsep]
+  \item \textbf{CBOR}, used by ISO/IEC~18013-5. It is mandatory for mDLs and may be used for any other attestation if the
+        provider remains compliant with the standard.
+  \item \textbf{JWT}, used by SD-JWT~VC. No credential is required to be expressed in this format, but wallet support is
+        mandatory.
+  \item \textbf{W3C Verifiable Credentials Data Model v2.0}~\cite{w3cvcdm}, an optional format valid only for
+        non-qualified EAAs and still under development.
+\end{itemize}
+\Cref{tab:formats} summarises the three formats and their proof mechanisms.
+
+\begin{table}[ht]
+  \centering
+  \caption{Attestation formats and proof mechanisms supported by the ARF.}
+  \label{tab:formats}
+  \small
+  \begin{tabularx}{\textwidth}{@{}l L L L@{}}
+    \toprule
+    \textbf{Feature} & \textbf{ISO/IEC 18013-5 / 23220-2} & \textbf{SD-JWT VC} & \textbf{W3C VCDM v2.0} \\
+    \midrule
+    Data format    & CBOR (binary)            & JSON Web Token (JSON)        & JSON-LD (linked data) \\
+    Proof type     & Embedded (salted hashes) & Embedded (salted hashes)     & Detached or embedded \\
+    Key use case   & Proximity (e.g.\ mDL)    & Remote (e.g.\ remote ident.) & General (requires profiling) \\
+    Wallet support & Mandatory                & Mandatory                    & Optional \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\paragraph{How selective disclosure works.} Both ISO/IEC~18013-5 and SD-JWT~VC realise selective disclosure through the
+\emph{salted-hash} technique combined with device and user binding:
+\begin{itemize}[noitemsep]
+  \item \textbf{Salted hashes.} The issuer signs a token in which each attribute is replaced by a salted hash of its
+        value rather than its clear text (e.g.\ the hash of \texttt{family\_name:\,Rossi} together with a random salt).
+        To disclose an attribute, the user reveals the clear value and the salt; the verifier recomputes the hash and
+        checks that it matches the one inside the signed token.
+  \item \textbf{Device binding.} The attestation embeds a public key whose private counterpart never leaves the WSCD.
+        The provider/verifier issues a random challenge that the device signs, proving that it holds the private key
+        bound to the attestation.
+  \item \textbf{User binding.} Before disclosure, the wallet shows the user which attributes are about to be sent and
+        requires local authentication (PIN, biometrics, etc.).
+\end{itemize}
+Zero-knowledge proofs, which would allow attributes to be proven without revealing the underlying field, are not yet
+part of the supported mechanisms; their status is discussed later in the analysis.
+
+\subsubsection{Qualified electronic signatures (QES)}
+\label{eudi:qes}
+\textbf{Description.} The wallet lets users create legally recognised qualified electronic signatures and seals for
+legally binding transactions and document signing.
+
+\textbf{Actors.} User; Wallet Unit; a \emph{local QSCD} (a local tamper-resistant device that produces signatures) or a
+remote \emph{QESRC} provider (Qualified Electronic Signature Remote Creation).
+
+\textbf{Protocol.} Communication between the Wallet Unit and the QSCD/WSCD takes place through a \emph{Secure
+Cryptographic Interface}. All parties in the ecosystem that handle cryptographic keys -- Wallet Providers, PID and
+Attestation Providers, Trusted List/LoTE Providers, Providers of Registration Certificates and Access Certificate
+Authorities -- typically rely on a certified \textbf{Hardware Security Module (HSM)} to generate and manage private and
+secret keys. In other words, the security of this functionality rests almost entirely on \emph{hardware} components,
+which perform key generation and management, user authentication, and the production of signatures and seals; the choice
+of the actual key-generation protocol is delegated to the wallet implementer.
+
+\subsubsection{Pseudonyms}
+\label{eudi:pseudonyms}
+\textbf{Description.} Users can present a pseudonym to a Relying Party in situations where the Relying Party does not need
+to learn the user's identity, which helps users avoid being tracked across services.
+
+\textbf{Actors.} User; Wallet Unit; Relying Parties.
+
+\textbf{Protocol.} The ARF distinguishes three kinds of pseudonyms:
+\begin{itemize}[noitemsep]
+  \item \emph{Verifiable} pseudonyms, which let the user prove ownership;
+  \item \emph{Attested} pseudonyms, a sub-type of verifiable pseudonyms in which a third party attests that the pseudonym
+        belongs to the user;
+  \item \emph{Scope rate-limited} pseudonyms, a sub-type that guarantees the user controls at most a fixed number (the
+        \emph{rate}) of pseudonyms for a given scope.
+\end{itemize}
+\textbf{W3C WebAuthn}~\cite{webauthn} specifies a class of verifiable pseudonyms known as \emph{passkeys}. The protocol
+has two phases:
+\begin{enumerate}[noitemsep]
+  \item \textbf{Registration.} The user generates a public/private key pair, stores both keys in a secure device (the
+        \emph{Authenticator}), and registers the public key with the desired Relying Party.
+  \item \textbf{Authentication.} When the user wishes to authenticate, the service sends a challenge consisting of a
+        random value; the user signs it with the private key held by the Authenticator and returns the signature; the
+        service verifies the signature against the registered public key and, if the signature and the origin match,
+        grants access.
+\end{enumerate}
+Pseudonyms are stored encrypted in a local secure area of the device. \Cref{fig:webauthn} illustrates the WebAuthn
+authentication scheme.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/webauthn.png}
+  \caption{W3C WebAuthn authentication scheme used for verifiable pseudonyms (passkeys). Adapted from~\cite{webauthn}.}
+  \label{fig:webauthn}
+\end{figure}
+
+\subsubsection{Payments}
+\label{eudi:payments}
+The EUDI Wallet acts as an \emph{authenticator} that lets the user authorise payments. Unlike, for example, Google
+Wallet -- which typically stores a tokenised version of a physical card -- the EUDI Wallet does not store a card number.
+Instead, it is issued a \textbf{Strong User Authentication (SUA)} attestation: a verified digital document that links the
+Wallet Unit to a specific bank account or payment service. This SUA attestation is \emph{device-bound}, i.e.\
+cryptographically tied to the secure hardware (WSCD/WSCA) of the user's phone.
+
+When a payment is made, the merchant (acting as a Relying Party) sends the wallet a request containing the transactional
+data. The user reviews the request on screen and, upon consent, the wallet signs that specific data with its internal
+keys to authorise the payment. The process is designed to satisfy the \textbf{Strong Customer Authentication (SCA)}
+requirements of the EU payment-services framework (PSD2/PSD3)~\cite{psd2}. The payment lifecycle therefore has three
+phases: \emph{registration} (linking the wallet to the bank via an SUA attestation), \emph{authentication} (approving a
+transaction by signing the amount and payee) and \emph{termination} (unlinking by revoking the SUA attestation).
+
+
+ 
+
+\subsection{Roles}
 \label{roles}
 
 % Ecc...

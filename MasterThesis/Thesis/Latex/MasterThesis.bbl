@@ -48,15 +48,39 @@ David Chaum.
 \newblock Commission Recommendation (EU) 2024/1101, 2024.
 \newblock Accessed: May 24, 2026.
 
+\bibitem{psd2}
+{European Parliament and Council}.
+\newblock Directive (eu) 2015/2366 on payment services in the internal market (psd2), 2015.
+
+\bibitem{sdjwtvc}
+{IETF}.
+\newblock Sd-jwt-based verifiable credentials (sd-jwt vc), 2024.
+
+\bibitem{iso18013-5}
+{ISO/IEC}.
+\newblock Iso/iec 18013-5:2021 personal identification — iso-compliant driving licence — part 5: Mobile driving licence (mdl) application, 2021.
+
 \bibitem{lysyanskaya2002signature}
 Anna Lysyanskaya.
 \newblock {\em Signature schemes and applications to cryptographic protocol design}.
 \newblock PhD thesis, Massachusetts Institute of Technology, 2002.
 
+\bibitem{openid4vp}
+{OpenID Foundation}.
+\newblock Openid for verifiable presentations, 2023.
+
 \bibitem{paquin2013u-prove}
 Christian Paquin and Greg Zaverucha.
 \newblock U-prove cryptographic specification v1.1 (revision 3), December 2013.
 \newblock Released under the Open Specification Promise (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
+
+\bibitem{w3cvcdm}
+{W3C}.
+\newblock Verifiable credentials data model 2.0, 2024.
+
+\bibitem{webauthn}
+{W3C}.
+\newblock Web authentication: An api for accessing public key credentials level 3, 2024.
 
 \bibitem{Westerbaan2026Cloudflare}
 Bas Westerbaan.
