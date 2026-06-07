@@ -12,12 +12,14 @@
 \contentsline {section}{\numberline {4}Our solution}{5}{}%
 \contentsline {subsection}{\numberline {4.1}Claim}{5}{}%
 \contentsline {subsection}{\numberline {4.2}Analysis}{5}{}%
-\contentsline {subsubsection}{\numberline {4.2.1}Compliance with eIDAS 2.0 and LoA High}{5}{}%
-\contentsline {paragraph}{Dynamic Authentication and Replay Protection}{5}{}%
-\contentsline {paragraph}{Hardware Binding}{5}{}%
-\contentsline {paragraph}{Algorithmic Soundness}{5}{}%
+\contentsline {subsubsection}{\numberline {4.2.1}Security analysis}{5}{}%
+\contentsline {paragraph}{MAC witness sharing}{5}{}%
+\contentsline {subsubsection}{\numberline {4.2.2}Compliance with eIDAS 2.0 and LoA High}{6}{}%
+\contentsline {paragraph}{Dynamic Authentication and Replay Protection}{6}{}%
+\contentsline {paragraph}{Hardware Binding}{6}{}%
+\contentsline {paragraph}{Algorithmic Soundness}{6}{}%
 \contentsline {paragraph}{Compliance with EUDI ARF Requirements}{6}{}%
-\contentsline {section}{\numberline {5}Implementation}{6}{}%
-\contentsline {section}{\numberline {6}Results}{6}{}%
-\contentsline {section}{\numberline {7}Future work}{6}{}%
-\contentsline {section}{\numberline {8}Conclusion}{6}{}%
+\contentsline {section}{\numberline {5}Implementation}{7}{}%
+\contentsline {section}{\numberline {6}Results}{7}{}%
+\contentsline {section}{\numberline {7}Future work}{7}{}%
+\contentsline {section}{\numberline {8}Conclusion}{7}{}%

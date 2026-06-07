@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.19)  28 MAY 2026 11:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.19)  5 JUN 2026 00:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -109,11 +109,11 @@ File: figures/AnonymousCredentials.png Graphic file (type png)
 Package pdftex.def Info: figures/AnonymousCredentials.png  used on input line 61.
 (pdftex.def)             Requested size: 276.00105pt x 146.85497pt.
  [2] [3 <./figures/AnonymousCredentials.png (PNG copy)>] [4] [5]
-Overfull \hbox (16.27069pt too wide) in paragraph at lines 184--186
+Overfull \hbox (16.27069pt too wide) in paragraph at lines 220--222
 []\OT1/cmr/bx/n/10 Validity Ver-i-fi-ca-tion\OT1/cmr/m/n/10 : The cir-cuit en-forces va-lid-ity checks (tstart<tnow<tend)
  []
 
-(./MasterThesis.bbl [6]
+[6] (./MasterThesis.bbl [7]
 Underfull \hbox (badness 10000) in paragraph at lines 57--60
 []\OT1/cmr/m/n/10 Christian Paquin and Greg Za-verucha.  U-prove cryp-
  []
@@ -133,25 +133,25 @@ Overfull \hbox (38.52867pt too wide) in paragraph at lines 57--60
 \OT1/cmr/m/n/10 (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx). 
  []
 
-) [7] (./MasterThesis.aux)
+) [8] (./MasterThesis.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1373 strings out of 469515
- 22405 string characters out of 5470807
+ 1374 strings out of 469515
+ 22423 string characters out of 5470807
  443756 words of memory out of 5000000
- 30051 multiletter control sequences out of 15000+600000
+ 30052 multiletter control sequences out of 15000+600000
  633264 words of font info for 58 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  57i,6n,65p,316b,230s stack positions out of 10000i,1000n,20000p,200000b,200000s
- </home/pennyw1ze/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on MasterThesis.pdf (7 pages, 601247 bytes).
+ </home/pennyw1ze/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on MasterThesis.pdf (8 pages, 635078 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 107 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

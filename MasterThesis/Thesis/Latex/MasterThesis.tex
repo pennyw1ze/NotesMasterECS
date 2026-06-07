@@ -154,6 +154,42 @@ already a national identity card with an embedded chip, while others don't).
 \subsection{Analysis}
 \label{analysis}
 
+\subsubsection{Security analysis}
+\label{securityanalysis}
+
+\paragraph{MAC witness sharing}
+STARK zk proof over the issuer signature needs dilithium verification algorithm.
+The algorithm takes in input the signature $sig$, the message being signed $e_1$ and 
+the public key of the issuer $PK_{II}$.
+The message signed by the issuer $e_1$is the sha256 of the credential document. Knowledge
+of sha256 preimage is hard to prove in STARK winterfell circuit, so we propose the
+following solution: the Ligero circuit, which has an optimized sha prover, will
+prove $e_1 = sha256(cred)$, then $e_1$ is encoded in a binding and hiding commitment
+realized with information theoretic MAC.
+ecc ecc ecc.
+Mathematical proof of MAC security:$$m = MAC_k(e_1) = MAC_{k_p,k_v}(e_1) = MAC_{a,b}(e_1)$$
+We obtain the key as:$$(a,b) = k_p \oplus k_v$$ where $k_p$ is a secret random 32 bytes key
+choosen by the prover and $k_v$ is a public verifiable key chosen by the verifier.
+What security concerns do we have?
+\begin{enumerate}
+    \item The prover can try to forge a valid MAC for a different $e_1'$, but $e_1'$ would
+    still need to be a valid sha256 of signed credential since the signature is verified by the circuit;
+    \item The prover could generate $k_p$ after seeing $k_v$, leading to arbitrary proves;
+    \item Different presentations could be linkable to the same MAC.
+\end{enumerate}
+2 is avoidable if we require the prover to generate $k_p$ before seeing $k_v$, committing to 
+and building $k_v$ with fiat shamir transform on $k_p$ commitment, and 3 is avoidable if we require the 
+prover to generate a different $k_p$ for each presentation.
+
+For 1, we have the following security proof in which we show that is not possible to forge 
+a valid MAC for a different $e_1'$ without breaking the security of the MAC scheme:
+$$m = MAC_k(e_1) = a*e_1 + b = a*e_1' + b \Rightarrow a*(e_1 - e_1') = 0$$
+which is true either if a = 0 or if $e_1 = e_1'$. It has been proven that the probability
+that $a = 0$ is negligible.
+if $e_1 = e_1'$ then the prover is proving the same credential, so no forgery is happening.
+We also now that is not possible to have $m_1 = a'*e_1 + b' = m_2 = a''*e_1' + b''$ since
+the prover is not able to choose $a$ and $b$ due to the verifier participation in the key
+generation with $k_v$.
 \subsubsection{Compliance with eIDAS 2.0 and LoA High}
 \label{ComplianceEIDAS}
 In this section we are going to analyze our solution, taking into account the requirements
