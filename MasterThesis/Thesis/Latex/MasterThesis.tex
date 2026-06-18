@@ -16,7 +16,7 @@
 
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
-\title{Post-quantum transition for device bounded anonymous credentials: a EUDI wallet application}
+\title{Post-quantum transition of device bounded anonymous credentials for the EUDI Wallet}
 \author{Leonardo Rufini}
 \date{July 2026}
 
@@ -160,7 +160,7 @@ format being signed.
 It is important to stress already at this point that, although the PKI is format-agnostic in principle, the
 \emph{device-binding} keys -- the keys that anchor a credential to a specific device -- must reside in the device's
 secure hardware, which in practice today only supports ECDSA over the NIST P-256 curve. This constraint is central to
-\cref{hardwarepq}.
+our solution, discussed in \cref{oursolution}.
 
 \subsection{Functionalities}
 \label{eudi:functionalities}
@@ -425,15 +425,347 @@ colluding and tracking Users. Additionally, many Attestation Providers are subje
 % Ecc...
 \subsection{Vulnerabilities}
 \label{vulnerabilities}
+In this section we are going to analyze the main vulnerabilities of the EUDI wallet found by us, and
+known in the scientific community.
 
-\section{State of the art/Literture overview on device bounded anonymous credentials}
+\paragraph{Linkability}
+Presentations are signed with (and reveal) PKu; PKu and EAArevoc\_id persist
+across sessions; salted hashes stay constant across presentations. Misactors
+(RPs, APs, WPs, supervisory bodies, external) can correlate repeat
+interactions and link them to attributable data.
+
+\paragraph{Information leakage through salted-hash selective disclosure}
+Proving a predicate such as "Age over 18" with salted hashes forces disclosure 
+of the WHOLE field, i.e. the full date of birth. 
+Likewise proving nationality may leak the full address / city of
+residence. The selective-disclosure mechanism lacks granularity: it can only
+reveal or hide a whole attribute, never a derived predicate.
+Note on the proposed mitigation: the spec suggests the issuer pre-bakes
+boolean fields (e.g. "adult: yes/no"). This mitigation is clearly unworkable: 
+it does not scale to arbitrary thresholds (over 19, over 20, ...).
+
+\paragraph{No backup/recovery mechanism}
+The system provides no backup/recovery. If the wallet device is
+lost, the user loses access to all his credentials, pseudonyms ecc. 
+Moreover, if the device gets broken, Keys are trapped inside the 
+Secure Element and cannot be moved out (QESRC keys cannot leave the SE).
+
+\paragraph{Secure element as a single point of failure}
+All security rests on a single hardware Secure Element. There is
+no multi-party computation to remove this single point of failure, neither in
+the ARF nor in the Longfellow (Frigo et al.)
+
+\paragraph{Post-quantum insecurity}
+The entire system is not post-quantum secure actually. Issuer signature, device
+binding signature, and all the cryptography is based on elliptic curves, 
+which are known to be broken by quantum computers.
+
+\paragraph{Detectability of wallet actions via passive network monitoring}
+EUDIW communication runs over ordinary Internet networks and inherits their
+threat model. A passive Machine-in-the-Middle can monitor wallet usage
+without modifying traffic.\newline
+
+A tons of other vulnerabilities have been found and studied in the
+EUID wallet, some of them will be discussed in the next sections.
+
+\section{Literature overview}
 \label{stateoftheart}
+In this section we are going to analyze the state of the art in the field of anonymous credentials,
+with a particular focus on device-bound anonymous credentials and on the EUDI wallet application,
+which are the most relevant for our use case. We will analyze the main papers and solutions proposed 
+in the scientific community, and we will discuss their advantages and disadvantages, as well as their 
+applicability to the EUDI wallet use case.
 
-\subsection{Anonymous Credentials}
-\label{anonymouscredentials}
+\subsection{Anonymous Credentials from ECDSA}
+\label{ecdsaanonymouscredentials}
+In this~\cite{cryptoeprint:2024/2010} paper, the authors M. Frigo and A. Shelat point out the difficulty
+of building anonymous credentials scheme, given by existing infrastructures that does not allow the 
+implementation of schemes like BBS+, and hardware constraints due to device binding property requirements.
 
-\subsection{Post quantum anonymous credentials}
-\label{postquantumanonymouscredentials}
+Their solution is to move from the standard model proposed in the ARF architecture with salted hash technique,
+implementing zero knowledge proofs with Ligero framework for arbitrary efficient computation over credentials.
+The whole system was built upon american credentials, but results were so promising that a team
+is working on the European implementation of the same framework~\cite{longfellow-eu}.
+
+The zk tehcnology adopted by Frigo and Shelat to prove the knowledge of a credential is Ligero, which is 
+a zk proof system based on the MPC-in-the-head paradigm. The authors managed to optimize the prover time
+over heavy circuits like ECDSA signature verification circuit or sha256 preimage circuit, via a combination
+of various techniques, such as sum-check protocols to avoid NTT transforms, reed-solomon error correction 
+codes, cross field MAC and other techniques.
+
+The result is an anonymous credentials systems that can build zero knowledge proof over arbitrary
+computations in pretty efficient time (look at the table below~\ref{tab:prover_verifier_perf}), building a post-quantum secure proof upon post-quantum insecure legacy systems, without
+requiring any party to change their actual infrastructures. Their non-interactive protocol lacks of
+non-deniability property over presentations, and their code is quite complex and has been reviewed by
+experts and bugs have been found, with report available online~\cite{TrailOfBits2025GoogleLongfellow}. In general, 
+being a 20'000 line of codes software it is more prone to bugs and vulnerabilites.
+\begin{table}[htbp]
+\centering
+\caption{Prover and Verifier Execution Times Across Various Platforms}
+\label{tab:prover_verifier_perf}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Platform} & \textbf{Prover (ms)} & \textbf{Verifier (ms)} \\
+\midrule
+amd\_64     & 526 & 252 \\
+cloud      & 589 & 286 \\
+Pixel 9    & 931 & 508 \\
+iPhone 15+ & 437 & 229 \\
+Mac M4 Air & 294 & 142 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Control is Nothing Without Trust a First Look into Digital Identity Wallet Trends}
+\label{controlisnothingwithouttrust}
+In this paper~\cite{Ansaroudi2023Control} by Ansaroudi et al., the authors describe the main 
+functional and non functional requirements for digital identity wallets.
+\paragraph{Functional requirements}
+\begin{itemize}
+      \item  The main functional requirements for which they are developed 
+      are to store, manage (review, remove), and share (explicitly selecting 
+      what data to store/combine and share into/outside the wallet.) 
+      the identity or its related data;
+      \item Identity wallets also provide secure storage for 
+      cryptographic material associated with the data;
+      \item The wallet may additionally have functionalities for recovery and back up;
+\end{itemize}
+The EUDI-ARF covers the aforementioned requirements along with other
+functionalities such as the creation of (qualified) electronic signatures/seals that
+demand the provision of interfaces to the services providing the functionality,
+requiring identification with an eIDAS high LoA.
+\paragraph{Non-functional requirements}
+\begin{itemize}
+      \item \textbf{Representation}: Identity subjects must be able to be represented by any number of digital identities;
+      \item \textbf{Delegation (of control)/Provability}: Identity subjects must have the ability to control how their identity data is used and extert this control on their choice;
+      \item \textbf{Decentralization}: A digital identity data must not be represented, controlled or whatever by a centralized system;
+      \item \textbf{Security}: Identity subjects must secure their identity data;
+      \item \textbf{Verifiability and authenticity}: Identity subjects are required to provide verifiable proof of the authenticity of their digital identity information;
+      \item \textbf{Privacy and minimal disclosure}: Identity subjects must protect the privacy of their digital identity data and share the minimum digital identity data required for any interaction;
+      \item \textbf{Transparency}: Identity subjects and all other stakeholders must have easy access to and verify information necessary to understand the incentives, rules, policies, and  algorithms under which agents and other components of the ecosystems operate.
+\end{itemize}
+The paper then proceeds with a series of comparison between different existing wallets
+based on the property previously cited.
+\subsection{A Brief Note on Cryptographic Pseudonyms for Anonymous Credentials}
+\label{cryptographicpseudonyms}
+The paper~\cite{Mayrhofer2025BriefNote} by Mayrhofer, Lehmann and shelat focuses on how pseudonyms
+should be realized for the upcoming EUDI wallet, a functionality that the ARF lists (see~\cref{eudi:pseudonyms})
+but does not yet pin down at the cryptographic level.
+
+The main argument in favour of pseudonyms is that they make a user \emph{anonymous but still accountable}.
+Unlike an account created at a relying party with arbitrary, self-claimed attributes, an EUDI pseudonym gives
+the relying party the guarantee that the pseudonym is backed by a credential that was actually issued to a real
+end user. A secondary benefit is resistance to bulk account creation by troll or bot farms, since the number of
+pseudonyms a user can derive for a given service can be bounded. The authors also stress that pseudonyms only
+add privacy when they are coupled with selective disclosure, otherwise the disclosed attributes would re-identify
+the user anyway. They classify pseudonyms in three families:
+\begin{itemize}[noitemsep]
+  \item \textbf{Verifiable} pseudonyms, verifiably derived from a user-controlled key;
+  \item \textbf{Certified} pseudonyms, verifiably derived from a user holding a certain credential;
+  \item \textbf{Scope-exclusive} pseudonyms, derived for a given scope and enforced to be unique per scope.
+\end{itemize}
+
+The actors involved are the holder, the wallet, the holder key, the PID provider and the relying party. Over these
+actors the authors identify the security and privacy requirements a pseudonym scheme should meet: \emph{soundness}
+(a holder can create pseudonyms only if it owns an underlying EUDI credential), \emph{unforgeability} (a malicious
+holder cannot fabricate a pseudonym), \emph{unlinkability}, \emph{unobservability} (the PID provider must not be able
+to trace the usage of a pseudonym), \emph{selective disclosure}, \emph{scope-exclusiveness} (a relying party is
+guaranteed that a user can only derive a single pseudonym for its scope) and \emph{transferability} between wallet
+instances.
+
+\paragraph{Construction.} At issuance the credential carries a new high-entropy attribute, the \emph{pseudonym seed}
+($pns$), which is never disclosed directly. To present a pseudonym to a relying party, the wallet computes the
+pseudonym identifier as $nym = \mathrm{PRF}_{pns}(scp, idx)$, where $scp$ identifies the relying party (e.g.\ its
+domain) and $idx$ is an integer that upper-bounds the number of pseudonyms per scope. The holder then sends only the
+non-identifying attributes and $nym$, together with a zero-knowledge proof that (i) it holds a valid credential and
+knows the device holder key when device binding is required, (ii) the credential includes a commitment to $pns$, and
+(iii) $nym$ was computed as the PRF keyed on $pns$ with input $scp$ and the optional, possibly hidden, $idx$.
+Transferability of a set of pseudonyms then reduces to transferring $pns$ after re-provisioning the holder's core
+credentials on the new device.
+
+\subsection{Device-Bound Anonymous Credentials With(out) Trusted Hardware}
+\label{devboundancred}
+The work of Friedrichs et al.~\cite{Friedrichs2025DeviceBound} tackles the problem of binding anonymous credentials
+to a physical device so that they cannot be duplicated or shared among colluding users (the non-transferability
+property), while preserving the user's privacy even when the device's secure element is remote or compromised. As the
+authors point out, device binding ties a credential to a key held inside a secure element (SE), and every presentation
+requires a fresh contribution of the SE. Despite being a basic requirement of any real credential, this aspect has
+received little attention so far.
+
+The paper highlights three challenges that motivate it. First, hardware limitations: many current smartphones do not
+embed an SE certified at \emph{LoA High}, which pushes the regulation towards remote HSMs that, however, aggravate the
+privacy risks. Second, trust in the hardware: SEs are black-box components, so a malicious manufacturer or attacker
+could subvert their code and embed subliminal channels to track users. Third, existing constructions compatible with
+BBS rely on the honesty of the SE for privacy, which is hard to vet.
+
+To reason about these cases the authors introduce two flavours of the primitive: a \emph{context-aware} variant (DBAC),
+where the local SE learns the context of the presentation, suitable for trusted local hardware; and a
+\emph{context-blind} variant (BDBAC), where the SE contributes to the presentation blindly, without learning the
+context or the disclosed data, which is the model needed for a remote, cloud-based SE. They then define a hierarchy of
+unlinkability levels, parametrised by how badly the SE is corrupted:
+\begin{itemize}[noitemsep]
+  \item \textbf{Unlink-0}: the SE and the host are fully honest;
+  \item \textbf{Unlink-1}: the SE is trusted but not perfectly shielded, i.e.\ an attacker has temporary access to its interfaces;
+  \item \textbf{Unlink-2}: the SE algorithms can be subverted, i.e.\ the internal code is malicious but stateless;
+  \item \textbf{Unlink-3}: the hardware component is actively under the adversary's real-time control, as required for the cloud HSM model.
+\end{itemize}
+
+On top of this model they give three round-optimal constructions, all using BBS signatures for the credential and a
+standard signature for the device contribution, proven secure in the AGM+ROM:
+\begin{itemize}[noitemsep]
+  \item \textbf{BBS-Schnorr} uses Schnorr signatures for the binding. It is efficient but reaches only Unlink-1: a
+        malicious SE can exploit the randomness of the Schnorr signature as a subliminal channel to track the user;
+  \item \textbf{BBS-BLS} replaces Schnorr with deterministic BLS signatures, reaching Unlink-2 (subversion resistance),
+        because the SE output is unique and cannot hide a channel. The price is that the SE still learns the message it signs;
+  \item \textbf{BBS-BlindBLS} uses blind BLS signatures and is the construction meant for a cloud HSM. It reaches
+        Unlink-3 and \emph{SE-obliviousness}, so that not even a malicious remote server learns what the user is signing or who they are.
+\end{itemize}
+
+The merit of this work is that it removes the secure element as a single point of failure that we already met in
+Longfellow (\cref{ecdsaanonymouscredentials}): the binding no longer depends on ECDSA in the SE, so the ad-hoc
+optimizations that Ligero needed are not required, and the compatibility issues of current secure elements are eased.
+On the negative side, the whole construction is built on BBS and BLS signatures and is therefore \emph{not}
+post-quantum secure. Moreover, the cloud HSM model is exposed to unavoidable metadata and timing leaks (an observer can
+monitor when a user is active), it requires connectivity and thus rules out offline usage, and it introduces latency.
+It is worth noting, however, that some form of connectivity is in any case likely needed at presentation time to check
+that a credential has not been revoked.
+
+\subsection{Navigating secure storage requirements for EUDI Wallets: a review paper}
+\label{secstoragereq}
+This review by Ebadi Ansaroudi et al.~\cite{Ansaroudi2025Navigating} looks at the secure storage problem from a very
+practical angle: which hardware available on the market today can actually host the keys of an EUDI wallet at the level
+of assurance the regulation demands. The authors structure the paper around two research questions:
+\begin{itemize}[noitemsep]
+  \item \textbf{RQ1}: do mobile secure storage technologies meet the security requirements of the EUDI wallet, given their advantages in availability and usability?
+  \item \textbf{RQ2}: which alternative technologies to mobile solutions can be explored for secure storage in the EUDI wallet?
+\end{itemize}
+
+For RQ1 they survey the local internal WSCD solutions available on mobile devices: Trusted Execution Environments
+(TEEs), which provide a secure area inside the main processor separated from the operating system (the Android KeyStore
+and the iOS Secure Enclave), and StrongBox, exposed through the Keystore API and backed by an embedded secure element
+such as the Titan~M2 chip. They then run a market analysis on the Italian market and reach a sobering conclusion: among
+all vendors, only high-end Samsung and Google Pixel models ship a WSCD that is eIDAS-High compliant and meets the
+AVA\_VAN.5 criteria. Putting the numbers together, roughly $9\%$ of Samsung phones and $1.45\%$ of Pixel phones
+qualify, for a total of about $10.5\%$ of the devices on the market (potentially around $20.5\%$ if the ongoing
+evaluation of Apple's Secure Enclave succeeds). Hardware aside, not every certified WSCD meets the cryptographic
+requirements either: of the three CC-certified local WSCDs, only KNOX Vault and the Titan~M2 chip support ECDSA over
+the NIST P-256 curve recommended by SOG-IS.
+
+For RQ2 the authors evaluate alternatives, split into internal solutions, embedded secure elements (eSE) and embedded
+SIMs (eSIM), and external ones, smart cards and backend or remote HSMs, discussing the feasibility and integration
+potential of each as a consistent secure replacement for the mobile WSCD. The authors are careful to stress that their
+figures are approximations, limited to the Italian market and based on scarce statistical data.
+
+\subsection{Privacy Evaluation of the European Digital Identity Wallet’s Architecture and Reference Framework}
+\label{privevaleudi}
+Abellán Álvarez et al.~\cite{AbellanAlvarez2026Privacy} carry out a structured privacy evaluation of the EUDI wallet's
+ARF (version 1.5) using the LINDDUN threat modeling framework, focusing on three use cases that all involve a high
+level of assurance: attestation issuance, attestation presentation in remote settings, and attestation presentation in
+offline settings. The relevant literature is selected through the PRISMA methodology, threats are mapped to concrete
+harms following Solove's taxonomy, and the analysis is scoped to the application, data-representation (SD-JWT, mDoc,
+JSON, CBOR) and session (OpenID4VCI/VP over HTTPS) layers, leaving out the lower transport and network layers.
+
+A central notion in their model is that of \emph{quasi-identifier}: a technical element that, while not directly
+revealing the user's legal name, is persistent enough to identify or track them across sessions. The user public key
+$PK_u$, the identifiers $WUA_{id}$ and $EAA_{revoc\_id}$, the SD-JWT salted-hash fingerprints that stay constant across
+presentations, and the persistent certificates used in the ISO/IEC~18013-5 offline flow all fall in this category. On
+top of these the authors describe seven privacy threats, which we summarize here:
+\begin{enumerate}[noitemsep]
+  \item \textbf{Linkability of quasi-identifiers}: a presentation is signed with, and therefore reveals, the persistent $PK_u$, and salted hashes do not change across presentations, so repeated interactions can be correlated;
+  \item \textbf{Identifiability between service providers}: a relying party reconstructs a full identity by cooperating with the attestation provider;
+  \item \textbf{Re-identification of pseudonymous identities}: since pseudonym handling is left to each Member State, national legislation could force a relying party or attestation provider to reveal information about the user;
+  \item \textbf{Non-repudiation of wallet actions}: digital signatures bind every action to a single user, removing any plausible deniability;
+  \item \textbf{Excessive data disclosure}: a relying party may request more attributes than it needs, since who decides what is truly necessary is left ambiguous;
+  \item \textbf{Data formats that undermine data protection}: some mandated formats (mDL, ID) carry permanent data that can be stored and later abused;
+  \item \textbf{Detectability via passive network monitoring}: running over ordinary Internet networks, wallet usage can be observed by a passive machine-in-the-middle without modifying any traffic.
+\end{enumerate}
+Several of these threats are the same ones we already listed among the EUDI wallet vulnerabilities in
+\cref{vulnerabilities}. As mitigations the paper points mainly to privacy-enhancing technologies, and in particular to
+zero-knowledge proofs, as the way to actually deliver the privacy promises of the EUDI wallet; it also mentions Direct
+Anonymous Attestation (DAA), which offers selective disclosure and unlinkability but still lacks a specification for
+digital attestations in this context.
+
+\subsection{Protecting Digital Identity Wallet: A Threat Model in the Age of eIDAS 2.0}
+\label{protectingeudi}
+Sharif et al.~\cite{Sharif2024Protecting} provide what they describe as the first detailed threat model of the EUDI
+wallet. After framing the shift that eIDAS 2.0 pushes, from federated identity management (SAML, OAuth~2.0, OpenID
+Connect) towards a user-centric, self-sovereign model, they perform their threat modeling combining two frameworks,
+Microsoft's STRIDE and LINDDUN, the first for security and the second for privacy. Methodologically this is interesting
+for us, because the same frameworks can be reused to run a security analysis against a concrete national implementation
+of the wallet rather than against the generic architecture.
+
+In total the authors identify 49 threats, of which 13 are specific to OpenID4VC (both the issuance and the presentation
+protocol) and the remaining 36 are specific to the EUDI wallet; only 7 of the latter are detailed in the paper. Among
+the OpenID4VC attacks they describe abusing the issuer redirect-URI registration to send the user into an
+attacker-controlled area, intercepting and replaying a request URI to obtain an access token and credentials,
+brute-forcing request-URI parameters that have insufficient entropy, and reusing stolen or already-spent one-time
+proofs of wallet control. The seven wallet-specific threats they detail are:
+\begin{enumerate}[noitemsep]
+  \item \textbf{Repudiation} of requested, obtained or revoked credentials, where a malicious holder denies an action by removing the logs;
+  \item \textbf{Credential theft}, where a stolen credential is injected into the communication with the verifier to access a service;
+  \item \textbf{Exploitation of a faulty credential-status check}, where a non-privacy-preserving revocation check lets a curious issuer track the holder's activity;
+  \item \textbf{Unauthorized VP-token forwarding}, where an attacker forwards a presentation token extracted from a wallet--verifier interaction into their own session to impersonate the holder;
+  \item \textbf{Registration of a non-compliant entity}, abusing a flaw in the certification system to operate a rogue entity;
+  \item \textbf{Exploitation of a faulty data-exchange implementation}, obtaining the holder's \texttt{vp\_token} by exploiting a flaw in how the access token is presented;
+  \item \textbf{Data-minimization violation}, requesting and storing more personal data than strictly necessary.
+\end{enumerate}
+
+\subsection{SoK: Anonymous Credentials for Digital Identity Wallets}
+\label{sokancred}
+This systematization of knowledge by Bormann and Lehmann~\cite{Bormann2026SoK} gives an overview of the two main
+directions for building an identity system out of anonymous credentials, and is meant to inform the ongoing
+standardization efforts. The two directions are: dedicated multi-message signature schemes that natively support
+selective disclosure and efficient zero-knowledge proofs (such as BBS signatures with Schnorr proofs), and
+general-purpose ZKP systems built on top of legacy ECDSA, which can be deployed over existing infrastructures and
+standard signatures at the cost of being more complex and less efficient. As the authors recall, both BBS and the
+zkSNARKs used in the second approach are \emph{post-quantum insecure}.
+
+A useful part of the paper, for our purposes, is the catalogue of features that anonymous credentials can offer. The
+core ones are selective disclosure; multi-show unlinkability (different presentations of the same user cannot be
+linked); untraceability (a malicious issuer cannot link the credentials it issued); single key binding (many
+credentials of the same user bound to a single private key); presentation freshness (a presentation reveals only a
+proof of the credential, from which no further presentation can be derived); and certified pseudonyms. On top of these
+they discuss more advanced features: predicate proofs (e.g.\ proving \emph{over 18} without revealing the date of
+birth), composite proofs over several credentials, deniable presentations, (partially) blind issuance, issuer hiding,
+and conditional disclosure. The breadth of this list is itself the argument: upgrading from the current salted-hash
+approach to proper anonymous credentials is, in the authors' view, a worthwhile endeavour.
+
+\subsection{Vision: A Modular Framework for Anonymous Credential Systems}
+\label{vision}
+The vision paper by Lehmann, Sidorenko and Zacharakis~\cite{Lehmann2025Vision} starts from a concrete frustration: even
+though anonymous credentials would be the natural fit for systems like the EUDI wallet or Privacy Pass, neither actually
+uses them, and both fell back to batch-issuance of one-time tokens, which is expensive and awkward to deploy securely.
+The authors blame the lack of suitable standards. The schemes that are mature enough, BBS in particular, are being
+standardized in a fragmented way, with separate efforts in the IETF for the base credential, for pseudonyms, for blind
+issuance, for Privacy Pass, plus a new ISO draft on attribute-based credentials. The risk they point out is that all
+these application-tailored standards repeat the same work and end up as slightly different incarnations of the same idea,
+producing incompatible implementations.
+
+Their answer is to stop standardizing whole systems and standardize \emph{modules} instead. They observe that every
+anonymous credential system follows the same \emph{sign, commit and prove} blueprint: a core component, that they call
+$\mathsf{CD}$, is a multi-message signature scheme that supports efficient non-interactive zero-knowledge proofs of a
+signature over attributes that can be selectively revealed or kept committed. The commitments are the glue: any feature
+beyond plain selective disclosure, for example pseudonyms or range proofs, is added as a separate module that operates
+on those committed attributes. The important design choice is that each module carries its own NIZK proof system and is
+analyzed in isolation, so its security propagates to the whole system and one can plug optimized proofs into different
+parts instead of building one monolithic proof for everything. This also gives the framework a crypto-agile flavour,
+since individual pieces can be swapped without touching the rest.
+
+The part that is most relevant to this thesis is how they handle device binding, a requirement that, as they note, none
+of the ongoing standardization efforts currently covers. Rather than baking non-transferability into the credential
+scheme, as the efficient pairing-based proposals do, they keep it as a separate module. The secure element is only ever
+asked to output a standard signature under a public key that is attested in the credential and revealed only in
+committed form; the device-binding module then adds a NIZK proving knowledge of a fresh proof-of-possession under that
+key. The whole point of this decoupling is compatibility with real hardware: today's secure elements only support ECDSA
+over P-256, not the pairing-friendly operations those other schemes need, and embedded-hardware signature schemes are
+notoriously hard, if not impossible, to update, whereas the signature on the main credential is not subject to the same
+constraint, exactly the tension we raised in \cref{eudi:crypto}. As a concrete instantiation they describe
+\emph{BBS-ECDSA}: BBS for the multi-message signature, with lightweight Schnorr proofs and Pedersen commitments to
+bridge to the other modules, and the Schnorr-based ZKAttest/CDLS protocol for the proof-of-possession, extended with an
+extra proof to bridge the two different elliptic curves used by BBS and ECDSA. This BBS-ECDSA combination was actually
+proposed and implemented by Ubique for the German EUDI innovation challenge and later improved by Dock Labs. It is worth
+stressing that this construction, like the rest of the literature in this chapter, remains classical: it solves the
+legacy-hardware compatibility problem but not the post-quantum one.
 
 \section{Our solution}
 \label{oursolution}

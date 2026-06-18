@@ -1,0 +1,325 @@
+================================================================================
+EUDI WALLET - CATALOGUE OF IDENTIFIED VULNERABILITIES
+================================================================================
+Generated: 2026-06-17
+Scope: All notes and paper analyses contained in
+       /home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis
+
+This document lists every EUDI Wallet vulnerability / weakness found across the
+vault. Each entry reports its SOURCE, i.e. who identified it: either YOU
+(pennyw1ze, your own notes) or the specific analysed paper.
+
+Legend for the SOURCE field:
+  [YOU]      = vulnerability you identified yourself
+  [PAPER]    = vulnerability identified by an analysed paper
+  [YOU/PAPER]= acknowledged by a paper but independently reasoned/extended by you
+
+
+================================================================================
+PART A - VULNERABILITIES YOU IDENTIFIED YOURSELF
+Source note: "EUDI Wallet.md" (section "Problemi che trovo io" + FINDINGS 04/2026)
+             and "Thesis/Thesis advance 02-05-2026.md"
+================================================================================
+
+A1. INFORMATION LEAKING IN THE SALTED-HASH SELECTIVE DISCLOSURE
+    SOURCE: [YOU] - "EUDI Wallet.md", section "Problemi che trovo io"
+    Description: Proving a predicate such as "I am an adult" with salted hashes
+    (and no ZKP) forces disclosure of the WHOLE field, i.e. the full date of
+    birth. Likewise proving nationality may leak the full address / city of
+    residence. The selective-disclosure mechanism lacks granularity: it can only
+    reveal or hide a whole attribute, never a derived predicate.
+    Note on the proposed mitigation: the spec suggests the issuer pre-bakes
+    boolean fields (e.g. "adult: yes/no"). You correctly reject this as
+    unworkable: it does not scale to arbitrary thresholds (over 19, over 20, ...).
+    Real fix: Zero-Knowledge Proofs.
+
+A2. IDENTITY/ATTRIBUTE LINKABILITY CHAIN VIA DEVICE BINDING
+    SOURCE: [YOU/PAPER] - "EUDI Wallet.md", section "User leaking"
+    (you note the base linkability problem was already known and NOT first found
+     by you; the cloning/impersonation reasoning below is your own extension)
+    Description: When an attestation is presented, a device-binding challenge
+    ties the selectively disclosed attributes to the device. The device is tied
+    to the PID, and the PID reveals identity. Therefore the chain
+    selectively-disclosed attribute -> device -> PID -> identity lets a verifier
+    (or colluding parties) collapse anonymity:
+    once identity is revealed it can be linked back to the device and hence to
+    all previously "anonymous" disclosed attributes -> privacy vanishes.
+    The "present only once" and time-limit countermeasures do not prevent this,
+    as the linking action can be done quickly.
+    Acknowledged by the spec itself: the "only viable mitigation" is ZKPs.
+
+A3. POSSIBLE USE OF ANOTHER PERSON'S DOCUMENT / WEAK BINDING OF PREDICATE TO HOLDER
+    SOURCE: [YOU] - "EUDI Wallet.md", section "User leaking"
+    Description: When only a predicate / partial field is shown (e.g. birth-date
+    field of a PID, signed by e.g. the Italian government), there is no strong
+    proof that the disclosed birth date is bound to the presenter's own identity.
+    In the current implementation one could load another person's document into
+    the wallet and authenticate "as" them for such predicate checks. You flag
+    this as a problem that should not be possible.
+
+A4. PSEUDONYMS ARE FUNCTIONALLY USELESS / STILL LINKABLE
+    SOURCE: [YOU] - "EUDI Wallet.md" (Conclusioni 26/03/2026 + pseudonym note)
+    Description: In the current architecture pseudonyms are nothing more than a
+    locally generated key pair used for authentication; they use no special
+    technology and add little. Because a pseudonym must be presented together
+    with an attestation at least the first time (or be provided by a trusted
+    third party to grant privileges), it remains a possible victim of a linking
+    attack. Conclusion: pseudonyms as currently specified are nearly pointless.
+
+A5. NO BACKUP / RECOVERY MECHANISM (LOSS OF WALLET = LOSS OF IDENTITY)
+    SOURCE: [YOU] - "EUDI Wallet.md" (final notes) and FINDINGS 04/2026
+    Description: The system provides no backup/recovery. If the wallet device is
+    lost, the user loses access. Keys are trapped inside the Secure Element and
+    cannot be moved out (QESRC keys cannot leave the SE). You propose MPC-based
+    social recovery (Shamir secret sharing among trustees) as a direction.
+
+A6. SECURE ELEMENT AS A SINGLE POINT OF FAILURE (SPOF)
+    SOURCE: [YOU/PAPER] - "EUDI Wallet.md" FINDINGS + Frigo/shelat report
+    Description: All security rests on a single hardware Secure Element. There is
+    no multi-party computation to remove this single point of failure, neither in
+    the ARF nor in the Longfellow (Frigo et al.) implementation. You propose
+    "de-materialising" the SE into a distributed MPC/2PC computation (between the
+    device and a second device or trusted server) to remove the SPOF and reach
+    100% device coverage instead of ~10.5%.
+
+A7. POST-QUANTUM INSECURITY OF THE DEVICE-BINDING / SE SIGNATURE LAYER
+    SOURCE: [YOU/PAPER] - "EUDI Wallet.md" FINDINGS (citing Lehmann et al.,
+            "Vision") + Frigo/shelat report
+    Description: Current Secure Elements only support ECDSA over P-256. The
+    hardware cannot natively compute advanced (BBS) signatures or native ZKPs.
+    Because device binding mandatorily involves the SE, the binding signature is
+    stuck on legacy, quantum-vulnerable ECDSA. Bridging to anonymous/PQ schemes
+    requires heavy external ZKPs (ZKAttest / zkSNARK), making the system slower.
+    REFINEMENT (your own analysis, "Thesis advance 02-05-2026.md"):
+    The device-binding key does NOT actually need to be PQ-secure, because it is
+    never revealed - only a ZK proof of possession (signing a nonce) is shown.
+    Even if a quantum computer recovered the private key, an attacker would still
+    need to steal the user's credentials, and would still be blocked by
+    user-binding (biometric/PIN). Hence only the ISSUER signature truly needs to
+    become PQ-secure (ML-DSA) plus a PQ-secure ZK proof.
+
+A8. ISSUER + QUANTUM COMPUTER CAN RECOVER THE DEVICE PRIVATE KEY (SEMI-HONEST ISSUER)
+    SOURCE: [YOU] - "Thesis/Thesis advance 02-05-2026.md"
+    Description: If the issuer stores the user's device public key and possesses a
+    quantum computer, it can invert ECDSA to recover the private key. A
+    semi-honest issuer would then hold BOTH a valid attestation (it issued it) and
+    a valid device-binding key pair - enabling impersonation or resale.
+    Your mitigation: send the issuer a COMMITMENT (hash) of the device public key
+    instead of the public key itself, so the issuer never sees the raw key.
+
+A9. LOSS OF POST-QUANTUM UNLINKABILITY IF THE DEVICE PUBLIC KEY IS EVER EXPOSED
+    SOURCE: [YOU] - "Thesis/Thesis advance 02-05-2026.md"
+    Description: Even with a PQ-secure ZK proof, if the device public/private key
+    is ever made visible (e.g. in the proof or to the issuer), a quantum adversary
+    could use it as a persistent tracking handle WITHOUT even breaking it -
+    destroying unlinkability. This drove your design choice to never reveal the
+    device key and only commit to it.
+
+(Self-found flaw in YOUR OWN proposed scheme - included for completeness)
+A10. MALLEABLE COMMITMENT C = e1 XOR r ALLOWED FORGERY
+    SOURCE: [YOU] - "Thesis/Thesis advance 02-05-2026.md"
+    Description: In an earlier version of your PQ proof construction, building the
+    commitment as C = e1 XOR r with both e1 and r private allowed a malicious
+    prover to craft arbitrary r and e. You fixed this by switching to
+    C = SHA256(e1 | r). (This is a flaw in your construction, not in EUDI itself.)
+
+
+================================================================================
+PART B - VULNERABILITIES IDENTIFIED BY THE ANALYSED PAPERS
+================================================================================
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "Privacy Evaluation of the European Digital Identity Wallet's
+Architecture and Reference Framework" (LINDDUN threat model on ARF v1.5)
+Report note: Papers/Privacy Evaluation.../Report.md
+--------------------------------------------------------------------------------
+The paper first defines the persistent "quasi-identifiers" that enable tracking:
+the user public key PKu, WUAid, EAArevoc_id, the SD-JWT fingerprint (salted-hash
+digests, constant across presentations), OpenID4{VCI,VP} metadata (client_id,
+access_token...), and the persistent certificates of ISO 18013-5 offline mode.
+
+B1. LINKABILITY OF QUASI-IDENTIFIERS
+    SOURCE: [PAPER]
+    Presentations are signed with (and reveal) PKu; PKu and EAArevoc_id persist
+    across sessions; salted hashes stay constant across presentations. Misactors
+    (RPs, APs, WPs, supervisory bodies, external) can correlate repeat
+    interactions and link them to attributable data.
+
+B2. IDENTIFIABILITY RISK BETWEEN SERVICE PROVIDERS (RP + AP COLLUSION)
+    SOURCE: [PAPER]
+    A Relying Party can reconstruct full identity by cooperating with the
+    Attestation Provider: APs collect linked pseudonyms, RPs/externals combine
+    them with auxiliary data to re-identify the user.
+
+B3. RE-IDENTIFICATION OF PSEUDONYMOUS IDENTITIES (LEGISLATIVE COMPULSION)
+    SOURCE: [PAPER]
+    Because pseudonym implementation is left to Member States, national
+    legislative measures could force RPs/APs to disclose user information,
+    violating privacy.
+
+B4. NON-REPUDIATION OF WALLET-RELATED ACTIONS (NO PLAUSIBLE DENIABILITY)
+    SOURCE: [PAPER]
+    Digital signatures bind every wallet action to a single user. Once the
+    verifying public key is correlated to an identifiable attribute, the user is
+    uniquely identified and cannot deny involvement -> loss of plausible
+    deniability.
+
+B5. EXCESSIVE DATA DISCLOSURE TO PREVENT SERVICE EXCLUSION
+    SOURCE: [PAPER]
+    Nothing robustly defines which attributes are truly necessary. A Relying Party
+    can demand more attributes than needed, pressuring the user (who may approve
+    without understanding) and attempting identification.
+
+B6. DATA FORMATS UNDERMINE DATA-PROTECTION PRINCIPLES
+    SOURCE: [PAPER]
+    The mandated standards/communication protocols do not accommodate
+    unlinkability alongside signed data, making full eIDAS-envisioned data
+    protection difficult/impossible. Some attestations (mDL, ID) are permanent and
+    their data can be stored.
+
+B7. DETECTABILITY OF WALLET ACTIONS VIA PASSIVE NETWORK MONITORING
+    SOURCE: [PAPER]
+    EUDIW communication runs over ordinary Internet networks and inherits their
+    threat model. A passive Machine-in-the-Middle can monitor wallet usage
+    without modifying traffic.
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "Protecting Digital Identity Wallet - A Threat Model in the Age of
+eIDAS 2.0" (LINDDUN + STRIDE; 49 vulnerabilities total, 13 on OpenID4VC,
+36 on EUDIW; the paper reports 7 of the EUDIW ones)
+Report note: Papers/Protecting Digital Identity Wallet.../report.md
+--------------------------------------------------------------------------------
+OpenID4VC protocol attacks (issuance & presentation):
+B8.  SOURCE: [PAPER] - Issuer redirect-URI registration abuse: redirect the user
+     to an attacker-controlled zone.
+B9.  SOURCE: [PAPER] - Interception/theft of a request_uri in an issuer session,
+     reused to obtain an access token and hence credentials.
+B10. SOURCE: [PAPER] - Insufficient entropy of request_uri parameters lets an
+     attacker guess these values.
+B11. SOURCE: [PAPER] - Reuse of stolen / already-used one-time proof of wallet
+     control grants access to a wallet.
+
+Attacks on the wallet itself (the 7 reported EUDIW threats):
+B12. SOURCE: [PAPER] - Repudiation of requested/obtained/revoked verifiable
+     credentials (Wallet Trust Evidence): a malicious holder denies the
+     request/gain of credentials by removing the logs.
+B13. SOURCE: [PAPER] - Credential theft: malicious acquisition of the holder's
+     credential to present it to the verifier for unauthorized service access.
+B14. SOURCE: [PAPER] - Exploitation of a faulty credential-status-check mechanism:
+     a non-privacy-preserving validity check (direct Verifier<->Issuer comms)
+     leaks credential-usage info and enables holder tracking/linking.
+B15. SOURCE: [PAPER] - Unauthorized presentation-response (VP token) forwarding:
+     a stolen VP token is forwarded into the attacker's own session with the
+     verifier to impersonate the holder.
+B16. SOURCE: [PAPER] - Registration of a non-compliant entity: abuse of a flaw in
+     the certification system to operate a non-compliant entity for malicious
+     purposes.
+B17. SOURCE: [PAPER] - Exploitation of faulty data-exchange protocol
+     implementation: improper implementation increases the attack surface and can
+     leak the holder's vp_token.
+B18. SOURCE: [PAPER] - Data minimization violation: requesting/obtaining/storing
+     more personal data than strictly necessary.
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "Navigating Secure Storage Requirements for EUDI Wallets - a review"
+Report note: Papers/Navigating secure storage.../report.md
+--------------------------------------------------------------------------------
+B19. HARDWARE FRAGMENTATION - ONLY ~10.5% OF DEVICES ARE eIDAS-HIGH COMPLIANT
+     SOURCE: [PAPER]
+     Market analysis (Italy) shows only high-end Samsung (KNOX Vault) and Google
+     Pixel (Titan M2) models carry an eIDAS-High WSCD meeting AVA_VAN.5 (~9.05% +
+     ~1.45% = ~10.5%, potentially ~20.5% if Apple Secure Enclave qualifies). The
+     vast majority of devices cannot host an LoA-High wallet.
+B20. NOT ALL CC-CERTIFIED WSCDs MEET THE CRYPTO REQUIREMENTS
+     SOURCE: [PAPER]
+     Only ECDSA with P-256 is supported, and only by 2 of the 3 CC-certified
+     local WSCDs (KNOX Vault and Titan M2). Certification alone does not
+     guarantee the wallet's cryptographic/technical requirements are met.
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "Device-Bound Anonymous Credentials With(out) Trusted Hardware"
+(Friedrichs et al.)
+Report note: Papers/Device-Bound Anonymous Credentials.../report.md
+--------------------------------------------------------------------------------
+B21. BLACK-BOX SECURE ELEMENT / SUBLIMINAL CHANNELS (SUBVERSION RISK)
+     SOURCE: [PAPER]
+     Current SEs are black boxes; a manufacturer or attacker subverting the
+     internal code could insert subliminal channels to identify/track users.
+B22. BBS-SCHNORR VARIANT NOT RESILIENT TO HARDWARE SUBVERSION
+     SOURCE: [PAPER]
+     The BBS-Schnorr binding reaches only Unlink-1; a malicious SE can use the
+     randomness of the Schnorr signature to track the user.
+B23. BBS-BLS VARIANT LACKS OBLIVIOUSNESS
+     SOURCE: [PAPER]
+     Although deterministic (subversion-resistant), BBS-BLS reveals to the SE the
+     message it is signing.
+B24. NOT POST-QUANTUM SECURE
+     SOURCE: [PAPER] - the whole construction is not PQ-safe.
+B25. CLOUD-HSM TIMING / METADATA LEAK + NO OFFLINE USE
+     SOURCE: [YOU] (your "MIE"/own observations appended to this report)
+     In the Cloud-HSM model there are insurmountable timing-metadata leaks
+     (a remote party can observe/monitor user activity). A cloud HSM also
+     requires connectivity (no offline usage) and adds latency.
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "Anonymous Credentials from ECDSA" (Frigo & shelat, Google -
+"Longfellow")
+Report note: Papers/Anonymous Credentials from ECDSA.../report.md
+--------------------------------------------------------------------------------
+B26. PQ-INSECURE UNDERLYING SIGNATURE (ECDSA SE)
+     SOURCE: [PAPER/YOU]
+     Longfellow's strength (reusing existing SEs) is also its weakness: those SEs
+     use ECDSA, so the signature layer is post-quantum insecure. The Ligero ZK
+     proofs are PQ-safe, but the signatures they wrap are not. Suitable only as a
+     transition step toward a PQ-secure SE.
+B27. SECURE ELEMENT REMAINS A SINGLE POINT OF FAILURE
+     SOURCE: [YOU] (noted in your report) - the paper never proposes MPC to
+     remove the SE SPOF.
+B28. LARGE, ERROR-PRONE IMPLEMENTATION (~20,000 LINES)
+     SOURCE: [PAPER/YOU]
+     ~20k lines of code in which errors were already found and fixed (corrected
+     file kept in the folder). Complex non-interactive constructions are easy to
+     get wrong.
+
+--------------------------------------------------------------------------------
+SOURCE: "Prof proposal formalized.md" (analysis of Longfellow vs SoK/Vision)
+--------------------------------------------------------------------------------
+B29. NO DENIABILITY IN LONGFELLOW (PUBLICLY VERIFIABLE PROOFS)
+     SOURCE: [YOU/PAPER]
+     Deniability / Designated-Verifier Proofs (described in SoK and the Vision
+     framework as optional AC features) are NOT implemented in Frigo et al.
+     Because Fiat-Shamir makes the proofs publicly verifiable, any third party
+     can be convinced of the attributes' validity - the opposite of deniability.
+     Longfellow gives anonymity + unlinkability, but its proof is legally "heavy".
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "A Brief Note on Cryptographic Pseudonyms for Anonymous Credentials"
+Report note: Papers/A Brief Note.../report.md
+--------------------------------------------------------------------------------
+B30. PSEUDONYMS DOWNGRADE BBS ZKP PRIVACY FROM PERFECT TO COMPUTATIONAL
+     SOURCE: [PAPER] (you flag the paper as weak on this very point)
+     Adding pseudonym_seed-based pseudonyms reduces the perfect privacy of
+     BBS-based ZKPs to computational privacy, which can be retroactively broken
+     once efficient quantum computers exist.
+
+--------------------------------------------------------------------------------
+SOURCE PAPER: "SoK: Anonymous Credentials for Digital Identity Wallets"
+Report note: Papers/SoK.../report.md
+--------------------------------------------------------------------------------
+B31. CANDIDATE AC PRIMITIVES (zkSNARKs AND BBS) ARE POST-QUANTUM INSECURE
+     SOURCE: [PAPER]
+     Both zkSNARKs and BBS signature schemes - the two main directions for
+     building EUDI anonymous credentials - are post-quantum insecure.
+
+
+================================================================================
+CROSS-CUTTING THEME
+================================================================================
+The single recurring root cause across nearly all privacy vulnerabilities
+(A1, A2, B1-B6, B14, B30, B31) is the use of salted-hash selective disclosure +
+persistent device/issuer signatures instead of Zero-Knowledge Proofs. Every
+source - the ARF itself included - converges on ZKPs as the "only viable
+mitigation". The orthogonal root cause for the security/availability issues
+(A5, A6, A7, B19-B28, B31) is the dependency on a single, ECDSA-only,
+quantum-vulnerable, poorly-available hardware Secure Element.
+================================================================================

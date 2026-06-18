@@ -37,10 +37,3 @@ The authors identified the following security and privacy requirements:
 	3. The pseudonym ID nym has been created by computing a PRF keyed on pns with the RP identifier scp (and an optional, possibly hidden, idx).
 
 For transferability, allowing a set of pseudonyms to be transferred from one EUDIW instance to another is transferring the pns after re-provisioning the holder’s core EUDI credentials on the new devices.
-
-I THINK THIS PAPER IS NOT REALLY VALID FOR THE FOLLOWING SENTENCE:
-
-```
-That is, adding such pseudonyms reduces perfect privacy of BBS-based ZKPs to computational privacy, which can be retroactively broken when efficient quantum computers become available. 
-```
-
