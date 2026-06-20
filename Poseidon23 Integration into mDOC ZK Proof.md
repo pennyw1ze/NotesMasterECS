@@ -1,554 +1,225 @@
-## Goal
+# PQAC Parallel Proving --- Pseudo-algorithm
 
-Replace issuer ECDSA verification with a hiding commitment `C = Poseidon23(e1 || r)` that bridges longfellow ZK proof and an external zkdilithium STARK proof. Issuer authentication is delegated to the STARK side. Longfellow proves the commitment is well-formed.
-
----
-## High-level wiring
-
-```
-
-╔════════════════════════════════════════════╗
-
-║ PUBLIC INPUTS (verifier) ║
-
-║ ║
-
-║ pkX, pkY (issuer pk -- only ║
-
-║ used outside ║
-
-║ longfellow now) ║
-
-║ attrs[], now (claim disclosure) ║
-
-║ transcript hash e2 (device sig msg) ║
-
-║ C = 12 x Fp<1> (Poseidon commit) ║
-
-║ MAC_e1[32] (binds e1 bytes) ║
-
-║ MAC_dpk[4] (binds dpkX, dpkY) ║
-
-║ av (Fiat-Shamir chal.) ║
-
-╚════════════════════════════════════════════╝
-
-│ │ │
-
-┌───────────┘ │ └───────────┐
-
-▼ ▼ ▼
-
-┌────────────────────────┐ ┌────────────────────────┐ ┌────────────────────┐
-
-│ HASH CIRCUIT │ │ POSEIDON CIRCUIT │ │ SIG CIRCUIT │
-
-│ field: GF(2^128) │ │ field: Fp2<Fp<1>> │ │ field: Fp256 │
-
-│ │ │ │ │ │
-
-│ Private witness: │ │ Private witness: │ │ Private witness: │
-
-│ MSO bytes │ │ e1[0..31] (32 bytes) │ │ dpkX, dpkY │
-
-│ SHA block witnesses │ │ r[0..K-1] (rand elts) │ │ device_sig (r,s) │
-
-│ e1 (256 bits) │ │ sbox witnesses │ │ ECDSA verify trace │
-
-│ dpkX, dpkY (extracted) │ │ ap_e1[32] │ │ ap_dpk[2] │
-
-│ ap_e1[32], ap_dpk[2] │ │ │ │ │
-
-│ │ │ │ │ │
-
-│ Computation: │ │ Computation: │ │ Computation: │
-
-│ 1. e1 = SHA256( │ │ 1. assemble preimage │ │ 1. ECDSA verify │
-
-│ COSE1(MSO)) │ │ P = e1 || r │ │ device sig │
-
-│ 2. validFrom <= now │ │ 2. C' = Poseidon23(P) │ │ over e2 │
-
-│ <= validUntil │ │ 3. assert C' == C │ │ 2. MAC check │
-
-│ 3. extract dpkX, dpkY │ │ 4. range check │ │ dpkX, dpkY │
-
-│ 4. attribute commits │ │ e1[i] < 2^8 │ │ │
-
-│ 5. split e1 into │ │ 5. MAC check │ │ │
-
-│ 32 bytes │ │ e1 bytes │ │ │
-
-│ 6. MAC check │ │ │ │ │
-
-│ e1 bytes + dpk │ │ │ │ │
-
-│ │ │ │ │ │
-
-└─────────┬───────────────┘ └─────────┬───────────────┘ └─────────┬───────────┘
-
-│ │ │
-
-│ MAC_e1[i] = av*e1[i] + ap_e1[i] (same on both sides) │
-
-└────────────────────────────┘ │
-
-│ │
-
-│ MAC_dpk[j] = av*dpk_j + ap_dpk_j (same on both sides) │
-
-└─────────────────────────────────────────────────────────┘
-
-  
-
-Issuer ECDSA verification: REMOVED
-
-External zkdilithium STARK proves Dilithium on e1
-
-AND C = Poseidon23(e1 || r), sharing only C.
-
-```
----
-## Critical invariants
-
-1. **Same `e1` across hash and Poseidon circuits**. Enforced by 32 GF(2^128) MACs over the 32 bytes of e1. Each byte is committed separately. Cross-circuit binding: prover commits `ap_e1[i]` before `av` is derived, so cannot swap byte values.
-
-2. **`e1` and `r` stay private**. Only `C` is public. `r` provides hiding so the same MSO produces different `C` across sessions (unlinkability).
-
-3. **Field bridge for MAC**:
-	- Hash circuit native: $GF(2^{128})$. Direct.
-	- Poseidon circuit native: $Fp2<Fp<1>>$. Each $Fp<1>$ element fits in 23 bits, so each byte (8 bits) is representable.
-	- MAC arithmetic happens over $GF(2^{128})$ in both. The Poseidon circuit must implement $GF(2^{128})$ MAC checks as gates over $Fp2<Fp<1>>$.
-
-4. **Fiat-Shamir order**: commit hash, commit Poseidon, commit sig, derive `av`, compute MACs, prove all three. Wrong order = soundness break.
----
-## Encoding of `e1` and `r`
-
-  
-
-| Item    | Type  | Count | Constraint                                                              |
-| ------- | ----- | ----- | ----------------------------------------------------------------------- |
-| `e1[i]` | Fp<1> | 32    | `0 <= e1[i] < 2^8` (range check inside Poseidon circuit)                |
-| `r[j]`  | Fp<1> | 8-12  | uniform random, total entropy >= 128 bits (8 elts * 23 bits = 184 bits) |
-
-Preimage layout: `[e1[0], e1[1], ..., e1[31], r[0], r[1], ..., r[K-1]]`. Total = 32 + K elements.
-Poseidon23 has `kRate = 24` per permutation. Preimage of 32+8 = 40 elements → 2 permutations. Digest = first 12 state elements = `C`.
-Match this layout exactly on the zkdilithium STARK side.
+Formal specification of the presentation-proof protocol: the two **proof systems**
+`STARK` and `Ligero` (each a module bundling the relation it proves with its
+prover/verifier), the **Orchestrator** that builds the instances/witnesses and
+invokes the provers, and the **Verifier**. All semantics are in the relations and
+procedure bodies (no meaning is carried by comments).
 
 ---
-## Implementation plan
 
-### Step 1: Remove issuer ECDSA
-**Files:** `mdoc_signature.h`, `mdoc_witness.h`, `mdoc_zk.cc`.
+## 1. Notation
 
-- `MdocSignature::Witness`: remove `e_`, `mdoc_sig_`.
-
-- `MdocSignature::assert_signatures`: remove first `verify_signature3` call; remove `verify_mac` for `e`.
-
-- `MdocSignatureWitness`: remove `e_`, `ew_`, `macs_[0]`.
-
-- `MdocSignatureWitness::compute_witness`: remove issuer sig parsing.
-
-- `mdoc_zk.cc::fill_signature_inputs`: drop `pkX`, `pkY`, `e` (or keep API-compat as unused).
-
-- `mdoc_zk.cc::fill_witness`: `state.common` becomes `{dpkX, dpkY}` (2 vals not 3); reduce MAC count.
-
-- `kSigMacIndex`, `getHashMacIndex`: recompute offsets.
-### Step 2: Add e1 byte exposure to hash circuit
-
-  
-
-**Files:** `mdoc_hash.h`, `mdoc_witness.h`.
-
-  
-
-The SHA256 circuit already produces `e1` as a `v256` (256 bit wires). The 32 bytes are contiguous slices of those bits.
-
-  
-
-- In `MdocHash::assert_valid_hash_mdoc`: after `sha_.assert_message_hash` produces `e`, slice it into `v8 e1_bytes[32]`.
-
-- For each byte, add a MAC constraint: `MAC_e1[i] == av * e1_bytes[i] + ap_e1[i]`.
-
-- `MdocHash::Witness`: add `ap_e1[32]` private wire array.
-
-- `MdocHash` public input: add `MAC_e1[32]` (32 GF(2^128) elements) + `av` already there.
-
-  
-
-`MdocHashWitness::fill_witness`: fill `ap_e1[32]` from `MacGF2Witness` samples.
-
-  
-
-Estimated effort: 2-3 days. The bit-slicing is mechanical; the MAC plumbing requires care.
-
-  
-
-### Step 3: Build MdocPoseidon circuit
-
-  
-
-**New files:** `mdoc_poseidon.h`, additions to `mdoc_witness.h`.
-
-  
-
-```cpp
-
-// mdoc_poseidon.h
-
-template <class LogicCircuit, class Field>
-
-class MdocPoseidon {
-
-// Field = Fp2<Fp<1>>
-
-public:
-
-struct Witness {
-
-EltW e1_bytes[32]; // private, MAC-linked to hash circuit
-
-EltW r[K]; // private, prover-sampled
-
-EltW sbox_wits[...]; // private, Poseidon23 sbox witnesses
-
-EltW ap_e1[32]; // private, MAC key shares
-
-// (no ap for r -- r is fully private to Poseidon, not cross-circuit)
-
-};
-
-  
-
-void assert_valid(
-
-const EltW C[12], // public: claimed commitment
-
-const EltW MAC_e1[32], // public: cross-circuit MAC
-
-const EltW av, // public: Fiat-Shamir challenge
-
-const Witness& vw) const {
-
-// 1. range check: each e1_bytes[i] < 2^8
-
-for (size_t i = 0; i < 32; ++i)
-
-range_check_u8(vw.e1_bytes[i]);
-
-  
-
-// 2. assemble preimage
-
-std::vector<EltW> preimage;
-
-for (i in 0..32) preimage.push_back(vw.e1_bytes[i]);
-
-for (j in 0..K) preimage.push_back(vw.r[j]);
-
-  
-
-// 3. run Poseidon23, assert output == C
-
-Poseidon23Circuit<LogicCircuit> P(lc_, constants_);
-
-P.assert_preimage(preimage, C);
-
-  
-
-// 4. MAC binding
-
-for (size_t i = 0; i < 32; ++i) {
-
-// MAC_e1[i] == av * e1_bytes[i] + ap_e1[i]
-
-lc_.assert_eq(MAC_e1[i],
-
-lc_.add(lc_.mul(av, vw.e1_bytes[i]), vw.ap_e1[i]));
-
-}
-
-}
-
-};
-
-```
-
-  
-
-**The tricky part**: `MAC_e1`, `av`, `ap_e1` are GF(2^128) values used by the hash circuit. The Poseidon circuit is over Fp2<Fp<1>>. See "Open question 1".
-
-  
-
-Estimated effort: 3-5 days for clean MAC bridging.
-
-  
-
-### Step 4: Build MdocPoseidonWitness
-
-  
-
-**Files:** `mdoc_witness.h`.
-
-  
-
-```cpp
-
-template <class Field>
-
-class MdocPoseidonWitness {
-
-public:
-
-std::array<BaseElt, 32> e1_bytes_;
-
-std::array<BaseElt, K> r_;
-
-std::vector<BaseElt> sbox_wits_;
-
-std::array<BaseElt, 32> ap_e1_;
-
-std::array<BaseElt, 12> C_; // computed digest
-
-  
-
-void compute_witness(const uint8_t e1[32], // from hash side
-
-SecureRandomEngine& rng) {
-
-// 1. fill e1_bytes from raw bytes
-
-for (i in 0..32) e1_bytes_[i] = F.of_scalar(e1[i]);
-
-  
-
-// 2. sample r
-
-for (j in 0..K) r_[j] = sample_random_fp1(rng);
-
-  
-
-// 3. assemble preimage
-
-std::vector<BaseElt> preimage(e1_bytes_.begin(), e1_bytes_.end());
-
-preimage.insert(preimage.end(), r_.begin(), r_.end());
-
-  
-
-// 4. compute digest via native_digest
-
-auto digest = poseidon23::native_digest(preimage.data(),
-
-preimage.size(), F, C);
-
-for (i in 0..12) C_[i] = digest[i];
-
-  
-
-// 5. compute sbox witnesses
-
-sbox_wits_ = poseidon23::sbox_witnesses_for_digest(...);
-
-  
-
-// 6. ap_e1 sampled by MAC layer separately
-
-}
-
-};
-
-```
-
-  
-
-Estimated effort: 1 day.
-
-  
-
-### Step 5: Integrate in `mdoc_zk.cc`
-
-  
-
-**File:** `mdoc_zk.cc`.
-
-  
-
-- Parse 3 circuits from byte blob: `c_hash, c_pos, c_sig`.
-
-- Create 3 ZkProofs, 3 ZkProvers, 3 ZkVerifiers.
-
-- New RS factory for Fp2<Fp<1>>:
-
-```cpp
-
-using PoseidonField = Fp2<Fp<1>>;
-
-PoseidonField F2_p1(base_field_p1);
-
-ProofElt omega = F2_p1.of_string("2187"); // generator
-
-FFTConvolutionFactory<PoseidonField> fft_p(F2_p1, omega, 1ull << 20);
-
-ReedSolomonFactory<PoseidonField, ...> rsf_p(fft_p, F2_p1);
-
-```
-
-- Commit order:
-
-```
-
-hash_p.commit(h_zk, W_hash, tp, rng);
-
-pos_p.commit(p_zk, W_pos, tp, rng);
-
-sig_p.commit(s_zk, W_sig, tp, rng);
-
-av = generate_mac_key(tp);
-
-compute MACs, update_macs in all 3 dense arrays
-
-hash_p.prove(...); pos_p.prove(...); sig_p.prove(...);
-
-```
-
-- Verifier mirrors this order exactly.
-
-- Serialize: `[MAC_e1[32]][MAC_dpk[2]][hash_proof][pos_proof][sig_proof]`.
-
-- API: add `out_C[12]` to prover return; add `in_C[12]` to verifier input.
-
-- API: prover also returns `r` (so STARK side can use same r).
-
-  
-
-Estimated effort: 4-5 days.
-
-  
-
-### Step 6: Regenerate circuits, update zk_spec
-
-  
-
-- Update `mdoc_generate_circuit.cc` to emit all 3 circuits.
-
-- Run `circuit_maker` to produce new compressed circuit bytes.
-
-- Compute new circuit hashes; add new entry to `kZkSpecs` in `zk_spec.cc`.
-
-- Update test `mdoc_zk_test.cc`.
-
-  
-
-Estimated effort: 2-3 days.
-
-  
-
-### Step 7: Cross-validation with zkdilithium
-
-  
-
-- Write a small Python or C++ harness that:
-
-1. Computes `e1 = SHA256(COSE1(MSO))` from a sample mDOC.
-
-2. Samples `r`.
-
-3. Computes `C = Poseidon23(e1_bytes || r)` using **both** the longfellow native impl and the zkdilithium Rust impl.
-
-4. Asserts they match bit-exactly.
-
-- This catches encoding mismatches before they cost weeks.
-
-  
-
-Estimated effort: 1-2 days.
-
-  
+| Notation                                              | Meaning                                                                                                        |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| $x \mathbin{\Vert} y$                                 | concatenation                                                                                                  |
+| $[\,\mathrm{cond}\,]$                                 | $1$ if cond holds, $0$ otherwise                                                                               |
+| $z = z_{\mathrm{hi}} \mathbin{\Vert} z_{\mathrm{lo}}$ | for $z \in \{0,1\}^{256}$: $\;z_{\mathrm{hi}}, z_{\mathrm{lo}} \in \{0,1\}^{128}$ (hi = most-significant half) |
 
 ---
 
-  
+## 2. Glossary of symbols
 
-## Open questions to resolve before coding
+What each name represents (the formal types are in §3, the roles below):
 
-  
+**Credential & session**
 
-### 1. MAC cross-field bridge (HARD)
+- $MSO$ --- the user's credential (mobile Security Object), a byte string laid out as an array of fields.
+- $tr$ --- **session transcript**: a unique, fresh value jointly produced by prover and verifier during the authentication/handshake before the presentation. It binds the proof to one specific session (anti-replay / freshness) and is the nonce the device signs for device binding. Used in $k_v$ derivation and in $(L7)$.
+- $now$ --- current Unix timestamp, checked against the credential's validity window $(L6)$.
+- $attr$ --- the attribute value being disclosed.
+- $id$ --- index of $attr$ inside $MSO$.
 
-  
+**Credential hash & commitments**
 
-How does the Poseidon circuit (over Fp2<Fp<1>>) verify a MAC equation `MAC = av * e1_byte + ap` that's defined over GF(2^128)?
+- $e_1$ --- $\mathrm{SHA256}$ of the credential; the message the issuer actually signed. Shared (privately) by both proofs.
+- $R_S$ --- STARK-side commitment to $(k_p, e_1)$ (Poseidon23). Locks the prover's key share so $e_1$ cannot be swapped.
+- $R_L$ --- Ligero-side commitment to $(k_p, e_1)$ (SHA256). Same purpose, on the other proof system.
 
-  
+**MAC (links the two proofs)**
 
-Options:
+- $k_p$ --- prover's secret key share, fresh per presentation (gives unlinkability).
+- $k_v$ --- verifier's key share, derived as $\mathrm{SHA256}(R_L \mathbin{\Vert} R_S \mathbin{\Vert} tr)$. Depends on **both** commitments, so it cannot be fixed before committing to $e_1$.
+- $a, b$ --- the two 128-bit halves of $k_v \oplus k_p$ (each an element of $\mathbb{F}$); the affine-MAC key ($a = $ high, $b = $ low).
+- $m$ --- the **MAC tag** of $e_1$: $\;m = a \cdot e_1 + b \in \mathbb{F}$ (arithmetic in $\mathbb{F} = \mathrm{GF}(2^{256})$). It is an authentication tag, not a ciphertext --- it neither hides nor encrypts $e_1$. The **same** $m$ appears in both proofs and is the value the verifier cross-checks.
 
-  
+**Keys & signatures**
 
-**(a)** Implement GF(2^128) arithmetic as gates over Fp2<Fp<1>>. Multiplying two 128-bit polynomials in Fp<1> arithmetic = lots of constraints. Expensive but clean.
+- $PK_{II}$ --- issuer public key (Dilithium / post-quantum).
+- $sign$ --- issuer's Dilithium signature on $e_1$ $(S3)$.
+- $pk_{dx}, pk_{dy}$ --- device public key (the two EC coordinates).
+- $(r_2, s_2)$ --- device's ECDSA-P256 signature over the session nonce $(L7)$, proving device binding.
 
-  
+**Device-auth black boxes (from Frigo--Shelat, left unspecified)**
 
-**(b)** Use a different MAC scheme for the hash-Poseidon link, native to Fp<1>. For example, MAC over Fp<1> directly. Hash circuit then needs to compute Fp<1> arithmetic over GF(2^128) — also expensive, mirror problem.
+- $H$ --- the hash applied to $tr \mathbin{\Vert} hdr$ before the device ECDSA check.
+- $hdr$ --- the DeviceAuth header prepended to $tr$.
 
-  
+**Outputs**
 
-**(c)** Use Fp2<Fp<1>> for **everything** (re-implement SHA over Fp<1>). Eliminates the bridge but slows down SHA significantly.
-
-  
-
-**(d)** Replace MAC with a different commitment-equality scheme — e.g., compute `H(e1_bytes)` (where H is a small hash like Poseidon) in BOTH circuits and equate the hash outputs.
-
-  
-
-Decide before Step 3.
-
-  
-
-### 2. r size and randomness source
-
-  
-
-How many Fp<1> elements? Where does r come from? Likely answer: 8-12 elements sampled from `SecureRandomEngine` at proof time. Returned alongside the proof so the zkdilithium prover can reuse the same r.
-
-  
-
-### 3. Match zkdilithium's expected input encoding
-
-  
-
-Verify: does zkdilithium's Poseidon23 take e1 as 32 bytes-as-Fp<1>, or some other decomposition? Check `zkdilithium/src/utils/poseidon_23_spec.rs` and the signing routine.
-
-  
+- $\pi_S, \pi_L$ --- the STARK and Ligero zero-knowledge proofs.
+- $Pres$ --- the presentation $(X_S, X_L, \pi_S, \pi_L)$ handed to the verifier.
 
 ---
-## Test strategy
 
-  
+## 3. Types (instances, witnesses, proofs)
 
-1. Native Poseidon23 produces same C as zkdilithium for sample (e1, r).
+$$
+\begin{aligned}
 
-2. EvaluationBackend run of Poseidon circuit matches native.
+X_S \;=\;& (PK_{II},\; m,\; k_v,\; R_S) && \text{STARK instance (public)} \\
+W_S \;=\;& (sign,\; e_1,\; k_p, && \text{STARK witness (private)} \\
+        & \phantom{(}\, a,\; b) \\[6pt]
+X_L \;=\;& (attr:\{0,1\}^{*},\; id:\mathrm{int},\; tr:\{0,1\}^{*},\; now:\mathrm{int}, && \text{Ligero instance (public)} \\
+        & \phantom{(}\, m:\mathbb{F},\; k_v:\{0,1\}^{256},\; R_L:\{0,1\}^{256}) \\
+W_L \;=\;& (r_2:\{0,1\}^{256},\; s_2:\{0,1\}^{256},\; MSO:\{0,1\}^{*}, && \text{Ligero witness (private)} \\
+        & \phantom{(}\, pk_{dx}:\{0,1\}^{256},\; pk_{dy}:\{0,1\}^{256},\; k_p:\{0,1\}^{256},\; e_1:\{0,1\}^{256}, \\
+        & \phantom{(}\, a:\{0,1\}^{128},\; b:\{0,1\}^{128}) \\[6pt]
+\end{aligned}
+$$
 
-3. End-to-end ZK proof roundtrip (Step 7 harness).
+---
 
-4. Existing mdoc_zk_test.cc samples still verify (with issuer ECDSA removed).
+## 4. Assumed components (signatures known before reading the procedures)
 
-5. Negative test: tamper with one byte of e1 in Poseidon circuit -> proof rejects (MAC mismatch).
+$$
+\begin{aligned}
+\mathrm{SHA256}     &: \{0,1\}^{*} \to \{0,1\}^{256} \\
+\mathrm{Poseidon23} &: \{0,1\}^{*} \to \{0,1\}^{256} \\
+H                   &: \{0,1\}^{*} \to \{0,1\}^{256} && \text{unspecified hash (Frigo--Shelat device check)} \\
+hdr                 &: \{0,1\}^{*} && \text{unspecified DeviceAuth header (Frigo--Shelat)} \\
+\mathrm{rand\_bytes}&: (n:\mathrm{int}) \to \{0,1\}^{8n} && \text{LaTeX: } \mathtt{rand.randombytes(n)} \\
+\mathrm{now\_ts}    &: () \to \mathrm{int} && \text{LaTeX: } \mathtt{time.getTimestamp(0)};\ \text{current Unix time} \\
+\mathrm{attr\_at}   &: (MSO:\{0,1\}^{*},\, id:\mathrm{int}) \to \{0,1\}^{*} && \text{the } id\text{-th attribute element} \\[4pt]
+\mathrm{Dilithium.Verify} &: (sig:\{0,1\}^{*},\, msg:\{0,1\}^{256},\, pk:\{0,1\}^{*}) \to \{0,1\} \\
+\mathrm{p256.Verify} &: (sig:(\{0,1\}^{256},\{0,1\}^{256}),\, msg:\{0,1\}^{256},\, pk:(\{0,1\}^{256},\{0,1\}^{256})) \to \{0,1\} \\[4pt]
+\mathrm{parallel}   &: (f:()\to A,\; g:()\to B) \to (A, B) && \text{run both thunks concurrently}
+\end{aligned}
+$$
 
-  
+---
 
-## Files touched
+## 5. Proof systems
+### Module `STARK`
 
-| File | Change |
-|------|--------|
-| `mdoc_signature.h` | remove issuer ECDSA |
-| `mdoc_hash.h` | add e1 byte slicing + MAC check |
-| `mdoc_poseidon.h` | **NEW** — Poseidon sub-circuit |
-| `mdoc_witness.h` | shrink MdocSignatureWitness; add MdocPoseidonWitness |
-| `mdoc_zk.cc` | 3-circuit prover/verifier orchestration |
-| `mdoc_zk.h` | C API: add `out_C`, `in_C`, `r` |
-| `mdoc_generate_circuit.cc` | emit 3 circuits |
-| `zk_spec.cc` | new ZkSpecStruct entry |
-| `mdoc_zk_test.cc` | update tests |
+
+Relation $R(x, w)$, parsing $x = (PK_{II}, m, k_v, R_S)$ and $w = (sign, e_1, k_p, a, b)$:
+
+$$
+\begin{aligned}
+R(x,w) \;=\;
+        & \big[\, R_S = \mathrm{Poseidon23}(k_p \oplus e_1) \,\big]                 && \textbf{(S1)} \\
+\wedge\;& \big[\, a = (k_v \oplus k_p)_{\mathrm{hi}} \,\big]                          && \textbf{(S2a)} \\
+\wedge\;& \big[\, b = (k_v \oplus k_p)_{\mathrm{lo}} \,\big]                          && \textbf{(S2b)} \\
+\wedge\;& \big[\, m = a \cdot e_1 + b \,\big]                                         && \textbf{(S2c)} \\
+\wedge\;& \big[\, \mathrm{Dilithium.Verify}(sign, e_1, PK_{II}) = 1 \,\big]           && \textbf{(S3)}
+\end{aligned}
+$$
+
+Prover / verifier contracts:
+
+$$
+\begin{aligned}
+&\mathrm{Prove}(x{:}\,X_S,\, w{:}\,W_S) \to (\pi{:}\,\mathrm{Proof})
+  && \textbf{require } R(x,w)=1;\quad \textbf{ensure } \mathrm{Verify}(x,\pi)=1 \\
+&\mathrm{Verify}(x{:}\,X_S,\, \pi{:}\,\mathrm{Proof}) \to (b{:}\,\{0,1\})
+  && \textbf{ensure } b=1 \Rightarrow \exists\, w'{:}\,W_S.\; R(x,w')=1
+\end{aligned}
+$$
+
+- **(S1)** $R_S$ is the STARK commitment opening of $(k_p, e_1)$.
+- **(S2a),(S2b)** the MAC key halves $a, b$ are **asserted** to equal the high/low halves of $k_v \oplus k_p$ (a wrong $a$ or $b$ makes the proof fail).
+- **(S2c)** $m$ is the affine MAC of $e_1$ under that key: $m = a \cdot e_1 + b$.
+- **(S3)** $sign$ is a valid issuer Dilithium signature on $e_1$.
+
+### Module `Ligero`
+
+Relation $R(x, w)$, parsing $x = (attr, id, tr, now, m, k_v, R_L)$ and $w = (r_2, s_2, MSO, pk_{dx}, pk_{dy}, k_p, e_1, a, b)$:
+
+$$
+\begin{aligned}
+R(x,w) \;=\;
+        & \big[\, e_1 = \mathrm{SHA256}(MSO[0{:}183]) \,\big]                          && \textbf{(L1)} \\
+\wedge\;& \big[\, R_L = \mathrm{SHA256}(k_p \oplus e_1) \,\big]                         && \textbf{(L2)} \\
+\wedge\;& \big[\, a = (k_v \oplus k_p)_{\mathrm{hi}} \,\big]                            && \textbf{(L3a)} \\
+\wedge\;& \big[\, b = (k_v \oplus k_p)_{\mathrm{lo}} \,\big]                            && \textbf{(L3b)} \\
+\wedge\;& \big[\, m = a \cdot e_1 + b \,\big]                                           && \textbf{(L3c)} \\
+\wedge\;& \big[\, attr = \mathrm{attr\_at}(MSO, id) \,\big]                             && \textbf{(L4)} \\
+\wedge\;& \big[\, MSO[128{:}160] = \mathrm{SHA256}(pk_{dx} \mathbin{\Vert} pk_{dy}) \,\big] && \textbf{(L5)} \\
+\wedge\;& \big[\, \mathrm{int}(MSO[48{:}56]) < now \,\wedge\, now < \mathrm{int}(MSO[56{:}64]) \,\big] && \textbf{(L6)} \\
+\wedge\;& \big[\, \mathrm{p256.Verify}((r_2, s_2),\, H(tr \mathbin{\Vert} hdr),\, (pk_{dx}, pk_{dy})) = 1 \,\big] && \textbf{(L7)}
+\end{aligned}
+$$
+
+Prover / verifier contracts:
+
+$$
+\begin{aligned}
+&\mathrm{Prove}(x{:}\,X_L,\, w{:}\,W_L) \to (\pi{:}\,\mathrm{Proof})
+  && \textbf{require } R(x,w)=1;\quad \textbf{ensure } \mathrm{Verify}(x,\pi)=1 \\
+&\mathrm{Verify}(x{:}\,X_L,\, \pi{:}\,\mathrm{Proof}) \to (b{:}\,\{0,1\})
+  && \textbf{ensure } b=1 \Rightarrow \exists\, w'{:}\,W_L.\; R(x,w')=1
+\end{aligned}
+$$
+
+- **(L1)** $e_1$ is the hash of the credential $MSO$.
+- **(L2)** $R_L$ is the Ligero commitment opening of $(k_p, e_1)$.
+- **(L3a),(L3b),(L3c)** same as $(S2a)$--$(S2c)$: $a, b$ are **asserted** to be the high/low halves of $k_v \oplus k_p$, and $m = a \cdot e_1 + b$ is the affine MAC of $e_1$.
+- **(L4)** $attr$ is the disclosed attribute, the $id$-th attribute element of $MSO$.
+- **(L5)** the device public key $(pk_{dx}, pk_{dy})$ hashes to the value stored in $MSO$.
+- **(L6)** the current time $now$ lies within the credential's validity window in $MSO$.
+- **(L7)** $(r_2, s_2)$ is a valid device ECDSA-P256 signature over the session nonce.
+
+($\mathrm{STARK}.R$ and $\mathrm{Ligero}.R$ denote the two relation predicates when referenced from
+outside their modules, e.g. in the Orchestrator's preconditions.)
+
+---
+
+## 6. Algorithm 1 --- Orchestrator
+
+**Inputs:** $MSO:\{0,1\}^{*}$, $tr:\{0,1\}^{*}$, device signature $(r_2, s_2):(\{0,1\}^{256},\{0,1\}^{256})$, issuer signature $sign:\{0,1\}^{*}$, device public key $(pk_{dx}, pk_{dy}):(\{0,1\}^{256},\{0,1\}^{256})$, attribute $attr:\{0,1\}^{*}$ with index $id:\mathrm{int}$, issuer public key $PK_{II}:\{0,1\}^{*}$. **Output:** $Pres$.
+
+$$
+\begin{aligned}
+&\mathbf{procedure}\ \mathrm{Orchestrator}(\dots) \to Pres \\
+&\quad e_1 \leftarrow \mathrm{SHA256}(MSO[0{:}183]) \\
+&\quad k_p \leftarrow \mathrm{rand\_bytes}(32) \\[4pt]
+&\quad R_S \leftarrow \mathrm{Poseidon23}(k_p \oplus e_1) \\
+&\quad R_L \leftarrow \mathrm{SHA256}(k_p \oplus e_1) \\
+&\quad k_v \leftarrow \mathrm{SHA256}(R_L \mathbin{\Vert} R_S \mathbin{\Vert} tr) \\[4pt]
+&\quad a \leftarrow (k_v \oplus k_p)_{\mathrm{hi}} \\
+&\quad b \leftarrow (k_v \oplus k_p)_{\mathrm{lo}} \\
+&\quad m \leftarrow a \cdot e_1 + b \\[4pt]
+&\quad now \leftarrow \mathrm{now\_ts}() \\[4pt]
+&\quad X_S \leftarrow (PK_{II}, m, k_v, R_S) \\
+&\quad W_S \leftarrow (sign, e_1, k_p, a, b) \\
+&\quad X_L \leftarrow (attr, id, tr, now, m, k_v, R_L) \\
+&\quad W_L \leftarrow (r_2, s_2, MSO, pk_{dx}, pk_{dy}, k_p, e_1, a, b) \\[4pt]
+&\quad \triangleright\ \text{PRE established above: } \mathrm{STARK}.R(X_S, W_S)=1 \text{ and } \mathrm{Ligero}.R(X_L, W_L)=1 \\
+&\quad (\pi_S, \pi_L) \leftarrow \mathrm{parallel}\big(\; () \mapsto \mathrm{STARK.Prove}(X_S, W_S),\ \ () \mapsto \mathrm{Ligero.Prove}(X_L, W_L) \;\big) \\[4pt]
+&\quad \mathbf{return}\ (X_S, X_L, \pi_S, \pi_L)
+\end{aligned}
+$$
+
+---
+
+## 7. Algorithm 4 --- Verifier
+
+$$
+\begin{aligned}
+&\mathbf{procedure}\ \mathrm{Verifier}(pres{:}\,Pres,\, tr{:}\,\{0,1\}^{*}) \to \{\mathsf{accept}, \mathsf{reject}\} \\[4pt]
+&\quad \mathbf{parse}\ pres = (X_S, X_L, \pi_S, \pi_L) \\
+&\quad \mathbf{parse}\ X_S = (PK_{II}, m_S, k_{v,S}, R_S) \\
+&\quad \mathbf{parse}\ X_L = (attr, id, tr_L, now, m_L, k_{v,L}, R_L) \\[4pt]
+&\quad \triangleright\ \text{the two proofs must share the same MAC, the same verifier key, and this session} \\
+&\quad \mathbf{if}\ m_S \neq m_L \;:\ \mathbf{return}\ \mathsf{reject} \\
+&\quad \mathbf{if}\ k_{v,S} \neq k_{v,L} \;:\ \mathbf{return}\ \mathsf{reject} \\
+&\quad \mathbf{if}\ tr_L \neq tr \;:\ \mathbf{return}\ \mathsf{reject} \\[4pt]
+&\quad \triangleright\ \text{the verifier key must be the Fiat--Shamir hash of BOTH commitments + transcript} \\
+&\quad \mathbf{if}\ k_{v,S} \neq \mathrm{SHA256}(R_L \mathbin{\Vert} R_S \mathbin{\Vert} tr) \;:\ \mathbf{return}\ \mathsf{reject} \\[4pt]
+&\quad \triangleright\ \text{both proofs must verify against their public inputs} \\
+&\quad \mathbf{if}\ \mathrm{STARK.Verify}(X_S, \pi_S) \neq 1 \;:\ \mathbf{return}\ \mathsf{reject} \\
+&\quad \mathbf{if}\ \mathrm{Ligero.Verify}(X_L, \pi_L) \neq 1 \;:\ \mathbf{return}\ \mathsf{reject} \\[4pt]
+&\quad \mathbf{return}\ \mathsf{accept}
+\end{aligned}
+$$
