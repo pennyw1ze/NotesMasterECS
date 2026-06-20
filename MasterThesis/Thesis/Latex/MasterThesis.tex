@@ -720,15 +720,25 @@ general-purpose ZKP systems built on top of legacy ECDSA, which can be deployed 
 standard signatures at the cost of being more complex and less efficient. As the authors recall, both BBS and the
 zkSNARKs used in the second approach are \emph{post-quantum insecure}.
 
-A useful part of the paper, for our purposes, is the catalogue of features that anonymous credentials can offer. The
-core ones are selective disclosure; multi-show unlinkability (different presentations of the same user cannot be
-linked); untraceability (a malicious issuer cannot link the credentials it issued); single key binding (many
-credentials of the same user bound to a single private key); presentation freshness (a presentation reveals only a
-proof of the credential, from which no further presentation can be derived); and certified pseudonyms. On top of these
-they discuss more advanced features: predicate proofs (e.g.\ proving \emph{over 18} without revealing the date of
-birth), composite proofs over several credentials, deniable presentations, (partially) blind issuance, issuer hiding,
-and conditional disclosure. The breadth of this list is itself the argument: upgrading from the current salted-hash
-approach to proper anonymous credentials is, in the authors' view, a worthwhile endeavour.
+A useful part of the paper, for our purposes, is the catalogue of features that anonymous credentials can offer. The core ones are:
+\begin{enumerate}
+      \item \textbf{Selective disclosure}: Ability to reveal only a subset of the credential's attributes, while keeping the rest hidden;
+      \item \textbf{Multi-show unlinkability}: Relying party to relying party unlinkability ensures that different presentations of credentials by the same user cannot be linked;
+      \item \textbf{Untraceability}: Prevents that a malicious issuer can link the credentials it issued in different presentations;
+      \item \textbf{Single Key Binding}: Many or even all credentials that belong to the same user can be bound to the same user private key to reduce overall complexity;
+      \item \textbf{Presentation freshness}: Presentation of a credential never reveals the original credential, but only a proof thereof.  From such a presentation, no further presentation for a different context can be derived;
+      \item \textbf{Certified Pseudonyms}: allow to derive verifiable yet unlinkable pseudonyms from a user’s secret key;
+\end{enumerate}
+
+On top of these they discuss more advanced features: 
+\begin{enumerate}
+      \item \textbf{Predicate proofs}:  Instead of revealing an exact attribute, proves that a property holds true (ex. age over 18 without revealing birth date);
+      \item \textbf{Composite proofs}: Proof built upon several credentials and more advanced logics;
+      \item \textbf{Deniable presentations}:  If the RP forwards the proof to a third party, this does not provide convincing cryptographic evidence of the validity of the user’s attributes;
+      \item \textbf{(Partially-)Blind issuance}: Allows for the issuance of data that stays hidden from the issuer (ex. local university makes central authority signs final degree without revealing student's name or grades);
+      \item \textbf{Issuer hiding}: Creates a presentation that only reveals membership of a certain trust ecosystem instead of revealing a specific issuer;
+      \item \textbf{Conditional disclosure}: The presentation contains verified but initially protected attributes, which can be discovered by a dedicated party only when needed;
+\end{enumerate}
 
 \subsection{Vision: A Modular Framework for Anonymous Credential Systems}
 \label{vision}
@@ -769,9 +779,59 @@ legacy-hardware compatibility problem but not the post-quantum one.
 
 \section{Our solution}
 \label{oursolution}
+In this section, we are going to describe our solution to the problem of building anonymous credentials for the EUDI wallet
+application, focusing on Post-Quantum Security and on the Device Binding property.
 
-\subsection{Claim}
-\label{claim}
+\subsection{Design choices}
+\label{designchoice}
+The first challenge we had to face while designing our solution was weather to be compliant with the actual credential's
+issuer infrastructures, as well as with the actual standards for credential presentation, credential structures and so on,
+and to be compliant with the actual hardware constraints of the device that will be used as wallet, or to implement a brand
+new system that would be more secure and efficient, but would require a complete ridesign of the actual infrastructures and 
+standards, as well as new logic and security analysis.
+
+We decided to be compliant with the actual infrastructures and standards, in particular keeping the device binding signature
+as an ECDSA signature over the session transcript, and just requiring the issuer to sign the credentials with a zk-friendly version of 
+dilithium, a post quantum signature scheme. This is necessary to be post quantum secure, otherwise a quantum adversary could
+just read the issuer's public key, obtain the private key via Shor's algorithm and forge credentials at will.
+
+Moreover in our implementation we will show that protecting device public key with respect to a quantum adversarial issuer
+and protecting issuer's key with respect to a quantum adversarial user, while keeping previous presentation scheme requires
+only to change proof system (which has been realized in this thesis), to modify the public key field in the document standard
+and to change the signature scheme used by the issuer, without changing the actual presentation protocol, and has almost
+no impact on the prover and verifier performance, which is a very good result considering the security improvement we get.
+
+Notice that, due to the design direction we choose, our solution is not post-quantum secure in its entirety, since the device binding
+signature is still based on ECDSA, but at least the credentials themselves are protected against forgery by quantum adversaries, 
+which is a very good improvement considering the actual threat model of the EUDI wallet and the fact that the device binding 
+signature is only used to protect against replay attacks and not to protect the credential itself. A detailed security analysis of
+this claim is provided in the threat model section~\cref{threatmodel}.
+
+
+
+\section{Implementation}
+\label{implementation}
+Given the design choices we made in the previous section, we decided to adopt the Ligero framework for our solution
+as the main actor, for the following reasons:
+\begin{itemize}
+      \item Open source code, which allows us to modify the code and adapt it to our needs;
+      \item Ligero is a zk proof system based on the MPC-in-the-head paradigm, which is by itself post quantum secure;
+      \item Ligero has been optimized for heavy circuits like ECDSA signature verification circuit or sha256 preimage circuit,
+      which are the main bottlenecks of our solution;
+\end{itemize}
+At this point we had to find a way to implement the dilithium signature verification algorithm in Ligero.
+In this phase, different attempts where made.
+
+% List of attempts:
+% MLDSA device binding: not efficient (report paper with more then 1 second only to sing inside SE)
+% Implementation of dilithium system inside Ligero: not efficient nor feasible for a thesis
+% zk dilithium library was found: still a problem, how to connect Ligero and zkdilithium witnesses ?
+% Pass sha256 of message to be signed efficient on Ligero, but not on STARK;
+% Pass poseidon of message efficient on STARK, but not on Ligero;
+% Figured out: use MAC code witness passing technique proven by frigo shelat.
+
+
+
 
 \subsection{Analysis}
 \label{analysis}
@@ -843,8 +903,9 @@ The implementation satisfies several High-Level Requirements (HLRs) from the EUD
 issuance or expiration dates, as required for privacy-preserving interactions;
 \end{itemize}
 
-\section{Implementation}
-\label{implementation}
+\subsubsection{Threat Model}
+\label{threatmodel}
+
 
 
 \section{Results}
