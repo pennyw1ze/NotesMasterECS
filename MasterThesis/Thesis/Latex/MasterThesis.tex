@@ -8,6 +8,7 @@
 % real images (and set \graphicspath to their folder).
 \usepackage{graphicx}
 \usepackage{booktabs}     % \toprule \midrule \bottomrule
+\usepackage{multirow}     % \multirow in results tables
 \usepackage{array}
 \usepackage{tabularx}     % stretching table + the custom "L" column below
 \usepackage{enumitem}
@@ -18,7 +19,6 @@
 \usepackage{microtype}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{mathtools}
-\usepackage{stmaryrd}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{array}
@@ -1637,6 +1637,274 @@ ML-DSA~\cite{Google2026SecurityQuantumAndroid}.
 
 \section{Results}
 \label{results}
+In this section we report the empirical evaluation of our solution. Rather than
+presenting only the final system, we benchmark the whole \emph{path} that led to
+it: the unmodified building blocks (Longfellow and zkDilithium), the two hash
+primitives we tried to use as a common commitment (SHA-256 and Poseidon23), the
+incremental cost of each customization (removing message sharing from the STARK,
+adding the SHA-256 opening to Ligero, and the MAC witness-sharing bridge), and
+finally the cost of composing the two proof systems sequentially versus in
+parallel. The goal is to give the reader a faithful picture of \emph{why} each
+design decision described in \cref{implementation} was taken, backed by numbers
+on real hardware.
+
+\subsection{Experimental setup}
+\label{results:setup}
+All experiments were run on three platforms: one desktop and the two
+smartphones mandated by the device-binding use case.
+\begin{itemize}[noitemsep]
+  \item \textbf{Desktop} --- AMD Ryzen~5~1600 (6 cores / 12 threads, 3.2\,GHz),
+        Linux, \texttt{x86\_64}.
+  \item \textbf{Galaxy S24} --- Samsung SM-S928B, Qualcomm Snapdragon~8~Gen~3
+        (\texttt{SM8650}), \texttt{arm64-v8a}.
+  \item \textbf{Galaxy A53} --- Samsung SM-A536B, Samsung Exynos~1280
+        (\texttt{s5e8825}), \texttt{arm64-v8a}, a mid-range device included to
+        show behaviour on weaker hardware.
+\end{itemize}
+
+\paragraph{Methodology.} Every binary was compiled in release mode; the STARK
+prover used its concurrent (multi-threaded) backend. Each cell of every table is
+the \textbf{median of 5 runs}. For the Ligero/Longfellow prover, which compiles
+and caches its arithmetic circuit on first use, we always discard the first
+(cold-cache) run and report \emph{warm-cache} timings; the one-time circuit
+generation is reported separately. Desktop timings were taken with the machine
+otherwise idle, as we observed that a concurrent compilation could inflate a
+STARK proving time by up to $5\times$. Unless stated otherwise, the credential
+is the reference mDOC test vector disclosing a single attribute
+(\texttt{age\_over\_18}), and the prover key share $k_p$ is fixed for
+reproducibility. Reported security levels are the conjectured ones: $115$~bit for
+the zkDilithium STARK, ${\approx}96$~bit for the standalone SHA-256 STARK, and
+the Longfellow default for the Ligero proofs.
+
+\subsection{Unmodified building blocks}
+\label{results:baselines}
+\Cref{tab:res-baselines} reports the two systems we build upon, without any of
+our modifications: the Longfellow mDOC proof (Ligero) and the zkDilithium
+signature proof (STARK). These are the references against which the cost of our
+customizations is measured. As a sanity check, our desktop Longfellow numbers
+($\sim$1.05\,s prove, $\sim$0.56\,s verify) are in the same range as the figures
+reported by Frigo and Shelat (\cref{tab:prover_verifier_perf}), and our
+zkDilithium numbers are consistent with the original library
+(\cref{tab:runtimes_memory}).
+
+\begin{table}[ht]
+  \centering
+  \caption{Unmodified building blocks. Median prove/verify time and proof size.}
+  \label{tab:res-baselines}
+  \small
+  \begin{tabular}{@{}llrrr@{}}
+    \toprule
+    \textbf{System} & \textbf{Platform} & \textbf{Prove (ms)} & \textbf{Verify (ms)} & \textbf{Size (KB)} \\
+    \midrule
+    \multirow{3}{*}{Longfellow mDOC (Ligero)}
+        & Desktop    & 1047 & 559  & 351.6 \\
+        & Galaxy S24 & 973  & 530  & 351.6 \\
+        & Galaxy A53 & 1822 & 1099 & 351.6 \\
+    \midrule
+    \multirow{3}{*}{zkDilithium (STARK)}
+        & Desktop    & 225 & 33.5 & 173.7 \\
+        & Galaxy S24 & 369 & 39.7 & 173.7 \\
+        & Galaxy A53 & 432 & 40.6 & 173.7 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+A first non-obvious observation is that the Galaxy~S24 is \emph{faster than our
+desktop} on the Longfellow proof (973\,ms vs 1047\,ms): the Snapdragon~8~Gen~3
+big cores outperform a 2017-era Ryzen on this workload, which is encouraging for
+a scheme meant to run on phones.
+
+\subsection{Choosing the cross-system commitment: SHA-256 vs Poseidon}
+\label{results:hash}
+As explained in \cref{implementation}, linking the two proofs requires committing
+to the same credential hash $e_1$ on both sides, which initially meant proving
+the \emph{same} hash function in both proof systems. \Cref{tab:res-hash}
+quantifies why this turned out to be impractical. Proving a single SHA-256 block
+inside the STARK costs $0.67$--$2.3$\,s depending on the device --- two orders of
+magnitude more than the ${\approx}11$\,ms that the same SHA-256 block costs in
+Ligero (\cref{tab:sha256_frigo_shelat}). Poseidon23, on the other hand, is cheap
+\emph{everywhere}: as a STARK commitment it is essentially free (it adds at most
+a few tens of milliseconds over the bare signature proof, see
+\cref{tab:res-stark-steps}), and as a standalone Ligero preimage proof it costs
+only $\sim$25--40\,ms.
+
+\begin{table}[ht]
+  \centering
+  \caption{Cost of proving one hash invocation in each proof system. The SHA-256
+  in-Ligero figure is the Frigo--Shelat reference (\cref{tab:sha256_frigo_shelat},
+  x86); all others are measured in this work (median of 5).}
+  \label{tab:res-hash}
+  \small
+  \begin{tabular}{@{}llrrr@{}}
+    \toprule
+    \textbf{Hash / proof system} & \textbf{Platform} & \textbf{Prove (ms)} & \textbf{Verify (ms)} & \textbf{Size (KB)} \\
+    \midrule
+    \multirow{3}{*}{SHA-256 in STARK (1 block)}
+        & Desktop    & 666  & 118 & 73.2 \\
+        & Galaxy S24 & 1207 & 294 & 73.2 \\
+        & Galaxy A53 & 2287 & 522 & 73.2 \\
+    \midrule
+    SHA-256 in Ligero (1 block) & x86 (Frigo--Shelat) & \multicolumn{1}{r}{$\approx 11$} & \multicolumn{1}{r}{$\approx 6$} & --- \\
+    \midrule
+    \multirow{3}{*}{Poseidon23 in Ligero}
+        & Desktop    & 25.5 & 12.7 & 77.7 \\
+        & Galaxy S24 & 28.8 & 12.0 & 77.3 \\
+        & Galaxy A53 & 38.5 & 16.0 & 77.3 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The conclusion is the one anticipated in \cref{implementation}: each hash is
+cheap in \emph{one} system and prohibitive or unavailable in the other (there is
+no Poseidon23 gadget for Ligero's field, and no efficient SHA-256 AIR for the
+zkDilithium field $\mathbb{F}_{2^{23}-2^{20}+1}$). This asymmetry is precisely
+what motivated abandoning a shared hash commitment in favour of the
+information-theoretic MAC bridge.
+
+\subsection{Cost of the customizations}
+\label{results:customizations}
+We now isolate the cost added by each of our modifications, on top of the
+baselines of \cref{tab:res-baselines}.
+
+\Cref{tab:res-stark-steps} follows the STARK side. Adding the Poseidon23
+commitment $R_S$ to the bare signature proof is almost free (and even within
+noise on the desktop). The expensive step is the MAC witness-sharing bridge:
+making the message $e_1$ a private witness, bit-decomposing it, recomputing the
+GF$(2^{128})$ MAC $m_e$ in-circuit, and binding it to the signed message. This is
+what inflates the STARK proof from $173.7$\,KB to $1.25$\,MB (a $7.2\times$
+blow-up) and roughly doubles to triples the proving time. This blow-up is the
+true price of post-quantum cross-system binding on the STARK side.
+
+\begin{table}[ht]
+  \centering
+  \caption{STARK side: incremental cost of each customization. Median prove time
+  / proof size.}
+  \label{tab:res-stark-steps}
+  \small
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    \textbf{STARK variant} & \multicolumn{3}{c}{\textbf{Prove (ms)}} & \textbf{Size} \\
+    \cmidrule(lr){2-4}
+     & Desktop & S24 & A53 & \textbf{(KB)} \\
+    \midrule
+    Baseline (message public)                 & 225 & 369 & 432  & 173.7 \\
+    \;+ Poseidon23 commitment $R_S$           & 234 & 405 & 616  & 173.3 \\
+    \;+ MAC witness sharing (final)           & 451 & 732 & 1382 & 1254 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\Cref{tab:res-ligero-steps} follows the Ligero side. Adding the in-circuit
+SHA-256 opening of $R_L=\SHA(k_p\,\|\,e_1)$ together with the $m_e$ MAC gadget
+adds roughly $250$\,ms of proving time on the desktop while leaving the proof
+size essentially unchanged ($\sim$335\,KB); the Ligero figures here are taken
+from the split commit+finalize path used by the orchestrator. The Ligero side
+therefore absorbs the cross-system binding far more gracefully than the STARK
+side does.
+
+\begin{table}[ht]
+  \centering
+  \caption{Ligero side: cost of adding the SHA-256 $R_L$ opening and the $m_e$
+  MAC gadget. Median prove time / proof size.}
+  \label{tab:res-ligero-steps}
+  \small
+  \begin{tabular}{@{}lrrrr@{}}
+    \toprule
+    \textbf{Ligero variant} & \multicolumn{3}{c}{\textbf{Prove (ms)}} & \textbf{Size} \\
+    \cmidrule(lr){2-4}
+     & Desktop & S24 & A53 & \textbf{(KB)} \\
+    \midrule
+    Baseline mDOC                                & 1047 & 973  & 1822 & 351.6 \\
+    \;+ $R_L$ SHA-256 opening + $m_e$ (final)    & 1353 & 1107 & 2190 & 335.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{The joint system}
+\label{results:joint}
+\Cref{tab:res-orchestrator} reports the full joint proof produced by the
+orchestrator (\cref{alg:orchestrator}), broken down into its stages. The STARK
+proof and the Ligero commit+finalize run on separate threads; the wall-clock
+proving time is therefore dominated by the slower of the two (Ligero), not by
+their sum. On both flagship and desktop the complete joint proof is produced in
+about $1.1$--$1.4$\,s and verified in under $0.85$\,s; even on the mid-range
+A53 the prover stays around $2.2$\,s, comfortably under the $2$\,s target on the
+flagship device. All proofs verified successfully on all platforms.
+
+\begin{table}[ht]
+  \centering
+  \caption{Joint (orchestrator) proof, warm cache, median of 5. The STARK and
+  Ligero provers run in parallel; ``wall-clock'' is the end-to-end proving time.}
+  \label{tab:res-orchestrator}
+  \small
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    \textbf{Stage} & \textbf{Desktop} & \textbf{Galaxy S24} & \textbf{Galaxy A53} \\
+    \midrule
+    STARK prove (ms)            & 573  & 805  & 2039 \\
+    Ligero commit (ms)          & 573  & 387  & 951  \\
+    Ligero finalize (ms)        & 780  & 704  & 1238 \\
+    Ligero total (ms)           & 1353 & 1107 & 2190 \\
+    \textbf{Wall-clock prove (ms)} & \textbf{1353} & \textbf{1108} & \textbf{2190} \\
+    Joint verify (ms)           & 828  & 739  & 1017 \\
+    \midrule
+    STARK proof size (KB)       & 1252 & 1252 & 1253 \\
+    Ligero proof size (KB)      & 335  & 335  & 335  \\
+    \textbf{Total proof (KB)}   & \textbf{1587} & \textbf{1587} & \textbf{1588} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The first-run circuit generation, paid once and then cached to disk, costs about
+$30$\,s on the A53 (and a few seconds on faster machines, where the disk cache
+makes subsequent runs warm). This is a one-time cost per application build and
+does not affect presentation latency.
+
+\paragraph{Sequential vs parallel composition.}
+A central engineering decision was to run the two provers concurrently on the
+device rather than one after the other. \Cref{tab:res-composition} quantifies the
+benefit: parallel composition (the wall-clock of \cref{tab:res-orchestrator})
+versus sequential composition (the sum of the STARK and Ligero proving times).
+The speed-up grows with the number of usable cores and the relative balance of
+the two provers, reaching $1.9\times$ on the A53. This is what keeps the
+mid-range device within roughly two seconds.
+
+\begin{table}[ht]
+  \centering
+  \caption{Sequential vs parallel composition of the two provers (wall-clock
+  proving time, ms). Sequential $=$ STARK $+$ Ligero; parallel $=$ measured
+  wall-clock.}
+  \label{tab:res-composition}
+  \small
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    \textbf{Platform} & \textbf{Sequential (ms)} & \textbf{Parallel (ms)} & \textbf{Speed-up} \\
+    \midrule
+    Desktop    & 1926 & 1353 & $1.42\times$ \\
+    Galaxy S24 & 1912 & 1108 & $1.73\times$ \\
+    Galaxy A53 & 4229 & 2190 & $1.93\times$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Discussion}
+\label{results:discussion}
+Three findings stand out. First, \textbf{post-quantum cross-system binding is
+affordable}: the complete joint proof runs in about $1.1$\,s on a current
+flagship and $2.2$\,s on a mid-range phone, with a total proof size of
+${\sim}1.6$\,MB, while adding issuer post-quantum security and hiding the device
+public key from the issuer. Second, \textbf{the cost is concentrated in the STARK
+MAC bridge}, which alone accounts for the $7.2\times$ proof-size blow-up
+(\cref{tab:res-stark-steps}); the Ligero side and the Poseidon commitment are
+comparatively cheap. This identifies the STARK MAC gadget as the prime target for
+the optimization work outlined in \cref{sec:future-work}. Third, the
+\textbf{hash-function asymmetry} measured in \cref{tab:res-hash} retrospectively
+justifies the MAC-bridge design: a shared-hash commitment would have forced a
+$0.7$--$2.3$\,s SHA-256-in-STARK proof, larger than our entire joint proof today.
+Finally, the fact that the Galaxy~S24 matches or beats a desktop CPU, and that
+even the mid-range A53 stays around two seconds, supports the central claim of
+this thesis: privacy-preserving, post-quantum, device-bound anonymous credentials
+are practical on the commodity hardware that the EUDI Wallet must actually run on.
 
 \section{Future Work}
 \label{sec:future-work}

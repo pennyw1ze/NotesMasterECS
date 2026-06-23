@@ -1,6 +1,0 @@
-\contentsline {table}{\numberline {1}{\ignorespaces Attestation formats and proof mechanisms supported by the ARF.}}{7}{table.1}%
-\contentsline {table}{\numberline {2}{\ignorespaces Roles and Responsibilities within the EUDI Wallet Ecosystem}}{10}{table.2}%
-\contentsline {table}{\numberline {3}{\ignorespaces Prover and Verifier Execution Times Across Various Platforms}}{13}{table.3}%
-\contentsline {table}{\numberline {4}{\ignorespaces Total processing time comparison of drop-in replacement versus the proposed post-quantum cryptography migration scheme (values in milliseconds).}}{19}{table.4}%
-\contentsline {table}{\numberline {5}{\ignorespaces Run times and peak memory usage.}}{20}{table.5}%
-\contentsline {table}{\numberline {6}{\ignorespaces Timing benchmark of an n-block pre-image to the SHA-256 function performed on x86\_64 Emerald Rapids.}}{21}{table.6}%
