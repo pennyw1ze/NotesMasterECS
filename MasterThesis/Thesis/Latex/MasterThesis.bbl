@@ -57,6 +57,11 @@ David Cooper, Stefan Santesson, Stephen Farrell, Sharon Boeyen, Russell Housley,
 \newblock Internet {X.509} public key infrastructure certificate and certificate revocation list ({CRL}) profile.
 \newblock RFC 5280, Internet Engineering Task Force, 2008.
 
+\bibitem{Damgard1999}
+Ivan Damg{\aa}rd.
+\newblock Commitment schemes and zero-knowledge protocols.
+\newblock {\em Lecture Notes in Computer Science}, pages 63--86, 1999.
+
 \bibitem{longfellow-eu}
 dyne.org.
 \newblock Longfellow-eu, 2025.
@@ -93,6 +98,12 @@ Matteo Frigo and abhi shelat.
 \newblock Anonymous credentials from {ECDSA}.
 \newblock Cryptology {ePrint} Archive, Paper 2024/2010, 2024.
 
+\bibitem{Google2026SecurityQuantumAndroid}
+{Google}.
+\newblock Security for the {Quantum} {Era}: {Implementing} {Post-Quantum} {Cryptography} in {Android}.
+\newblock Google Security Blog, 2026.
+\newblock Accessed: June 22, 2026.
+
 \bibitem{sdjwtvc}
 {IETF}.
 \newblock Sd-jwt-based verifiable credentials (sd-jwt vc), 2024.
@@ -100,6 +111,17 @@ Matteo Frigo and abhi shelat.
 \bibitem{iso18013-5}
 {ISO/IEC}.
 \newblock Iso/iec 18013-5:2021 personal identification — iso-compliant driving licence — part 5: Mobile driving licence (mdl) application, 2021.
+
+\bibitem{iStrannikWinterfellSha256}
+iStrannik.
+\newblock winterfell-sha256.
+\newblock GitHub repository, 2026.
+\newblock Accessed: June 22, 2026.
+
+\bibitem{Lee2026PQCMigration}
+Sungmin Lee, Hyungchul Jung, Nohik Heo, and Ted~"Taekyoung" Kwon.
+\newblock Case study: {PQC} migration for {Android} {Strongbox} {Keymaster} on {Samsung} {Galaxy} mobile devices.
+\newblock {\em IEEE Access}, 14:25770--25782, 2026.
 
 \bibitem{Lehmann2025Vision}
 Anja Lehmann, Andrey Sidorenko, and Alexandros Zacharakis.
@@ -116,6 +138,12 @@ Ren{\'e} Mayrhofer, Anja Lehmann, and abhi shelat.
 \newblock A brief note on cryptographic pseudonyms for anonymous credentials.
 \newblock {\em arXiv preprint arXiv:2510.05419}, 2025.
 
+\bibitem{NISTFIPS204}
+{National Institute of Standards and Technology}.
+\newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
+\newblock Federal Information Processing Standards (FIPS) Publication 204, 2024.
+\newblock Accessed: June 21, 2026.
+
 \bibitem{openid4vp}
 {OpenID Foundation}.
 \newblock Openid for verifiable presentations, 2023.
@@ -125,10 +153,26 @@ Christian Paquin and Greg Zaverucha.
 \newblock U-prove cryptographic specification v1.1 (revision 3), December 2013.
 \newblock Released under the Open Specification Promise (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
 
+\bibitem{policharla2023postquantum}
+Guru-Vamsi Policharla, Bas Westerbaan, Armando Faz-Hern{\'{a}}ndez, and Christopher~A. Wood.
+\newblock Post-quantum privacy pass via post-quantum anonymous credentials.
+\newblock Cryptology ePrint Archive, Paper 2023/414, 2023.
+\newblock Accessed: June 21, 2026.
+
+\bibitem{RiscZero2026}
+{RISC Zero}.
+\newblock {RISC Zero}: The zero-knowledge virtual machine, 2026.
+\newblock Accessed: June 22, 2026.
+
 \bibitem{Sharif2024Protecting}
 Amir Sharif, Zahra~Ebadi Ansaroudi, Giada Sciarretta, Daniela P{\"o}hn, Majid Mollaeefar, Wolfgang Hommel, and Silvio Ranise.
 \newblock Protecting digital identity wallet: A threat model in the age of {eIDAS} 2.0.
 \newblock In {\em Risks and Security of Internet and Systems (CRiSIS 2024)}, Lecture Notes in Computer Science. Springer, 2024.
+
+\bibitem{Shor1997Polynomial}
+Peter~W. Shor.
+\newblock Polynomial-time algorithms for prime factorization and discrete logarithms on a {Quantum} computer.
+\newblock {\em {SIAM} Journal on Computing}, 26(5):1484--1509, 1997.
 
 \bibitem{TrailOfBits2025GoogleLongfellow}
 {Trail of Bits}.

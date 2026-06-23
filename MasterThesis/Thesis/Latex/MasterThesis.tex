@@ -12,7 +12,88 @@
 \usepackage{tabularx}     % stretching table + the custom "L" column below
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{mdframed}
 \usepackage{cleveref}     % \cref \Cref
+\newtheorem{claim}{Claim}
+
+%% ── Math notation (Frigo--Shelat style) ────────────────────────────────────
+\newcommand{\GF}{\mathrm{GF}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\concat}{\mathbin{\|}}
+\newcommand{\hipart}[1]{{#1}_{\mathrm{hi}}}
+\newcommand{\lopart}[1]{{#1}_{\mathrm{lo}}}
+\newcommand{\intcast}{\mathrm{int}}
+
+%% ── Crypto primitives ──────────────────────────────────────────────────────
+\newcommand{\SHA}{\mathrm{SHA256}}
+\newcommand{\Poseidon}{\mathrm{Poseidon23}}
+\newcommand{\prand}{\mathrm{rand\_bytes}}
+\newcommand{\nowts}{\mathrm{now\_ts}}
+\newcommand{\attrat}{\mathrm{attr\_at}}
+
+%% Dilithium
+\newcommand{\DilKG}{\mathrm{Dil.KeyGen}}
+\newcommand{\DilSign}{\mathrm{Dil.Sign}}
+\newcommand{\DilVerify}{\mathrm{Dil.Verify}}
+
+
+
+%% ECDSA / P-256
+\newcommand{\ECKG}{\mathrm{p256.KeyGen}}
+\newcommand{\ECSign}{\mathrm{p256.Sign}}
+\newcommand{\ECVerify}{\mathrm{p256.Verify}}   % already defined — keep one copy}{\mathrm{p256.Verify}}
+
+%% Proof systems
+\newcommand{\STARKProve}{\mathrm{STARK.Prove}}
+\newcommand{\STARKVerify}{\mathrm{STARK.Verify}}
+\newcommand{\LigeroProve}{\mathrm{Ligero.Prove}}
+\newcommand{\LigeroVerify}{\mathrm{Ligero.Verify}}
+
+%% Relation names
+\newcommand{\Rel}[1]{\mathcal{R}_{#1}}
+\newcommand{\RelSTARK}{\Rel{\mathsf{STARK}}}
+\newcommand{\RelLigero}{\Rel{\mathsf{Ligero}}}
+\newcommand{\RelOrch}{\Rel{\mathsf{Orch}}}
+
+%% Protocol verdicts
+\newcommand{\accept}{\ensuremath{\mathsf{accept}}}
+\newcommand{\reject}{\ensuremath{\mathsf{reject}}}
+
+%% ── Theorem environments ────────────────────────────────────────────────────
+\newtheorem{remark}{Remark}
+
+%% ── Relation box style ──────────────────────────────────────────────────────
+\mdfdefinestyle{relationbox}{%
+  linecolor=black!40, linewidth=0.8pt,
+  innerleftmargin=10pt, innerrightmargin=10pt,
+  innertopmargin=9pt, innerbottommargin=9pt,
+  backgroundcolor=gray!4,
+}
+
+%% ── Algorithmic customisation ───────────────────────────────────────────────
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\algnewcommand{\Parse}{\textbf{parse}\;}
+\algnewcommand{\Rejects}{\textbf{return}\;\reject}
+\algnewcommand{\Accepts}{\textbf{return}\;\accept}
+
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,citecolor=green!40!black}
 
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
@@ -54,6 +135,8 @@ actual technologies.
 
 \end{abstract}
 
+\listoffigures
+\listoftables
 \tableofcontents
 
 \section{Introduction}
@@ -407,6 +490,32 @@ transaction by signing the amount and payee) and \emph{termination} (unlinking b
 \end{figure}
 
 \clearpage
+
+\subsection{The Concept of Level of Assurance (LoA) High}
+\label{loa}
+In the context of the eIDAS 2.0 framework and digital identity systems, the Level of Assurance (LoA) represents the degree 
+of confidence in the claimed identity of a person. It is a critical metric used to determine how much a Relying Party can trust
+that the user presenting a credential is indeed the person they claim to be.
+
+The technical specifications and procedures for these levels are strictly regulated by Commission Implementing Regulation (EU) 
+2015/1502.
+\subsubsection{Definition of LoA High}
+The LoA High is the highest tier of security defined under the eIDAS regulation. It is designed to protect against attackers
+with a high attack potential. According to the standard, a "High" level provides a near-absolute degree of certainty in the 
+identity of the user, making it mandatory for sensitive operations such as accessing critical government services or opening 
+financial accounts.
+
+\subsubsection{Key Security Requirements}
+To achieve a High Level of Assurance, several technical and organizational criteria must be met:
+\begin{itemize}
+      \item \textbf{Secure Cryptographic Hardware:} The cryptographic keys (specifically those associated with the Person Identification Data or PID) must be managed within a Wallet Secure Cryptographic Device (WSCD). This device is legally required to comply with the requirements of LoA High, ensuring that keys are protected against unauthorized duplication or tampering.
+      \item \textbf{Common Criteria Certification:} A core determinant for LoA High is the certification of the secure element. It must typically reach a Common Criteria (CC) evaluation level of AVA\_VAN.5. This specific level certifies that the device can resist sophisticated, state-level attacks performed by highly capable adversaries.
+      \item \textbf{Dynamic Authentication:} The authentication process must be dynamic, meaning the proof generated by the wallet must change for every session. This prevents replay attacks, where an intercepted proof could be used by an unauthorized party.
+      \item \textbf{Multi-Factor Authentication (MFA):} LoA High requires the use of at least two authentication factors from different categories, such as "possession" (the device) and "inherence" (biometrics like fingerprints or facial recognition).
+\end{itemize}
+
+\subsubsection{LoA High in the EUDI Wallet Ecosystem}
+Within the EUDI Wallet, the PID is the only attestation that is strictly required by regulation to be issued and managed at LoA High. While other Electronic Attestations of Attributes (EAAs) may use lower levels, the infrastructure of the Wallet must support the High tier to ensure the integrity of the user's core identity. The transition to post-quantum-safe Zero-Knowledge Proofs (ZKPs) is also being explored as a method to maintain this high level of assurance in a future where quantum computers could threaten classical ECC-based security.
 
 \subsection{Zero-knowledge proofs in the ARF}
 \label{eudi:zkp}
@@ -809,7 +918,7 @@ this claim is provided in the threat model section~\cref{threatmodel}.
 
 
 
-\section{Implementation}
+\subsection{Implementation}
 \label{implementation}
 Given the design choices we made in the previous section, we decided to adopt the Ligero framework for our solution
 as the main actor, for the following reasons:
@@ -819,9 +928,9 @@ as the main actor, for the following reasons:
       \item Ligero has been optimized for heavy circuits like ECDSA signature verification circuit or sha256 preimage circuit,
       which are the main bottlenecks of our solution;
 \end{itemize}
-At this point we had to find a way to implement the dilithium signature verification algorithm in Ligero.
-In this phase, different attempts where made.
 
+In the following paragraphs we are going to describe the attempts we made that brought us to the final choice
+of using Ligero as main actor together with zk-dilithium library and MAC code witness passing techinque.
 % List of attempts:
 % MLDSA device binding: not efficient (report paper with more then 1 second only to sing inside SE)
 % Implementation of dilithium system inside Ligero: not efficient nor feasible for a thesis
@@ -830,16 +939,587 @@ In this phase, different attempts where made.
 % Pass poseidon of message efficient on STARK, but not on Ligero;
 % Figured out: use MAC code witness passing technique proven by frigo shelat.
 
+\paragraph{ML-DSA device binding}
+This direction was explored in the early stage of the thesis. The idea was to replace the device binding signature
+scheme (ECDSA) with a post-quantum NIST standardized signature scheme, ML-DSA~\cite{NISTFIPS204}. There where 2 main problems here, the first
+one is the compliance with LoA High treated in section ~\ref{loa}. LoA high requires that the device binding signature is generated inside a 
+tamper resistant secure element, which is not possible with ML-DSA with is not believed to be implementable in current devices.
+On this side of the problem, we actually found a paper ~\cite{Lee2026PQCMigration} by Lee et al. that provides a valid implementation
+of ML-DSA signature inside Android secure element.  The paper begins with a complete analysis of the android secure element and define 
+different steps of the author's approach to the implementation. The performance where not satisfactory at all for our purposes, and are reported in the 
+table below~\ref{tab:pqc_migration_total_time}. 
+
+The second problem is that ML-DSA is not a zk-friendly signature scheme, and it is difficult and not efficient at all to implement the signature verification algorithm 
+inside Ligero, which is the main actor of our solution. This problems made us move from this direction to the next one.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/SecureElement.png}
+    \caption{Secure element architecture.}
+    \label{fig:SecureElement}
+\end{figure}
+
+\begin{table}[ht]
+  \centering
+  \caption{Total processing time comparison of drop-in replacement versus the proposed post-quantum cryptography migration scheme (values in milliseconds).}
+  \label{tab:pqc_migration_total_time}
+  \small
+  \begin{tabular}{ll r}
+    \toprule
+    \textbf{Category} & \textbf{Scheme} & \textbf{Total} \\
+    \midrule
+    ML-DSA-44 & Drop-in replacement & 1,351 \\
+              & Proposed scheme     &   933 \\
+    \midrule
+    ML-DSA-65 & Drop-in replacement & 1,826 \\
+              & Proposed scheme     & 1,229 \\
+    \midrule
+    ML-DSA-87 & Drop-in replacement & 2,119 \\
+              & Proposed scheme     & 1,445 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Post-quantum Ligero signatures}
+The next direction involved a full research on the actual state of the art of post-quantum signature schemes implementation.
+Still keeping in mind our design choiche to be compliant with the actual standards, we focused on the possibility to implement
+other algorithm then ECDSA for the device binding signature, and other algorithm then ECDSA for the issuer signature. 
+For the device binding signature, as Lehmann et al. pointed out in their paper Vision~\cite{Lehmann2025Vision}, current 
+Secure Elements merely supports ECDSA signatures over P-256 curves. Moreover we needed the signature algorithm to be easily provable
+with zero knowledge technique in order to enable user to selectively disclose the identity attributes of the credentials.
+
+WIth respect to Ligero, no zero knowledge friendly post-quantum signature scheme has been implemented up to now.
+There where other proving systems like zkVM, for example RiscZero~\cite{RiscZero2026} that we tested in order to prove basic claims, but their
+run on android where extremly inefficient and not suitable for our purposes. We had to find another approach to solve the problem.
+
+\paragraph{zkDilithium library}
+This is where we had a foundamental intuition, which is actually one of the main contributions of this thesis to the current
+state of the art. 
+\begin{claim}
+Post-quantum security against a passive quantum adversary does not require the device binding signature algorithm to be post-quantum secure.
+\end{claim}
+We can show this by modifying the actual Ligero circuit approach to the credential presentation problem.
+Since Ligero is a zero knowledge proof system, in presentation moment the adversary is going to learn only that we know a valid
+device signature which involves the device public key contained in the credential. Revealing device public key to the relying party
+would lead to a privacy violation, since the relying party could link different presentations of the same credential.
+The device public key is also involved in another operation: credential issuance. 
+In this case, a semi-honest issuer could store user credential and user's device public key, and later on could break the device key
+offline and clone his credentials on every smartphone, invalidating the device binding property.
+To solve this problem, we came out with the following solution: the user will not send the issuer his device public key, 
+but will instead send the sha256 of the device public key, and will prove in zero knowledge that he knows a valid preimage of the 
+sha256. This way, the issuer will not be able to break the device key offline, since he does not know the device public key,
+and the relying party will not be able to link different presentations of the same credential, since he does not know the device public key.
+
+This direction allowed us to pass to the next step, which is to find a post-quantum signature scheme that is zk-friendly and can be used for the issuer signature.
+The most promising candidate we found is zk-dilithium~\cite{policharla2023postquantum}, an open source library that implements
+a zero knowledge friendly version of dilithium, a NIST standardized post-quantum signature scheme.
+The paper's primary contribution is modifying the standard Dilithium (ML-DSA) algorithm to be efficient within a Zero-Knowledge 
+proof system (specifically zkSTARKs). The main optimizations they introduce are:
+\begin{itemize}
+      \item \textbf{Hash Function Replacement}: Standard Dilithium uses SHA-3/SHAKE, which is very expensive to prove in ZK. 
+      The paper replaces it with Poseidon, an algebraic hash function designed for STARK efficiency;
+      \item \textbf{Public Key Distribution}: They do not use public key compression. By distributing the full vector t in 
+      the public key, they eliminate the need for the complex "hint" h in the signature verification process;
+      \item \textbf{"Sample In Ball" Optimization}: The deterministic algorithm used to generate challenges is modified to 
+      avoid rejection sampling within the ZK circuit, significantly lowering the number of constraints needed.
+\end{itemize}
+Given this optimizations, the results that the authors report in their paper are the provided in the table~\ref{tab:runtimes_memory} below.
 
 
+\begin{table}[ht]
+  \centering
+  \caption{Run times and peak memory usage.}
+  \label{tab:runtimes_memory}
+  \small
+  \begin{tabularx}{\textwidth}{@{}l X X X@{}}
+    \toprule
+    \textbf{Scheme} & \textbf{Prover (ms)} & \textbf{Verifier (ms)} & \textbf{Prover RAM (MB)} \\
+    \midrule
+    Better size & 4822 & 19.8 & 235 \\
+    Balanced    & 660  & 22.0 & 40 \\
+    Better time & 304  & 31.4 & 19 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
-\subsection{Analysis}
+The performance are completely compatible for our application, and the fact that the library is open source allows us to modify it 
+and adapt it to our needs, which is a very good thing considering the fact that we need to connect it with Ligero and we need to
+modify the public key field in the credential document standard.
+
+Now the situation is the following: we have Ligero zero knowledge proof system which is optimized for proving sha256 preimage
+and ECDSA, and we will use to prove device binding, disclose attributes ecc, and we have the zk-dilithium STARK prover
+which we will use to prove issuer's signature over device credentials. The next question is how to connect the two proof systems, 
+since we need to prove that the Ligero credentials that we disclose are the same proven to be signed by the issuer in the STARK proof,
+and this is what we are going to show in the next two paragraphs.
+
+\paragraph{SHA256 vs Poseidon}
+This paragraph is going to show the problem we have to face in order to connect Ligero and zk-dilithium proof systems via a 
+common commitment scheme.Immeditaly, we notice that this commitment should have 2 properties:
+\begin{itemize}
+      \item \textbf{Binding}: The binding property dictates that once the commitment is sent, the committer cannot alter the underlying 
+      message~\cite{Damgard1999}.We need the commitment to be associated to a single credential in order not to allow a malicious
+      prover to build the two different proofs over two different credentials;
+      \item \textbf{Hiding}: The hiding property ensures that when a commitment is sent, the receiver learns absolutely nothing about 
+      the underlying secret value~\cite{Damgard1999}. We need our commitment to be hiding, and in particular to involve some randomness,
+      because if the commitment is deterministic, then the prover's commitment across different presentations of the same credential
+      would be the same, and this would allow the verifier to link different presentations of the same credential.
+\end{itemize}
+The first and simpler solution that came to our mind was to use a common, public sha256 commitment of the message signed by the issuer,
+which corresponds to the hash of the credential. In this way, we just needed a public commitment, the same in the common public input
+for both Ligero and STARK proof system, and we could prove in Ligero that the commitment is associated to the sha256 of the credential,
+and in STARK that the commitment is associated to the issuer signature over the credential. Moreover, we had already the implementation
+of the sha256 preimage prover in Ligero, and, as Frigo and Shelat shows in thier paper~\cite{cryptoeprint:2024/2010}, the sha256 preimage
+proof performance, that are reported in the table~\ref{tab:sha256_frigo_shelat} below, are completely compatible with our application.
+\begin{table}[ht]
+\centering
+\caption{Timing benchmark of an n-block pre-image to the SHA-256 function performed on x86\_64 Emerald Rapids.}
+\label{tab:sha256_frigo_shelat}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X X X@{}}
+\toprule
+\textbf{Blocks (n)} & \textbf{Verify Transcript (ms)} & \textbf{Total ZK Prover (ms)} \\
+\midrule
+1 block  & 6.07  & 10.7 \\
+2 blocks & 12.1  & 19.8 \\
+4 blocks & 24.3  & 35.2 \\
+8 blocks & 49.8  & 67.9 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+The problem there became the following: how to implement sha256 inside the STARK prover system ? The answare was not trivial at all.
+We searched for an efficient implementation of sha256 inside a STARK prover system, and we found the winterfell sha256 implementation
+on github~\cite{iStrannikWinterfellSha256} which had good performance, but we found out a field incompatibility problem between the
+winterfell sha256 implementation which was running on $GF(2^{128})$, and the zk-dilithium STARK implementation, which is a fork of 
+the standard STARK winterfell implementation by Facebook~cite{FacebookWinterfell} running on $q = 2^{23} - 2^{20} + 1$ field.
+The other way around was to implement the Poseidon hash function, which is implemented by default in the STARK proof system 
+and runs in a few milliseconds, being poseidon a zk-friendly hash function. We searched online for a Ligero implementation of
+the Poseidon23 hash function, which was the STARK version, but we were didn't find any implementation. Since the field in which
+Poseidon23 function was implemented in the STARK proof system was different from the field in which Ligero was implemented, 
+we decided to try to look for a simpler way to connect the two proof systems.
+
+Notice that, whenever there will be an online implementation of Poseidon23 for Ligero, or sha256 for STARK in 
+$q = 2^{23} - 2^{20} + 1$ field, we will be able to easily modify our solution to use the same hash function for both proof 
+systems, which could lead to a possible speed up.
+
+\paragraph{MAC code witness passing technique}
+In this final paragraph we show how to connect the two proof systems without using a common hash function, 
+but using an information theoretic MAC like Frigo and Shelat paper in section 3.4 of their paper~\cite{cryptoeprint:2024/2010}, 
+which allows us to pass the sha256 of the credential from the Ligero circuit to the zk-dilithium STARK circuit in a secure way.
+The idea is the following: the prover generates a random key $k_p$ and sends it to the verifier,
+who generates a public key $k_v$ and send it back to the prover. The orchestrator computes the MAC as $MAC m = a*x + b$ over the
+sha256 of the credential $x$, where $a$ and $b$ are obteined as $(a,b) = k$ with respect to the key $k = k_p \oplus k_v$. 
+The prover shows in Ligero that he knows a valid preimage of the sha256 of the credential, and that the MAC is correct with respect 
+to $k_p$ and $k_v$, and in STARK that he knows a valid signature of the issuer over a credential whose sha256 has a MAC equal to the 
+one received from the orchestrator with respect to $k_p$ and $k_v$. T
+
+his way, we can securely pass the sha256 of the credential from Ligero to zk-dilithium without using a common hash function, 
+and without revealing any information about the credential itself.
+
+Further proofs of security and formal implementation details are provided in the next sections.
+
+\subsection{Proof formalization}
+\label{formalization}
+In this section we are going to formalize how our design of the prover and the verifier works.
+
+\subsubsection{Glossary of Symbols}
+\label{sec:glossary}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\paragraph*{Credential and session}
+
+\begin{description}[leftmargin=3.5em, labelwidth=3em, style=sameline, itemsep=2pt]
+  \item[$MSO$]   The user's credential (Mobile Security Object), a byte-string
+                 laid out as an array of fields.
+  \item[$tr$]    \emph{Session transcript}: a unique, fresh value jointly produced
+                 by prover and verifier during the handshake. It binds the proof to
+                 one specific session (anti-replay / freshness) and is the nonce the
+                 device signs for device binding. Used in $k_v$ derivation and in
+                 constraint \textbf{(L7)}.
+  \item[$now$]   Current Unix timestamp, checked against the credential's validity
+                 window \textbf{(L6)}.
+  \item[$attr$]  The attribute value being disclosed.
+  \item[$id$]    Index of $attr$ inside $MSO$.
+\end{description}
+
+\paragraph*{Credential hash and commitments}
+
+\begin{description}[leftmargin=3.5em, labelwidth=3em, style=sameline, itemsep=2pt]
+  \item[$e_1$]   $\SHA(MSO[0:183])$---the message the issuer actually signed.
+                 Shared (privately) by both proofs.
+  \item[$R_S$]   STARK-side Poseidon23 commitment to $(k_p,e_1)$. Locks the
+                 prover's key share so $e_1$ cannot be swapped.
+  \item[$R_L$]   Ligero-side SHA256 commitment to $(k_p,e_1)$. Same purpose,
+                 on the other proof system.
+\end{description}
+
+\paragraph*{MAC (links the two proofs)}
+
+\begin{description}[leftmargin=3.5em, labelwidth=3em, style=sameline, itemsep=2pt]
+  \item[$k_p$]   Prover's secret key share, fresh per presentation (unlinkability).
+  \item[$k_v$]   Verifier's key share, derived as
+                 $\SHA(R_L \concat R_S \concat tr)$. Depends on \emph{both}
+                 commitments, so it cannot be fixed before committing to $e_1$.
+  \item[$a,b$]   The two 128-bit halves of $k_v \oplus k_p$ ($a = $ high,
+                 $b = $ low); together they form the affine-MAC key.
+  \item[$m$]     The \textbf{MAC tag} of $e_1$: $m = a \cdot e_1 + b \in \FF$.
+                 It is an authentication tag---it neither hides nor encrypts
+                 $e_1$. The \emph{same} $m$ appears in both proofs and is the
+                 value the verifier cross-checks.
+\end{description}
+
+\paragraph*{Keys and signatures}
+
+\begin{description}[leftmargin=3.5em, labelwidth=3em, style=sameline, itemsep=2pt]
+  \item[$PK_{II}$]         Issuer public key (Dilithium, post-quantum).
+  \item[$SK_{II}$]         Issuer secret key (Dilithium).
+  \item[$sign$]            Issuer's Dilithium signature on $e_1$.
+  \item[$pk_{dx},pk_{dy}$] Device public key (the two elliptic-curve coordinates
+                           over P-256).
+  \item[$(r_2,s_2)$]       Device's ECDSA-P256 signature over the session nonce,
+                           proving device binding.
+\end{description}
+
+\paragraph*{Device-auth black boxes (Frigo--Shelat)}
+
+\begin{description}[leftmargin=3.5em, labelwidth=3em, style=sameline, itemsep=2pt]
+  \item[$H$]    The hash applied to $tr \concat hdr$ before the device ECDSA
+                check (left unspecified; specified by Frigo--Shelat).
+  \item[$hdr$]  The DeviceAuth header prepended to $tr$ (left unspecified).
+\end{description}
+
+\paragraph*{Outputs}
+
+\begin{description}[leftmargin=3.5em, labelwidth=3em, style=sameline, itemsep=2pt]
+  \item[$\pi_S,\pi_L$] The STARK and Ligero zero-knowledge proofs.
+  \item[$Pres$]        The presentation $(X_S, X_L, \pi_S, \pi_L)$ handed to
+                       the verifier.
+\end{description}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\subsubsection{Notation}
+\label{sec:notation}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Notation} & \textbf{Meaning} \\
+\midrule
+$x \concat y$                       & concatenation of bit-strings $x$ and $y$ \\
+$[\,\mathit{cond}\,]$               & $1$ if $\mathit{cond}$ holds, $0$ otherwise \\
+$z = \hipart{z} \concat \lopart{z}$ & for $z\in\FF$: $\hipart{z}, \lopart{z}$ are the most-/least-significant 128-bit halves \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\subsubsection{Assumed Components}
+\label{sec:components}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\begin{align*}
+\SHA            &: \text{byte-string} \to \{0,1\}^{256} \\
+\Poseidon       &: \text{byte-string} \to \{0,1\}^{256} \\
+H               &: \text{byte-string} \to \{0,1\}^{256}
+  && \text{(Frigo--Shelat device check, unspecified)} \\
+hdr             &: \text{byte-string}
+  && \text{(DeviceAuth header, unspecified)} \\
+\prand(n)       &: \mathbb{N} \to \{0,1\}^{8n}
+  && \text{(\texttt{rand.randombytes(n)})} \\
+\nowts()        &: () \to \mathbb{N}
+  && \text{(\texttt{time.getTimestamp(0)}, current Unix time)} \\
+\attrat(MSO,id) &: \text{byte-string} \times \mathbb{N} \to \text{byte-string}
+  && \text{the $id$-th attribute element of $MSO$}
+\end{align*}
+
+\paragraph{Dilithium (post-quantum signature scheme).}
+The issuer key pair is produced by $\DilKG$; the issuer signs the credential
+hash with $\DilSign$; the relation \textbf{(S3)} checks the signature with
+$\DilVerify$.
+\begin{align*}
+\DilKG()                         &\to (SK_{II},\, PK_{II}) \\
+\DilSign(SK_{II},\, msg)         &\to sign \\
+\DilVerify(sign,\, msg,\, PK_{II}) &\to \{0,1\}
+\end{align*}
+
+\paragraph{ECDSA over P-256 (device binding).}
+The device key pair is produced by $ECKG$; the device signs the session
+nonce $H(tr \concat hdr)$ with $ECSign$; the relation \textbf{(L7)} checks the
+signature with $ECVerify$.
+\begin{align*}
+ECKG()                                                       &\to (sk_d,\, (pk_{dx}, pk_{dy})) \\
+ECSign(sk_d,\, msg)                                          &\to (r_2,\, s_2) \\
+ECVerify\!\bigl((r_2, s_2),\, msg,\, (pk_{dx}, pk_{dy})\bigr) &\to \{0,1\}
+\end{align*}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\subsubsection{Proof Systems}
+\label{sec:proof-systems}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\[
+  \mathrm{Prove}(x, w) \to \pi
+  \quad\textbf{require } (x,w)\in\mathcal{R};\quad
+  \textbf{ensure } \mathrm{Verify}(x,\pi)=1,
+\]
+\[
+  \mathrm{Verify}(x, \pi) \to b
+  \quad\textbf{ensure } b=1 \;\Rightarrow\; \exists\, w'.\; (x,w')\in\mathcal{R}.
+\]
+
+% ───────────────────────────────────────────────────────────────────────────
+\paragraph{Module \textsf{STARK}}
+\label{sec:stark}
+% ───────────────────────────────────────────────────────────────────────────
+
+The STARK module proves issuer-credential validity and links the two proof
+systems via the affine MAC. We name its instance $X_S$ and witness $W_S$.
+
+\begin{mdframed}[style=relationbox]
+\[
+\RelSTARK \;=\; \left\{\;
+\begin{array}{@{}l@{}}
+x := (PK_{II},\, m,\, k_v,\, R_S) \\[5pt]
+w := (sign,\, e_1,\, k_p,\, a,\, b)
+\end{array}
+\;\middle|\;
+\begin{array}{@{}l@{\qquad}r@{}}
+R_S = \Poseidon(k_p \oplus e_1) \;\wedge & \text{(S1)} \\[4pt]
+a = \hipart{(k_v \oplus k_p)} \;\wedge & \text{(S2a)} \\[4pt]
+b = \lopart{(k_v \oplus k_p)} \;\wedge & \text{(S2b)} \\[4pt]
+m = a \cdot e_1 + b \;\wedge & \text{(S2c)} \\[4pt]
+\DilVerify(sign,\, e_1,\, PK_{II}) = 1 & \text{(S3)}
+\end{array}
+\;\right\}
+\]
+\end{mdframed}
+
+\begin{itemize}[leftmargin=2em, itemsep=2pt]
+  \item \textbf{(S1)} $R_S$ is the STARK commitment opening of $(k_p, e_1)$.
+  \item \textbf{(S2a),(S2b)} The MAC key halves $a,b$ are asserted to equal
+        the high/low halves of $k_v \oplus k_p$; an incorrect $a$ or $b$
+        makes the proof fail.
+  \item \textbf{(S2c)} $m$ is the affine MAC of $e_1$ under that key.
+  \item \textbf{(S3)} $sign$ is a valid Dilithium issuer signature on $e_1$.
+\end{itemize}
+
+% ───────────────────────────────────────────────────────────────────────────
+\paragraph{Module \textsf{Ligero}}
+\label{sec:ligero}
+% ───────────────────────────────────────────────────────────────────────────
+
+The Ligero module proves attribute disclosure, credential-to-device binding,
+validity window, and device possession. We name its instance $X_L$ and
+witness $W_L$.
+
+\begin{mdframed}[style=relationbox]
+{\small
+\[
+\RelLigero \;=\; \left\{\;
+\begin{array}{@{}l@{}}
+x := (attr,\, id,\, tr,\, now, \\
+\phantom{x := (}\, m,\, k_v,\, R_L) \\[5pt]
+w := (r_2,\, s_2,\, MSO,\, pk_{dx}, \\
+\phantom{w := (}\, pk_{dy},\, k_p,\, e_1,\, a,\, b)
+\end{array}
+\;\middle|\;
+\begin{array}{@{}l@{\quad}r@{}}
+e_1 = \SHA(MSO[0:183]) \;\wedge & \text{(L1)} \\[4pt]
+R_L = \SHA(k_p \oplus e_1) \;\wedge & \text{(L2)} \\[4pt]
+a = \hipart{(k_v \oplus k_p)} \;\wedge & \text{(L3a)} \\[4pt]
+b = \lopart{(k_v \oplus k_p)} \;\wedge & \text{(L3b)} \\[4pt]
+m = a \cdot e_1 + b \;\wedge & \text{(L3c)} \\[4pt]
+attr = \attrat(MSO, id) \;\wedge & \text{(L4)} \\[4pt]
+MSO[128:160] = \SHA(pk_{dx} \concat pk_{dy}) \;\wedge & \text{(L5)} \\[4pt]
+\intcast(MSO[48:56]) < now < \intcast(MSO[56:64]) \;\wedge & \text{(L6)} \\[4pt]
+ECVerify\!\bigl((r_2,s_2),\, H(tr \concat hdr),\, (pk_{dx},pk_{dy})\bigr) = 1 & \text{(L7)}
+\end{array}
+\;\right\}
+\]
+}
+\end{mdframed}
+
+\begin{itemize}[leftmargin=2em, itemsep=2pt]
+  \item \textbf{(L1)} $e_1$ is the SHA256 hash of the credential $MSO$.
+  \item \textbf{(L2)} $R_L$ is the Ligero commitment opening of $(k_p, e_1)$.
+  \item \textbf{(L3a),(L3b),(L3c)} Same structure as \textbf{(S2a)--(S2c)}:
+        $a, b$ are the high/low halves of $k_v \oplus k_p$, and
+        $m = a \cdot e_1 + b$.
+  \item \textbf{(L4)} $attr$ is the disclosed attribute at position $id$ in $MSO$.
+  \item \textbf{(L5)} The device public key $(pk_{dx}, pk_{dy})$ hashes to the
+        value stored in $MSO$.
+  \item \textbf{(L6)} The current time $now$ lies within the credential's
+        validity window.
+  \item \textbf{(L7)} $(r_2, s_2)$ is a valid device ECDSA-P256 signature
+        over the session nonce (device possession / binding).
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\subsubsection{Algorithm 1 --- Orchestrator}
+\label{sec:orchestrator}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\paragraph{The Orchestrator as a prover.} 
+
+\begin{mdframed}[style=relationbox]
+{\small
+\[
+\RelOrch \;=\; \left\{\;
+\begin{array}{@{}l@{}}
+x := (PK_{II},\, attr,\, id,\, tr,\, now, \\
+\phantom{x := (}\, m,\, k_v,\, R_S,\, R_L) \\[5pt]
+w := (sign,\, r_2,\, s_2,\, MSO,\, pk_{dx}, \\
+\phantom{w := (}\, pk_{dy},\, e_1,\, k_p,\, a,\, b)
+\end{array}
+\;\middle|\;
+\begin{array}{@{}l@{\quad}r@{}}
+k_v = \SHA(R_L \concat R_S \concat tr) \;\wedge & \text{(O1)} \\[5pt]
+\bigl(X_S,\, W_S\bigr) \in \RelSTARK \;\wedge & \text{(O2)} \\[5pt]
+\bigl(X_L,\, W_L\bigr) \in \RelLigero & \text{(O3)}
+\end{array}
+\;\right\}
+\]
+}
+\end{mdframed}
+
+\noindent where the sub-instances and sub-witnesses are the projections
+\[
+\begin{aligned}
+X_S &= (PK_{II},\, m,\, k_v,\, R_S), &\qquad
+W_S &= (sign,\, e_1,\, k_p,\, a,\, b), \\
+X_L &= (attr,\, id,\, tr,\, now,\, m,\, k_v,\, R_L), &\qquad
+W_L &= (r_2,\, s_2,\, MSO,\, pk_{dx},\, pk_{dy},\, k_p,\, e_1,\, a,\, b).
+\end{aligned}
+\]
+
+\begin{remark}
+The only constraint not already enforced by $\RelSTARK$ or $\RelLigero$ is
+\textbf{(O1)}, the derivation of the verifier key $k_v$. Constraint
+\textbf{(O1)} binds \emph{both} commitments $R_S, R_L$ and the session
+transcript $tr$ together, so $k_v$ cannot be fixed before committing to $e_1$.
+Every other property---the issuer signature \textbf{(S3)}, the device
+signature \textbf{(L7)}, the affine MAC \textbf{(S2c)/(L3c)}, the validity
+window \textbf{(L6)}, and so on---is inherited from the two sub-relations.
+Because $\RelOrch$ uses a single shared witness, the values $e_1, k_p, a, b, m$
+and $k_v$ are automatically forced to agree across the STARK and Ligero
+instances.
+\end{remark}
+
+\begin{algorithm}[H]
+\caption{Orchestrator (prover for $\RelOrch$)}
+\label{alg:orchestrator}
+\begin{algorithmic}[1]
+\Require $MSO$,\; $tr$,\; device signature $(r_2, s_2)$,\; issuer signature $sign$,\;
+         device public key $(pk_{dx}, pk_{dy})$,\;
+         attribute $attr$ with index $id$,\; issuer public key $PK_{II}$
+\Ensure  $Pres = (X_S, X_L, \pi_S, \pi_L)$
+\State $e_1 \gets \SHA(MSO[0:183])$
+\State $k_p \gets \prand(32)$
+\State
+\State $R_S \gets \Poseidon(k_p \oplus e_1)$
+\State $R_L \gets \SHA(k_p \oplus e_1)$
+\State $k_v \gets \SHA(R_L \concat R_S \concat tr)$
+  \Comment{establishes \textbf{(O1)}}
+\State
+\State $a \gets \hipart{(k_v \oplus k_p)}$
+\State $b \gets \lopart{(k_v \oplus k_p)}$
+\State $m \gets a \cdot e_1 + b$
+\State
+\State $now \gets \nowts()$
+\State
+\State $X_S \gets (PK_{II},\; m,\; k_v,\; R_S)$
+\State $W_S \gets (sign,\; e_1,\; k_p,\; a,\; b)$
+\State $X_L \gets (attr,\; id,\; tr,\; now,\; m,\; k_v,\; R_L)$
+\State $W_L \gets (r_2,\; s_2,\; MSO,\; pk_{dx},\; pk_{dy},\; k_p,\; e_1,\; a,\; b)$
+\State
+\State \(\triangleright\)~\textit{Pre-condition (cf.\ $\RelOrch$): $(X_S,W_S)\in\RelSTARK$ and
+       $(X_L,W_L)\in\RelLigero$}
+\State $(\pi_S, \pi_L) \gets
+  \mathrm{parallel}\!\bigl(
+    ()\mapsto\STARKProve(X_S,W_S),\;
+    ()\mapsto\LigeroProve(X_L,W_L)
+  \bigr)$
+\State \Return $(X_S, X_L, \pi_S, \pi_L)$
+\end{algorithmic}
+\end{algorithm}
+
+% ═══════════════════════════════════════════════════════════════════════════
+\subsubsection{Algorithm 2 --- Verifier}
+\label{sec:verifier}
+% ═══════════════════════════════════════════════════════════════════════════
+
+\paragraph{What the verifier checks.}
+On receiving a presentation $Pres = (X_S, X_L, \pi_S, \pi_L)$ and session
+transcript $tr$, the verifier accepts iff a witness for the Orchestrator
+relation $\RelOrch$ exists for the implied statement. Concretely it verifies
+the four properties below; the first that fails causes rejection.
+
+\begin{enumerate}[leftmargin=2em, label=\textbf{V\arabic*.}, itemsep=3pt]
+  \item \textbf{Consistency.} Both proofs share the same MAC tag $m$, the same
+        verifier key $k_v$, and the same session transcript $tr$
+        ($m_S = m_L$,\; $k_{v,S} = k_{v,L}$,\; $tr_L = tr$). This forces the two
+        instances to be the projections $X_S, X_L$ of a single Orchestrator
+        instance, preventing an adversary from mixing components of different
+        sessions or credentials.
+  \item \textbf{Binding of $k_v$ (constraint \textbf{(O1)}).} The verifier key is
+        the hash of \emph{both} commitments together with the transcript,
+        $k_v = \SHA(R_L \concat R_S \concat tr)$. This is exactly the additional
+        constraint of $\RelOrch$ and is the one property that neither
+        sub-proof checks internally.
+  \item \textbf{STARK validity (constraint \textbf{(O2)}).} The proof $\pi_S$ is a
+        valid proof of knowledge for $X_S$: there exists $W_S$ with
+        $(X_S, W_S)\in\RelSTARK$. This certifies the issuer Dilithium signature
+        on $e_1$ and the correct MAC computation.
+  \item \textbf{Ligero validity (constraint \textbf{(O3)}).} The proof $\pi_L$ is a
+        valid proof of knowledge for $X_L$: there exists $W_L$ with
+        $(X_L, W_L)\in\RelLigero$. This certifies attribute disclosure, device
+        binding, and credential freshness.
+\end{enumerate}
+
+Conditions \textbf{V1}--\textbf{V4} together establish that there exists a
+witness $W_{\mathsf{Orch}}$ with $\bigl((X_S\cup X_L),\, W_{\mathsf{Orch}}\bigr)
+\in \RelOrch$: \textbf{V1} identifies the shared public values, \textbf{V2}
+discharges the additional constraint \textbf{(O1)}, and \textbf{V3}--\textbf{V4}
+discharge \textbf{(O2)}--\textbf{(O3)}.
+
+\begin{algorithm}[H]
+\caption{Verifier}
+\label{alg:verifier}
+\begin{algorithmic}[1]
+\Require $Pres$,\; session transcript $tr$
+\Ensure $\accept$ or $\reject$
+\State \Parse $Pres = (X_S, X_L, \pi_S, \pi_L)$
+\State \Parse $X_S = (PK_{II},\; m_S,\; k_{v,S},\; R_S)$
+\State \Parse $X_L = (attr,\; id,\; tr_L,\; now,\; m_L,\; k_{v,L},\; R_L)$
+\State
+\State \(\triangleright\)~\textit{V1: consistency --- shared MAC, verifier key, and session}
+\If{$m_S \neq m_L$} \Rejects \EndIf
+\If{$k_{v,S} \neq k_{v,L}$} \Rejects \EndIf
+\If{$tr_L \neq tr$} \Rejects \EndIf
+\State
+\State \(\triangleright\)~\textit{V2: binding --- constraint (O1) of $\RelOrch$}
+\If{$k_{v,S} \neq \SHA(R_L \concat R_S \concat tr)$} \Rejects \EndIf
+\State
+\State \(\triangleright\)~\textit{V3: STARK proof validity --- constraint (O2)}
+\If{$\STARKVerify(X_S, \pi_S) \neq 1$} \Rejects \EndIf
+\State
+\State \(\triangleright\)~\textit{V4: Ligero proof validity --- constraint (O3)}
+\If{$\LigeroVerify(X_L, \pi_L) \neq 1$} \Rejects \EndIf
+\State
+\Accepts
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Security Analysis}
 \label{analysis}
+In this seciton we are going to perform analysis with respect to the security of our solution, we are going to analyze
+the compliance of our solution with the eIDAS 2.0 regulation and with the LoA High requirements, and we are going to analyze 
+the threat model of our solution, showing how and why it satisfies our design choice explained in section~\ref{designchoice}.
 
-\subsubsection{Security analysis}
+\subsubsection{MAC witness sharing}
 \label{securityanalysis}
-
-\paragraph{MAC witness sharing}
 STARK zk proof over the issuer signature needs dilithium verification algorithm.
 The algorithm takes in input the signature $sig$, the message being signed $e_1$ and 
 the public key of the issuer $PK_{II}$.
@@ -848,7 +1528,7 @@ of sha256 preimage is hard to prove in STARK winterfell circuit, so we propose t
 following solution: the Ligero circuit, which has an optimized sha prover, will
 prove $e_1 = sha256(cred)$, then $e_1$ is encoded in a binding and hiding commitment
 realized with information theoretic MAC.
-ecc ecc ecc.
+
 Mathematical proof of MAC security:$$m = MAC_k(e_1) = MAC_{k_p,k_v}(e_1) = MAC_{a,b}(e_1)$$
 We obtain the key as:$$(a,b) = k_p \oplus k_v$$ where $k_p$ is a secret random 32 bytes key
 choosen by the prover and $k_v$ is a public verifiable key chosen by the verifier.
@@ -905,18 +1585,124 @@ issuance or expiration dates, as required for privacy-preserving interactions;
 
 \subsubsection{Threat Model}
 \label{threatmodel}
+In this section we clarify the threat model we are considering for our solution, and explaining
+clearly where this thesis is going to be placed inside the context of the EUDI wallet application.
 
+Current implementations completely lacks of post-quantum security, since current infrastructures relies on
+RSA and ECDSA signatures, and since hardware constraints of the LoA High requirements of the eIDAS 2.0 regulation
+forces the use of P256 curve. Since now, for this reasons, no one has already made any steps in the direction
+of getting a post-quantum solution for the EUDI wallet application.
+
+With the solution proposed in this thesis, we are not achieving a full post-quantum secure wallet:
+instead, what we are achieving is post-quantum security for the current state of the art and technology advance
+in the quantum computing research.
+In this moment, no quantum computer is able to break RSA nor ECDSA signatures, but what an adversary could do
+is to record authentication sessions as a relying party or just a passive network monitoring adversary, and 
+later on get the capability to break the signatures and forge device binding and issuer signature, or worst.
+A malicious issuer could collect users device public key and credentials,
+and later on break that set of keys and, being able to forge also device binding signature, impersonate other users.
+
+With our solution we are protecting millions of users from this kind of risks. In fact, this solution is completely
+secure against semihonest adversaries, as shown before.
+Why our solution is not actual secure against malicious adversaries?
+
+\paragraph{Forgery attack}
+A malicious prover, which owns a valid credential and owns a quantum computer, could reverse engineer the application
+and extract the public key of the device. This is possible because, when the proof is generated, the device public key
+is needed in order to generate the zero-knowledge proof for the validity of the device binding signature. This operation,
+given the actual hardware restriction, cannot be made inside the Secure Element, therefore the device public key is
+exposed to the wallet unit which runs the prover algorithm, and with proper technique could be extracted and reversed
+with the Shor's algorithm~\cite{Shor1997Polynomial} in order to obtain the device private key.
+
+\paragraph{Mitigation}
+This attack allows a malicious prover to extract the device public key from his own device.
+In order for the attacker to be able to use the stolen device keys, he will still need the credentials.
+In the particular (and easier) case in which the attacker is the owner of the device and the credentials,
+he will be able to pass his credentials across different deiveces and therefore he could allow other
+users to use his credentials. This violates the LoA High required by the eIDAS 2.0 regulation, but does
+not allow the attacker to impersonate other users, since he will not be able to forge device binding signature
+for other users. Instead the attacker is only able to share his identity, which in first place harm his own
+privacy. There is also a sever economic disincentive for the attacker to forge his own device keys, sincea 
+this implies a quantum computer attack, expensive and time consuming, in order to forge a single keypair,
+which by the way is his own keypair.
+
+In conclusion, the solution proposed in this thesis is secure against semihonest quantum adversarial prover,
+but is a perfect bridge between a completly quantum-agnostic implementation of the wallet and a future
+post-quantum sound implementation of the wallet, which will be able to protect users against malicious quantum adversaries.
+Post-quantum sound solutions are likely to be out soon, since the enitre online comunity, due to incurrent quantum
+threat, is moving towards post-quantum secure softwares. In particular, Google declared that the next version
+of their operating system, Android 17, will implement post-quantum secure NIST standardized algorithm 
+ML-DSA~\cite{Google2026SecurityQuantumAndroid}.
 
 
 \section{Results}
 \label{results}
 
-\section{Future work}
-\label{futurework}
+\section{Future Work}
+\label{sec:future-work}
+
+The prototype presented in this thesis demonstrates, for the first time, that privacy-preserving, post-quantum, device-bound anonymous credentials are feasible on commodity hardware. It remains, however, a proof of concept: it shows that the approach \emph{can} work, not that it is yet a complete, formally verified, and standards-ready system. The remainder of this section details the concrete directions along which this work can and should be extended.
+
+\subsection{Formal Treatment and System Completion}
+
+The most immediate gap between the current prototype and a deployable system is the lack of a formal security treatment. Future work should provide a formal security model for post-quantum, device-bound anonymous credentials operating on legacy hardware and legacy infrastructures, together with reductions to well-established hard problems for each underlying construction. Closing this gap would not only place the scheme on rigorous theoretical footing but would also make it, to the best of current knowledge, the first concrete instantiation of an EUDI Wallet credential that simultaneously fulfils all of the European Commission's stated requirements for the wallet, rather than approximating a subset of them as current deployable approaches do.
+
+\subsection{Optimization of the Mixed Zero-Knowledge Construction}
+
+The present construction is built by mixing two different zero-knowledge proof technologies: a hash-based zero-knowledge bridge on top of a classical, secure-element-bound ECDSA signature, composed with an outer post-quantum signature layer. This composition was designed primarily to demonstrate feasibility, and a closer examination of \emph{how} the two proof systems are mixed and composed is likely to yield a substantial performance improvement. Future work should:
+\begin{itemize}
+    \item profile the zero-knowledge layer end to end to locate the actual bottlenecks, including circuit size, the choice of commitment scheme, the underlying field, and the hash function used;
+    \item iterate on the proof system itself and on the way its components are composed, rather than treating the two ZK technologies as a fixed black-box pipeline;
+    \item re-benchmark proving time, verification time, and proof size after each optimization round, comparing against the original prototype and against external baselines.
+\end{itemize}
+Concrete target metrics for this optimization effort include sub-second presentation proving on mid-range phones, proof and communication sizes competitive with the Frigo--Shelat construction underlying Google's Longfellow system, and explicit coverage of low-end devices that lack a high-assurance secure element, which the current prototype does not specifically address.
+
+\subsection{Extended Credential Functionality}
+
+Beyond the core presentation proof over the standard MDOC document format, several features are necessary for a credential system to be realistically deployable at the scale of a national or European digital identity wallet, and none of them are trivial extensions of the base scheme:
+
+\begin{itemize}
+    \item \textbf{Multiple-attribute presentation.} Support presenting several attributes in a single proof, including attributes drawn from different credentials, assembled and proved jointly rather than one credential at a time.
+    \item \textbf{Revocation lists.} Implement a revocation mechanism that lets a verifier efficiently check the current validity of a credential after the issuer has invalidated it. Revocation is essential for any real-world deployment, but is notoriously difficult to implement without breaking the unlinkability properties that anonymous credentials are meant to provide.
+    \item \textbf{Pseudonyms.} Implement accountable pseudonyms that let a user log in to, and persist a stable identifier with, a given relying party for an arbitrary purpose, while remaining anonymous and unlinkable everywhere else. Pseudonym support is mandated by the EUDI Architecture Reference Framework, yet, at the time of writing, no advanced anonymous-credential system has produced a working implementation of it.
+    \item \textbf{Presentation deniability.} Investigate mechanisms that always allow a user to deny having produced a specific presentation, optionally at the verifier's discretion. Such deniability can be built on different paradigms, for instance on the property that a given proof could plausibly have been produced by someone else entirely, rather than necessarily by the holder of the credential.
+    \item \textbf{Blind signature of credentials.} Explore blind-signature constructions that let an issuer sign credential data supplied by the user without learning what is actually being signed, while still being able to verify that the blinded data is well-formed and correct.
+    \item \textbf{Social recovery.} Design a social-recovery mechanism, based on threshold cryptography and a set of trusted users, so that the loss of a device does not entail the unrecoverable loss of all the credentials and private information it held. This is particularly important in a system that, by design, avoids a central authority responsible for backing up user data.
+\end{itemize}
+
+\subsection{Alternative and Exploratory Research Directions}
+
+A number of directions depart from the specific path taken in the current prototype but are worth investigating in their own right:
+
+\begin{itemize}
+    \item \textbf{Multi-party computation (MPC).} Investigate whether efficient MPC protocols over the anonymous-credential system could circumvent, rather than work around, the limitations of secure elements that cannot natively execute the algorithms the scheme requires.
+    \item \textbf{Native post-quantum support in future Android releases.} Android 17, expected in 2026/27, has been announced to implement the ML-DSA post-quantum signature standard. Once secure elements natively support ML-DSA, it becomes possible to combine a post-quantum device-binding signature with a post-quantum issuer signature efficiently and natively, removing the need for the hybrid hash-based bridge used in the current prototype.
+    \item \textbf{Hash-based post-quantum signatures.} Legacy secure elements are already capable of computing the SHA-256 hash function, which is believed to be post-quantum resistant. This opens the possibility of implementing a standardized hash-based post-quantum signature scheme, such as SPHINCS+, directly inside the secure element, as a potentially more efficient alternative to ML-DSA in terms of proving time and key size.
+\end{itemize}
+
+\subsection{Evolving the Threat Model}
+
+The design should continue to be evaluated against two distinct time horizons, and future work should make this evolution explicit rather than implicit:
+
+\begin{itemize}
+    \item \textbf{Medium term.} No cryptographically relevant quantum computer exists yet, but the deployed infrastructure -- secure elements limited to ECDSA over P-256, classical issuers and verifiers, and hundreds of millions of presentations already being made -- does. The pressing danger in this horizon is store-now-decrypt-later and its privacy-specific variant, store-now-link-later: an issuer, a set of colluding verifiers, or a passive network observer can record today's presentations and, once a quantum computer becomes available, retroactively break the classical assumptions that kept those presentations unlinkable, de-anonymizing users across services and over time. Because identity data remains sensitive for decades and a privacy breach cannot be undone, the relevant clock starts at the moment a presentation is made, not at the moment a quantum computer first appears, which is precisely why this threat must be addressed now, on hardware that cannot be changed.
+    \item \textbf{Long term.} The infrastructure itself is eventually upgraded: secure elements gain native post-quantum signatures, and issuer and verifier stacks complete their NIST- and EU-mandated migrations. Future work should ensure the scheme is designed to grow into this setting without requiring a redesign, rather than being optimized exclusively for the medium-term, legacy-hardware case.
+\end{itemize}
+
+A related, but comparatively lower-priority, risk is credential forgeability. Because device binding requires the device's public key to be embedded in the credential document, a sufficiently capable quantum adversary could in principle recover the corresponding ECDSA secret key and forge the binding. By itself, this only grants the ability to use an already-stolen credential, or to clone one's own credential, and only for one device at a time; mounting this attack at any meaningful scale would require physically extracting keys from a very large number of individual phones, a cost that is not justified by any realistic gain. The timeline further weakens this risk: with ML-DSA support expected in Android secure elements from 2026, and roughly four years estimated before a cryptographically relevant quantum computer (Q-day) materializes, device binding should become post-quantum sound across most of the device base before this attack is ever practical. Future work should track this timeline and adjust the urgency of mitigations accordingly.
 
 \section{Conclusion}
-\label{conclusion}
+\label{sec:conclusion}
 
+This are some benefits which derives from our solution proposed in this thesis:
+
+\begin{itemize}
+    \item \textbf{Advancement over the state of the art.} Existing deployable approaches, such as Frigo--Shelat, do not achieve post-quantum privacy and remain dependent on the secure element; pairing-based BBS/BBS+ offers elegant selective disclosure but is neither post-quantum nor hardware-compatible. A system that simultaneously targets privacy preservation, post-quantum security, device binding, and deployability on legacy hardware, and validates all four properties on commodity phones, would be the first of its kind.
+    \item \textbf{Impact on European Digital Identity.} Every EU Member State is required to offer an EUDI Wallet, and the regulation's privacy goals are currently unmet. Directly addressing the two acknowledged weaknesses of the current design -- over-disclosure and linkability -- with real predicate proofs and unlinkable presentations, while making the wallet quantum-safe, would align it with both the EU post-quantum migration roadmap and the 2030 Digital Decade targets.
+    \item \textbf{Societal benefits.} Citizens would gain genuine data minimization (for example, proving "older than 18" without revealing a birth date, or proving residence without revealing an address), protection from cross-service profiling, resilience against device loss through social recovery, and access regardless of phone tier, advancing both privacy-by-design and digital inclusion for hundreds of millions of users.
+    \item \textbf{Economic and standardization impact.} Results would feed directly into EUDI ARF discussions, contributing to European sovereignty over a privacy-preserving, quantum-safe identity stack rather than importing one. An open-source library would lower the barrier for national wallet providers and for the private-sector relying parties the regulation aims to onboard, and would be reusable in adjacent settings such as Privacy Pass, remote attestation, and online age verification.
+    \item \textbf{Deployment-friendliness.} Critically, this direction does not require citizens to purchase modern smartphones, nor does it require relying parties to adopt modern hardware. The only requirement on the ecosystem side is for the issuer to adopt a post-quantum, Dilithium-class standardized signature and to reduce the size of the device public-key field carried in the credential document, which, as a side effect, also yields a net space optimization in the document itself.
+\end{itemize}x    
 \bibliographystyle{plain}
 \bibliography{reference}
 
