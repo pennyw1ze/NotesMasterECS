@@ -7,6 +7,7 @@
 % file -- so this compiles with NO image files. Remove "demo" once you add the
 % real images (and set \graphicspath to their folder).
 \usepackage{graphicx}
+\usepackage{float}        % [H] = pin a float exactly where it is placed
 \usepackage{booktabs}     % \toprule \midrule \bottomrule
 \usepackage{multirow}     % \multirow in results tables
 \usepackage{array}
@@ -31,6 +32,42 @@
 \usepackage{mdframed}
 \usepackage{cleveref}     % \cref \Cref
 \newtheorem{claim}{Claim}
+
+%% ── Pretty shell-command listings ───────────────────────────────────────────
+\usepackage{listings}
+\definecolor{lstbg}{gray}{0.97}
+\definecolor{lstframe}{gray}{0.78}
+\definecolor{lstcomment}{rgb}{0.16,0.50,0.20}
+\definecolor{lstkw}{rgb}{0.10,0.25,0.65}
+\definecolor{lstnum}{gray}{0.55}
+\lstdefinestyle{shell}{%
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{lstbg},
+  frame=single,
+  rulecolor=\color{lstframe},
+  framesep=7pt,
+  xleftmargin=20pt,
+  xrightmargin=6pt,
+  numbers=left,
+  numberstyle=\tiny\color{lstnum},
+  numbersep=12pt,
+  morecomment=[l]{\#},
+  commentstyle=\color{lstcomment}\itshape,
+  morekeywords={cd,export,cmake,make,cargo,adb,sudo,RUST_LOG,CXX,LD_LIBRARY_PATH},
+  keywordstyle=\color{lstkw}\bfseries,
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=false,
+  prebreak=\mbox{\textcolor{lstframe}{$\searrow$}},
+  postbreak=\mbox{\textcolor{lstkw}{$\hookrightarrow$}\space},
+  tabsize=2,
+  captionpos=b,
+  aboveskip=1.4em,
+  belowskip=1.4em,
+}
+\lstset{style=shell}
+\renewcommand{\lstlistlistingname}{Listing}
+\renewcommand{\lstlistingname}{Listing}
 
 %% ── Math notation (Frigo--Shelat style) ────────────────────────────────────
 \newcommand{\GF}{\mathrm{GF}}
@@ -137,6 +174,7 @@ actual technologies.
 
 \listoffigures
 \listoftables
+\lstlistoflistings
 \tableofcontents
 
 \section{Introduction}
@@ -208,7 +246,7 @@ of the device public key instead of the device public key itself.
 In the following sections, we are going to present an overview of the EUDI wallet~\ref{eudiw}, we perform a full ananlysis of the actual state of the art on device bounded anonymous 
 credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
 We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our results~\ref{results}, future works that we plan to 
-do~\ref{futurework} and conclusion~\ref{conclusion}.
+do~\ref{sec:future-work} and conclusion~\ref{sec:conclusion}.
 
 
 \section{EUropean Digital Identity Wallet}
@@ -450,6 +488,13 @@ transaction by signing the amount and payee) and \emph{termination} (unlinking b
 
  
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/Pasted image 20260224155454.png}
+  \caption{EUDI Architecture Reference Framework roles and responsibilities. Adapted from~\cite{EuropeanCommission2024EUDIARF}.}
+  \label{fig:arfroles}
+\end{figure}
+
 \subsection{Roles}
 \label{roles}
 
@@ -482,12 +527,7 @@ transaction by signing the amount and payee) and \emph{termination} (unlinking b
         \textbf{Provider of Reg. Certs} & Issue certificates detailing registration status and scope. & \href{https://eudi.dev/latest/architecture-and-reference-framework-main/\#319-providers-of-registration-certificates}{ARF Section 3.19} \\
         \bottomrule
     \end{tabularx}
-\end{table}\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{figures/Pasted image 20260224155454.png}
-  \caption{EUDI Architecture Reference Framework roles and responsibilities. Adapted from~\cite{EuropeanCommission2024EUDIARF}.}
-  \label{fig:webauthn}
-\end{figure}
+\end{table}
 
 \clearpage
 
@@ -1676,6 +1716,121 @@ reproducibility. Reported security levels are the conjectured ones: $115$~bit fo
 the zkDilithium STARK, ${\approx}96$~bit for the standalone SHA-256 STARK, and
 the Longfellow default for the Ligero proofs.
 
+\subsection{Reproducibility: build and run commands}
+\label{results:repro}
+For completeness, and so that every figure in this chapter can be reproduced from
+the public repository, we list here the exact commands used to compile and run
+each component on both target platforms --- the desktop (Linux, \texttt{x86\_64})
+and the two Android phones (\texttt{arm64-v8a}). The Android cross-builds all use
+the NDK r28 toolchain; below we write \texttt{\$ANDROID\_NDK\_ROOT} for its
+install directory and \texttt{\$NDK} for its host \texttt{prebuilt} sub-path. The
+mDOC test vector, the disclosed attribute (\texttt{age\_over\_18}) and the fixed
+prover key share $k_p$ are the same across all runs, as stated in the methodology
+above.
+
+\paragraph{Longfellow mDOC proof (Ligero, C++).}
+On the desktop the Ligero side is a CMake/Clang build; the \texttt{mdoc\_zk\_test}
+target produces the warm-cache prove/verify timings of
+\cref{tab:res-base-ligero}.
+\begin{lstlisting}[caption={Longfellow mDOC proof (Ligero, C++): desktop build and run.},label={lst:ligero-desktop}]
+# Desktop (Linux, x86_64)
+cd longfellow-zk
+CXX=clang++ cmake -D CMAKE_BUILD_TYPE=Release \
+    -S lib -B clang-build-release --install-prefix ${PWD}/install
+make -C clang-build-release mdoc_zk_test mdoc_signature_test -j8
+./clang-build-release/circuits/mdoc/mdoc_zk_test \
+    --gtest_filter='MdocZKTest.split_phase_roundtrip'
+\end{lstlisting}
+The Android cross-build first runs \texttt{android.sh} (which builds GoogleTest,
+google-benchmark, zstd and OpenSSL for \texttt{arm64-v8a} into
+\texttt{deps-android/}), then reconfigures out-of-tree because the committed
+\texttt{CMakeCache.txt} carries a stale absolute source path; the
+\texttt{-llog} linker flag is required because the minimal targets reference
+\texttt{\_\_android\_log\_print}.
+\begin{lstlisting}[caption={Longfellow mDOC proof (Ligero, C++): Android (arm64-v8a) cross-build and run.},label={lst:ligero-android}]
+# Android (arm64-v8a)
+export ANDROID_NDK_ROOT=$HOME/Android/Sdk/ndk/28.2.13676358
+cd longfellow-zk
+./android.sh
+cmake -S lib -B /tmp/lf-android \
+    -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
+    -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-24 \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_FIND_ROOT_PATH=$PWD/deps-android \
+    -DCMAKE_EXE_LINKER_FLAGS=-llog
+make -C /tmp/lf-android mdoc_zk_test -j8
+adb push /tmp/lf-android/circuits/mdoc/mdoc_zk_test /data/local/tmp/
+adb shell 'cd /data/local/tmp && ./mdoc_zk_test \
+    --gtest_filter=MdocZKTest.split_phase_roundtrip'
+\end{lstlisting}
+
+\paragraph{zkDilithium signature proof (STARK, Rust).}
+The STARK side is a Rust crate. The desktop build is a plain
+\texttt{cargo build --release}; for Android we override the NDK linker and
+archiver on the command line, since the crate's checked-in
+\texttt{.cargo/config.toml} points at a different NDK location.
+\begin{lstlisting}[caption={zkDilithium signature proof (STARK, Rust): desktop and Android.},label={lst:stark}]
+# Desktop (Linux, x86_64)
+cd zkdilithium
+cargo build --release
+RUST_LOG=info ./target/release/zk_dilithium
+
+# Android (arm64-v8a)
+export NDK=$HOME/Android/Sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64
+CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=$NDK/bin/aarch64-linux-android29-clang \
+CC_aarch64_linux_android=$NDK/bin/aarch64-linux-android29-clang \
+AR_aarch64_linux_android=$NDK/bin/llvm-ar \
+    cargo build --release --target aarch64-linux-android
+adb push target/aarch64-linux-android/release/zk_dilithium /data/local/tmp/
+adb shell 'cd /data/local/tmp && RUST_LOG=info ./zk_dilithium'
+\end{lstlisting}
+
+\paragraph{SHA-256-in-STARK proof-size sweep.}
+The sensitivity study of \cref{tab:res-stark-sweep} is produced by the
+\texttt{winterfell-sha256} prototype, whose \texttt{benchmark\_preimage} binary
+sweeps the STARK parameters on the desktop, while the
+\texttt{android\_prover}/\texttt{android\_verifier} pair reproduces the on-device
+prove/verify timings of \cref{tab:res-hash}.
+\begin{lstlisting}[caption={SHA-256-in-STARK parameter sweep and on-device prove/verify timings.},label={lst:sweep}]
+# Desktop (Linux, x86_64)
+cd winterfell-sha256
+cargo run --release --features concurrent --bin benchmark_preimage
+
+# Android (arm64-v8a): split prover / verifier
+cargo build --release --features concurrent \
+    --target aarch64-linux-android --bin android_prover --bin android_verifier
+adb push target/aarch64-linux-android/release/android_prover  /data/local/tmp/
+adb push target/aarch64-linux-android/release/android_verifier /data/local/tmp/
+adb shell 'cd /data/local/tmp && ./android_prover && ./android_verifier'
+\end{lstlisting}
+
+\paragraph{Joint presentation (orchestrator).}
+Finally, the full joint proof of \cref{tab:res-orchestrator} is driven by the
+Rust orchestrator, which runs the STARK and Ligero provers in parallel. On the
+desktop the Longfellow static library must be built first (see
+Listing~\ref{lst:ligero-desktop}); on Android the binary additionally needs the
+NDK's
+\texttt{libc++\_shared.so} pushed alongside it.
+\begin{lstlisting}[caption={Joint presentation (orchestrator, STARK${+}$Ligero in parallel): desktop and Android.},label={lst:orch}]
+# Desktop (Linux, x86_64)
+cargo build --release --manifest-path orchestrator/Cargo.toml
+RUST_LOG=info ./orchestrator/target/release/pqac_orchestrator
+
+# Android (arm64-v8a)
+cd orchestrator
+cargo build --release --target aarch64-linux-android
+adb push target/aarch64-linux-android/release/pqac_orchestrator /data/local/tmp/
+adb push $NDK/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so \
+    /data/local/tmp/
+adb shell 'cd /data/local/tmp && LD_LIBRARY_PATH=/data/local/tmp \
+    RUST_LOG=info ./pqac_orchestrator'
+\end{lstlisting}
+On a stock device the circuit cache directory may not be writable; in that case
+each run pays a one-time cold-cache circuit regeneration (\(\sim\)30\,s on the
+A53) before the warm timings reported here. All desktop measurements were taken
+with the machine otherwise idle, as a concurrent compilation was observed to
+inflate a STARK proving time by up to $5\times$.
+
 \subsection{Unmodified building blocks}
 \label{results:baselines}
 Before measuring the cost of any of our modifications we characterise the two
@@ -2211,13 +2366,12 @@ A related, but comparatively lower-priority, risk is credential forgeability. Be
 
 This are some benefits which derives from our solution proposed in this thesis:
 
-\begin{itemize}
-    \item \textbf{Advancement over the state of the art.} Existing deployable approaches, such as Frigo--Shelat, do not achieve post-quantum privacy and remain dependent on the secure element; pairing-based BBS/BBS+ offers elegant selective disclosure but is neither post-quantum nor hardware-compatible. A system that simultaneously targets privacy preservation, post-quantum security, device binding, and deployability on legacy hardware, and validates all four properties on commodity phones, would be the first of its kind.
-    \item \textbf{Impact on European Digital Identity.} Every EU Member State is required to offer an EUDI Wallet, and the regulation's privacy goals are currently unmet. Directly addressing the two acknowledged weaknesses of the current design -- over-disclosure and linkability -- with real predicate proofs and unlinkable presentations, while making the wallet quantum-safe, would align it with both the EU post-quantum migration roadmap and the 2030 Digital Decade targets.
-    \item \textbf{Societal benefits.} Citizens would gain genuine data minimization (for example, proving "older than 18" without revealing a birth date, or proving residence without revealing an address), protection from cross-service profiling, resilience against device loss through social recovery, and access regardless of phone tier, advancing both privacy-by-design and digital inclusion for hundreds of millions of users.
-    \item \textbf{Economic and standardization impact.} Results would feed directly into EUDI ARF discussions, contributing to European sovereignty over a privacy-preserving, quantum-safe identity stack rather than importing one. An open-source library would lower the barrier for national wallet providers and for the private-sector relying parties the regulation aims to onboard, and would be reusable in adjacent settings such as Privacy Pass, remote attestation, and online age verification.
-    \item \textbf{Deployment-friendliness.} Critically, this direction does not require citizens to purchase modern smartphones, nor does it require relying parties to adopt modern hardware. The only requirement on the ecosystem side is for the issuer to adopt a post-quantum, Dilithium-class standardized signature and to reduce the size of the device public-key field carried in the credential document, which, as a side effect, also yields a net space optimization in the document itself.
-\end{itemize}x    
+\paragraph{Advancement over the state of the art.} Existing deployable approaches, such as Frigo--Shelat, do not achieve post-quantum privacy and remain dependent on the secure element; pairing-based BBS/BBS+ offers elegant selective disclosure but is neither post-quantum nor hardware-compatible. A system that simultaneously targets privacy preservation, post-quantum security, device binding, and deployability on legacy hardware, and validates all four properties on commodity phones, would be the first of its kind.
+\paragraph{Impact on European Digital Identity.} Every EU Member State is required to offer an EUDI Wallet, and the regulation's privacy goals are currently unmet. Directly addressing the two acknowledged weaknesses of the current design -- over-disclosure and linkability -- with real predicate proofs and unlinkable presentations, while making the wallet quantum-safe, would align it with both the EU post-quantum migration roadmap and the 2030 Digital Decade targets.
+\paragraph{Societal benefits.} Citizens would gain genuine data minimization (for example, proving "older than 18" without revealing a birth date, or proving residence without revealing an address), protection from cross-service profiling, resilience against device loss through social recovery, and access regardless of phone tier, advancing both privacy-by-design and digital inclusion for hundreds of millions of users.
+\paragraph{Economic and standardization impact.} Results would feed directly into EUDI ARF discussions, contributing to European sovereignty over a privacy-preserving, quantum-safe identity stack rather than importing one. An open-source library would lower the barrier for national wallet providers and for the private-sector relying parties the regulation aims to onboard, and would be reusable in adjacent settings such as Privacy Pass, remote attestation, and online age verification.
+\paragraph{Deployment-friendliness.} Critically, this direction does not require citizens to purchase modern smartphones, nor does it require relying parties to adopt modern hardware. The only requirement on the ecosystem side is for the issuer to adopt a post-quantum, Dilithium-class standardized signature and to reduce the size of the device public-key field carried in the credential document, which, as a side effect, also yields a net space optimization in the document itself.
+
 \bibliographystyle{plain}
 \bibliography{reference}
 

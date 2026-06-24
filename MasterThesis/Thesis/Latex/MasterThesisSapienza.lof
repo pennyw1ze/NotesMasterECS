@@ -1,0 +1,15 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Basic scheme of anonymous credentials.}}{2}{figure.caption.5}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Proximity presentation flow (ISO/IEC 18013-5). Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{6}{figure.caption.6}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Remote, cross-device presentation flow (OpenID4VP). Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{6}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Relying Party authentication, common to the proximity and remote flows. Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{7}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Structure and selective-disclosure mechanism of an SD-JWT VC. Adapted from the SD-JWT VC specification~\cite {sdjwtvc}.}}{8}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces W3C WebAuthn authentication scheme used for verifiable pseudonyms (passkeys). Adapted from~\cite {webauthn}.}}{11}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces EUDI Architecture Reference Framework roles and responsibilities. Adapted from~\cite {EuropeanCommission2024EUDIARF}.}}{11}{figure.caption.15}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Secure element architecture.}}{29}{figure.caption.28}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

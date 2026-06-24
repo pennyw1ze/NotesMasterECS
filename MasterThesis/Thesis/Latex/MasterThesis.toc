@@ -1,14 +1,14 @@
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Post quantum transition}{4}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Overview}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.2}Overview}{5}{subsection.1.2}%
 \contentsline {section}{\numberline {2}EUropean Digital Identity Wallet}{5}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Cryptographic foundations}{5}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Functionalities}{5}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Identification and authentication}{5}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Exchanging user attributes}{7}{subsubsection.2.2.2}%
-\contentsline {paragraph}{How attestations are added.}{8}{section*.4}%
-\contentsline {paragraph}{How attestations are stored.}{8}{section*.5}%
-\contentsline {paragraph}{How selective disclosure works.}{8}{section*.6}%
+\contentsline {subsubsection}{\numberline {2.2.1}Identification and authentication}{6}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Exchanging user attributes}{6}{subsubsection.2.2.2}%
+\contentsline {paragraph}{How attestations are added.}{7}{section*.5}%
+\contentsline {paragraph}{How attestations are stored.}{7}{section*.6}%
+\contentsline {paragraph}{How selective disclosure works.}{7}{section*.7}%
 \contentsline {subsubsection}{\numberline {2.2.3}Qualified electronic signatures (QES)}{8}{subsubsection.2.2.3}%
 \contentsline {subsubsection}{\numberline {2.2.4}Pseudonyms}{9}{subsubsection.2.2.4}%
 \contentsline {subsubsection}{\numberline {2.2.5}Payments}{9}{subsubsection.2.2.5}%
@@ -19,19 +19,19 @@
 \contentsline {subsubsection}{\numberline {2.4.3}LoA High in the EUDI Wallet Ecosystem}{12}{subsubsection.2.4.3}%
 \contentsline {subsection}{\numberline {2.5}Zero-knowledge proofs in the ARF}{12}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6}Vulnerabilities}{13}{subsection.2.6}%
-\contentsline {paragraph}{Linkability}{13}{section*.7}%
-\contentsline {paragraph}{Information leakage through salted-hash selective disclosure}{13}{section*.8}%
-\contentsline {paragraph}{No backup/recovery mechanism}{13}{section*.9}%
-\contentsline {paragraph}{Secure element as a single point of failure}{13}{section*.10}%
-\contentsline {paragraph}{Post-quantum insecurity}{13}{section*.11}%
-\contentsline {paragraph}{Detectability of wallet actions via passive network monitoring}{13}{section*.12}%
+\contentsline {paragraph}{Linkability}{13}{section*.8}%
+\contentsline {paragraph}{Information leakage through salted-hash selective disclosure}{13}{section*.9}%
+\contentsline {paragraph}{No backup/recovery mechanism}{13}{section*.10}%
+\contentsline {paragraph}{Secure element as a single point of failure}{13}{section*.11}%
+\contentsline {paragraph}{Post-quantum insecurity}{13}{section*.12}%
+\contentsline {paragraph}{Detectability of wallet actions via passive network monitoring}{13}{section*.13}%
 \contentsline {section}{\numberline {3}Literature overview}{13}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Anonymous Credentials from ECDSA}{13}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Control is Nothing Without Trust a First Look into Digital Identity Wallet Trends}{14}{subsection.3.2}%
-\contentsline {paragraph}{Functional requirements}{14}{section*.13}%
-\contentsline {paragraph}{Non-functional requirements}{14}{section*.14}%
+\contentsline {paragraph}{Functional requirements}{14}{section*.14}%
+\contentsline {paragraph}{Non-functional requirements}{14}{section*.15}%
 \contentsline {subsection}{\numberline {3.3}A Brief Note on Cryptographic Pseudonyms for Anonymous Credentials}{15}{subsection.3.3}%
-\contentsline {paragraph}{Construction.}{15}{section*.15}%
+\contentsline {paragraph}{Construction.}{15}{section*.16}%
 \contentsline {subsection}{\numberline {3.4}Device-Bound Anonymous Credentials With(out) Trusted Hardware}{15}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Navigating secure storage requirements for EUDI Wallets: a review paper}{16}{subsection.3.5}%
 \contentsline {subsection}{\numberline {3.6}Privacy Evaluation of the European Digital Identity Wallet’s Architecture and Reference Framework}{16}{subsection.3.6}%
@@ -41,50 +41,60 @@
 \contentsline {section}{\numberline {4}Our solution}{19}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Design choices}{19}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Implementation}{20}{subsection.4.2}%
-\contentsline {paragraph}{ML-DSA device binding}{20}{section*.16}%
-\contentsline {paragraph}{Post-quantum Ligero signatures}{21}{section*.17}%
-\contentsline {paragraph}{zkDilithium library}{21}{section*.18}%
-\contentsline {paragraph}{SHA256 vs Poseidon}{22}{section*.19}%
-\contentsline {paragraph}{MAC code witness passing technique}{22}{section*.20}%
+\contentsline {paragraph}{ML-DSA device binding}{20}{section*.17}%
+\contentsline {paragraph}{Post-quantum Ligero signatures}{21}{section*.18}%
+\contentsline {paragraph}{zkDilithium library}{21}{section*.19}%
+\contentsline {paragraph}{SHA256 vs Poseidon}{22}{section*.20}%
+\contentsline {paragraph}{MAC code witness passing technique}{22}{section*.21}%
 \contentsline {subsection}{\numberline {4.3}Proof formalization}{23}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Glossary of Symbols}{23}{subsubsection.4.3.1}%
 \contentsline {subsubsection}{\numberline {4.3.2}Notation}{24}{subsubsection.4.3.2}%
 \contentsline {subsubsection}{\numberline {4.3.3}Assumed Components}{24}{subsubsection.4.3.3}%
-\contentsline {paragraph}{Dilithium (post-quantum signature scheme).}{24}{section*.27}%
-\contentsline {paragraph}{ECDSA over P-256 (device binding).}{24}{section*.28}%
+\contentsline {paragraph}{Dilithium (post-quantum signature scheme).}{24}{section*.28}%
+\contentsline {paragraph}{ECDSA over P-256 (device binding).}{24}{section*.29}%
 \contentsline {subsubsection}{\numberline {4.3.4}Proof Systems}{24}{subsubsection.4.3.4}%
-\contentsline {paragraph}{Module \textsf {STARK}}{24}{section*.29}%
-\contentsline {paragraph}{Module \textsf {Ligero}}{25}{section*.30}%
+\contentsline {paragraph}{Module \textsf {STARK}}{24}{section*.30}%
+\contentsline {paragraph}{Module \textsf {Ligero}}{25}{section*.31}%
 \contentsline {subsubsection}{\numberline {4.3.5}Algorithm 1 --- Orchestrator}{25}{subsubsection.4.3.5}%
-\contentsline {paragraph}{The Orchestrator as a prover.}{25}{section*.31}%
+\contentsline {paragraph}{The Orchestrator as a prover.}{25}{section*.32}%
 \contentsline {subsubsection}{\numberline {4.3.6}Algorithm 2 --- Verifier}{26}{subsubsection.4.3.6}%
-\contentsline {paragraph}{What the verifier checks.}{26}{section*.32}%
+\contentsline {paragraph}{What the verifier checks.}{26}{section*.33}%
 \contentsline {subsection}{\numberline {4.4}Security Analysis}{27}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1}MAC witness sharing}{27}{subsubsection.4.4.1}%
 \contentsline {subsubsection}{\numberline {4.4.2}Compliance with eIDAS 2.0 and LoA High}{28}{subsubsection.4.4.2}%
-\contentsline {paragraph}{Dynamic Authentication and Replay Protection}{28}{section*.33}%
-\contentsline {paragraph}{Hardware Binding}{28}{section*.34}%
-\contentsline {paragraph}{Algorithmic Soundness}{28}{section*.35}%
-\contentsline {paragraph}{Compliance with EUDI ARF Requirements}{28}{section*.36}%
+\contentsline {paragraph}{Dynamic Authentication and Replay Protection}{28}{section*.34}%
+\contentsline {paragraph}{Hardware Binding}{28}{section*.35}%
+\contentsline {paragraph}{Algorithmic Soundness}{28}{section*.36}%
+\contentsline {paragraph}{Compliance with EUDI ARF Requirements}{28}{section*.37}%
 \contentsline {subsubsection}{\numberline {4.4.3}Threat Model}{28}{subsubsection.4.4.3}%
-\contentsline {paragraph}{Forgery attack}{29}{section*.37}%
-\contentsline {paragraph}{Mitigation}{29}{section*.38}%
+\contentsline {paragraph}{Forgery attack}{29}{section*.38}%
+\contentsline {paragraph}{Mitigation}{29}{section*.39}%
 \contentsline {section}{\numberline {5}Results}{29}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Experimental setup}{29}{subsection.5.1}%
-\contentsline {paragraph}{Methodology.}{29}{section*.39}%
-\contentsline {subsection}{\numberline {5.2}Unmodified building blocks}{30}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Choosing the cross-system commitment: SHA-256 vs Poseidon}{30}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}How bad is SHA-256 in STARK? A proof-size sensitivity study}{31}{subsubsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.4}Cost of the customizations}{32}{subsection.5.4}%
-\contentsline {subsubsection}{\numberline {5.4.1}STARK side}{32}{subsubsection.5.4.1}%
-\contentsline {subsubsection}{\numberline {5.4.2}Ligero side}{32}{subsubsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.5}The joint system}{33}{subsection.5.5}%
-\contentsline {paragraph}{Sequential vs parallel composition.}{33}{section*.40}%
-\contentsline {subsection}{\numberline {5.6}Discussion}{34}{subsection.5.6}%
-\contentsline {section}{\numberline {6}Future Work}{35}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Formal Treatment and System Completion}{35}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Optimization of the Mixed Zero-Knowledge Construction}{35}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Extended Credential Functionality}{35}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Alternative and Exploratory Research Directions}{36}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Evolving the Threat Model}{36}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Conclusion}{37}{section.7}%
+\contentsline {paragraph}{Methodology.}{29}{section*.40}%
+\contentsline {subsection}{\numberline {5.2}Reproducibility: build and run commands}{30}{subsection.5.2}%
+\contentsline {paragraph}{Longfellow mDOC proof (Ligero, C++).}{30}{section*.41}%
+\contentsline {paragraph}{zkDilithium signature proof (STARK, Rust).}{30}{section*.42}%
+\contentsline {paragraph}{SHA-256-in-STARK proof-size sweep.}{31}{section*.43}%
+\contentsline {paragraph}{Joint presentation (orchestrator).}{31}{section*.44}%
+\contentsline {subsection}{\numberline {5.3}Unmodified building blocks}{31}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Choosing the cross-system commitment: SHA-256 vs Poseidon}{32}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}How bad is SHA-256 in STARK? A proof-size sensitivity study}{33}{subsubsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.5}Cost of the customizations}{34}{subsection.5.5}%
+\contentsline {subsubsection}{\numberline {5.5.1}STARK side}{34}{subsubsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.2}Ligero side}{34}{subsubsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.6}The joint system}{35}{subsection.5.6}%
+\contentsline {paragraph}{Sequential vs parallel composition.}{35}{section*.45}%
+\contentsline {subsection}{\numberline {5.7}Discussion}{36}{subsection.5.7}%
+\contentsline {section}{\numberline {6}Future Work}{36}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Formal Treatment and System Completion}{37}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Optimization of the Mixed Zero-Knowledge Construction}{37}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Extended Credential Functionality}{37}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Alternative and Exploratory Research Directions}{38}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Evolving the Threat Model}{38}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Conclusion}{38}{section.7}%
+\contentsline {paragraph}{Advancement over the state of the art.}{39}{section*.46}%
+\contentsline {paragraph}{Impact on European Digital Identity.}{39}{section*.47}%
+\contentsline {paragraph}{Societal benefits.}{39}{section*.48}%
+\contentsline {paragraph}{Economic and standardization impact.}{39}{section*.49}%
+\contentsline {paragraph}{Deployment-friendliness.}{39}{section*.50}%

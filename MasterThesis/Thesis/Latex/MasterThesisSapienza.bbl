@@ -1,0 +1,234 @@
+\begin{thebibliography}{10}
+
+\bibitem{Adkins2026Google}
+\textsc{Adkins, H. and Schmieg, S.}
+\newblock Quantum frontiers may be closer than they appear.
+\newblock Google Blog (2026).
+\newblock Accessed: May 24, 2026.
+\newblock Available from: \url{https://blog.google/innovation-and-ai/technology/safety-security/cryptography-migration-timeline/}.
+
+\bibitem{AbellanAlvarez2026Privacy}
+\textsc{{\'A}lvarez, I.~A., H{\"o}lzmer, P., and Sedlmeir, J.}
+\newblock Privacy evaluation of the {European} {Digital} {Identity} {Wallet}'s {Architecture} and {Reference} {Framework}.
+\newblock \emph{Computers \& Security}, \textbf{160} (2026).
+\newblock Available from: \url{https://www.sciencedirect.com/science/article/pii/S0167404825003967}.
+
+\bibitem{Ansaroudi2023Control}
+\textsc{Ansaroudi, Z.~E., Carbone, R., Sciarretta, G., and Ranise, S.}
+\newblock Control is {Nothing} {Without} {Trust}: {A} {First} {Look} into {Digital} {Identity} {Wallet} {Trends}.
+\newblock In \emph{Data and Applications Security and Privacy XXXVII} (edited by V.~Atluri and A.~Ferrara), vol. 13942 of \emph{Lecture Notes in Computer Science}, pp. 113--132. Springer, Cham (2023).
+\newblock Available from: \url{https://doi.org/10.1007/978-3-031-37586-6_7}, \href {http://dx.doi.org/10.1007/978-3-031-37586-6_7} {\path{doi:10.1007/978-3-031-37586-6_7}}.
+
+\bibitem{Ansaroudi2025Navigating}
+\textsc{Ansaroudi, Z.~E., Sciarretta, G., Maria, A.~D., and Ranise, S.}
+\newblock Navigating secure storage requirements for {EUDI} wallets: a review paper.
+\newblock \emph{EURASIP Journal on Information Security}, \textbf{2025} (2025), 2.
+\newblock Available from: \url{https://doi.org/10.1186/s13635-025-00187-6}, \href {http://dx.doi.org/10.1186/s13635-025-00187-6} {\path{doi:10.1186/s13635-025-00187-6}}.
+
+\bibitem{cryptoeprint:2026/625}
+\textsc{Babbush, R., Zalcman, A., Gidney, C., Broughton, M., Khattar, T., Neven, H., Bergamaschi, T., Drake, J., and Boneh, D.}
+\newblock Securing elliptic curve cryptocurrencies against quantum vulnerabilities: Resource estimates and mitigations.
+\newblock Cryptology {ePrint} Archive, Paper 2026/625 (2026).
+\newblock Available from: \url{https://eprint.iacr.org/2026/625}, \href {http://dx.doi.org/10.48550/arXiv.2603.28846} {\path{doi:10.48550/arXiv.2603.28846}}.
+
+\bibitem{Bormann2026SoK}
+\textsc{Bormann, C. and Lehmann, A.}
+\newblock {SoK}: Anonymous credentials for digital identity wallets.
+\newblock Cryptology {ePrint} Archive, Paper 2026/330 (2026).
+\newblock Security Standardisation Research (SSR) 2025.
+\newblock Available from: \url{https://eprint.iacr.org/2026/330}.
+
+\bibitem{camenisch2001efficient}
+\textsc{Camenisch, J. and Lysyanskaya, A.}
+\newblock An efficient system for non-transferable anonymous credentials with optional anonymity revocation.
+\newblock Cryptology {ePrint} Archive, Paper 2001/019 (2001).
+\newblock Available from: \url{https://eprint.iacr.org/2001/019}.
+
+\bibitem{sigschemes2004}
+\textsc{Camenisch, J. and Lysyanskaya, A.}
+\newblock Signature schemes and anonymous credentials from bilinear maps.
+\newblock In \emph{Advances in Cryptology -- CRYPTO 2004} (edited by M.~Franklin), pp. 56--72. Springer Berlin Heidelberg, Berlin, Heidelberg (2004).
+\newblock ISBN 978-3-540-28628-8.
+
+\bibitem{10.1145/586110.586114}
+\textsc{Camenisch, J. and Van~Herreweghen, E.}
+\newblock Design and implementation of the idemix anonymous credential system.
+\newblock In \emph{Proceedings of the 9th ACM Conference on Computer and Communications Security}, CCS '02, p. 21–30. Association for Computing Machinery, New York, NY, USA (2002).
+\newblock ISBN 1581136129.
+\newblock Available from: \url{https://doi.org/10.1145/586110.586114}, \href {http://dx.doi.org/10.1145/586110.586114} {\path{doi:10.1145/586110.586114}}.
+
+\bibitem{chaum1982blind}
+\textsc{Chaum, D.}
+\newblock Blind signatures for untraceable payments.
+\newblock In \emph{Advances in Cryptology} (edited by D.~Chaum, R.~L. Rivest, and A.~T. Sherman), pp. 199--203. Springer US, Boston, MA (1983).
+\newblock ISBN 978-1-4757-0602-4.
+
+\bibitem{rfc5280}
+\textsc{Cooper, D., Santesson, S., Farrell, S., Boeyen, S., Housley, R., and Polk, W.}
+\newblock Internet {X.509} public key infrastructure certificate and certificate revocation list ({CRL}) profile.
+\newblock RFC 5280, Internet Engineering Task Force (2008).
+\newblock Available from: \url{https://www.rfc-editor.org/info/rfc5280}, \href {http://dx.doi.org/10.17487/RFC5280} {\path{doi:10.17487/RFC5280}}.
+
+\bibitem{Damgard1999}
+\textsc{Damg{\aa}rd, I.}
+\newblock Commitment schemes and zero-knowledge protocols.
+\newblock \emph{Lecture Notes in Computer Science},  (1999), 63.
+\newblock \href {http://dx.doi.org/10.1007/3-540-48969-x_3} {\path{doi:10.1007/3-540-48969-x_3}}.
+
+\bibitem{longfellow-eu}
+\textsc{dyne.org}.
+\newblock Longfellow-eu (2025).
+\newblock Available from: \url{https://github.com/dyne/longfellow-zk.git}.
+
+\bibitem{EuropeanCommission2021EUDI}
+\textsc{{European Commission}}.
+\newblock Proposal for a {Regulation} of the {European} {Parliament} and of the {Council} amending {Regulation} ({EU}) {No} 910/2014 as regards establishing a framework for a {European} {Digital} {Identity}.
+\newblock COM(2021) 281 final (2021).
+\newblock Accessed: May 22, 2026.
+\newblock Available from: \url{https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:52021PC0281}.
+
+\bibitem{EuropeanCommission2024EUDIARF}
+\textsc{{European Commission}}.
+\newblock {European Digital Identity Wallet Architecture and Reference Framework} — {Version} 1.4.0 (2024).
+\newblock Accessed: May 22, 2026.
+\newblock Available from: \url{https://eudi.dev/1.4.0/arf/}.
+
+\bibitem{EuropeanCommission2024PQC}
+\textsc{{European Commission}}.
+\newblock Recommendation on a {Coordinated} {Implementation} {Roadmap} for the transition to {Post-Quantum} {Cryptography}.
+\newblock Commission Recommendation (EU) 2024/1101 (2024).
+\newblock Accessed: May 24, 2026.
+\newblock Available from: \url{https://digital-strategy.ec.europa.eu/en/library/recommendation-coordinated-implementation-roadmap-transition-post-quantum-cryptography}.
+
+\bibitem{psd2}
+\textsc{{European Parliament and Council}}.
+\newblock Directive (eu) 2015/2366 on payment services in the internal market (psd2) (2015).
+\newblock Available from: \url{https://eur-lex.europa.eu/eli/dir/2015/2366/oj}.
+
+\bibitem{Friedrichs2025DeviceBound}
+\textsc{Friedrichs, K., Harding, F., Lehmann, A., and Lysyanskaya, A.}
+\newblock Device-bound anonymous credentials with(out) trusted hardware.
+\newblock Cryptology {ePrint} Archive, Paper 2025/1995 (2025).
+\newblock To appear at EUROCRYPT 2026.
+\newblock Available from: \url{https://eprint.iacr.org/2025/1995}.
+
+\bibitem{cryptoeprint:2024/2010}
+\textsc{Frigo, M. and abhi shelat}.
+\newblock Anonymous credentials from {ECDSA}.
+\newblock Cryptology {ePrint} Archive, Paper 2024/2010 (2024).
+\newblock Available from: \url{https://eprint.iacr.org/2024/2010}.
+
+\bibitem{Google2026SecurityQuantumAndroid}
+\textsc{{Google}}.
+\newblock Security for the {Quantum} {Era}: {Implementing} {Post-Quantum} {Cryptography} in {Android}.
+\newblock Google Security Blog (2026).
+\newblock Accessed: June 22, 2026.
+\newblock Available from: \url{https://blog.google/security/security-for-the-quantum-era-implementing-post-quantum-cryptography-in-android/}.
+
+\bibitem{sdjwtvc}
+\textsc{{IETF}}.
+\newblock Sd-jwt-based verifiable credentials (sd-jwt vc) (2024).
+\newblock Available from: \url{https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/}.
+
+\bibitem{iso18013-5}
+\textsc{{ISO/IEC}}.
+\newblock Iso/iec 18013-5:2021 personal identification — iso-compliant driving licence — part 5: Mobile driving licence (mdl) application (2021).
+
+\bibitem{iStrannikWinterfellSha256}
+\textsc{iStrannik}.
+\newblock winterfell-sha256.
+\newblock GitHub repository (2026).
+\newblock Accessed: June 22, 2026.
+\newblock Available from: \url{https://github.com/iStrannik/winterfell-sha256}.
+
+\bibitem{Lee2026PQCMigration}
+\textsc{Lee, S., Jung, H., Heo, N., and Kwon, T.~T.}
+\newblock Case study: {PQC} migration for {Android} {Strongbox} {Keymaster} on {Samsung} {Galaxy} mobile devices.
+\newblock \emph{IEEE Access}, \textbf{14} (2026), 25770.
+
+\bibitem{Lehmann2025Vision}
+\textsc{Lehmann, A., Sidorenko, A., and Zacharakis, A.}
+\newblock Vision: A modular framework for anonymous credential systems.
+\newblock Cryptology {ePrint} Archive, Paper 2025/1981 (2025).
+\newblock Available from: \url{https://eprint.iacr.org/2025/1981}.
+
+\bibitem{lysyanskaya2002signature}
+\textsc{Lysyanskaya, A.}
+\newblock \emph{Signature schemes and applications to cryptographic protocol design}.
+\newblock Ph.D. thesis, Massachusetts Institute of Technology (2002).
+\newblock Available from: \url{http://hdl.handle.net/1721.1/29271}.
+
+\bibitem{Mayrhofer2025BriefNote}
+\textsc{Mayrhofer, R., Lehmann, A., and shelat, a.}
+\newblock A brief note on cryptographic pseudonyms for anonymous credentials.
+\newblock \emph{arXiv preprint arXiv:2510.05419},  (2025).
+\newblock Available from: \url{https://arxiv.org/abs/2510.05419}, \href {http://arxiv.org/abs/2510.05419} {\path{arXiv:2510.05419}}.
+
+\bibitem{NISTFIPS204}
+\textsc{{National Institute of Standards and Technology}}.
+\newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
+\newblock Federal Information Processing Standards (FIPS) Publication 204 (2024).
+\newblock Accessed: June 21, 2026.
+\newblock Available from: \url{https://doi.org/10.6028/NIST.FIPS.204}, \href {http://dx.doi.org/10.6028/NIST.FIPS.204} {\path{doi:10.6028/NIST.FIPS.204}}.
+
+\bibitem{openid4vp}
+\textsc{{OpenID Foundation}}.
+\newblock Openid for verifiable presentations (2023).
+\newblock Available from: \url{https://openid.net/specs/openid-4-verifiable-presentations-1_0.html}.
+
+\bibitem{paquin2013u-prove}
+\textsc{Paquin, C. and Zaverucha, G.}
+\newblock U-prove cryptographic specification v1.1 (revision 3) (2013).
+\newblock Released under the Open Specification Promise (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
+\newblock Available from: \url{https://www.microsoft.com/en-us/research/publication/u-prove-cryptographic-specification-v1-1-revision-3/}.
+
+\bibitem{policharla2023postquantum}
+\textsc{Policharla, G.-V., Westerbaan, B., Faz-Hern{\'{a}}ndez, A., and Wood, C.~A.}
+\newblock Post-quantum privacy pass via post-quantum anonymous credentials.
+\newblock Cryptology ePrint Archive, Paper 2023/414 (2023).
+\newblock Accessed: June 21, 2026.
+\newblock Available from: \url{https://eprint.iacr.org/2023/414}.
+
+\bibitem{RiscZero2026}
+\textsc{{RISC Zero}}.
+\newblock {RISC Zero}: The zero-knowledge virtual machine (2026).
+\newblock Accessed: June 22, 2026.
+\newblock Available from: \url{https://risczero.com/}.
+
+\bibitem{Sharif2024Protecting}
+\textsc{Sharif, A., Ansaroudi, Z.~E., Sciarretta, G., P{\"o}hn, D., Mollaeefar, M., Hommel, W., and Ranise, S.}
+\newblock Protecting digital identity wallet: A threat model in the age of {eIDAS} 2.0.
+\newblock In \emph{Risks and Security of Internet and Systems (CRiSIS 2024)}, Lecture Notes in Computer Science. Springer (2024).
+\newblock Available from: \url{https://doi.org/10.1007/978-3-031-89350-6_6}, \href {http://dx.doi.org/10.1007/978-3-031-89350-6_6} {\path{doi:10.1007/978-3-031-89350-6_6}}.
+
+\bibitem{Shor1997Polynomial}
+\textsc{Shor, P.~W.}
+\newblock Polynomial-time algorithms for prime factorization and discrete logarithms on a {Quantum} computer.
+\newblock \emph{{SIAM} Journal on Computing}, \textbf{26} (1997), 1484.
+\newblock Available from: \url{https://doi.org/10.1137/S0097539795293172}, \href {http://dx.doi.org/10.1137/S0097539795293172} {\path{doi:10.1137/S0097539795293172}}.
+
+\bibitem{TrailOfBits2025GoogleLongfellow}
+\textsc{{Trail of Bits}}.
+\newblock {Google Longfellow} security review.
+\newblock Technical Report (2025).
+\newblock Accessed: June 18, 2026.
+\newblock Available from: \url{https://trailofbits.com/library/google-longfellow/}.
+
+\bibitem{w3cvcdm}
+\textsc{{W3C}}.
+\newblock Verifiable credentials data model 2.0 (2024).
+\newblock Available from: \url{https://www.w3.org/TR/vc-data-model-2.0/}.
+
+\bibitem{webauthn}
+\textsc{{W3C}}.
+\newblock Web authentication: An api for accessing public key credentials level 3 (2024).
+\newblock Available from: \url{https://www.w3.org/TR/webauthn-3/}.
+
+\bibitem{Westerbaan2026Cloudflare}
+\textsc{Westerbaan, B.}
+\newblock {Cloudflare} targets 2029 for full post-quantum security.
+\newblock The Cloudflare Blog (2026).
+\newblock Accessed: May 24, 2026.
+\newblock Available from: \url{https://blog.cloudflare.com/post-quantum-roadmap/}.
+
+\end{thebibliography}
