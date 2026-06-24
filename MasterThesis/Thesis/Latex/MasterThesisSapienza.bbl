@@ -125,6 +125,20 @@
 \newblock Accessed: June 22, 2026.
 \newblock Available from: \url{https://blog.google/security/security-for-the-quantum-era-implementing-post-quantum-cryptography-in-android/}.
 
+\bibitem{Hoffstein2008Cryptography}
+\textsc{Hoffstein, J., Pipher, J., and Silverman, J.~H.}
+\newblock \emph{An Introduction to Mathematical Cryptography}.
+\newblock Springer (2008).
+\newblock Accessed: June 24, 2026.
+\newblock Available from: \url{https://ia803208.us.archive.org/1/items/DSStore_20161129/Library/ComputerScience/AnIntroductionToMathematicalCryptography.pdf}.
+
+\bibitem{Huang2025GroupTheory}
+\textsc{Huang, J. and Lee, S.}
+\newblock Introduction to group and ring theory: The foundations of algebraic structures.
+\newblock MIT PRIMES Circle (2025).
+\newblock Accessed: June 24, 2026.
+\newblock Available from: \url{https://math.mit.edu/research/highschool/primes/circle/documents/2025/Jianing-Sylvia-Final.pdf}.
+
 \bibitem{sdjwtvc}
 \textsc{{IETF}}.
 \newblock Sd-jwt-based verifiable credentials (sd-jwt vc) (2024).
@@ -163,6 +177,11 @@
 \newblock A brief note on cryptographic pseudonyms for anonymous credentials.
 \newblock \emph{arXiv preprint arXiv:2510.05419},  (2025).
 \newblock Available from: \url{https://arxiv.org/abs/2510.05419}, \href {http://arxiv.org/abs/2510.05419} {\path{arXiv:2510.05419}}.
+
+\bibitem{Menezes1996Handbook}
+\textsc{Menezes, A.~J., van Oorschot, P.~C., and Vanstone, S.~A.}
+\newblock \emph{Handbook of Applied Cryptography}.
+\newblock Discrete Mathematics and Its Applications. CRC Press (1996).
 
 \bibitem{NISTFIPS204}
 \textsc{{National Institute of Standards and Technology}}.

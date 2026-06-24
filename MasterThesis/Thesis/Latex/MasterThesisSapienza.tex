@@ -35,6 +35,7 @@
 \usepackage{mdframed}
 \usepackage{cleveref}     % \cref \Cref
 \newtheorem{claim}{Claim}
+\newtheorem{definition}{Definition}
 
 %% ── Pretty shell-command listings ───────────────────────────────────────────
 \usepackage{listings}
@@ -214,11 +215,11 @@ between users and service providers. Anonymous credentials were introduced by Da
 and later formalized by Camenisch and Lysyanskaya in 2001~\cite{camenisch2001efficient,sigschemes2004}. They allow users to prove their identity or 
 attributes without revealing any additional information about themselves. 
 
-The usual model of anonymous credentials consists of three parties: 
+The usual (simplified) model of anonymous credentials consists of three parties: 
 \begin{itemize}
-\item The issuer, a central entity who is responsible for issuing credentials to users and eventually revoking them;
-\item The user, who asks credentials to the issuer and holds them, and eventually use them to prove their identity or attributes to verifiers.
-\item The verifier, who is responsible for verifying the user's credentials without learning any additional information about the user.
+\item The \textbf{issuer}, a central entity who is responsible for issuing credentials to users and eventually revoking them;
+\item The \textbf{user}, who asks credentials to the issuer and holds them, and eventually use them to prove their identity or attributes to verifiers.
+\item The \textbf{verifier}, who is responsible for verifying the user's credentials without learning any additional information about the user.
 \end{itemize}
 A basic scheme of how this entity interacts with each other is represented in figure~\ref{fig:AnonymousCredentials}.
 
@@ -269,14 +270,99 @@ lowering the timeline for the full transition to 2029, instead of 2035.
 \section{Overview}
 \label{overview}
 In this thesis, we present a post-quantum anonymous credentials model that can be deployed with the actual technologies and legacy protocols.
-We require the issuer to adopt ML-DSA NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
+We require the issuer to adopt a slightly modified version of dilithium NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
 to accomodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
 of the device public key instead of the device public key itself. 
 
-In the following sections, we are going to present an overview of the EUDI wallet~\ref{eudiw}, we perform a full ananlysis of the actual state of the art on device bounded anonymous 
+In the following sections, we are going to show cryptographic primitives which are the foundations of our work~\ref{preliminaries}, we present an overview of the EUDI wallet~\ref{eudiw}, 
+we perform a full ananlysis of the actual state of the art on device bounded anonymous 
 credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
 We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our results~\ref{results}, future works that we plan to 
 do~\ref{sec:future-work} and conclusion~\ref{sec:conclusion}.
+
+\chapter{Preliminaries}
+\label{preliminaries}
+In this chapter, we review the basic mathematical concepts and cryptographic 
+background of the thesis. We first discuss the relevant information about cryptography
+and post-quantum cryptography, then hash functions, 
+lattices-based cryptography, zero-knowledge proofs and commitment schemes.
+
+\section{Group Theory}
+\label{groupth}
+In this section we discuss some basic concepts of group theory.
+\begin{definition}~\cite{Hoffstein2008Cryptography}
+  A group consists of a set $G$ and a rule, which we denote by $\star$,
+  for combining two elements $a, b \in G$ to obtain an element $a \star b \in G$. The
+  composition operation $\star$ is required to have the following three properties:
+\end{definition}
+\begin{itemize}
+  \item \textbf{Closure Law}: For all $a,b \in G$, we have that $a\star b \in G$;
+  \item \textbf{Identity Law}: There is an $e \in G$ such that 
+  $e \star a = a \star e = a$ for all $a \in G$;
+  \item \textbf{Inverse Law}: For every $a \in G$, there is an (unique)
+  $a^{-1} \in G$ satisfying $a \star a^{-1} = a^{-1} \star a = e$;
+  \item \textbf{Associative Law}: $a \star (b \star c) = (a \star b) \star c$ for all $a, b, c \in G$;
+\end{itemize}
+If, in addition, composition satisfies the
+\begin{itemize}
+    \item \textbf{Commutative Law}: For all $a, b \in G$, we have $a \star b = b \star a$.
+\end{itemize}
+then  the group is called a \textbf{commutative} group or an \textbf{abelian} group.
+
+\begin{definition}~\cite{Huang2025GroupTheory}
+  A ring $R$ is a set that has two operations, addition and multiplication. 
+  Let us denote addition and multiplication by $+$ and $\cdot$, respectively. 
+  They satisfy the following properties:
+\end{definition}
+\begin{enumerate}
+  \item \textbf{Additive commutativity}: $a + b = b + a$ for all $a, b \in R$;
+  \item \textbf{Additive associativity}: $a + (b + c) = (a + b) + c$ for all $a, b, c \in R$;
+  \item \textbf{Additive identity}: There exists an element $0 \in R$ such that $a + 0 = 0 + a = a$ for all $a \in R$;
+  \item \textbf{Additive inverse}: For every $a \in R$, there exists an element $-a \in R$ such that $a + (-a) = (-a) + a = 0$;
+  \item \textbf{Multiplicative associativity}: $a \cdot (b \cdot c) = (a \cdot b) \cdot c$ for all $a, b, c \in R$;
+  \item \textbf{Distributivity}: $a \cdot (b + c) = (a \cdot b) + (a \cdot c)$ and $(a + b) \cdot c = (a \cdot c) + (b \cdot c)$ for all $a, b, c \in R$.
+\end{enumerate}
+
+Now we will introduce another important mathematical concept, which is the one
+of polynomial ring, which will be used in the next sections to introduce the 
+lattice problem and the dilithium signature scheme.
+
+\begin{definition}~\cite{Menezes1996Handbook}
+  If $R$ is a commutative ring, then a polynomial in the indeterminate
+  $x$ over the ring $R$ is an expression of the form $$R[x] = \{a_0 + a_1x + ... + a_nx^n: n \ge 0, a_i \in R, \forall i \in \{0,1,...,n\}\}$$  
+\end{definition}
+
+The polynomial quotient ring is a class of rings in the form:$$R[x]/(f(x))$$
+
+\section{Cryptography and Post-Quantum resistance}
+\label{generalcrypto}
+
+\section{Hash Functions}
+\label{hashfunctions}
+\subsection{Cryptographic Hash Functions}
+\subsection{SHA-2 family}
+\label{sha2}
+\subsection{Poseidon family}
+\label{poseidon}
+\section{Commitment Schemes}
+\label{commitments}
+\paragraph{Binding}
+\label{bindingcomm}
+\paragraph{Hiding}
+\label{hidingcomm}
+
+\section{Lattice problem}
+\label{lattice}
+\subsection{Dilithium}
+\label{dilithium}
+
+\section{Zero-Knowledge proofs}
+\label{zkproofs}
+\subsection{Ligero}
+\label{Ligero}
+\subsection{STARK}
+\label{STARK}
+
 
 
 \chapter{EUropean Digital Identity Wallet}
