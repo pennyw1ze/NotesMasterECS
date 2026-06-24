@@ -8,22 +8,29 @@ Heather Adkins and Sophie Schmieg.
 
 \bibitem{AbellanAlvarez2026Privacy}
 Iv{\'a}n~Abell{\'a}n {\'A}lvarez, Pol H{\"o}lzmer, and Johannes Sedlmeir.
-\newblock Privacy evaluation of the {European} {Digital} {Identity} {Wallet}'s {Architecture} and {Reference} {Framework}.
+\newblock Privacy evaluation of the {European} {Digital} {Identity} {Wallet}'s
+  {Architecture} and {Reference} {Framework}.
 \newblock {\em Computers \& Security}, 160, 2026.
 
 \bibitem{Ansaroudi2023Control}
 Zahra~Ebadi Ansaroudi, Roberto Carbone, Giada Sciarretta, and Silvio Ranise.
-\newblock Control is {Nothing} {Without} {Trust}: {A} {First} {Look} into {Digital} {Identity} {Wallet} {Trends}.
-\newblock In Vijayalakshmi Atluri and Anna Ferrara, editors, {\em Data and Applications Security and Privacy XXXVII}, volume 13942 of {\em Lecture Notes in Computer Science}, pages 113--132. Springer, Cham, 2023.
+\newblock Control is {Nothing} {Without} {Trust}: {A} {First} {Look} into
+  {Digital} {Identity} {Wallet} {Trends}.
+\newblock In Vijayalakshmi Atluri and Anna Ferrara, editors, {\em Data and
+  Applications Security and Privacy XXXVII}, volume 13942 of {\em Lecture Notes
+  in Computer Science}, pages 113--132. Springer, Cham, 2023.
 
 \bibitem{Ansaroudi2025Navigating}
 Zahra~Ebadi Ansaroudi, Giada Sciarretta, Andrea~De Maria, and Silvio Ranise.
-\newblock Navigating secure storage requirements for {EUDI} wallets: a review paper.
+\newblock Navigating secure storage requirements for {EUDI} wallets: a review
+  paper.
 \newblock {\em EURASIP Journal on Information Security}, 2025(1):2, 2025.
 
 \bibitem{cryptoeprint:2026/625}
-Ryan Babbush, Adam Zalcman, Craig Gidney, Michael Broughton, Tanuj Khattar, Hartmut Neven, Thiago Bergamaschi, Justin Drake, and Dan Boneh.
-\newblock Securing elliptic curve cryptocurrencies against quantum vulnerabilities: Resource estimates and mitigations.
+Ryan Babbush, Adam Zalcman, Craig Gidney, Michael Broughton, Tanuj Khattar,
+  Hartmut Neven, Thiago Bergamaschi, Justin Drake, and Dan Boneh.
+\newblock Securing elliptic curve cryptocurrencies against quantum
+  vulnerabilities: Resource estimates and mitigations.
 \newblock Cryptology {ePrint} Archive, Paper 2026/625, 2026.
 
 \bibitem{Bormann2026SoK}
@@ -34,27 +41,34 @@ Christian Bormann and Anja Lehmann.
 
 \bibitem{camenisch2001efficient}
 Jan Camenisch and Anna Lysyanskaya.
-\newblock An efficient system for non-transferable anonymous credentials with optional anonymity revocation.
+\newblock An efficient system for non-transferable anonymous credentials with
+  optional anonymity revocation.
 \newblock Cryptology {ePrint} Archive, Paper 2001/019, 2001.
 
 \bibitem{sigschemes2004}
 Jan Camenisch and Anna Lysyanskaya.
 \newblock Signature schemes and anonymous credentials from bilinear maps.
-\newblock In Matt Franklin, editor, {\em Advances in Cryptology -- CRYPTO 2004}, pages 56--72, Berlin, Heidelberg, 2004. Springer Berlin Heidelberg.
+\newblock In Matt Franklin, editor, {\em Advances in Cryptology -- CRYPTO
+  2004}, pages 56--72, Berlin, Heidelberg, 2004. Springer Berlin Heidelberg.
 
 \bibitem{10.1145/586110.586114}
 Jan Camenisch and Els Van~Herreweghen.
 \newblock Design and implementation of the idemix anonymous credential system.
-\newblock In {\em Proceedings of the 9th ACM Conference on Computer and Communications Security}, CCS '02, page 21–30, New York, NY, USA, 2002. Association for Computing Machinery.
+\newblock In {\em Proceedings of the 9th ACM Conference on Computer and
+  Communications Security}, CCS '02, page 21–30, New York, NY, USA, 2002.
+  Association for Computing Machinery.
 
 \bibitem{chaum1982blind}
 David Chaum.
 \newblock Blind signatures for untraceable payments.
-\newblock In David Chaum, Ronald~L. Rivest, and Alan~T. Sherman, editors, {\em Advances in Cryptology}, pages 199--203, Boston, MA, 1983. Springer US.
+\newblock In David Chaum, Ronald~L. Rivest, and Alan~T. Sherman, editors, {\em
+  Advances in Cryptology}, pages 199--203, Boston, MA, 1983. Springer US.
 
 \bibitem{rfc5280}
-David Cooper, Stefan Santesson, Stephen Farrell, Sharon Boeyen, Russell Housley, and William Polk.
-\newblock Internet {X.509} public key infrastructure certificate and certificate revocation list ({CRL}) profile.
+David Cooper, Stefan Santesson, Stephen Farrell, Sharon Boeyen, Russell
+  Housley, and William Polk.
+\newblock Internet {X.509} public key infrastructure certificate and
+  certificate revocation list ({CRL}) profile.
 \newblock RFC 5280, Internet Engineering Task Force, 2008.
 
 \bibitem{Damgard1999}
@@ -68,24 +82,29 @@ dyne.org.
 
 \bibitem{EuropeanCommission2021EUDI}
 {European Commission}.
-\newblock Proposal for a {Regulation} of the {European} {Parliament} and of the {Council} amending {Regulation} ({EU}) {No} 910/2014 as regards establishing a framework for a {European} {Digital} {Identity}.
+\newblock Proposal for a {Regulation} of the {European} {Parliament} and of the
+  {Council} amending {Regulation} ({EU}) {No} 910/2014 as regards establishing
+  a framework for a {European} {Digital} {Identity}.
 \newblock COM(2021) 281 final, 2021.
 \newblock Accessed: May 22, 2026.
 
 \bibitem{EuropeanCommission2024EUDIARF}
 {European Commission}.
-\newblock {European Digital Identity Wallet Architecture and Reference Framework} — {Version} 1.4.0, 2024.
+\newblock {European Digital Identity Wallet Architecture and Reference
+  Framework} — {Version} 1.4.0, 2024.
 \newblock Accessed: May 22, 2026.
 
 \bibitem{EuropeanCommission2024PQC}
 {European Commission}.
-\newblock Recommendation on a {Coordinated} {Implementation} {Roadmap} for the transition to {Post-Quantum} {Cryptography}.
+\newblock Recommendation on a {Coordinated} {Implementation} {Roadmap} for the
+  transition to {Post-Quantum} {Cryptography}.
 \newblock Commission Recommendation (EU) 2024/1101, 2024.
 \newblock Accessed: May 24, 2026.
 
 \bibitem{psd2}
 {European Parliament and Council}.
-\newblock Directive (eu) 2015/2366 on payment services in the internal market (psd2), 2015.
+\newblock Directive (eu) 2015/2366 on payment services in the internal market
+  (psd2), 2015.
 
 \bibitem{Friedrichs2025DeviceBound}
 Karla Friedrichs, Franklin Harding, Anja Lehmann, and Anna Lysyanskaya.
@@ -100,7 +119,8 @@ Matteo Frigo and abhi shelat.
 
 \bibitem{Google2026SecurityQuantumAndroid}
 {Google}.
-\newblock Security for the {Quantum} {Era}: {Implementing} {Post-Quantum} {Cryptography} in {Android}.
+\newblock Security for the {Quantum} {Era}: {Implementing} {Post-Quantum}
+  {Cryptography} in {Android}.
 \newblock Google Security Blog, 2026.
 \newblock Accessed: June 22, 2026.
 
@@ -110,7 +130,8 @@ Matteo Frigo and abhi shelat.
 
 \bibitem{iso18013-5}
 {ISO/IEC}.
-\newblock Iso/iec 18013-5:2021 personal identification — iso-compliant driving licence — part 5: Mobile driving licence (mdl) application, 2021.
+\newblock Iso/iec 18013-5:2021 personal identification — iso-compliant
+  driving licence — part 5: Mobile driving licence (mdl) application, 2021.
 
 \bibitem{iStrannikWinterfellSha256}
 iStrannik.
@@ -120,7 +141,8 @@ iStrannik.
 
 \bibitem{Lee2026PQCMigration}
 Sungmin Lee, Hyungchul Jung, Nohik Heo, and Ted~"Taekyoung" Kwon.
-\newblock Case study: {PQC} migration for {Android} {Strongbox} {Keymaster} on {Samsung} {Galaxy} mobile devices.
+\newblock Case study: {PQC} migration for {Android} {Strongbox} {Keymaster} on
+  {Samsung} {Galaxy} mobile devices.
 \newblock {\em IEEE Access}, 14:25770--25782, 2026.
 
 \bibitem{Lehmann2025Vision}
@@ -130,7 +152,8 @@ Anja Lehmann, Andrey Sidorenko, and Alexandros Zacharakis.
 
 \bibitem{lysyanskaya2002signature}
 Anna Lysyanskaya.
-\newblock {\em Signature schemes and applications to cryptographic protocol design}.
+\newblock {\em Signature schemes and applications to cryptographic protocol
+  design}.
 \newblock PhD thesis, Massachusetts Institute of Technology, 2002.
 
 \bibitem{Mayrhofer2025BriefNote}
@@ -141,7 +164,8 @@ Ren{\'e} Mayrhofer, Anja Lehmann, and abhi shelat.
 \bibitem{NISTFIPS204}
 {National Institute of Standards and Technology}.
 \newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
-\newblock Federal Information Processing Standards (FIPS) Publication 204, 2024.
+\newblock Federal Information Processing Standards (FIPS) Publication 204,
+  2024.
 \newblock Accessed: June 21, 2026.
 
 \bibitem{openid4vp}
@@ -151,10 +175,12 @@ Ren{\'e} Mayrhofer, Anja Lehmann, and abhi shelat.
 \bibitem{paquin2013u-prove}
 Christian Paquin and Greg Zaverucha.
 \newblock U-prove cryptographic specification v1.1 (revision 3), December 2013.
-\newblock Released under the Open Specification Promise (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
+\newblock Released under the Open Specification Promise
+  (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
 
 \bibitem{policharla2023postquantum}
-Guru-Vamsi Policharla, Bas Westerbaan, Armando Faz-Hern{\'{a}}ndez, and Christopher~A. Wood.
+Guru-Vamsi Policharla, Bas Westerbaan, Armando Faz-Hern{\'{a}}ndez, and
+  Christopher~A. Wood.
 \newblock Post-quantum privacy pass via post-quantum anonymous credentials.
 \newblock Cryptology ePrint Archive, Paper 2023/414, 2023.
 \newblock Accessed: June 21, 2026.
@@ -165,13 +191,17 @@ Guru-Vamsi Policharla, Bas Westerbaan, Armando Faz-Hern{\'{a}}ndez, and Christop
 \newblock Accessed: June 22, 2026.
 
 \bibitem{Sharif2024Protecting}
-Amir Sharif, Zahra~Ebadi Ansaroudi, Giada Sciarretta, Daniela P{\"o}hn, Majid Mollaeefar, Wolfgang Hommel, and Silvio Ranise.
-\newblock Protecting digital identity wallet: A threat model in the age of {eIDAS} 2.0.
-\newblock In {\em Risks and Security of Internet and Systems (CRiSIS 2024)}, Lecture Notes in Computer Science. Springer, 2024.
+Amir Sharif, Zahra~Ebadi Ansaroudi, Giada Sciarretta, Daniela P{\"o}hn, Majid
+  Mollaeefar, Wolfgang Hommel, and Silvio Ranise.
+\newblock Protecting digital identity wallet: A threat model in the age of
+  {eIDAS} 2.0.
+\newblock In {\em Risks and Security of Internet and Systems (CRiSIS 2024)},
+  Lecture Notes in Computer Science. Springer, 2024.
 
 \bibitem{Shor1997Polynomial}
 Peter~W. Shor.
-\newblock Polynomial-time algorithms for prime factorization and discrete logarithms on a {Quantum} computer.
+\newblock Polynomial-time algorithms for prime factorization and discrete
+  logarithms on a {Quantum} computer.
 \newblock {\em {SIAM} Journal on Computing}, 26(5):1484--1509, 1997.
 
 \bibitem{TrailOfBits2025GoogleLongfellow}
@@ -186,7 +216,8 @@ Peter~W. Shor.
 
 \bibitem{webauthn}
 {W3C}.
-\newblock Web authentication: An api for accessing public key credentials level 3, 2024.
+\newblock Web authentication: An api for accessing public key credentials level
+  3, 2024.
 
 \bibitem{Westerbaan2026Cloudflare}
 Bas Westerbaan.
