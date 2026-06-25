@@ -1430,6 +1430,7 @@ The STARK module proves issuer-credential validity and links the two proof
 systems via the affine MAC. We name its instance $X_S$ and witness $W_S$.
 
 \begin{mdframed}[style=relationbox]
+{\small
 \[
 \RelSTARK \;=\; \left\{\;
 \begin{array}{@{}l@{}}
@@ -1446,6 +1447,7 @@ m = a \cdot e_1 + b \;\wedge & \text{(S2c)} \\[4pt]
 \end{array}
 \;\right\}
 \]
+}
 \end{mdframed}
 
 \begin{itemize}[leftmargin=2em, itemsep=2pt]
@@ -1467,8 +1469,8 @@ validity window, and device possession. We name its instance $X_L$ and
 witness $W_L$.
 
 \begin{mdframed}[style=relationbox]
-{\small
 \[
+\resizebox{\linewidth}{!}{$\displaystyle
 \RelLigero \;=\; \left\{\;
 \begin{array}{@{}l@{}}
 x := (attr,\, id,\, tr,\, now, \\
@@ -1489,8 +1491,8 @@ MSO[128:160] = \SHA(pk_{dx} \concat pk_{dy}) \;\wedge & \text{(L5)} \\[4pt]
 ECVerify\!\bigl((r_2,s_2),\, H(tr \concat hdr),\, (pk_{dx},pk_{dy})\bigr) = 1 & \text{(L7)}
 \end{array}
 \;\right\}
+$}
 \]
-}
 \end{mdframed}
 
 \begin{itemize}[leftmargin=2em, itemsep=2pt]

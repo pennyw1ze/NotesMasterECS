@@ -401,10 +401,7 @@ INPUT /usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri7.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr5.tfm
-INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr9.tfm
-INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtt9.tfm
-INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmr9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/lmmi9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/lmsy9.tfm
@@ -412,6 +409,9 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmss9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtt9.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtk10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtt10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmri10.tfm
