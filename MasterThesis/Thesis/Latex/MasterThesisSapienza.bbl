@@ -7,6 +7,12 @@
 \newblock Accessed: May 24, 2026.
 \newblock Available from: \url{https://blog.google/innovation-and-ai/technology/safety-security/cryptography-migration-timeline/}.
 
+\bibitem{AlZubaidie2019Efficient}
+\textsc{Al-Zubaidie, M., Zhang, Z., and Zhang, J.}
+\newblock Efficient and secure {ECDSA} algorithm and its applications: A survey.
+\newblock \emph{International Journal of Communication Networks and Information Security (IJCNIS)}, \textbf{11} (2019), 7.
+\newblock Available from: \url{https://arxiv.org/abs/1902.10313}.
+
 \bibitem{AbellanAlvarez2026Privacy}
 \textsc{{\'A}lvarez, I.~A., H{\"o}lzmer, P., and Sedlmeir, J.}
 \newblock Privacy evaluation of the {European} {Digital} {Identity} {Wallet}'s {Architecture} and {Reference} {Framework}.
@@ -166,6 +172,13 @@
 \newblock Cryptology {ePrint} Archive, Paper 2025/1981 (2025).
 \newblock Available from: \url{https://eprint.iacr.org/2025/1981}.
 
+\bibitem{Li2024Comprehensive}
+\textsc{Li, L.}
+\newblock Comprehensive survey on adversarial examples in cybersecurity: Impacts, challenges, and mitigation strategies.
+\newblock \emph{arXiv preprint arXiv:2412.12217},  (2024).
+\newblock Accessed: June 25, 2026.
+\newblock Available from: \url{https://arxiv.org/abs/2412.12217}.
+
 \bibitem{lysyanskaya2002signature}
 \textsc{Lysyanskaya, A.}
 \newblock \emph{Signature schemes and applications to cryptographic protocol design}.
@@ -189,6 +202,13 @@
 \newblock Federal Information Processing Standards (FIPS) Publication 204 (2024).
 \newblock Accessed: June 21, 2026.
 \newblock Available from: \url{https://doi.org/10.6028/NIST.FIPS.204}, \href {http://dx.doi.org/10.6028/NIST.FIPS.204} {\path{doi:10.6028/NIST.FIPS.204}}.
+
+\bibitem{NIST_FIPS_204}
+\textsc{{National Institute of Standards and Technology (NIST)}}.
+\newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
+\newblock Federal Information Processing Standards Publication (FIPS) 204, U.S. Department of Commerce (2024).
+\newblock Accessed: June 25, 2026.
+\newblock Available from: \url{https://doi.org/10.6028/NIST.FIPS.204}.
 
 \bibitem{openid4vp}
 \textsc{{OpenID Foundation}}.

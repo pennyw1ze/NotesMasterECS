@@ -334,8 +334,76 @@ lattice problem and the dilithium signature scheme.
 
 The polynomial quotient ring is a class of rings in the form:$$R[x]/(f(x))$$
 where $f(x)$ is some polynomial in $R[x]$.
+
 \section{Cryptography and Post-Quantum resistance}
 \label{generalcrypto}
+In this section we discuss some basic concepts of cryptography and post-quantum resistance.
+
+Cryptography is the study of mathematical techniques related to aspects of information security 
+such as confidentiality, data integrity, entity authentication, and data origin authentication~\cite{Menezes1996Handbook}.
+
+Often, security of cryptographic schemes is defined with respect to different types of adversaries
+which are classified based on their computational power and cheating capabilities, and in the
+literature are called adversarial models. The most common adversarial models are show in table ~\ref{tab:adversary_types}.
+\begin{table}[htbp]
+  \centering
+  \caption{Main cryptographic adversarial models~\cite{Li2024Comprehensive}.}
+  \label{tab:adversary_types}
+  \small
+  \begin{tabularx}{\textwidth}{@{}l L@{}}
+    \toprule
+    \textbf{Adversary Type} & \textbf{Description} \\
+    \midrule
+    Passive                  & Can read, copy, and analyze data. The goal is to learn confidential information. \\
+    Active                   & Can read, modify, delete, and inject data. \\
+    Man-in-the-middle (MITM) & Joins invisibly in a conversation between recipients. Can be passive and actively modifying conversation. \\
+    Honest-but-curious       & Performs protocol correctly and attempts to learn confidential information. \\
+    Fail-stop                & Can halt protocol at any time. \\
+    Malicious                & Deviates from protocol entirely. \\
+    Byzantine                & Coordinated malicious agents in a distributed system. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+The main cryptographic primitives used for anonymous credentials systems are
+signature schemes. In particular, the actual most efficient and widely adopted
+signature scheme is ECDSA~\cite{AlZubaidie2019Efficient}, which stands for Elliptic Curve Digital Signature 
+Algorithm. 
+
+ECDSA is a public key signature scheme based on the algebraic structure of 
+elliptic curves over finite fields. Smartphone's secure element and
+credential's issuers adopt this type of signature scheme right now.
+
+The problem with ECDSA is that elliptic curve cryptography is based on the
+discrete logarithm problem, which can be solved in polynomial time by a 
+quantum computer using Shor's algorithm~\cite{Shor1997Polynomial}.
+
+In order for our thesis to be postquantum secure, we need to adopt a 
+post-quantum secure signature scheme.
+
+Since Shor's algorithm has been discovered in 1997, many post-quantum
+signature schemes have been proposed and some of them have been standardized
+by NIST. In this table we represent the main NIST standardized post-quantum 
+signature schemes, their underlying problem and a brief explanation of how 
+they work~\ref{tab:pqc_signatures}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{NIST Standardized Post-Quantum Signature Schemes~\cite{NIST_FIPS_204}.}
+  \label{tab:pqc_signatures}
+  \small
+  \begin{tabularx}{\textwidth}{@{}l l L L@{}}
+    \toprule
+    \textbf{Scheme} & \textbf{Standard} & \textbf{Underlying Problem} & \textbf{Brief Explanation} \\
+    \midrule
+    \textbf{ML-DSA} (Dilithium) & FIPS 204       & Module Learning with Errors (MLWE) \& Module Short Integer Solution (MSIS) & Based on the ``Fiat-Shamir with Aborts'' framework. It creates a signature by generating a commitment and response, applying rejection sampling to ensure the output does not leak information about the private key. \\
+    \addlinespace
+    \textbf{SLH-DSA} (SPHINCS+) & FIPS 205       & Collision and pre-image resistance of cryptographic hash functions       & A stateless hash-based signature scheme. It uses a hyper-tree of Merkle trees to authenticate underlying one-time (WOTS+) and few-time (FORS) signature key pairs. \\
+    \addlinespace
+    \textbf{FN-DSA} (FALCON)    & Draft FIPS 206 & NTRU Lattice Problem                                                     & Uses a hash-and-sign framework with fast-Fourier sampling over NTRU lattices. It produces highly compact signatures, though the signing process requires complex floating-point arithmetic. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 \section{Hash Functions}
 \label{hashfunctions}
@@ -1430,6 +1498,7 @@ The STARK module proves issuer-credential validity and links the two proof
 systems via the affine MAC. We name its instance $X_S$ and witness $W_S$.
 
 \begin{mdframed}[style=relationbox]
+{\small
 \[
 \RelSTARK \;=\; \left\{\;
 \begin{array}{@{}l@{}}
@@ -1446,6 +1515,7 @@ m = a \cdot e_1 + b \;\wedge & \text{(S2c)} \\[4pt]
 \end{array}
 \;\right\}
 \]
+}
 \end{mdframed}
 
 \begin{itemize}[leftmargin=2em, itemsep=2pt]
@@ -1467,8 +1537,8 @@ validity window, and device possession. We name its instance $X_L$ and
 witness $W_L$.
 
 \begin{mdframed}[style=relationbox]
-{\small
 \[
+\resizebox{\linewidth}{!}{$\displaystyle
 \RelLigero \;=\; \left\{\;
 \begin{array}{@{}l@{}}
 x := (attr,\, id,\, tr,\, now, \\
@@ -1489,8 +1559,8 @@ MSO[128:160] = \SHA(pk_{dx} \concat pk_{dy}) \;\wedge & \text{(L5)} \\[4pt]
 ECVerify\!\bigl((r_2,s_2),\, H(tr \concat hdr),\, (pk_{dx},pk_{dy})\bigr) = 1 & \text{(L7)}
 \end{array}
 \;\right\}
+$}
 \]
-}
 \end{mdframed}
 
 \begin{itemize}[leftmargin=2em, itemsep=2pt]

@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(kpsewhich lmodern.sty)",
-      "Bash(echo \"--- exit: $? ---\")"
+      "Bash(echo \"--- exit: $? ---\")",
+      "Bash(pdflatex -interaction=nonstopmode MasterThesisSapienza.tex)"
     ]
   }
 }
