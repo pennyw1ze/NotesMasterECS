@@ -2,15 +2,15 @@
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Basic scheme of anonymous credentials.}}{2}{figure.caption.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Proximity presentation flow (ISO/IEC 18013-5). Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{9}{figure.caption.8}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Remote, cross-device presentation flow (OpenID4VP). Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{9}{figure.caption.9}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Relying Party authentication, common to the proximity and remote flows. Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{10}{figure.caption.10}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Structure and selective-disclosure mechanism of an SD-JWT VC. Adapted from the SD-JWT VC specification~\cite {sdjwtvc}.}}{11}{figure.caption.11}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces W3C WebAuthn authentication scheme used for verifiable pseudonyms (passkeys). Adapted from~\cite {webauthn}.}}{14}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces EUDI Architecture Reference Framework roles and responsibilities. Adapted from~\cite {EuropeanCommission2024EUDIARF}.}}{14}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Proximity presentation flow (ISO/IEC 18013-5). Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{10}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Remote, cross-device presentation flow (OpenID4VP). Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{10}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Relying Party authentication, common to the proximity and remote flows. Adapted from the ARF~\cite {EuropeanCommission2024EUDIARF}.}}{11}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Structure and selective-disclosure mechanism of an SD-JWT VC. Adapted from the SD-JWT VC specification~\cite {sdjwtvc}.}}{12}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces W3C WebAuthn authentication scheme used for verifiable pseudonyms (passkeys). Adapted from~\cite {webauthn}.}}{15}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces EUDI Architecture Reference Framework roles and responsibilities. Adapted from~\cite {EuropeanCommission2024EUDIARF}.}}{15}{figure.caption.19}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Secure element architecture.}}{32}{figure.caption.30}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Secure element architecture.}}{33}{figure.caption.32}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
