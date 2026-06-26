@@ -196,6 +196,20 @@
 \newblock \emph{Handbook of Applied Cryptography}.
 \newblock Discrete Mathematics and Its Applications. CRC Press (1996).
 
+\bibitem{NIST2002FIPS1802}
+\textsc{{National Institute of Standards and Technology}}.
+\newblock Secure {Hash} {Standard}.
+\newblock FIPS PUB 180-2 (2002).
+\newblock Accessed: June 26, 2026.
+\newblock Available from: \url{https://csrc.nist.gov/pubs/fips/180-2/final}.
+
+\bibitem{NIST2024FIPS204}
+\textsc{{National Institute of Standards and Technology}}.
+\newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
+\newblock FIPS PUB 204 (2024).
+\newblock Accessed: June 26, 2026.
+\newblock Available from: \url{https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf}, \href {http://dx.doi.org/10.6028/NIST.FIPS.204} {\path{doi:10.6028/NIST.FIPS.204}}.
+
 \bibitem{NISTFIPS204}
 \textsc{{National Institute of Standards and Technology}}.
 \newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
@@ -203,12 +217,26 @@
 \newblock Accessed: June 21, 2026.
 \newblock Available from: \url{https://doi.org/10.6028/NIST.FIPS.204}, \href {http://dx.doi.org/10.6028/NIST.FIPS.204} {\path{doi:10.6028/NIST.FIPS.204}}.
 
+\bibitem{NIST2024FIPS205}
+\textsc{{National Institute of Standards and Technology}}.
+\newblock Stateless {Hash}-{Based} {Digital} {Signature} {Standard}.
+\newblock FIPS PUB 205 (2024).
+\newblock Accessed: June 26, 2026.
+\newblock Available from: \url{https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.205.pdf}, \href {http://dx.doi.org/10.6028/NIST.FIPS.205} {\path{doi:10.6028/NIST.FIPS.205}}.
+
 \bibitem{NIST_FIPS_204}
 \textsc{{National Institute of Standards and Technology (NIST)}}.
 \newblock Module-{Lattice}-{Based} {Digital} {Signature} {Standard}.
 \newblock Federal Information Processing Standards Publication (FIPS) 204, U.S. Department of Commerce (2024).
 \newblock Accessed: June 25, 2026.
 \newblock Available from: \url{https://doi.org/10.6028/NIST.FIPS.204}.
+
+\bibitem{Nia2014Introduction}
+\textsc{Nia, M.~A., Sajedi, A., and Jamshidpey, A.}
+\newblock An {Introduction} to {Digital} {Signature} {Schemes}.
+\newblock arXiv preprint arXiv:1404.2820 (2014).
+\newblock Accessed: June 26, 2026.
+\newblock Available from: \url{https://arxiv.org/abs/1404.2820}, \href {http://dx.doi.org/10.48550/arXiv.1404.2820} {\path{doi:10.48550/arXiv.1404.2820}}.
 
 \bibitem{openid4vp}
 \textsc{{OpenID Foundation}}.
@@ -228,6 +256,13 @@
 \newblock Accessed: June 21, 2026.
 \newblock Available from: \url{https://eprint.iacr.org/2023/414}.
 
+\bibitem{Prest2024Falcon}
+\textsc{Prest, T.}
+\newblock Falcon: {Towards} {FN}-{DSA}.
+\newblock NIST Fifth PQC Standardization Conference (2024).
+\newblock Accessed: June 26, 2026.
+\newblock Available from: \url{https://csrc.nist.gov/csrc/media/Presentations/2024/falcon/images-media/prest-falcon-pqc2024.pdf}.
+
 \bibitem{RiscZero2026}
 \textsc{{RISC Zero}}.
 \newblock {RISC Zero}: The zero-knowledge virtual machine (2026).
@@ -239,6 +274,10 @@
 \newblock Protecting digital identity wallet: A threat model in the age of {eIDAS} 2.0.
 \newblock In \emph{Risks and Security of Internet and Systems (CRiSIS 2024)}, Lecture Notes in Computer Science. Springer (2024).
 \newblock Available from: \url{https://doi.org/10.1007/978-3-031-89350-6_6}, \href {http://dx.doi.org/10.1007/978-3-031-89350-6_6} {\path{doi:10.1007/978-3-031-89350-6_6}}.
+
+\bibitem{inproceedings}
+\textsc{Sharma, S.}
+\newblock A comprehensive study of cryptographic hash functions (2024).
 
 \bibitem{Shor1997Polynomial}
 \textsc{Shor, P.~W.}
