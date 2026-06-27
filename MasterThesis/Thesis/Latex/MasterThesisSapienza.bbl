@@ -131,6 +131,24 @@
 \newblock Accessed: June 22, 2026.
 \newblock Available from: \url{https://blog.google/security/security-for-the-quantum-era-implementing-post-quantum-cryptography-in-android/}.
 
+\bibitem{Grassi2021Poseidon}
+\textsc{Grassi, L., Khovratovich, D., Rechberger, C., Roy, A., and Schofnegger, M.}
+\newblock Poseidon: A new hash function for {Zero-Knowledge} proof systems.
+\newblock In \emph{30th {USENIX} Security Symposium ({USENIX} Security 21)}, pp. 519--535. {USENIX} Association (2021).
+\newblock Available from: \url{https://www.usenix.org/conference/usenixsecurity21/presentation/grassi}.
+
+\bibitem{cryptoeprint:2023/323}
+\textsc{Grassi, L., Khovratovich, D., and Schofnegger, M.}
+\newblock Poseidon2: A faster version of the poseidon hash function.
+\newblock Cryptology {ePrint} Archive, Paper 2023/323 (2023).
+\newblock Available from: \url{https://eprint.iacr.org/2023/323}.
+
+\bibitem{10.1007/978-3-031-37679-5_8}
+\textsc{Grassi, L., Khovratovich, D., and Schofnegger, M.}
+\newblock Poseidon2: A faster version of the poseidon hash function.
+\newblock In \emph{Progress in Cryptology - AFRICACRYPT 2023} (edited by N.~El~Mrabet, L.~De~Feo, and S.~Duquesne), pp. 177--203. Springer Nature Switzerland, Cham (2023).
+\newblock ISBN 978-3-031-37679-5.
+
 \bibitem{Hoffstein2008Cryptography}
 \textsc{Hoffstein, J., Pipher, J., and Silverman, J.~H.}
 \newblock \emph{An Introduction to Mathematical Cryptography}.

@@ -431,7 +431,7 @@ they work~\ref{tab:pqc_signatures}.
   \end{tabularx}
 \end{table}
 
-In Section ~\ref{dilithium} we are going to discuss in depth the Dilithium signature scheme, 
+In Section~\ref{dilithium} we are going to discuss in depth the Dilithium signature scheme, 
 which is the one we adopted for our post-quantum anonymous credentials model.
 
 \section{Hash Functions}
@@ -471,9 +471,42 @@ There are several properties that a cryptographic hash function must satisfy:
 The Secure Hash Algorithm 2 (SHA-2) family is a set of cryptographic hash functions
 published by the National Institute of Standards 
 and Technology (NIST) in 2002~\cite{NIST2002FIPS1802}.
+The SHA-2 architecture comprises the following key components:
+\begin{itemize}
+  \item \textbf{Hash function}: The core functionality that process a message
+  and generates a fixed size output, iteratively applying compression functions;
+  \item \textbf{Message schedule}: The process of dividing the input message into 
+  fixed-size blocks and preparing them for processing;
+  \item \textbf{Compression function}: The function that process a fixed-size block
+  and a current state in order to produce a new state;
+  \item \textbf{Padding scheme}: The process of adding extra bits to the input message 
+  to ensure that its length is a multiple of the block size.
+\end{itemize}
+In the SHA-2 family, the most commonly used hash functions are SHA-256 and SHA-512, 
+which produce 256-bit and 512-bit hash values, respectively.
 
-\subsection{Poseidon family}
+
+\subsection{Poseidon hash function}
 \label{poseidon}
+The Poseidon hash functions are hash functions designed  for the use in 
+verifiable computation protocols. 
+There are several different version of the specification:
+\begin{itemize}
+  \item First version: \textbf{Usenix Poseidon}~\cite{Grassi2021Poseidon};
+  \item Second version: \textbf{Eurocrypt Poseidon}~\cite{cryptoeprint:2023/323};
+  \item Third version: \textbf{Poseidon22}~\cite{10.1007/978-3-031-37679-5_8}, which is
+  an optimized, faster version.
+\end{itemize}
+His key design goals are:
+\begin{itemize}
+  \item \textbf{ZK-friendliness}: Efficient inside arithmetic circuits (low R1CS/constraint cost).
+  \item \textbf{Security}: Cryptographically strong against preimage, collision, and other standard attacks.
+  \item \textbf{Flexibility}: Parameterizable for different field sizes, security levels, and performance needs.
+\end{itemize}
+In particular, in our work we are going to use the Poseidon2 (also called Poseidon23) version, 
+which is the one that is used in the zk-dilithium STARK zero-knowledge 
+proof system.
+
 \section{Commitment Schemes}
 \label{commitments}
 \paragraph{Binding}

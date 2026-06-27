@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.6.23)  26 JUN 2026 12:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.5.18)  27 JUN 2026 14:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -310,7 +310,7 @@ Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
 ) (/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
- (/home/pennyw1ze/texmf/tex/generic/infwarerr/infwarerr.sty
+ (/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -468,7 +468,7 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \l_MT_below_shortintertext_sep=\dimen267
 \xmathstrut@box=\box61
 \xmathstrut@dim=\dimen268
-) (/home/pennyw1ze/texmf/tex/latex/xcolor/xcolor.sty
+) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
  (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
@@ -928,67 +928,67 @@ Package pdftex.def Info: figures/digsig.png  used on input line 393.
  [6] [7 <./figures/digsig.png>]
 Overfull \vbox (74.4415pt too high) has occurred while \output is active []
 
- [8] [9] [10]
+ [8] [9] [10] [11]
 Chapter 3.
-[11
+[12
 
-] [12]
-<figures/Figure_3_Proximity_Flow.png, id=717, 1202.4925pt x 720.6925pt>
+] [13]
+<figures/Figure_3_Proximity_Flow.png, id=727, 1202.4925pt x 720.6925pt>
 File: figures/Figure_3_Proximity_Flow.png Graphic file (type png)
 <use figures/Figure_3_Proximity_Flow.png>
-Package pdftex.def Info: figures/Figure_3_Proximity_Flow.png  used on input line 572.
+Package pdftex.def Info: figures/Figure_3_Proximity_Flow.png  used on input line 605.
 (pdftex.def)             Requested size: 336.60242pt x 201.73753pt.
-<figures/Figure_5_Remote_Cross-Device_Flow.png, id=720, 1202.4925pt x 722.7pt>
+<figures/Figure_5_Remote_Cross-Device_Flow.png, id=730, 1202.4925pt x 722.7pt>
 File: figures/Figure_5_Remote_Cross-Device_Flow.png Graphic file (type png)
 <use figures/Figure_5_Remote_Cross-Device_Flow.png>
-Package pdftex.def Info: figures/Figure_5_Remote_Cross-Device_Flow.png  used on input line 579.
+Package pdftex.def Info: figures/Figure_5_Remote_Cross-Device_Flow.png  used on input line 612.
 (pdftex.def)             Requested size: 336.60242pt x 202.29947pt.
- [13 <./figures/Figure_3_Proximity_Flow.png> <./figures/Figure_5_Remote_Cross-Device_Flow.png>]
-<figures/Figure_13_Relying_Party_Authentication.png, id=731, 1463.4675pt x 1242.6425pt>
+ [14 <./figures/Figure_3_Proximity_Flow.png> <./figures/Figure_5_Remote_Cross-Device_Flow.png>]
+<figures/Figure_13_Relying_Party_Authentication.png, id=741, 1463.4675pt x 1242.6425pt>
 File: figures/Figure_13_Relying_Party_Authentication.png Graphic file (type png)
 <use figures/Figure_13_Relying_Party_Authentication.png>
-Package pdftex.def Info: figures/Figure_13_Relying_Party_Authentication.png  used on input line 591.
+Package pdftex.def Info: figures/Figure_13_Relying_Party_Authentication.png  used on input line 624.
 (pdftex.def)             Requested size: 316.80121pt x 269.00217pt.
-<figures/SD-JWT-VC.png, id=736, 602.25pt x 177.66376pt>
+<figures/SD-JWT-VC.png, id=746, 602.25pt x 177.66376pt>
 File: figures/SD-JWT-VC.png Graphic file (type png)
 <use figures/SD-JWT-VC.png>
-Package pdftex.def Info: figures/SD-JWT-VC.png  used on input line 614.
+Package pdftex.def Info: figures/SD-JWT-VC.png  used on input line 647.
 (pdftex.def)             Requested size: 336.60242pt x 99.30125pt.
- [14 <./figures/Figure_13_Relying_Party_Authentication.png>] [15 <./figures/SD-JWT-VC.png>] [16]
-<figures/webauthn.png, id=763, 346.53465pt x 246.6816pt>
+ [15 <./figures/Figure_13_Relying_Party_Authentication.png>] [16 <./figures/SD-JWT-VC.png>] [17]
+<figures/webauthn.png, id=773, 346.53465pt x 246.6816pt>
 File: figures/webauthn.png Graphic file (type png)
 <use figures/webauthn.png>
-Package pdftex.def Info: figures/webauthn.png  used on input line 716.
+Package pdftex.def Info: figures/webauthn.png  used on input line 749.
 (pdftex.def)             Requested size: 316.80121pt x 225.5157pt.
- [17]
-<figures/Pasted image 20260224155454.png, id=773, 1284.8pt x 1001.7425pt>
+ [18]
+<figures/Pasted image 20260224155454.png, id=783, 1284.8pt x 1001.7425pt>
 File: figures/Pasted image 20260224155454.png Graphic file (type png)
 <use figures/Pasted image 20260224155454.png>
-Package pdftex.def Info: figures/Pasted image 20260224155454.png  used on input line 741.
+Package pdftex.def Info: figures/Pasted image 20260224155454.png  used on input line 774.
 (pdftex.def)             Requested size: 237.60242pt x 185.24303pt.
- [18 <./figures/webauthn.png> <./figures/Pasted image 20260224155454.png>] [19] [20
+ [19 <./figures/webauthn.png> <./figures/Pasted image 20260224155454.png>] [20] [21
 
-] [21]
-Underfull \hbox (badness 10000) in paragraph at lines 858--861
+] [22]
+Underfull \hbox (badness 10000) in paragraph at lines 891--894
 
  []
 
-[22]
+[23]
 Chapter 4.
-[23
+[24
 
 ]
-Overfull \hbox (18.64632pt too wide) in paragraph at lines 919--923
+Overfull \hbox (18.64632pt too wide) in paragraph at lines 952--956
 \T1/lmr/m/n/10.95 (-20) man-age (re-view, re-move), and share (ex-plic-itly se-lect-ing what data to store/combine
  []
 
-[24] [25]
-Overfull \hbox (9.15858pt too wide) in paragraph at lines 970--979
+[25] [26]
+Overfull \hbox (9.15858pt too wide) in paragraph at lines 1003--1012
 \T1/lmr/m/n/10.95 (-20) re-ly-ing party, the wal-let com-putes the pseudonym iden-ti-fier as $\OML/lmm/m/it/10.95 nym \OT1/lmr/m/n/10.95 (-20) = [][](\OML/lmm/m/it/10.95 scp; idx\OT1/lmr/m/n/10.95 (-20) )$\T1/lmr/m/n/10.95 (-20) ,
  []
 
-[26] [27] [28] [29] [30] [31]
-LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 1150.
+[27] [28] [29] [30] [31] [32]
+LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 1183.
  (/usr/share/texmf-dist/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -996,82 +996,82 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [32] [33]
+ [33] [34]
 Chapter 5.
-[34
+[35
 
-] [35]
-<figures/SecureElement.png, id=980, 641.39626pt x 651.93562pt>
+] [36]
+<figures/SecureElement.png, id=990, 641.39626pt x 651.93562pt>
 File: figures/SecureElement.png Graphic file (type png)
 <use figures/SecureElement.png>
-Package pdftex.def Info: figures/SecureElement.png  used on input line 1242.
+Package pdftex.def Info: figures/SecureElement.png  used on input line 1275.
 (pdftex.def)             Requested size: 118.80121pt x 120.74547pt.
- [36 <./figures/SecureElement.png>] [37] [38] [39] [40] [41]
-Overfull \hbox (68.27487pt too wide) detected at line 1519
+ [37 <./figures/SecureElement.png>] [38] [39] [40] [41] [42]
+Overfull \hbox (68.27487pt too wide) detected at line 1552
 []
  []
 
-[42{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+[43{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 1564.
+(mdframed)              on input line 1597.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 1603.
- [43]
+(mdframed)              on input line 1636.
+ [44]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 1652.
+(mdframed)              on input line 1685.
 
-Overfull \hbox (24.76646pt too wide) detected at line 1681
+Overfull \hbox (24.76646pt too wide) detected at line 1714
 [][]
  []
 
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 1697.
-[44] [45] [46] [47] [48]
-Overfull \hbox (1.54019pt too wide) in paragraph at lines 1869--1871
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 1730.
+[45] [46] [47] [48] [49]
+Overfull \hbox (1.54019pt too wide) in paragraph at lines 1902--1904
 []\T1/lmr/bx/n/10.95 (-20) Validity Ver-i-fi-ca-tion\T1/lmr/m/n/10.95 (-20) : The cir-cuit en-forces va-lid-ity checks (tstart<tnow<tend)
  []
 
-[49] [50] [51]
+[50] [51] [52]
 Chapter 6.
-[52
+[53
 
 ]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1982.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 2015.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 1983.
+(Font)              <9> on input line 2016.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1984.
- [53]
-Overfull \hbox (43.76363pt too wide) in paragraph at lines 2036--2041
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 2017.
+ [54]
+Overfull \hbox (43.76363pt too wide) in paragraph at lines 2069--2074
 \T1/lmr/m/n/10.95 (-20) sweeps the STARK pa-ram-e-ters on the desk-top, while the \T1/lmtt/m/n/10.95 android_prover\T1/lmr/m/n/10.95 (-20) /\T1/lmtt/m/n/10.95 android_verifier
  []
 
-[54] [55]
-Overfull \hbox (4.12251pt too wide) in paragraph at lines 2096--2102
+[55] [56]
+Overfull \hbox (4.12251pt too wide) in paragraph at lines 2129--2135
 []\T1/lmr/m/n/10.95 (-20) Table [][]6.1[][] re-ports the Longfel-low mDOC base-line. Be-sides the raw prove/verify/size
  []
 
-[56] [57]
-Overfull \hbox (27.27208pt too wide) in paragraph at lines 2187--2204
+[57] [58]
+Overfull \hbox (27.27208pt too wide) in paragraph at lines 2220--2237
  [][] 
  []
 
-[58] [59] [60] [61] [62]
-Overfull \hbox (24.00064pt too wide) in paragraph at lines 2509--2518
+[59] [60] [61] [62] [63]
+Overfull \hbox (24.00064pt too wide) in paragraph at lines 2542--2551
  [][] 
  []
 
-[63] [64]
+[64] [65]
 Chapter 7.
-[65
+[66
 
-] [66] [67] [68]
+] [67] [68] [69]
 Chapter 8.
-[69
+[70
 
-] [70] (./MasterThesisSapienza.bbl
+] [71] (./MasterThesisSapienza.bbl
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1090,10 +1090,10 @@ Underfull \hbox (badness 1655) in paragraph at lines 4--9
 \T1/lmr/m/n/10.95 (+20) Avail-able from: [][]$\T1/lmtt/m/n/10.95 https : / / blog . google / innovation-[]and-[]ai / technology /
  []
 
-[71
+[72
 
 
-] [72]
+] [73]
 Underfull \hbox (badness 1838) in paragraph at lines 103--108
 \T1/lmr/m/n/10.95 (+20) Avail-able from: [][]$\T1/lmtt/m/n/10.95 https : / / digital-[]strategy . ec . europa . eu / en / library /
  []
@@ -1119,61 +1119,61 @@ Overfull \hbox (86.51472pt too wide) in paragraph at lines 128--133
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--140
+Underfull \hbox (badness 10000) in paragraph at lines 153--158
 [][]$\T1/lmtt/m/n/10.95 https : / / ia803208 . us . archive . org / 1 / items / DSStore _ 20161129 / Library /
  []
 
-[73] [74]
-Underfull \hbox (badness 10000) in paragraph at lines 242--245
+[74] [75]
+Underfull \hbox (badness 10000) in paragraph at lines 260--263
 []\T1/lmr/m/sc/10.95 (+20) OpenID Foun-da-tion\T1/lmr/m/n/10.95 (+20) .  Openid for ver-i-fi-able pre-sen-ta-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--245
+Underfull \hbox (badness 10000) in paragraph at lines 260--263
 \T1/lmr/m/n/10.95 (+20) tions (2023).  Avail-able from: [][]$\T1/lmtt/m/n/10.95 https : / / openid . net / specs /
  []
 
 
-Overfull \hbox (12.60675pt too wide) in paragraph at lines 247--251
+Overfull \hbox (12.60675pt too wide) in paragraph at lines 265--269
 \T1/lmr/m/n/10.95 (-20) (http://www.microsoft.com/openspecifications/en/us/programs/osp/default.aspx).
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 247--251
+Underfull \hbox (badness 10000) in paragraph at lines 265--269
 \T1/lmr/m/n/10.95 (+20) Avail-able from: [][]$\T1/lmtt/m/n/10.95 https : / / www . microsoft . com / en-[]us / research /
  []
 
-
-Underfull \hbox (badness 2452) in paragraph at lines 260--265
+[76]
+Underfull \hbox (badness 2452) in paragraph at lines 278--283
 []\T1/lmr/m/sc/10.95 (+20) Prest, T.  \T1/lmr/m/n/10.95 (+20) Fal-con: To-wards FN-DSA.  NIST Fifth PQC Stan-
  []
 
 
-Underfull \hbox (badness 1014) in paragraph at lines 260--265
+Underfull \hbox (badness 1014) in paragraph at lines 278--283
 \T1/lmr/m/n/10.95 (+20) dard-iza-tion Con-fer-ence (2024).  Ac-cessed: June 26, 2026.  Avail-able
  []
 
-[75]) [76] (./MasterThesisSapienza.aux)
+) [77] (./MasterThesisSapienza.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `MasterThesisSapienza.out' has not changed.
-(rerunfilecheck)             Checksum: B6CC1447D935384009830B8820141521;14823.
+(rerunfilecheck)             Checksum: 267F716C78688C54F8B471B5DB6A6A20;14861.
  ) 
 Here is how much of TeX's memory you used:
- 23080 strings out of 469515
- 379542 string characters out of 5470807
- 1092585 words of memory out of 5000000
- 50443 multiletter control sequences out of 15000+600000
- 814476 words of font info for 384 fonts, out of 8000000 for 9000
+ 23089 strings out of 469515
+ 379724 string characters out of 5470807
+ 1092737 words of memory out of 5000000
+ 50446 multiletter control sequences out of 15000+600000
+ 814606 words of font info for 385 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  84i,14n,131p,1166b,2068s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on MasterThesisSapienza.pdf (86 pages, 4343904 bytes).
+Output written on MasterThesisSapienza.pdf (87 pages, 4347310 bytes).
 PDF statistics:
- 1647 PDF objects out of 1728 (max. 8388607)
- 1411 compressed objects within 15 object streams
- 405 named destinations out of 1000 (max. 500000)
+ 1661 PDF objects out of 1728 (max. 8388607)
+ 1424 compressed objects within 15 object streams
+ 409 named destinations out of 1000 (max. 500000)
  104587 words of extra memory for PDF output out of 106986 (max. 10000000)
 
