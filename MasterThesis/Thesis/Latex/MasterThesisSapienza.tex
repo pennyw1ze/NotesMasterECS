@@ -504,6 +504,7 @@ data  integrity, authenticity, and  security.
 \end{definition}
 
 \subsection{Cryptographic Hash Functions}
+\label{cryptohashfunction}
 
 In cryptography, a particular family of hash functions called 
 \textbf{cryptographic hash functions} is used in order to ensure 
@@ -790,7 +791,7 @@ blockchain, and secure multi-party computation.
 During the last decades, many different zero-knowledge proof systems have been proposed,
 each of them with different properties and trade-offs, and different underlying mathematical problems.
 
-In the table~\ref{tab:zk_systems_pq_status}, we summarize the main zero-kwowledge proof systems that are used
+In the table~\ref{tab:zk_systems_trusted_setup}, we summarize the main zero-kwowledge proof systems that are used
 in the actual cryptography landscape, with their underlying mathematical problem and need of trusted setup,
 enphasizing their post-quantum security.
 
@@ -798,17 +799,17 @@ enphasizing their post-quantum security.
   \centering
   \caption{Trusted Setup and Post-Quantum Security Status of Core Zero-Knowledge Frameworks.}
   \label{tab:zk_systems_trusted_setup}
-  \small
+  \footnotesize
   \renewcommand{\arraystretch}{1.3}
-  \begin{tabularx}{\textwidth}{|l|l|L|L|l|}
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.11\textwidth}|>{\raggedright\arraybackslash}p{0.16\textwidth}|L|>{\raggedright\arraybackslash}p{0.19\textwidth}|>{\centering\arraybackslash}p{0.09\textwidth}|}
     \hline
-    \textbf{Framework} & \textbf{Authors \& Release} & \textbf{Underlying Problem} & \textbf{Trusted Setup} & \textbf{PQ Security} \\ \hline
-    \textbf{STARK}~\cite{BenSasson2018STARK} & Ben-Sasson et al. (2018) & Interactive Oracle Proofs (IOP) \& Fast Reed-Solomon Proximity Testing (FRI) & None (Transparent) & Secure \\ \hline
-    \textbf{LIGERO}~\cite{Ames2017Ligero}    & Ames et al. (2017)       & Hardness of decoding random linear codes / Interleaved Reed-Solomon Codes & None (Transparent) & Secure \\ \hline
-    \textbf{Groth16}~\cite{cryptoeprint:2016/260} & Groth (2016)             & Discrete Logarithm \& Bilinear Pairings on Elliptic Curves (over QAPs) & Required (Circuit-Specific) & Vulnerable \\ \hline
-    \textbf{Plonk}~\cite{Gabizon2019Plonk}     & Gabizon et al. (2019)    & Polynomial Commitment Schemes (e.g., KZG Pairings) \& Grand Product Arguments & Required (Universal \& Updatable) & Vulnerable \\ \hline
-    \textbf{RISC Zero}~\cite{RiscZero2026}   & RISC Zero Team (2022)    & RISC-V Instruction Set Architecture Emulation \& STARK Protocol (DEEP-ALI) & None (Transparent) & Secure \\ \hline
-    \textbf{Halo 2}~\cite{Hopwood2021Halo2}  & Hopwood et al. (2021)    & Discrete Logarithm over Cycles of Elliptic Curves (Pasta Curves) / IPA & None (Transparent) & Vulnerable \\ \hline
+    \textbf{Framework} & \textbf{Authors \& Release} & \textbf{Underlying Problem} & \textbf{Trusted Setup} & \textbf{PQ Sec.} \\ \hline
+    \textbf{STARK}~\cite{BenSasson2018STARK} & Ben-Sasson et al.\ (2018) & Interactive Oracle Proofs (IOP) \& Fast Reed-Solomon Proximity Testing (FRI) & None (Transparent) & Secure \\ \hline
+    \textbf{LIGERO}~\cite{Ames2017Ligero}    & Ames et al.\ (2017)       & Hardness of decoding random linear codes / Interleaved Reed-Solomon Codes & None (Transparent) & Secure \\ \hline
+    \textbf{Groth16}~\cite{cryptoeprint:2016/260} & Groth (2016)         & Discrete Logarithm \& Bilinear Pairings on Elliptic Curves (over QAPs) & Required (Circuit-Specific) & Vulnerable \\ \hline
+    \textbf{Plonk}~\cite{Gabizon2019Plonk}   & Gabizon et al.\ (2019)    & Polynomial Commitment Schemes (KZG Pairings) \& Grand Product Arguments & Required (Universal \& Updatable) & Vulnerable \\ \hline
+    \textbf{RISC Zero}~\cite{RiscZero2026}   & RISC Zero Team (2022)    & RISC-V ISA Emulation \& STARK Protocol (DEEP-ALI) & None (Transparent) & Secure \\ \hline
+    \textbf{Halo 2}~\cite{Hopwood2021Halo2}  & Hopwood et al.\ (2021)   & Discrete Logarithm over Cycles of Elliptic Curves (Pasta Curves) / IPA & None (Transparent) & Vulnerable \\ \hline
   \end{tabularx}
 \end{table}
 
@@ -818,14 +819,140 @@ which are both post-quantum secure and have public libraries adapted to our need
 \subsection{Ligero}
 \label{Ligero}
 Ligero is a zero-knowledge proof system proposed in 2017 by Ames et al.~\cite{Ames2017Ligero}.
-Ligoer is based on the following advanced cryptographic thechniques:
+Ligero is based on the following advanced cryptographic techniques:
 \begin{itemize}
-  \item MPC In the Head;
-  \item 
+  \item \textbf{MPC-in-the-Head}~\cite{10.1145/1250790.1250794}: MPC-in-the-Head, which stands for Multi-Party Computation in the Head, is
+  a cryptographic protocol which allows a prover to build a zero-knowledge proof by simulating a multi-party computation (MPC) protocol in 
+  their own head, without actually communicating with other parties. The prover generates multiple views of the computation, each corresponding 
+  to a different party's perspective, and then commits to these views. The verifier can then challenge the prover to reveal all but one view, 
+  allowing them to check the correctness of the computation without learning any sensitive information. Repeating the process a certain amount
+  of times allows the verifier to establish that the success probability of a cheating prover is negligible. A visual representation of the 
+  MPC-in-the-Head technique is shown in figure~\ref{fig:mpcinthehead}. 
+  \item \textbf{Interleaved Reed-Solomon Codes}~\cite{Ames2017Ligero}: Reed-Solomon codes function by mapping a message of length $k$ to
+  the coefficients of a polynomial $P(x)$ of degree at most $k-1$, which is then evaluated at $n$ distinct points ($n > k$). This generates
+  an $n$-length codeword where the inherent algebraic redundancy ensures that any two distinct codewords differ in at least $n - k + 1$
+  positions. In Ligero, the prover encodes witness values into a matrix whose rows are Reed-Solomon codewords; this \emph{interleaved}
+  structure enables efficient batch verification through random column sampling, which detects any cheating prover with high probability
+  by exploiting the large minimum distance of the code.
 \end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/MPC-in-the-head.png}
+  \caption{MPC-in-the-Head protocol.}
+  \label{fig:mpcinthehead}
+\end{figure}
+
+The Ligero zk proof system does not require a trusted setup, and
+is based on the following cryptographic assumptions:
+\begin{itemize}
+  \item \textbf{Collision-resistant hash functions}: Hash functions explained in section~\ref{cryptohashfunction};
+  \item \textbf{Linear error-correcting codes}: Error-correcting codes are mathematical constructs that enable the 
+  detection and correction of errors in data transmission or storage. They work by adding redundancy to the original data, 
+  allowing the receiver to identify and correct errors without needing retransmission. In the context of Ligero, 
+  linear error-correcting codes are used to ensure that even if some parts of the proof are tampered with or lost, 
+  the verifier can still reconstruct the original information and verify its correctness;
+  \item \textbf{Merkle trees}: Merkle trees are cryptographic data structures that consist of a binary tree of hash 
+  values, where each leaf node represents a data block and each non-leaf node is the hash of its child nodes, as represented
+  in image~\ref{fig:merkletree}. Merkle trees in Ligero are used to efficiently perform vector commitments;
+\end{itemize}
+All of these assumptions are quantum-resistant; therefore, Ligero is a post-quantum secure zero-knowledge proof system.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/Merkle-tree.png}
+  \caption{Merkle tree graphic representation.}
+  \label{fig:merkletree}
+\end{figure}
+
+\paragraph{Protocol Workflow}
+The following steps describe how a prover demonstrates knowledge of a valid witness for an arithmetic circuit of size $C$ over a finite field:
+\begin{enumerate}
+    \item \textbf{Matrix Layout:} The prover arranges the circuit's wire assignments into an $m \times n$ matrix, where $m, n \approx \sqrt{C}$.
+    \item \textbf{Encoding and Commitment:} Each row is encoded via the linear code. The prover builds a Merkle tree over the columns of this extended matrix and sends the root to the verifier.
+    \item \textbf{Linear Constraint Check:} The verifier sends random challenges to test if the linear and quadratic constraints of the circuit hold.
+    \item \textbf{Proximity Testing:} The verifier samples random columns to ensure that the matrix rows are actually close to valid codewords.
+\end{enumerate}
+
+\paragraph{Asymptotic Efficiency and Trade-offs}
+Ligero offers a favourable efficiency profile for a proof system with no trusted setup~\cite{Ames2017Ligero}:
+\begin{itemize}
+    \item \textbf{Proof Size:} $\mathcal{O}(\sqrt{|C|})$, which is a notable trade-off relative to the $\mathcal{O}(1)$ proof sizes of preprocessing SNARKs such as Groth16~\cite{cryptoeprint:2016/260}, but avoids the costly trusted setup phase entirely.
+    \item \textbf{Prover Time:} $\mathcal{O}(|C|)$, making the prover linear in the circuit size and compatible with any sufficiently large finite field.
+    \item \textbf{Verification Time:} $\mathcal{O}(\sqrt{|C|} \cdot \log |C|)$, sublinear in the circuit size and dominated by Merkle path verifications for the sampled columns.
+\end{itemize}
+
+\paragraph{Non-Interactive Variant}
+The Ligero protocol as described above is interactive. 
+In practice, the interactive challenges from the verifier are replaced by outputs of a cryptographic hash function modeled 
+as a random oracle, following the Fiat-Shamir transform~\cite{FiatShamir1987}. This transformation yields a non-interactive 
+argument of knowledge that preserves soundness and zero-knowledge in the random oracle model, and is the approach 
+adopted in all practical Ligero implementations, including the one used in this work.
 
 \subsection{STARK}
 \label{STARK}
+STARK is a zero-knowledge proof system proposed in 2018 by Ben-Sasson et al.~\cite{BenSasson2018STARK}.
+The acronym stands for \emph{Scalable Transparent ARgument of Knowledge}.
+STARKs are based on the following advanced cryptographic techniques:
+\begin{itemize}
+  \item \textbf{Algebraic Intermediate Representation (AIR)}~\cite{BenSasson2018STARK}: A computation of
+  $n$ steps is encoded as an \emph{execution trace}, a matrix whose rows represent the register state at
+  each step. Correctness of the computation is expressed as a set of polynomial constraints over the trace
+  -- \emph{boundary constraints} that fix the initial and final states, and \emph{transition constraints}
+  that assert consistency between consecutive rows. Proving the computation correct reduces to proving that
+  these constraint polynomials vanish over the trace domain.
+  \item \textbf{Fast Reed-Solomon IOP of Proximity (FRI)}~\cite{BenSasson2018FRI}: FRI is the core
+  sub-protocol used to prove that a committed polynomial has bounded degree, without evaluating it
+  everywhere. It works by recursively halving the polynomial's degree over $\mathcal{O}(\log n)$ rounds,
+  each round producing a smaller commitment verified via Merkle tree. Random spot-checks by the verifier
+  ensure that any cheating prover is caught with overwhelming probability.
+\end{itemize}
+
+The STARK proof system does not require a trusted setup, and is based on the following cryptographic
+assumptions:
+\begin{itemize}
+  \item \textbf{Collision-resistant hash functions}: Hash functions explained in section~\ref{cryptohashfunction};
+  \item \textbf{Merkle trees}: Merkle trees, as represented in figure~\ref{fig:merkletree}, are used throughout
+  the STARK protocol as a vector commitment scheme, binding the prover to the execution trace and to each
+  intermediate FRI oracle;
+  \item \textbf{Reed-Solomon codes}: The low-degree extension of the execution trace over a larger evaluation
+  domain encodes the witness as a Reed-Solomon codeword, and FRI proximity testing detects any deviation
+  from a valid codeword.
+\end{itemize}
+All of these assumptions are quantum-resistant; therefore, STARK is a post-quantum secure zero-knowledge
+proof system.
+
+\paragraph{Protocol Workflow}
+The following steps describe how a prover demonstrates that a computation of length $n$ was carried out correctly:
+\begin{enumerate}
+  \item \textbf{Trace Commitment:} The prover builds the execution trace matrix and evaluates each column
+  polynomial over a larger domain (low-degree extension). The extended evaluations are committed via a Merkle tree.
+  \item \textbf{Constraint Composition:} The verifier sends random challenges; the prover combines all
+  constraint polynomials into a single composition polynomial and commits to it with a second Merkle tree.
+  \item \textbf{FRI Protocol:} The prover runs FRI on the composition polynomial to prove its degree is
+  within the expected bound, sending one Merkle root per folding round.
+  \item \textbf{Query Phase:} The verifier samples random positions; the prover opens the trace, composition,
+  and all FRI oracles at those positions with Merkle authentication paths.
+\end{enumerate}
+
+\paragraph{Asymptotic Efficiency and Trade-offs}
+STARKs achieve the following asymptotic complexities~\cite{BenSasson2018STARK}:
+\begin{itemize}
+  \item \textbf{Proof Size:} $\mathcal{O}(\log^2 n)$, poly-logarithmic in the trace length, which is
+  significantly smaller than Ligero's $\mathcal{O}(\sqrt{n})$ for large computations.
+  \item \textbf{Prover Time:} $\mathcal{O}(n \log n)$, quasi-linear, dominated by the FFTs needed for the
+  low-degree extension and FRI folding rounds.
+  \item \textbf{Verification Time:} $\mathcal{O}(\log^2 n)$, dominated by the Merkle path verifications
+  across the FRI rounds.
+\end{itemize}
+
+\paragraph{Non-Interactive Variant}
+The STARK protocol as described above is interactive.
+In practice, the interactive challenges from the verifier are replaced by outputs of a cryptographic hash
+function modeled as a random oracle, following the Fiat-Shamir transform~\cite{FiatShamir1987}. This
+transformation yields a non-interactive argument of knowledge that is the standard form used in all
+practical STARK libraries, including Winterfell~\cite{FacebookWinterfell}, which is the backend adopted
+in this work.
 
 
 
@@ -2263,11 +2390,10 @@ primitives we tried to use as a common commitment (SHA-256 and Poseidon23), the
 incremental cost of each customization (removing message sharing from the STARK,
 adding the SHA-256 opening to Ligero, and the MAC witness-sharing bridge), and
 finally the cost of composing the two proof systems sequentially versus in
-parallel. The goal is to give the reader a faithful picture of \emph{why} each
-design decision described in \cref{implementation} was taken, backed by numbers
-on real hardware.
+parallel. This results are shown in order to justify the implementations choices
+made in section~\ref{implementation}.
 
-\section{Experimental setup}
+\section{Testing setup}
 \label{results:setup}
 All experiments were run on three platforms: one desktop and the two
 smartphones mandated by the device-binding use case.
@@ -2280,6 +2406,9 @@ smartphones mandated by the device-binding use case.
         (\texttt{s5e8825}), \texttt{arm64-v8a}, a mid-range device included to
         show behaviour on weaker hardware.
 \end{itemize}
+The smartphones represents an top-of-the-line Samsung device 2 years old 
+and a mid-range Samsung device which is 5 years old, in order to show the 
+performance of our solution on different hardware.
 
 \paragraph{Methodology.} Every binary was compiled in release mode; the STARK
 prover used its concurrent (multi-threaded) backend. Each cell of every table is
@@ -2290,12 +2419,12 @@ generation is reported separately. Desktop timings were taken with the machine
 otherwise idle, as we observed that a concurrent compilation could inflate a
 STARK proving time by up to $5\times$. Unless stated otherwise, the credential
 is the reference mDOC test vector disclosing a single attribute
-(\texttt{age\_over\_18}), and the prover key share $k_p$ is fixed for
-reproducibility. Reported security levels are the conjectured ones: $115$~bit for
+(\texttt{age\_over\_18}), and the prover key share $k_p$ is fixed to simplify 
+the analysis. Reported security levels are the conjectured ones: $115$~bit for
 the zkDilithium STARK, ${\approx}96$~bit for the standalone SHA-256 STARK, and
 the Longfellow default for the Ligero proofs.
 
-\section{Reproducibility: build and run commands}
+\section{Build and run commands}
 \label{results:repro}
 For completeness, and so that every figure in this chapter can be reproduced from
 the public repository, we list here the exact commands used to compile and run
@@ -2365,7 +2494,7 @@ adb shell 'cd /data/local/tmp && RUST_LOG=info ./zk_dilithium'
 \end{lstlisting}
 
 \paragraph{SHA-256-in-STARK proof-size sweep.}
-The sensitivity study of \cref{tab:res-stark-sweep} is produced by the
+The sensitivity study of \cref{tab:res-hash} is produced by the
 \texttt{winterfell-sha256} prototype, whose \texttt{benchmark\_preimage} binary
 sweeps the STARK parameters on the desktop, while the
 \texttt{android\_prover}/\texttt{android\_verifier} pair reproduces the on-device
@@ -2410,7 +2539,7 @@ A53) before the warm timings reported here. All desktop measurements were taken
 with the machine otherwise idle, as a concurrent compilation was observed to
 inflate a STARK proving time by up to $5\times$.
 
-\section{Unmodified building blocks}
+\section{STARK and Ligero default run}
 \label{results:baselines}
 Before measuring the cost of any of our modifications we characterise the two
 systems we build upon, exactly as they ship upstream: the Longfellow mDOC proof
@@ -2453,12 +2582,11 @@ fastest prover on this workload.
 A first non-obvious observation is that the Galaxy~S24 is \emph{faster than our
 desktop} on the Longfellow proof (973\,ms vs 1047\,ms): the Snapdragon~8~Gen~3
 big cores outperform a 2017-era Ryzen on this MPC-in-the-head workload, which is
-exactly the encouraging direction for a scheme meant to run on phones. The
-verify/prove ratio is remarkably stable across platforms (0.53--0.60), telling us
+exactly the encouraging direction for a scheme meant to run on phones. 
+
+The verify/prove ratio is remarkably stable across platforms (0.53--0.60), telling us
 that verification is \emph{not} a fixed-cost overhead but scales with the same
-hardware factors as proving; the slight upward drift on the A53 (0.60) reflects
-that the weaker Exynos core pays relatively more for the memory-bound verification
-phase. The proof size is, as expected for Ligero, completely
+hardware factors as proving. The proof size is, as expected for Ligero, completely
 platform-independent at $351.6$\,KB.
 
 \Cref{tab:res-base-stark} reports the zkDilithium STARK baseline. Here we
@@ -2495,7 +2623,7 @@ so the mid-range gap is consistent across both proof systems and stays below
 $2\times$ --- a useful invariant when we later reason about the joint proof on
 weak hardware.
 
-\section{Choosing the cross-system commitment: SHA-256 vs Poseidon}
+\section{SHA-256 vs Poseidon running times}
 \label{results:hash}
 As explained in \cref{implementation}, linking the two proofs requires committing
 to the same credential hash $e_1$ on both sides, which initially meant proving
@@ -2542,95 +2670,95 @@ zkDilithium field $\mathbb{F}_{2^{23}-2^{20}+1}$). This asymmetry is precisely
 what motivated abandoning a shared hash commitment in favour of the
 information-theoretic MAC bridge.
 
-\subsection{How bad is SHA-256 in STARK? A proof-size sensitivity study}
-\label{results:hash-sweep}
-The timings in \cref{tab:res-hash} already rule SHA-256-in-STARK out on grounds of
-\emph{proving time}, but it is instructive to ask whether the picture could be
-rescued by tuning the STARK's own parameters --- after all, a STARK proof system
-exposes a number of knobs (the Reed--Solomon blow-up factor, the proof-of-work
-grinding factor, the field-extension degree, the FRI folding factor) that trade
-prover work, verifier work, soundness and proof size against one another. To
-answer this we built a standalone SHA-256 AIR on the
-\texttt{winterfell-sha256} prototype and swept each parameter independently
-around the default configuration (blow-up $8$, grinding $16$ bits, no field
-extension, folding $8$, a single $240$-bit pre-image block), measuring the
-resulting proof size. \Cref{tab:res-stark-sweep} reports the full sweep.
+% \subsection{Running times forSHA-256 in STARK}
+% \label{results:hash-sweep}
+% The timings in \cref{tab:res-hash} already rule SHA-256-in-STARK out on grounds of
+% \emph{proving time}, but it is instructive to ask whether the picture could be
+% rescued by tuning the STARK's own parameters --- after all, a STARK proof system
+% exposes a number of knobs (the Reed--Solomon blow-up factor, the proof-of-work
+% grinding factor, the field-extension degree, the FRI folding factor) that trade
+% prover work, verifier work, soundness and proof size against one another. To
+% answer this we built a standalone SHA-256 AIR on the
+% \texttt{winterfell-sha256} prototype and swept each parameter independently
+% around the default configuration (blow-up $8$, grinding $16$ bits, no field
+% extension, folding $8$, a single $240$-bit pre-image block), measuring the
+% resulting proof size. \Cref{tab:res-stark-sweep} reports the full sweep.
 
-\begin{table}[ht]
-  \centering
-  \caption{SHA-256-in-STARK proof-size sensitivity (\texttt{winterfell-sha256}
-  prototype, single block). Each group varies one parameter while the others are
-  held at the default configuration (\emph{italicised} row, $61.97$\,KB). Proof
-  size only; timing is reported in \cref{tab:res-hash}.}
-  \label{tab:res-stark-sweep}
-  \small
-  \begin{tabular}{@{}llrr@{}}
-    \toprule
-    \textbf{Swept parameter} & \textbf{Value} & \textbf{Proof (B)} & \textbf{Proof (KB)} \\
-    \midrule
-    \multirow{4}{*}{Blow-up factor}
-        & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
-        & 16                 & 68\,995 & 67.38 \\
-        & 32                 & 75\,687 & 73.91 \\
-        & 64                 & 80\,072 & 78.20 \\
-    \midrule
-    \multirow{6}{*}{Grinding factor (bits)}
-        & 8                  & 64\,259 & 62.75 \\
-        & 16 \emph{(default)}& 63\,460 & \emph{61.97} \\
-        & 20                 & 63\,616 & 62.13 \\
-        & 24                 & 63\,710 & 62.22 \\
-        & 28                 & 64\,160 & 62.66 \\
-        & 32                 & 63\,231 & 61.75 \\
-    \midrule
-    \multirow{3}{*}{Field-extension degree}
-        & 1 \emph{(default)} & 63\,460 & \emph{61.97} \\
-        & 2                  & 72\,900 & 71.19 \\
-        & 3                  & 82\,147 & 80.22 \\
-    \midrule
-    \multirow{2}{*}{Folding factor}
-        & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
-        & 16                 & 61\,339 & 59.90 \\
-    \midrule
-    \multirow{9}{*}{Pre-image length (bits)}
-        & 110                & 58\,242 & 56.88 \\
-        & 240 \emph{(default)}& 63\,460& \emph{61.97} \\
-        & 480                & 69\,766 & 68.13 \\
-        & 1\,000             & 74\,505 & 72.76 \\
-        & 2\,030             & 81\,670 & 79.76 \\
-        & 4\,050             & 88\,047 & 85.98 \\
-        & 8\,150             & 94\,251 & 92.04 \\
-        & 16\,350            & 103\,343& 100.92 \\
-        & 32\,700            & 109\,813& 107.24 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+% \begin{table}[ht]
+%   \centering
+%   \caption{SHA-256-in-STARK proof-size sensitivity (\texttt{winterfell-sha256}
+%   prototype, single block). Each group varies one parameter while the others are
+%   held at the default configuration (\emph{italicised} row, $61.97$\,KB). Proof
+%   size only; timing is reported in \cref{tab:res-hash}.}
+%   \label{tab:res-stark-sweep}
+%   \small
+%   \begin{tabular}{@{}llrr@{}}
+%     \toprule
+%     \textbf{Swept parameter} & \textbf{Value} & \textbf{Proof (B)} & \textbf{Proof (KB)} \\
+%     \midrule
+%     \multirow{4}{*}{Blow-up factor}
+%         & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
+%         & 16                 & 68\,995 & 67.38 \\
+%         & 32                 & 75\,687 & 73.91 \\
+%         & 64                 & 80\,072 & 78.20 \\
+%     \midrule
+%     \multirow{6}{*}{Grinding factor (bits)}
+%         & 8                  & 64\,259 & 62.75 \\
+%         & 16 \emph{(default)}& 63\,460 & \emph{61.97} \\
+%         & 20                 & 63\,616 & 62.13 \\
+%         & 24                 & 63\,710 & 62.22 \\
+%         & 28                 & 64\,160 & 62.66 \\
+%         & 32                 & 63\,231 & 61.75 \\
+%     \midrule
+%     \multirow{3}{*}{Field-extension degree}
+%         & 1 \emph{(default)} & 63\,460 & \emph{61.97} \\
+%         & 2                  & 72\,900 & 71.19 \\
+%         & 3                  & 82\,147 & 80.22 \\
+%     \midrule
+%     \multirow{2}{*}{Folding factor}
+%         & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
+%         & 16                 & 61\,339 & 59.90 \\
+%     \midrule
+%     \multirow{9}{*}{Pre-image length (bits)}
+%         & 110                & 58\,242 & 56.88 \\
+%         & 240 \emph{(default)}& 63\,460& \emph{61.97} \\
+%         & 480                & 69\,766 & 68.13 \\
+%         & 1\,000             & 74\,505 & 72.76 \\
+%         & 2\,030             & 81\,670 & 79.76 \\
+%         & 4\,050             & 88\,047 & 85.98 \\
+%         & 8\,150             & 94\,251 & 92.04 \\
+%         & 16\,350            & 103\,343& 100.92 \\
+%         & 32\,700            & 109\,813& 107.24 \\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
 
-The sweep tells a clear story. The proof size is essentially \emph{free} in the
-grinding factor: raising the proof-of-work from $8$ to $32$ bits moves the size by
-less than $1$\,KB ($62.75 \to 61.75$\,KB, non-monotone, within the queue-padding
-noise of the FRI layer), so soundness from grinding can be bought at no size cost.
-The blow-up and the field-extension degree, in contrast, are the two expensive
-knobs: doubling the blow-up from $8$ to $64$ inflates the proof by $\sim$26\,\%
-($61.97 \to 78.20$\,KB), and each additional field-extension degree adds a near-
-constant $\sim$9.2\,KB per level ($61.97 \to 71.19 \to 80.22$\,KB), because the
-FRI commitments are duplicated in the larger extension field. The folding factor
-moves in the opposite, helpful direction --- folding by $16$ instead of $8$ shaves
-$\sim$2\,KB --- but at the cost of a heavier verifier, so it is not a free lunch
-either. Finally, the proof grows only \emph{logarithmically} in the pre-image
-length: a $297\times$ increase in input size (from $110$ to $32\,700$ bits) less
-than doubles the proof ($56.88 \to 107.24$\,KB), which is the expected
-$O(\log n)$ behaviour of a FRI-based system.
+% The sweep tells a clear story. The proof size is essentially \emph{free} in the
+% grinding factor: raising the proof-of-work from $8$ to $32$ bits moves the size by
+% less than $1$\,KB ($62.75 \to 61.75$\,KB, non-monotone, within the queue-padding
+% noise of the FRI layer), so soundness from grinding can be bought at no size cost.
+% The blow-up and the field-extension degree, in contrast, are the two expensive
+% knobs: doubling the blow-up from $8$ to $64$ inflates the proof by $\sim$26\,\%
+% ($61.97 \to 78.20$\,KB), and each additional field-extension degree adds a near-
+% constant $\sim$9.2\,KB per level ($61.97 \to 71.19 \to 80.22$\,KB), because the
+% FRI commitments are duplicated in the larger extension field. The folding factor
+% moves in the opposite, helpful direction --- folding by $16$ instead of $8$ shaves
+% $\sim$2\,KB --- but at the cost of a heavier verifier, so it is not a free lunch
+% either. Finally, the proof grows only \emph{logarithmically} in the pre-image
+% length: a $297\times$ increase in input size (from $110$ to $32\,700$ bits) less
+% than doubles the proof ($56.88 \to 107.24$\,KB), which is the expected
+% $O(\log n)$ behaviour of a FRI-based system.
 
-The practical upshot is decisive. Even at its \emph{smallest} configuration the
-SHA-256-in-STARK proof for a single block is $\sim$60\,KB and, crucially,
-\emph{none} of the size knobs touch the proving time that already disqualified it
-in \cref{tab:res-hash} ($0.67$--$2.3$\,s); if anything, the cheap-size
-configurations (low blow-up) make the prover \emph{slower} per unit soundness. No
-combination of parameters turns SHA-256-in-STARK into a viable cross-system
-commitment, which retrospectively confirms that the asymmetry is structural ---
-rooted in the field and the AIR --- and not a matter of tuning. This is the
-quantitative justification for the MAC bridge that the single line in
-\cref{tab:res-hash} could only assert.
+% The practical upshot is decisive. Even at its \emph{smallest} configuration the
+% SHA-256-in-STARK proof for a single block is $\sim$60\,KB and, crucially,
+% \emph{none} of the size knobs touch the proving time that already disqualified it
+% in \cref{tab:res-hash} ($0.67$--$2.3$\,s); if anything, the cheap-size
+% configurations (low blow-up) make the prover \emph{slower} per unit soundness. No
+% combination of parameters turns SHA-256-in-STARK into a viable cross-system
+% commitment, which retrospectively confirms that the asymmetry is structural ---
+% rooted in the field and the AIR --- and not a matter of tuning. This is the
+% quantitative justification for the MAC bridge that the single line in
+% \cref{tab:res-hash} could only assert.
 
 \section{Cost of the customizations}
 \label{results:customizations}
@@ -2773,9 +2901,9 @@ flagship device. All proofs verified successfully on all platforms.
     \textbf{Wall-clock prove (ms)} & \textbf{1353} & \textbf{1108} & \textbf{2190} \\
     Joint verify (ms)           & 828  & 739  & 1017 \\
     \midrule
-    STARK proof size (KB)       & 1252 & 1252 & 1253 \\
+    STARK proof size (KB)       & 1252 & 1252 & 1252 \\
     Ligero proof size (KB)      & 335  & 335  & 335  \\
-    \textbf{Total proof (KB)}   & \textbf{1587} & \textbf{1587} & \textbf{1588} \\
+    \textbf{Total proof (KB)}   & \textbf{1587} & \textbf{1587} & \textbf{1587} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -2875,7 +3003,7 @@ optimization work outlined in \cref{sec:future-work}. Third, the
 \textbf{hash-function asymmetry} measured in \cref{tab:res-hash} retrospectively
 justifies the MAC-bridge design: a shared-hash commitment would have forced a
 $0.7$--$2.3$\,s SHA-256-in-STARK proof, larger than our entire joint proof today
---- and the parameter sweep of \cref{tab:res-stark-sweep} shows that \emph{no}
+--- and the parameter sweep of \cref{tab:res-hash} shows that \emph{no}
 combination of STARK knobs rescues it, confirming the asymmetry is structural
 rather than a tuning artefact. Fourth, \textbf{parallel composition is what keeps
 the weak device usable}: the speed-up from running the two provers concurrently

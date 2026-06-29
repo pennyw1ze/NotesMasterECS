@@ -50,6 +50,12 @@
 \newblock Cryptology {ePrint} Archive, Paper 2026/625 (2026).
 \newblock Available from: \url{https://eprint.iacr.org/2026/625}, \href {http://dx.doi.org/10.48550/arXiv.2603.28846} {\path{doi:10.48550/arXiv.2603.28846}}.
 
+\bibitem{BenSasson2018FRI}
+\textsc{Ben-Sasson, E., Bentov, I., Horesh, Y., and Riabzev, M.}
+\newblock Fast reed-{Solomon} interactive oracle proofs of proximity.
+\newblock In \emph{Proceedings of the 45th International Colloquium on Automata, Languages, and Programming ({ICALP} 2018)}, vol. 107 of \emph{Leibniz International Proceedings in Informatics (LIPIcs)}, pp. 14:1--14:17. Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik (2018).
+\newblock Available from: \url{https://eprint.iacr.org/2017/582}, \href {http://dx.doi.org/10.4230/LIPIcs.ICALP.2018.14} {\path{doi:10.4230/LIPIcs.ICALP.2018.14}}.
+
 \bibitem{BenSasson2018STARK}
 \textsc{Ben-Sasson, E., Bentov, I., Horesh, Y., and Riabzev, M.}
 \newblock Scalable, transparent, and post-quantum secure computational integrity.
@@ -138,6 +144,19 @@
 \newblock Directive (eu) 2015/2366 on payment services in the internal market (psd2) (2015).
 \newblock Available from: \url{https://eur-lex.europa.eu/eli/dir/2015/2366/oj}.
 
+\bibitem{FacebookWinterfell}
+\textsc{{Facebook}}.
+\newblock Winterfell.
+\newblock GitHub repository (2026).
+\newblock Accessed: June 22, 2026.
+\newblock Available from: \url{https://github.com/facebook/winterfell}.
+
+\bibitem{FiatShamir1987}
+\textsc{Fiat, A. and Shamir, A.}
+\newblock How to prove yourself: Practical solutions to identification and signature problems.
+\newblock In \emph{Advances in Cryptology -- {CRYPTO} 1986}, vol. 263 of \emph{Lecture Notes in Computer Science}, pp. 186--194. Springer (1987).
+\newblock \href {http://dx.doi.org/10.1007/3-540-47721-7_12} {\path{doi:10.1007/3-540-47721-7_12}}.
+
 \bibitem{Friedrichs2025DeviceBound}
 \textsc{Friedrichs, K., Harding, F., Lehmann, A., and Lysyanskaya, A.}
 \newblock Device-bound anonymous credentials with(out) trusted hardware.
@@ -213,6 +232,13 @@
 \textsc{{IETF}}.
 \newblock Sd-jwt-based verifiable credentials (sd-jwt vc) (2024).
 \newblock Available from: \url{https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/}.
+
+\bibitem{10.1145/1250790.1250794}
+\textsc{Ishai, Y., Kushilevitz, E., Ostrovsky, R., and Sahai, A.}
+\newblock Zero-knowledge from secure multiparty computation.
+\newblock In \emph{Proceedings of the Thirty-Ninth Annual ACM Symposium on Theory of Computing}, STOC '07, p. 21–30. Association for Computing Machinery, New York, NY, USA (2007).
+\newblock ISBN 9781595936318.
+\newblock Available from: \url{https://doi.org/10.1145/1250790.1250794}, \href {http://dx.doi.org/10.1145/1250790.1250794} {\path{doi:10.1145/1250790.1250794}}.
 
 \bibitem{iso18013-5}
 \textsc{{ISO/IEC}}.
