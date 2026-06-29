@@ -26,7 +26,6 @@
 \usepackage{mathtools}
 \usepackage{xcolor}
 \usepackage{booktabs}
-\usepackage{array}
 % geometry intentionally NOT loaded: sapthesis controls the page layout.
 \usepackage{cleveref}
 \usepackage{algorithm}
@@ -400,9 +399,66 @@ In particular, the actual most efficient and widely adopted
 signature scheme is ECDSA~\cite{AlZubaidie2019Efficient}, which 
 stands for Elliptic Curve Digital Signature Algorithm.
 
+\subsection{ECDSA}
 ECDSA is a public key signature scheme based on the algebraic structure of 
 elliptic curves over finite fields. Smartphone's secure element and
 credential's issuers adopt this type of signature scheme right now.
+In this section we will have a detailed overview on how ECDSA works.
+
+\paragraph{Domain parameters}Parameters known to every party:
+\begin{itemize}
+  \item Elliptic curve $E$ over a finite field $\mathbb{Z}_p$
+  (in our case, P-256);
+  \item Numer $n = \#E(\mathbb{Z}_p)$, number of points on the curve;
+  \item A generator $P\in E(\mathbb{Z})_p$;
+  \item A collision-resistant hash function $H$ whose output has the same
+  bitlength as $n$ (In our case, $H = $SHA256);
+\end{itemize}
+
+\paragraph{Key generation}Steps needed for Alice to generate her keypair:
+\begin{itemize}
+  \item Select $a \in [1,n-1]$ at random and compute $A = aP$;
+  \item Alice's public key will be $A$ and her private key will be $a$;
+\end{itemize}
+
+\paragraph{Signature} To sign a message $M \in \{0,1\}^*$, Alice does the following:
+\begin{enumerate}
+  \item Compute $m = H(M)$ and interpret $m$ as an integer;
+  \item Select a per-message secret $k \in [1,n-1]$ at random;
+  \item Compute $R = kP$, then compute the $x$-coordinate of $R$, denoted as 
+  $r = x(R) \mod n$ and check that $r \neq 0$. If $r = 0$, go back to step 2;
+  \item Compute $s = k^{-1}(m + ar) \mod n$ and check that $s \neq 0$. If $s = 0$, go back to step 2;
+  \item Alice's signature on $M$ is the pair $(r,s)$, where $r,s \in [1,n-1]$.;
+\end{enumerate}
+Notice that $k$ should be securely deleted after it has been used.
+
+\paragraph{Verification} To verify a signature $(r,s)$ on a message $M$, 
+Bob need to check that $s = k^{-1}(m + ar) \mod n$ holds, where $m = H(M)$ and $k$ is 
+the per-message secret used by Alice to generate the signature. Bob doesn't know neither $k$ nor $a$.
+
+Now we do the following mathematical transformations:
+$$s = k^{-1}(m + ar) \mod n$$ $$\iff k \equiv s^{-1}(m + ar) \mod n$$
+$$\iff k \equiv s^{-1}m + (s^{-1}r)a (\mod n)$$$$\iff k \equiv u_1 + u_2a (\mod n)$$
+where $u_1 = s^{-1}m \mod n$ and $u_2 = rs^{-1} \mod n$. 
+
+Proceedings:$$k \equiv u_1 + u_2a (\mod n)$$
+$$\iff kP = (u_1 + u_2a)P$$ $$\iff kP = u_1P + u_2A$$ $$\iff R = V$$ where $V = u_1P + u_2A$;
+
+Now recall that $R = V \iff x(R) = x(V)$ meaning that:
+
+Bob can verify that the signature is valid by just checking
+if the $x$-coordinate of $R$ is equal to the $x$-coordinate of $V$.
+
+To verify a signature $(r,s)$ on a message $M$, Bob does the following:
+
+\begin{enumerate}
+  \item Retrieve Alice's public key $A$;
+  \item Check that $r,s \in [1,n-1]$;
+  \item Compute $m = H(M)$;
+  \item Compute $u_1 = ms^{-1} \mod n$ and $u_2 = rs^{-1} \mod n$;
+  \item Compute $V = u_1P + u_2A$ and verify that $V \neq \infty$;
+  \item Finally, Bob accepts the signature ($M,(r,s)$) if and only if $x(R) = x(V)$.
+\end{enumerate}
 
 The problem with ECDSA is that elliptic curve cryptography is based on the
 discrete logarithm problem, which can be solved in polynomial time by a 
@@ -706,8 +762,68 @@ M-SIS guarantees unforgeability: It ensures that an adversary who does not know 
 
 \section{Zero-Knowledge proofs}
 \label{zkproofs}
+In this section we are going to provide a brief overview of the zero-knowledge proofs, 
+which are a fundamental building block of our post-quantum anonymous credentials model.
+We are also going to provide a brief overview of the main zero-knowledge proof systems 
+that are used in our model.
+
+\begin{definition}[\textbf{Zero-knowledge proof}]
+  A zero-knowledge proof, or ZKP, is a cryptographic method that allows a/multiple verifier(s) 
+  to verify a statement’s truth without revealing information beyond the statement itself. 
+\end{definition}
+
+Zero-knowledge proofs were formally introduced in 1985 by Goldwasser, Micali
+and Rackoff~\cite{Goldwasser1989Knowledge}, who defined the three fundamental properties of zero-knowledge proofs:
+\begin{itemize}
+  \item \textbf{Completeness}: The completeness property ensures that
+  an honest prover can always convince an honest verifier;
+  \item \textbf{Soundness}: The soundness property ensures that a 
+  dishonest prover cannot convince a verifier of a false statement, except with
+  negligible probability;
+  \item \textbf{Zero-knowledge}: The zero-knowledge property ensures that the verifier 
+  learns nothing about the statement being proven, except for its validity.
+\end{itemize}
+Zero-knowledge proofs are a widley adopted tool in the actual cryptography landscape,
+finding their application in many different fields, such as privacy-preserving authentication,
+blockchain, and secure multi-party computation.
+
+During the last decades, many different zero-knowledge proof systems have been proposed,
+each of them with different properties and trade-offs, and different underlying mathematical problems.
+
+In the table~\ref{tab:zk_systems_pq_status}, we summarize the main zero-kwowledge proof systems that are used
+in the actual cryptography landscape, with their underlying mathematical problem and need of trusted setup,
+enphasizing their post-quantum security.
+
+\begin{table}[H]
+  \centering
+  \caption{Trusted Setup and Post-Quantum Security Status of Core Zero-Knowledge Frameworks.}
+  \label{tab:zk_systems_trusted_setup}
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{|l|l|L|L|l|}
+    \hline
+    \textbf{Framework} & \textbf{Authors \& Release} & \textbf{Underlying Problem} & \textbf{Trusted Setup} & \textbf{PQ Security} \\ \hline
+    \textbf{STARK}~\cite{BenSasson2018STARK} & Ben-Sasson et al. (2018) & Interactive Oracle Proofs (IOP) \& Fast Reed-Solomon Proximity Testing (FRI) & None (Transparent) & Secure \\ \hline
+    \textbf{LIGERO}~\cite{Ames2017Ligero}    & Ames et al. (2017)       & Hardness of decoding random linear codes / Interleaved Reed-Solomon Codes & None (Transparent) & Secure \\ \hline
+    \textbf{Groth16}~\cite{cryptoeprint:2016/260} & Groth (2016)             & Discrete Logarithm \& Bilinear Pairings on Elliptic Curves (over QAPs) & Required (Circuit-Specific) & Vulnerable \\ \hline
+    \textbf{Plonk}~\cite{Gabizon2019Plonk}     & Gabizon et al. (2019)    & Polynomial Commitment Schemes (e.g., KZG Pairings) \& Grand Product Arguments & Required (Universal \& Updatable) & Vulnerable \\ \hline
+    \textbf{RISC Zero}~\cite{RiscZero2026}   & RISC Zero Team (2022)    & RISC-V Instruction Set Architecture Emulation \& STARK Protocol (DEEP-ALI) & None (Transparent) & Secure \\ \hline
+    \textbf{Halo 2}~\cite{Hopwood2021Halo2}  & Hopwood et al. (2021)    & Discrete Logarithm over Cycles of Elliptic Curves (Pasta Curves) / IPA & None (Transparent) & Vulnerable \\ \hline
+  \end{tabularx}
+\end{table}
+
+For our implementation of post-quantum anonymous credentials, we are going to use the Ligero and STARK zero-knowledge proof systems, 
+which are both post-quantum secure and have public libraries adapted to our needs.
+
 \subsection{Ligero}
 \label{Ligero}
+Ligero is a zero-knowledge proof system proposed in 2017 by Ames et al.~\cite{Ames2017Ligero}.
+Ligoer is based on the following advanced cryptographic thechniques:
+\begin{itemize}
+  \item MPC In the Head;
+  \item 
+\end{itemize}
+
 \subsection{STARK}
 \label{STARK}
 

@@ -25,6 +25,13 @@
 \newblock \emph{Computers \& Security}, \textbf{160} (2026).
 \newblock Available from: \url{https://www.sciencedirect.com/science/article/pii/S0167404825003967}.
 
+\bibitem{Ames2017Ligero}
+\textsc{Ames, S., Hazay, C., Ishai, Y., and Venkitasubramaniam, M.}
+\newblock Ligero: Lightweight sublinear zero-knowledge arguments.
+\newblock In \emph{Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security (CCS)}, pp. 2087--2104. ACM (2017).
+\newblock Accessed: June 29, 2026.
+\newblock Available from: \url{https://doi.org/10.1145/3133956.3134104}.
+
 \bibitem{Ansaroudi2023Control}
 \textsc{Ansaroudi, Z.~E., Carbone, R., Sciarretta, G., and Ranise, S.}
 \newblock Control is {Nothing} {Without} {Trust}: {A} {First} {Look} into {Digital} {Identity} {Wallet} {Trends}.
@@ -43,12 +50,26 @@
 \newblock Cryptology {ePrint} Archive, Paper 2026/625 (2026).
 \newblock Available from: \url{https://eprint.iacr.org/2026/625}, \href {http://dx.doi.org/10.48550/arXiv.2603.28846} {\path{doi:10.48550/arXiv.2603.28846}}.
 
+\bibitem{BenSasson2018STARK}
+\textsc{Ben-Sasson, E., Bentov, I., Horesh, Y., and Riabzev, M.}
+\newblock Scalable, transparent, and post-quantum secure computational integrity.
+\newblock In \emph{International Conference on the Theory and Application of Cryptographic Techniques (EUROCRYPT)}, pp. 103--134. Springer (2018).
+\newblock Accessed: June 29, 2026.
+\newblock Available from: \url{https://eprint.iacr.org/2018/046}.
+
 \bibitem{Bormann2026SoK}
 \textsc{Bormann, C. and Lehmann, A.}
 \newblock {SoK}: Anonymous credentials for digital identity wallets.
 \newblock Cryptology {ePrint} Archive, Paper 2026/330 (2026).
 \newblock Security Standardisation Research (SSR) 2025.
 \newblock Available from: \url{https://eprint.iacr.org/2026/330}.
+
+\bibitem{Hopwood2021Halo2}
+\textsc{Box, D.~H., Bowe, S., and Grigg, J.}
+\newblock Halo 2.
+\newblock Zcash Documentation / Cryptology ePrint Archive (2021).
+\newblock Accessed: June 29, 2026.
+\newblock Available from: \url{https://zcash.github.io/halo2/}.
 
 \bibitem{camenisch2001efficient}
 \textsc{Camenisch, J. and Lysyanskaya, A.}
@@ -130,6 +151,19 @@
 \newblock Cryptology {ePrint} Archive, Paper 2024/2010 (2024).
 \newblock Available from: \url{https://eprint.iacr.org/2024/2010}.
 
+\bibitem{Gabizon2019Plonk}
+\textsc{Gabizon, A., Williamson, Z.~J., and Ciobotaru, O.}
+\newblock {PLONK}: Permutations over lagrange-bases for oecumenical non-interactive arguments of knowledge.
+\newblock Cryptology ePrint Archive, Report 2019/953 (2019).
+\newblock Accessed: June 29, 2026.
+\newblock Available from: \url{https://eprint.iacr.org/2019/953}.
+
+\bibitem{Goldwasser1989Knowledge}
+\textsc{Goldwasser, S., Micali, S., and Rackoff, C.}
+\newblock The knowledge complexity of interactive proof systems.
+\newblock \emph{SIAM Journal on Computing}, \textbf{18} (1989), 186.
+\newblock \href {http://dx.doi.org/10.1137/0218012} {\path{doi:10.1137/0218012}}.
+
 \bibitem{Google2026SecurityQuantumAndroid}
 \textsc{{Google}}.
 \newblock Security for the {Quantum} {Era}: {Implementing} {Post-Quantum} {Cryptography} in {Android}.
@@ -154,6 +188,12 @@
 \newblock Poseidon2: A faster version of the poseidon hash function.
 \newblock In \emph{Progress in Cryptology - AFRICACRYPT 2023} (edited by N.~El~Mrabet, L.~De~Feo, and S.~Duquesne), pp. 177--203. Springer Nature Switzerland, Cham (2023).
 \newblock ISBN 978-3-031-37679-5.
+
+\bibitem{cryptoeprint:2016/260}
+\textsc{Groth, J.}
+\newblock On the size of pairing-based non-interactive arguments.
+\newblock Cryptology {ePrint} Archive, Paper 2016/260 (2016).
+\newblock Available from: \url{https://eprint.iacr.org/2016/260}.
 
 \bibitem{Hoffstein2008Cryptography}
 \textsc{Hoffstein, J., Pipher, J., and Silverman, J.~H.}
