@@ -348,6 +348,20 @@ INPUT ./figures/digsig.png
 INPUT ./figures/digsig.png
 INPUT ./figures/digsig.png
 INPUT ./figures/digsig.png
+INPUT ./figures/lattice.png
+INPUT ./figures/lattice.png
+INPUT ./figures/lattice.png
+INPUT ./figures/lattice.png
+INPUT ./figures/lattice.png
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx6.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmri8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmri7.tfm
+INPUT /usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx7.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx5.tfm
 INPUT ./figures/Figure_3_Proximity_Flow.png
 INPUT ./figures/Figure_3_Proximity_Flow.png
 INPUT ./figures/Figure_3_Proximity_Flow.png
@@ -402,7 +416,6 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtt8.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri7.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx8.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmbx6.tfm
-INPUT /usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri7.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmr5.tfm
@@ -413,6 +426,7 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/ec-lmtti10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmr9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/lmmi9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/lmsy9.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmbx9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmss9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/lm/rm-lmri9.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm

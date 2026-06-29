@@ -7,6 +7,12 @@
 \newblock Accessed: May 24, 2026.
 \newblock Available from: \url{https://blog.google/innovation-and-ai/technology/safety-security/cryptography-migration-timeline/}.
 
+\bibitem{Ajtai1996Generating}
+\textsc{Ajtai, M.}
+\newblock Generating hard instances of lattice problems.
+\newblock In \emph{Proceedings of the 28th Annual {ACM} Symposium on the Theory of Computing ({STOC})}, pp. 99--108. {ACM} (1996).
+\newblock \href {http://dx.doi.org/10.1145/237814.237838} {\path{doi:10.1145/237814.237838}}.
+
 \bibitem{AlZubaidie2019Efficient}
 \textsc{Al-Zubaidie, M., Zhang, Z., and Zhang, J.}
 \newblock Efficient and secure {ECDSA} algorithm and its applications: A survey.
@@ -179,6 +185,12 @@
 \newblock Accessed: June 22, 2026.
 \newblock Available from: \url{https://github.com/iStrannik/winterfell-sha256}.
 
+\bibitem{Langlois2015Worst}
+\textsc{Langlois, A. and Stehl{\'{e}}, D.}
+\newblock Worst-case to average-case reductions for module lattices.
+\newblock \emph{Designs, Codes and Cryptography}, \textbf{75} (2015), 565.
+\newblock \href {http://dx.doi.org/10.1007/s10623-014-9938-4} {\path{doi:10.1007/s10623-014-9938-4}}.
+
 \bibitem{Lee2026PQCMigration}
 \textsc{Lee, S., Jung, H., Heo, N., and Kwon, T.~T.}
 \newblock Case study: {PQC} migration for {Android} {Strongbox} {Keymaster} on {Samsung} {Galaxy} mobile devices.
@@ -280,6 +292,12 @@
 \newblock NIST Fifth PQC Standardization Conference (2024).
 \newblock Accessed: June 26, 2026.
 \newblock Available from: \url{https://csrc.nist.gov/csrc/media/Presentations/2024/falcon/images-media/prest-falcon-pqc2024.pdf}.
+
+\bibitem{Regev2005Lattices}
+\textsc{Regev, O.}
+\newblock On lattices, learning with errors, random linear codes, and cryptography.
+\newblock \emph{Journal of the {ACM}}, \textbf{56} (2009), 34:1.
+\newblock \href {http://dx.doi.org/10.1145/1568318.1568324} {\path{doi:10.1145/1568318.1568324}}.
 
 \bibitem{RiscZero2026}
 \textsc{{RISC Zero}}.

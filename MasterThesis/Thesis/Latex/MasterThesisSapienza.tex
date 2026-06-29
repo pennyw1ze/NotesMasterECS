@@ -183,7 +183,7 @@ anonymous credentials to the users, but the current implementation fails.
 In the meantime, in 2024 the European Union has published a roadmap for the post 
 quantum digital transition of members digital infrastructures.
 
-No current implementation of anonymous credentials is post quantum secure at the moment,
+No implementation of anonymous credentials for EUDI wallet is post quantum secure at the moment,
 with cryptologist and mathematician in top pubblications claiming that is not possible to
 build a post quantum anonymous credential scheme with the actual technologies, given
 hardware constraints and advanced requirements. So we asked ourselves: is it 
@@ -245,7 +245,8 @@ facing challenges like performance improvements, revocation lists, legacy infras
 The european union on 11 April  2024 has published a roadmap for the
 post quantum digital transition of members digital infrastructures~\cite{EuropeanCommission2024PQC}.
 
-The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. 
+The roadmap is a comprehensive plan that outlines the steps that each European Union member state should take in order to turn
+their current infrastructure's cryptography to post-quantum secure cryptography. 
 The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
 
 The timeline is organized into three major phases:
@@ -290,7 +291,7 @@ lattices-based cryptography, zero-knowledge proofs and commitment schemes.
 \section{Group Theory}
 \label{groupth}
 In this section we discuss some basic concepts of group theory.
-\begin{definition}~\cite{Hoffstein2008Cryptography}
+\begin{definition}[\textbf{Group}~\cite{Hoffstein2008Cryptography}]
   A group consists of a set $G$ and a rule, which we denote by $\star$,
   for combining two elements $a, b \in G$ to obtain an element $a \star b \in G$. The
   composition operation $\star$ is required to have the following three properties:
@@ -309,7 +310,7 @@ If, in addition, composition satisfies the
 \end{itemize}
 then  the group is called a \textbf{commutative} group or an \textbf{abelian} group.
 
-\begin{definition}~\cite{Huang2025GroupTheory}
+\begin{definition}[\textbf{Ring}~\cite{Huang2025GroupTheory}]
   A ring $R$ is a set that has two operations, addition and multiplication. 
   Let us denote addition and multiplication by $+$ and $\cdot$, respectively. 
   They satisfy the following properties:
@@ -327,7 +328,7 @@ Now we will introduce another important mathematical concept, which is the one
 of polynomial ring, which will be used in the next sections to introduce the 
 lattice problem and the dilithium signature scheme.
 
-\begin{definition}~\cite{Menezes1996Handbook}
+\begin{definition}[\textbf{Polynomial Ring}~\cite{Menezes1996Handbook}]
   If $R$ is a commutative ring, then a polynomial in the indeterminate
   $x$ over the ring $R$ is an expression of the form $$R[x] = \{a_0 + a_1x + ... + a_nx^n: n \ge 0, a_i \in R, \forall i \in \{0,1,...,n\}\}$$  
 \end{definition}
@@ -368,10 +369,10 @@ literature are called adversarial models. The most common adversarial models are
 The main cryptographic primitives used for anonymous credentials systems are
 signature schemes. 
 
-\begin{definition}
+\begin{definition}[\textbf{Digital Signature}~\cite{Nia2014Introduction}]
   Digital Signature is a cryptographic primitive which is
   fundamental in authentication, authorization and non-
-  repudiation.~\cite{Nia2014Introduction}
+  repudiation.
 \end{definition}
 
 A signature scheme is defined mainly by three primitive functions:
@@ -438,9 +439,9 @@ which is the one we adopted for our post-quantum anonymous credentials model.
 \label{hashfunctions}
 Hashing  is  a  fundamental  concept  in 
 cryptography,  playing  a  vital  role  in  ensuring 
-data  integrity, authenticity, and  security.~\cite{inproceedings}
+data  integrity, authenticity, and  security.
 
-\begin{definition}
+\begin{definition}[\textbf{Hash Function}~\cite{inproceedings}]
   A hash function is a mathematical function that takes in input data
   of arbitrary size and maps them into a fixed-size output, known as
   hash value.
@@ -507,19 +508,201 @@ In particular, in our work we are going to use the Poseidon2 (also called Poseid
 which is the one that is used in the zk-dilithium STARK zero-knowledge 
 proof system.
 
-\section{Commitment Schemes}
-\label{commitments}
-\paragraph{Binding}
-\label{bindingcomm}
-\paragraph{Hiding}
-\label{hidingcomm}
-\section{MAC}
-\label{mac}
+% \section{Commitment Schemes}
+% \label{commitments}
+
+% \section{MAC}
+% \label{mac}
 
 \section{Lattice problem}
+Notice that $\mathbb{Z}_q = \{0, 1, \ldots, q-1\}$ and $x \in_{R}S$ means that $x$ is sampled uniformly at random from the set $S$.
+
 \label{lattice}
+\begin{definition}[\textbf{Lattice}]
+  Let $v_1,...,v_n\in \mathbb{R}^m$ be a set of linearly independent vectors.
+  The lattice L generated by $v_1,...,v_n$ is the set of linear combinations of
+  $v_1,...,v_n$ with coefficients in $\mathbb{Z}$:$$L = \{a_1v_1 + a_2v_2+\cdots +a_nv_n : a_i \in \mathbb{Z} \}$$
+\end{definition}
+Informally, a lattice is a set of points in m-dimension space with periodic structure.
+A simple 2-dimensional representation of a lattice is shown in figure~\ref{fig:lattice}.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/lattice.png}
+  \caption{A simple 2-dimensional lattice}
+  \label{fig:lattice}
+\end{figure}
+
+Suppose that $v_1,...,v_n$ is a basis for a lattice L and that $w_1,...,w_n\in L$
+is another collection of vectors in L.
+
+We can write each $w_j$ as linear combination of the basis vectors:
+$$w_1 = a_{1,1}v_1 + a_{1,2}v_2+\cdots +a_{1,n}v_n$$
+$$w_2 = a_{2,1}v_1 + a_{2,2}v_2+\cdots + a{2,n}v_n$$
+$$\vdots$$
+$$w_n = a_{n,1}v_1 + a_{n,2}v_2+\cdots + a_{n,n}v_n$$
+
+Suppose now that we want to express $v_i$ in terms of $w_j$, then we
+should invert the matrix 
+$$A = \begin{pmatrix} a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\ a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{n,1} & a_{n,2} & \cdots & a_{n,n} \end{pmatrix}$$
+Since we are dealing with lattices, we need the coefficients of $A^{-1}$ to be integers.
+Hence, we will have $det(A) = det(A^{-1}) = \pm 1$.
+Conversely, if $det(A) = \pm 1$, then $A^{-1}$ has integer coefficients by theory
+of adjoint matrix.
+So we can state that any two bases for a lattice L are related by a matrix having 
+integer coefficients and determinant $\pm 1$.
+
+Recalling the definition of Euclidean norm as $$||v|| = \sqrt{\sum_{i = 1}^{n}v_i^2},\ v \in \mathbb{R}^n$$
+there are 2 foundamental problems in lattice-based cryptography~\cite{Hoffstein2008Cryptography}:
+\begin{definition}[\textbf{Shortest Vector Problem (SVP)}]
+  Find a shortest non-zero vector
+  in a given lattice L, i.e. a non zero vector that minimizes the Euclidean norm $||t||$.
+\end{definition}
+
+\begin{definition}[\textbf{Closest Vector Problem (CVP)}]
+  Given a vector $w \in \mathbb{R}^m$ that is not
+  in $L$, find a vector $v \in L$ that is closest to $w$, i.e. a vector $v \in L$ that minimizes 
+  the Euclidean norm $||w-v||$.
+\end{definition}
+
+\subsection{Short Integer Solution (SIS)}
+\label{sis}
+
+\begin{definition}[\textbf{SIS}$_{n,m,q,\beta}$~\cite{Ajtai1996Generating}]
+  Let $n, m, q$ be positive integers and $\beta \ll {q\over 2}$ a real bound. Given a uniformly random matrix $\mathbf{A} \in \mathbb{Z}_q^{n \times m}$, find a \emph{non-zero} integer vector $\mathbf{z} \in \mathbb{Z}^m$ such that
+  $$Az = 0 \pmod{q} \quad \text{and} \quad z \in [-\beta, \beta]^m.$$
+\end{definition}
+
+$\mathbf{A}$ is a random matrix with $n$ rows and $m$ columns, where $n < m$; we are looking for a short, non-trivial combination of its columns that sums to zero modulo $q$. When $\beta$ is much smaller than $q$, finding such a vector is believed to be computationally hard even for quantum computers. The SIS assumption is the foundation for collision-resistant hash functions 
+and for the \emph{unforgeability} of lattice-based signatures, including Dilithium.
+
+\subsection{Module-SIS (M-SIS)}
+\label{msis}
+
+The \textbf{Module-SIS} problem is the algebraic generalization of SIS to polynomial rings, which is the setting used by Dilithium (ML-DSA).
+
+\begin{definition}[\textbf{M-SIS}$_{n,k,\ell,q,\beta}$~\cite{Langlois2015Worst}]
+  Given $a_1,a_2,\cdots,a_{\ell}\in_{R}\mathbb{R}^k_q$ where ($\ell > k$), find $z_1,z_2,\cdots,z_{\ell}\in \mathbb{R}_q$ such
+  that $a_1z_1 + a_2z_2 + \cdots + a_{\ell}z_{\ell} = 0$ where $\|z_i\|_{\infty} \le \beta$ and
+  not all $z_i$ are $0$.
+\end{definition}
+
+The key advantage of working over a polynomial ring is \emph{compactness}: a single polynomial in $R_q$ of degree $n-1$ packs $n$ integers, so keys and signatures are much smaller than in plain SIS with the same security level. M-SIS is at least as hard as SVP on ideal lattices, which inherit the worst-case hardness guarantees of standard SIS~\cite{Langlois2015Worst}. The unforgeability of Dilithium signatures reduces to M-SIS.
+
+\subsection{Learning With Errors (LWE)}
+\label{lwe}
+
+\begin{definition}[\textbf{LWE}$_{n,m,q,\beta}$~\cite{Regev2005Lattices}]
+  Let $n, m$ be positive integers ,$q$ be a prime number and $\beta \ll {q\over 2}$. Let $s\in_{R} \mathbb{Z}^n_q$ and
+  $e \in_{R}[-\beta,\beta]^m$.
+
+  Given $A\in_{R} \mathbb{Z}^{m\times n}_q$ and $b = As + e\ (mod\ q)\in \mathbb{Z}^m_q$, find $s$.
+
+\end{definition}
+
+Intuitively, the problem looks like a noisy system of linear equations: if there were no errors $e_i$, recovering $\mathbf{s}$ would be easy. Adding small errors makes the problem hard. Regev showed~\cite{Regev2005Lattices} that LWE is as hard as approximating certain lattice problems in the worst case, even for quantum algorithms. LWE underlies the \emph{hiding} property of lattice-based encryption and key-encapsulation mechanisms, and contributes to the binding property of Dilithium commitments.
+
+\subsection{Module-LWE (M-LWE)}
+\label{mlwe}
+
+Exactly as M-SIS generalizes SIS, \textbf{Module-LWE} generalizes LWE to the polynomial ring $R_q = \mathbb{Z}_q[x]/(x^n+1)$.
+
+\begin{definition}[\textbf{M-LWE}$_{n,k,\ell,q,\beta}$~\cite{Langlois2015Worst}]
+  Let $s\in_{R} \mathbb{R}^{\ell}_q$ and $e\in_{R}S^k_{\beta}$ where $k > \ell$ and $\beta \ll {q\over 2}$.
+  Let $a_1,a_2,\cdots,a_k\in_{R}\mathbb{R}^{\ell}_q$ and $b_i = a^T_is + e_i\in \mathbb{R}$ for $i = 1,\cdots,k$.
+  Given the $a_i$ and $b_i$, determine $s$.
+\end{definition}
+
+M-LWE inherits the worst-case hardness of LWE, now over module lattices~\cite{Langlois2015Worst}. In Dilithium (ML-DSA), the public key is an M-LWE sample $\mathbf{t} = \mathbf{A}\mathbf{s}_1 + \mathbf{s}_2$: recovering the secret vectors $(\mathbf{s}_1, \mathbf{s}_2)$ from $(\mathbf{A}, \mathbf{t})$ is exactly an instance of M-LWE, so the scheme's key indistinguishability and simulation security both rest on this assumption.
+
 \subsection{Dilithium}
 \label{dilithium}
+In this section we are going to provide a simplified version of the Dilithium signature scheme,
+in order to give a complete overview of the cryptographic primitives used in our post-quantum anonymous credentials model.
+
+We will focus on the key generation, signing and verification algorithms, and we will provide a brief overview of the security properties of the scheme,
+relying on reductions on previously defined lattice problems, in particular M-SIS and M-LWE.
+
+This simplified version has been taken from Prof. Menezes' book~\cite{Menezes1996Handbook}.
+
+\paragraph{Notation and parameters} In the table~\ref{tab:mldsa_parameters} we summarize the main notation and parameters used in the Dilithium signature scheme specification
+that we are going to show. The parameters are defined in the Dilithium NIST specification~\cite{NIST2024FIPS204} and are chosen to achieve a specific security level, as defined in the NIST post-quantum cryptography standardization process.
+
+\begin{table}[H]
+  \centering
+  \caption{FIPS 204 parameter sets for Dilithium (ML-DSA).}
+  \label{tab:mldsa_parameters}
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{|c|X|c|c|c|}
+    \hline
+    \textbf{Parameter} & \textbf{Description} & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\ \hline
+    $q$ & Prime modulus & $2^{23} - 2^{13} + 1$ & $2^{23} - 2^{13} + 1$ & $2^{23} - 2^{13} + 1$ \\ \hline
+    $n$ & Ring degree for $R_q = \mathbb{Z}_q[x]/(x^n + 1)$ & 256 & 256 & 256 \\ \hline
+    $(k, \ell)$ & Dimensions of matrix $A$ & (4,4) & (6,5) & (8,7) \\ \hline
+    $\eta$ & Coefficient bound for $s_1, s_2$ & 2 & 4 & 2 \\ \hline
+    $\gamma_1$ & Coefficient bound for $y$ & $2^{17}$ & $2^{19}$ & $2^{19}$ \\ \hline
+    $\tau$ & Number of 1's in $c$ & 39 & 49 & 60 \\ \hline
+    $\beta$ & $\beta = \tau\eta$ & 78 & 196 & 120 \\ \hline
+    $\gamma_2$ & HighBits/LowBits parameter & $(q - 1)/88$ & $(q - 1)/32$ & $(q - 1)/32$ \\ \hline
+    $\alpha$ & $\alpha = 2\gamma_2$ & $(q - 1)/44$ & $(q - 1)/16$ & $(q - 1)/16$ \\ \hline
+    $\lambda$ & Collision strength of $\tilde{c}$ & 128 & 192 & 256 \\ \hline
+    $d$ & Number of dropped bits from $t$ & 13 & 13 & 13 \\ \hline
+    $\omega$ & Maximum number of 1's in hint vector & 80 & 55 & 75 \\ \hline
+    $\Lambda$ & Security level & $\approx 128$ & $\approx 192$ & $\approx 256$ \\ \hline
+  \end{tabularx}
+\end{table}
+
+Moreover, we define the following notation that we are going to adopt in the Dilithium signature scheme specification:
+\begin{itemize}
+  \item $\mathbb{Z}_q$ is the set of integers modulo $q$;
+  \item $R_q$ is the ring $\mathbb{Z}_q[x]/(x^n + 1)$;
+  \item $S_{\eta}$ is the set of polynomials in $R_q$ with coefficients in $[-\eta, \eta]$;
+  \item $S_{\gamma_1}$ is the set of polynomials in $R_q$ with coefficients in $(-\gamma_1, \gamma_1]$;
+  \item $(k, \ell)$ are the dimensions of the matrix $A$, with $k > \ell$;
+  \item $B_{\tau}$ is the set of polynomials in $S_1$, exactly $\tau$ of whose coefficients are $\pm 1$;
+  \item $\beta = \tau\eta$.
+\end{itemize}
+
+Now we will proceed to show how the three key generation, signature and verification algorithms works.
+
+\paragraph{Key generation} To generate a key pair, the following steps are performed:
+\begin{enumerate}
+  \item Select $A\in R_q^{k\times \ell}$ uniformly at random;
+  \item Sample $s_1\in_{R}S_{\eta}^{\ell}$ and $s_2\in_{R}S_{\eta}^{k}$ uniformly at random;
+  \item Compute $t = As_1 + s_2$;
+\end{enumerate}
+The generation is terminated. Alice's public key is $(A, t)$ and her private key is $(s_1, s_2)$.
+Notice that computing $s_1$ from $(A, t)$ is an instance of the \textbf{M-LWE problem}.
+
+\paragraph{Signature}To sign a message $M \in \{0, 1\}^*$, the following steps are performed:
+\begin{enumerate}
+  \item Found = false;
+  \item While not Found:
+  \begin{enumerate}
+    \item Sample $y\in_{R}S_{\gamma_1}^{\ell}$ uniformly at random;
+    \item Compute $w = Ay$ and $w_1 = HighBits(w)$;
+    \item Compute $c = H(M\|w_1)$;
+    \item Compute $z = y + cs_1$;
+    \item If LowBits($w - cs_2$) are sufficiently small then found = true;
+    \end{enumerate}
+  \item Output the signature $\sigma = (z, c)$.
+\end{enumerate}
+Signing a message might take several iterations, but with careful parameter selection
+there is an high probability that the LowBits are sufficiently small.
+This rejection project is needed in order to ensure that the verifier
+is actually able to verify the signature while not being able to compute $w$.
+
+\paragraph{Verification} To verify a signature $\sigma = (z, c)$ on a message $M$, the following steps are performed:
+\begin{enumerate}
+  \item Obtain an authentic copy of Alice's public key $(A, t)$;
+  \item Compute $w' = Az - ct$ and $w'_1 = HighBits(w')$;
+  \item Compute $c' = H(M\|w'_1)$;
+  \item If $c' = c$ then accept the signature, otherwise reject it.
+\end{enumerate}
+
+M-SIS guarantees unforgeability: It ensures that an adversary who does not know the secret key cannot manufacture a fake signature that a verifier will accept.
+
+
 
 \section{Zero-Knowledge proofs}
 \label{zkproofs}

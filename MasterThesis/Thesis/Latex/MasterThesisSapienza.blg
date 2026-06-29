@@ -9,45 +9,45 @@ Reallocated glb_str_end (elt_size=8) to 20 items from 10.
 Reallocated wiz_functions (elt_size=8) to 6000 items from 3000.
 Database file #1: reference.bib
 Warning--empty booktitle in inproceedings
-You've used 53 entries,
+You've used 56 entries,
             3472 wiz_defined-function locations,
-            1044 strings with 17764 characters,
-and the built_in function-call counts, 27490 in all, are:
-= -- 2649
-> -- 875
-< -- 8
-+ -- 429
-- -- 243
-* -- 1342
-:= -- 3368
-add.period$ -- 229
-call.type$ -- 53
-change.case$ -- 310
+            1070 strings with 18354 characters,
+and the built_in function-call counts, 29065 in all, are:
+= -- 2797
+> -- 904
+< -- 9
++ -- 442
+- -- 251
+* -- 1433
+:= -- 3557
+add.period$ -- 242
+call.type$ -- 56
+change.case$ -- 325
 chr.to.int$ -- 0
-cite$ -- 54
-duplicate$ -- 1739
-empty$ -- 2601
-format.name$ -- 272
-if$ -- 6800
+cite$ -- 57
+duplicate$ -- 1848
+empty$ -- 2754
+format.name$ -- 281
+if$ -- 7187
 int.to.chr$ -- 0
-int.to.str$ -- 53
-missing$ -- 379
-newline$ -- 330
-num.names$ -- 110
-pop$ -- 1138
+int.to.str$ -- 56
+missing$ -- 403
+newline$ -- 348
+num.names$ -- 116
+pop$ -- 1186
 preamble$ -- 1
-purify$ -- 223
+purify$ -- 233
 quote$ -- 0
-skip$ -- 1607
+skip$ -- 1700
 stack$ -- 0
-substring$ -- 526
-swap$ -- 1061
-text.length$ -- 8
+substring$ -- 591
+swap$ -- 1133
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 208
+type$ -- 220
 warning$ -- 1
-while$ -- 131
-width$ -- 55
-write$ -- 687
+while$ -- 142
+width$ -- 58
+write$ -- 725
 (There was 1 warning)
