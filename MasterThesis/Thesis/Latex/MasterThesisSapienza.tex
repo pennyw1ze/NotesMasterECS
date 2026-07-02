@@ -193,7 +193,8 @@ possible.
 Moreover, in this thesis we present a post quantum anonymous credentials model 
 that can be deployed with the actual technologies and legacy infrastructures, with 
 NIST standardized post quantum signature schemes. We went furhter and implemented the full
-model and run it into android devices in order to benchmark the performance and the results
+model and run it into android devices in order to benchmark the performance and the experimental
+results
 are surprising. We also present some optimizations that could be implemented in order to 
 further improve the performance of the scheme, and we show how to implement them with the 
 actual technologies.
@@ -274,10 +275,17 @@ We require the issuer to adopt a slightly modified version of dilithium NIST sta
 to accomodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
 of the device public key instead of the device public key itself. 
 
+We also provide a full open source implementation of the model. We runned our solution
+implementation on different devices in different circumstances, and we provide a full 
+analysis of the experimental results, showing that our solution is practical and can be 
+deployed in the EUDI wallet with the actual technologies, and variation between our 
+solution's performance and other realistic privacy preserving solutions are small enough 
+to be acceptable in the EUDI wallet context.
+
 In the following sections, we are going to show cryptographic primitives which are the foundations of our work~\ref{preliminaries}, we present an overview of the EUDI wallet~\ref{eudiw}, 
 we perform a full ananlysis of the actual state of the art on device bounded anonymous 
 credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
-We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our results~\ref{results}, future works that we plan to 
+We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our experimental results~\ref{results}, future works that we plan to 
 do~\ref{sec:future-work} and conclusion~\ref{sec:conclusion}.
 
 \chapter{Preliminaries}
@@ -565,11 +573,56 @@ In particular, in our work we are going to use the Poseidon2 (also called Poseid
 which is the one that is used in the zk-dilithium STARK zero-knowledge 
 proof system.
 
-% \section{Commitment Schemes}
-% \label{commitments}
+\section{Commitment Schemes}
+\label{commitments}
+A commitment scheme is a cryptographic primitive that allows a party to commit to a value 
+while keeping it hidden, with the ability to reveal the committed value later. 
+Commitment schemes are widely used in various cryptographic protocols, including zero-knowledge proofs, 
+secure multi-party computation, and digital signatures. In the picture~\ref{fig:commitment}
+a simple representation of a commitment scheme is shown.
 
-% \section{MAC}
-% \label{mac}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/commitment.png}
+  \caption{Commitment scheme representation.}
+  \label{fig:commitment}
+\end{figure}
+
+Commitment schemes have two main properties:
+
+\begin{itemize}
+      \item \textbf{Binding}: The binding property dictates that once the commitment is sent, the committer cannot alter the underlying 
+      message~\cite{Damgard1999}.We need the commitment to be associated to a single credential in order not to allow a malicious
+      prover to build the two different proofs over two different credentials;
+      \item \textbf{Hiding}: The hiding property ensures that when a commitment is sent, the receiver learns absolutely nothing about 
+      the underlying secret value~\cite{Damgard1999}. We need our commitment to be hiding, and in particular to involve some randomness,
+      because if the commitment is deterministic, then the prover's commitment across different presentations of the same credential
+      would be the same, and this would allow the verifier to link different presentations of the same credential.
+\end{itemize}
+
+\section{MAC}
+\label{mac}
+
+MAC (Message Authentication Code) is a cryptographic primitive that provides data 
+integrity and authenticity. It is a short piece of information used to authenticate 
+a message and to provide integrity and authenticity assurances on the message~\cite{Paar2024}. 
+
+A MAC algorithm takes as input a secret key and a message, and outputs a MAC value (also called a tag). 
+The MAC value is then sent along with the message to the receiver, who can use the same secret key to 
+verify the authenticity and integrity of the message. A simple representation of a how a MAC is used
+is shown in figure~\ref{fig:mac}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/mac.png}
+  \caption{MAC representation.}
+  \label{fig:mac}
+\end{figure}
+
+The most basic MAC construction that we will take in consideration
+in this thesis is the information-theoretic secure MAC.
+Computed on a message $m$, the information-theoretic secure MAC is defined as: $$m = a*m + b (\mod n)$$
+where $a$ and $b$ are secret keys, and the operations are performed in a finite field $\mathbb{F}_q$.
 
 \section{Lattice problem}
 Notice that $\mathbb{Z}_q = \{0, 1, \ldots, q-1\}$ and $x \in_{R}S$ means that $x$ is sampled uniformly at random from the set $S$.
@@ -1740,7 +1793,7 @@ run on android where extremly inefficient and not suitable for our purposes. We 
 This is where we had a foundamental intuition, which is actually one of the main contributions of this thesis to the current
 state of the art. 
 \begin{claim}
-Post-quantum security against a passive quantum adversary does not require the device binding signature algorithm to be post-quantum secure.
+Post-quantum security for honest user does not require the device binding signature algorithm to be post-quantum secure.
 \end{claim}
 We can show this by modifying the actual Ligero circuit approach to the credential presentation problem.
 Since Ligero is a zero knowledge proof system, in presentation moment the adversary is going to learn only that we know a valid
@@ -1767,7 +1820,7 @@ proof system (specifically zkSTARKs). The main optimizations they introduce are:
       \item \textbf{"Sample In Ball" Optimization}: The deterministic algorithm used to generate challenges is modified to 
       avoid rejection sampling within the ZK circuit, significantly lowering the number of constraints needed.
 \end{itemize}
-Given this optimizations, the results that the authors report in their paper are the provided in the table~\ref{tab:runtimes_memory} below.
+Given this optimizations, the experimental results that the authors report in their paper are the provided in the table~\ref{tab:runtimes_memory} below.
 
 
 \begin{table}[ht]
@@ -1798,16 +1851,8 @@ and this is what we are going to show in the next two paragraphs.
 
 \paragraph{SHA256 vs Poseidon}
 This paragraph is going to show the problem we have to face in order to connect Ligero and zk-dilithium proof systems via a 
-common commitment scheme.Immeditaly, we notice that this commitment should have 2 properties:
-\begin{itemize}
-      \item \textbf{Binding}: The binding property dictates that once the commitment is sent, the committer cannot alter the underlying 
-      message~\cite{Damgard1999}.We need the commitment to be associated to a single credential in order not to allow a malicious
-      prover to build the two different proofs over two different credentials;
-      \item \textbf{Hiding}: The hiding property ensures that when a commitment is sent, the receiver learns absolutely nothing about 
-      the underlying secret value~\cite{Damgard1999}. We need our commitment to be hiding, and in particular to involve some randomness,
-      because if the commitment is deterministic, then the prover's commitment across different presentations of the same credential
-      would be the same, and this would allow the verifier to link different presentations of the same credential.
-\end{itemize}
+common commitment scheme.Immeditaly, we notice that this commitment should be both hiding and binding.
+
 The first and simpler solution that came to our mind was to use a common, public sha256 commitment of the message signed by the issuer,
 which corresponds to the hash of the credential. In this way, we just needed a public commitment, the same in the common public input
 for both Ligero and STARK proof system, and we could prove in Ligero that the commitment is associated to the sha256 of the credential,
@@ -2381,7 +2426,28 @@ of their operating system, Android 17, will implement post-quantum secure NIST s
 ML-DSA~\cite{Google2026SecurityQuantumAndroid}.
 
 
-\chapter{Results}
+\section{Summary}
+To summarize our solution: we designed a zero-knowledge proof system
+composed by an orchestrator (prover) which runs two provers in parallel:
+\begin{itemize}
+  \item \textbf{Ligero}: Longfellow Ligero implementation, without proving issuer signature,
+  and an additional MAC witness sharing circuit and commitment check, sha256 proof over device public key commitment
+  on credentials;
+  \item \textbf{STARK}: zk-dilithium circuit, without message sharing, with an additional MAC witness sharing circuit
+  and commitment check;
+\end{itemize}
+We also designed a verifier which will ensure the MAC is the same and fill the two circuits input.
+
+Moreover, we modified the standard MDOC document, replacing the old
+device public key (2 coordinates, ECDSA keys, 256bits each) with their hash value obtained 
+evaluating the sha256 function over each coordinate,,
+without requiring any MDOC modification and keeping our protocol 100\% compatible
+with ISO 18013-5 standard.
+
+Therefore, we managed to design and implement a post-quantum
+anonymous credential system for honest users. 
+
+\chapter{Experimental Results}
 \label{results}
 In this section we report the empirical evaluation of our solution. Rather than
 presenting only the final system, we benchmark the whole \emph{path} that led to
@@ -2390,7 +2456,7 @@ primitives we tried to use as a common commitment (SHA-256 and Poseidon23), the
 incremental cost of each customization (removing message sharing from the STARK,
 adding the SHA-256 opening to Ligero, and the MAC witness-sharing bridge), and
 finally the cost of composing the two proof systems sequentially versus in
-parallel. This results are shown in order to justify the implementations choices
+parallel. This experimental results are shown in order to justify the implementations choices
 made in section~\ref{implementation}.
 
 \section{Testing setup}
@@ -3011,7 +3077,7 @@ rises to $1.93\times$ precisely on the A53 (\cref{tab:res-composition}), where t
 two provers are most evenly balanced, pulling its end-to-end latency back under
 the flagship's sequential cost. Taken together --- and given that the Galaxy~S24
 matches or beats a desktop CPU while the mid-range A53 stays around two seconds
---- these results support the central claim of this thesis: privacy-preserving,
+--- these experimental results support the central claim of this thesis: privacy-preserving,
 post-quantum, device-bound anonymous credentials are practical on the commodity
 hardware that the EUDI Wallet must actually run on.
 

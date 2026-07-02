@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex MasterThesisSapienza"] 1782758338.74098 "MasterThesisSapienza.aux" "MasterThesisSapienza.bbl" "MasterThesisSapienza" 1782758705.98875 0
-  "./reference.bib" 1782752640.8198 27699 357c9e496e1f556c891629a9e0dc18d5 ""
+["bibtex MasterThesisSapienza"] 1782852233.8401 "MasterThesisSapienza.aux" "MasterThesisSapienza.bbl" "MasterThesisSapienza" 1782852239.7476 0
+  "./reference.bib" 1782851799.7288 28142 2dfe10f3a8a5b413e6a82de07c72121f ""
   "./sapthesis.bst" 1782319754.76773 40331 937a3ace47501f8a85703000fa77293f ""
-  "MasterThesisSapienza.aux" 1782758705.69149 50193 0235548c3716240e6b366d68875fe38f "pdflatex"
+  "MasterThesisSapienza.aux" 1782852239.42592 51437 31fc32c2eb6b67c650ca11c84856227b "pdflatex"
   (generated)
   "MasterThesisSapienza.bbl"
   "MasterThesisSapienza.blg"
   (rewritten before read)
-["pdflatex"] 1782758697.48821 "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesisSapienza.tex" "MasterThesisSapienza.pdf" "MasterThesisSapienza" 1782758705.98906 0
-  "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesisSapienza.tex" 1782758697.10339 199646 94e498e5a298a12bc0ace32491bc4d62 ""
+["pdflatex"] 1782852233.91624 "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesisSapienza.tex" "MasterThesisSapienza.pdf" "MasterThesisSapienza" 1782852239.7479 0
+  "/home/pennyw1ze/Desktop/NotesMasterECS/MasterThesis/Thesis/Latex/MasterThesisSapienza.tex" 1782852223.9526 203020 7cc8a2a2a11048120e09599065545b32 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1775415801 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1775415801 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1775415801 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -222,14 +222,14 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1779059578 5385779 47c0c393a77fd4a098bacfd57d66b88a ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1779059513 2328187 216e2f03f1db68c0e784ec7eaf52ba7d ""
-  "MasterThesisSapienza.aux" 1782758705.69149 50193 0235548c3716240e6b366d68875fe38f "pdflatex"
-  "MasterThesisSapienza.bbl" 1782758338.80742 22214 35f536bc9f668cb2e10df19dabc2ede8 "bibtex MasterThesisSapienza"
-  "MasterThesisSapienza.lof" 1782758705.69687 2054 28d6bb075933106d81933cac5f97c331 "pdflatex"
-  "MasterThesisSapienza.lol" 1782758705.69687 767 e214f74f0c53b03e429e2d701aaaa5bb "pdflatex"
-  "MasterThesisSapienza.lot" 1782758705.69687 3931 711c45a4a7e83865060766756a8be8d4 "pdflatex"
-  "MasterThesisSapienza.out" 1782758705.69549 14869 b4ca9e953557526ee73c7202749c0eb9 "pdflatex"
-  "MasterThesisSapienza.tex" 1782758697.10339 199646 94e498e5a298a12bc0ace32491bc4d62 ""
-  "MasterThesisSapienza.toc" 1782758705.69687 10851 93d5720216cb228095270f329f6cc09d "pdflatex"
+  "MasterThesisSapienza.aux" 1782852239.42592 51437 31fc32c2eb6b67c650ca11c84856227b "pdflatex"
+  "MasterThesisSapienza.bbl" 1782852233.90833 22613 0db958f25974d03801452314557d1a12 "bibtex MasterThesisSapienza"
+  "MasterThesisSapienza.lof" 1782852239.43092 2270 afb937348e9dcb087384e9c48248a887 "pdflatex"
+  "MasterThesisSapienza.lol" 1782852239.43092 767 cc6ccf762bedde721ce51279239f2c52 "pdflatex"
+  "MasterThesisSapienza.lot" 1782852239.43092 3931 6385185bdd68edcd0644aa52d2de7b34 "pdflatex"
+  "MasterThesisSapienza.out" 1782852239.42992 15245 19719c47cb5ff0e583360a5d5d968c1d "pdflatex"
+  "MasterThesisSapienza.tex" 1782852223.9526 203020 7cc8a2a2a11048120e09599065545b32 ""
+  "MasterThesisSapienza.toc" 1782852239.43092 11075 f045db9bedaa9a0ed853e609d7219f0d "pdflatex"
   "figures/AnonymousCredentials.png" 1782319434.93702 433135 ab78b900e2fe8124366f3f7707c8451e ""
   "figures/Figure_13_Relying_Party_Authentication.png" 1782319434.94102 186890 6a97b55cb218fb124bb262a9cbef8bb0 ""
   "figures/Figure_3_Proximity_Flow.png" 1782319434.94502 118257 5e6072dbf20bc071a3f9b7748608cc80 ""
@@ -239,8 +239,10 @@
   "figures/Pasted image 20260224155454.png" 1782319434.95102 497159 f44bfb2d7838ad5a42792052cd01ea8e ""
   "figures/SD-JWT-VC.png" 1782319434.95102 14419 f2a31a81a2089032a156c159a3054d59 ""
   "figures/SecureElement.png" 1782319434.95602 480670 d3ea9e3faa31aac68a3f7f15a67bbd4f ""
+  "figures/commitment.png" 1782851448.40239 711046 5abc544f653fdfd88a56467aedc987ac ""
   "figures/digsig.png" 1782552484.78568 22281 1254c9b838704f9a7e24caffbb780357 ""
   "figures/lattice.png" 1782588383.42032 63351 a878b201a36cb2440897b08b5d5b2340 ""
+  "figures/mac.png" 1782851939.38494 90230 fcd10dd6673e972b5101b63c1cea52f3 ""
   "figures/webauthn.png" 1782319434.97202 1862508 d7fb711eb391a338b46ccab03d29ffd5 ""
   "sapienzalogo.pdf" 1782319754.76726 16467 d37335f7ce529baff3eb592202135649 ""
   "sapthesis.cls" 1782319754.76797 29748 4362e4b52ded79e45c4b15d1ecb6e5cc ""

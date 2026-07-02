@@ -339,6 +339,13 @@
 \newblock Openid for verifiable presentations (2023).
 \newblock Available from: \url{https://openid.net/specs/openid-4-verifiable-presentations-1_0.html}.
 
+\bibitem{Paar2024}
+\textsc{Paar, C., Pelzl, J., and G{\"u}neysu, T.}
+\newblock \emph{Message Authentication Codes (MACs)}.
+\newblock Springer Berlin Heidelberg, Berlin, Heidelberg (2024).
+\newblock ISBN 978-3-662-69007-9.
+\newblock Available from: \url{https://doi.org/10.1007/978-3-662-69007-9_13}, \href {http://dx.doi.org/10.1007/978-3-662-69007-9_13} {\path{doi:10.1007/978-3-662-69007-9_13}}.
+
 \bibitem{paquin2013u-prove}
 \textsc{Paquin, C. and Zaverucha, G.}
 \newblock U-prove cryptographic specification v1.1 (revision 3) (2013).
