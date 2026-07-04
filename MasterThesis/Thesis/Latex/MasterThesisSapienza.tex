@@ -173,6 +173,18 @@
 
 \maketitle
 
+
+\begin{abstract}
+I would like to express my sincere gratitude to my advisor, Prof. Ivan Visconti.
+He introduced me to the fascinating world of andvanced cryptography and, 
+toghether with Prof. Andrea Vitaletti, shown me the complex system of blockchains.
+It was the most exciting time in my academic career.
+
+
+
+\end{abstract}
+
+
 \begin{abstract}
 \label{abstract}
 In 2026, member states of the European Union are expected to have running
@@ -187,7 +199,7 @@ with cryptologist and mathematician in top pubblications claiming that is not po
 build a post quantum anonymous credential scheme with the actual technologies, given
 hardware constraints and advanced requirements. So we asked ourselves: is it 
 possible to build a post quantum device bounded anonymous credential scheme with the actual technologies, 
-giving hardware constraints and technical difficulties? The answare is \textbf{yes}, it is
+giving hardware constraints and technical difficulties? The answer is \textbf{yes}, it is
 possible. 
 
 Moreover, in this thesis we present a post quantum anonymous credentials model 
@@ -260,7 +272,7 @@ The timeline is organized into three major phases:
 \end{enumerate}
 
 As previously said, this roadmap has been published by the European Commission in 2024. The recent advances in the field of post-quantum computing
-due to hardware improvements, artificial intelligence accelleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
+due to hardware improvements, artificial intelligence acceleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
 more urgent. 
 
 On 30 March 2026, Google published a drastical advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
@@ -283,7 +295,7 @@ solution's performance and other realistic privacy preserving solutions are smal
 to be acceptable in the EUDI wallet context.
 
 In the following sections, we are going to show cryptographic primitives which are the foundations of our work~\ref{preliminaries}, we present an overview of the EUDI wallet~\ref{eudiw}, 
-we perform a full ananlysis of the actual state of the art on device bounded anonymous 
+we perform a full analysis of the actual state of the art on device bounded anonymous 
 credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
 We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our experimental results~\ref{results}, future works that we plan to 
 do~\ref{sec:future-work} and conclusion~\ref{sec:conclusion}.
@@ -1875,7 +1887,7 @@ proof performance, that are reported in the table~\ref{tab:sha256_frigo_shelat} 
 \bottomrule
 \end{tabularx}
 \end{table}
-The problem there became the following: how to implement sha256 inside the STARK prover system ? The answare was not trivial at all.
+The problem there became the following: how to implement sha256 inside the STARK prover system ? The answer was not trivial at all.
 We searched for an efficient implementation of sha256 inside a STARK prover system, and we found the winterfell sha256 implementation
 on github~\cite{iStrannikWinterfellSha256} which had good performance, but we found out a field incompatibility problem between the
 winterfell sha256 implementation which was running on $GF(2^{128})$, and the zk-dilithium STARK implementation, which is a fork of 
@@ -3071,7 +3083,7 @@ justifies the MAC-bridge design: a shared-hash commitment would have forced a
 $0.7$--$2.3$\,s SHA-256-in-STARK proof, larger than our entire joint proof today
 --- and the parameter sweep of \cref{tab:res-hash} shows that \emph{no}
 combination of STARK knobs rescues it, confirming the asymmetry is structural
-rather than a tuning artefact. Fourth, \textbf{parallel composition is what keeps
+rather than a tuning artifact. Fourth, \textbf{parallel composition is what keeps
 the weak device usable}: the speed-up from running the two provers concurrently
 rises to $1.93\times$ precisely on the A53 (\cref{tab:res-composition}), where the
 two provers are most evenly balanced, pulling its end-to-end latency back under
