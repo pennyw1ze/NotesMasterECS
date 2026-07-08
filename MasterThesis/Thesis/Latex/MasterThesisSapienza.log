@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.7.1)  3 JUL 2026 21:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.7.1)  8 JUL 2026 19:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -865,8 +865,6 @@ l.175
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] [2
 
 
-] [3
-
 ] (./MasterThesisSapienza.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 2.
@@ -874,33 +872,33 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 2.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 2.
- [4
+ [3
 
-] [5])
+] [4])
 \tf@toc=\write4
 \openout4 = `MasterThesisSapienza.toc'.
 
- [6] (./MasterThesisSapienza.lof)
+ [5] (./MasterThesisSapienza.lof)
 \tf@lof=\write5
 \openout5 = `MasterThesisSapienza.lof'.
 
- [7
+ [6
 
-] (./MasterThesisSapienza.lot [8
+] (./MasterThesisSapienza.lot [7
 
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}])
 \tf@lot=\write6
 \openout6 = `MasterThesisSapienza.lot'.
 
- [9{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}] (./MasterThesisSapienza.lol)
+ [8{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}] (./MasterThesisSapienza.lol)
 \tf@lol=\write7
 \openout7 = `MasterThesisSapienza.lol'.
 
- [10
+ [9
 
 ]
 Chapter 1.
-<figures/AnonymousCredentials.png, id=604, 1700.60344pt x 904.88063pt>
+<figures/AnonymousCredentials.png, id=600, 1700.60344pt x 904.88063pt>
 File: figures/AnonymousCredentials.png Graphic file (type png)
 <use figures/AnonymousCredentials.png>
 Package pdftex.def Info: figures/AnonymousCredentials.png  used on input line 240.
@@ -913,7 +911,7 @@ Chapter 2.
 [4
 
 ] [5]
-<figures/digsig.png, id=678, 358.33875pt x 225.84375pt>
+<figures/digsig.png, id=674, 358.33875pt x 225.84375pt>
 File: figures/digsig.png Graphic file (type png)
 <use figures/digsig.png>
 Package pdftex.def Info: figures/digsig.png  used on input line 413.
@@ -922,19 +920,19 @@ Package pdftex.def Info: figures/digsig.png  used on input line 413.
 Overfull \vbox (74.4415pt too high) has occurred while \output is active []
 
  [10] [11]
-<figures/commitment.png, id=754, 885.3075pt x 507.39563pt>
+<figures/commitment.png, id=750, 885.3075pt x 507.39563pt>
 File: figures/commitment.png Graphic file (type png)
 <use figures/commitment.png>
 Package pdftex.def Info: figures/commitment.png  used on input line 598.
 (pdftex.def)             Requested size: 316.80121pt x 181.57063pt.
  [12]
-<figures/mac.png, id=766, 1390.44469pt x 846.91406pt>
+<figures/mac.png, id=762, 1390.44469pt x 846.91406pt>
 File: figures/mac.png Graphic file (type png)
 <use figures/mac.png>
 Package pdftex.def Info: figures/mac.png  used on input line 629.
 (pdftex.def)             Requested size: 316.80121pt x 192.9511pt.
  [13 <./figures/commitment.png>]
-<figures/lattice.png, id=775, 216.68954pt x 211.63065pt>
+<figures/lattice.png, id=771, 216.68954pt x 211.63065pt>
 File: figures/lattice.png Graphic file (type png)
 <use figures/lattice.png>
 Package pdftex.def Info: figures/lattice.png  used on input line 652.
@@ -986,7 +984,7 @@ Overfull \hbox (6.67531pt too wide) in paragraph at lines 878--878
  []
 
 [20] [21]
-<figures/MPC-in-the-head.png, id=892, 1007.26312pt x 541.27219pt>
+<figures/MPC-in-the-head.png, id=888, 1007.26312pt x 541.27219pt>
 File: figures/MPC-in-the-head.png Graphic file (type png)
 <use figures/MPC-in-the-head.png>
 Package pdftex.def Info: figures/MPC-in-the-head.png  used on input line 906.
@@ -997,7 +995,7 @@ Overfull \hbox (2.27156pt too wide) in paragraph at lines 914--915
  []
 
 [22 <./figures/MPC-in-the-head.png>]
-<figures/Merkle-tree.png, id=900, 1024.82875pt x 712.6625pt>
+<figures/Merkle-tree.png, id=896, 1024.82875pt x 712.6625pt>
 File: figures/Merkle-tree.png Graphic file (type png)
 <use figures/Merkle-tree.png>
 Package pdftex.def Info: figures/Merkle-tree.png  used on input line 928.
@@ -1012,23 +1010,23 @@ Chapter 3.
 [26
 
 ] [27]
-<figures/Figure_3_Proximity_Flow.png, id=966, 1202.4925pt x 720.6925pt>
+<figures/Figure_3_Proximity_Flow.png, id=962, 1202.4925pt x 720.6925pt>
 File: figures/Figure_3_Proximity_Flow.png Graphic file (type png)
 <use figures/Figure_3_Proximity_Flow.png>
 Package pdftex.def Info: figures/Figure_3_Proximity_Flow.png  used on input line 1096.
 (pdftex.def)             Requested size: 336.60242pt x 201.73753pt.
-<figures/Figure_5_Remote_Cross-Device_Flow.png, id=969, 1202.4925pt x 722.7pt>
+<figures/Figure_5_Remote_Cross-Device_Flow.png, id=965, 1202.4925pt x 722.7pt>
 File: figures/Figure_5_Remote_Cross-Device_Flow.png Graphic file (type png)
 <use figures/Figure_5_Remote_Cross-Device_Flow.png>
 Package pdftex.def Info: figures/Figure_5_Remote_Cross-Device_Flow.png  used on input line 1103.
 (pdftex.def)             Requested size: 336.60242pt x 202.29947pt.
  [28 <./figures/Figure_3_Proximity_Flow.png> <./figures/Figure_5_Remote_Cross-Device_Flow.png>]
-<figures/Figure_13_Relying_Party_Authentication.png, id=980, 1463.4675pt x 1242.6425pt>
+<figures/Figure_13_Relying_Party_Authentication.png, id=976, 1463.4675pt x 1242.6425pt>
 File: figures/Figure_13_Relying_Party_Authentication.png Graphic file (type png)
 <use figures/Figure_13_Relying_Party_Authentication.png>
 Package pdftex.def Info: figures/Figure_13_Relying_Party_Authentication.png  used on input line 1115.
 (pdftex.def)             Requested size: 316.80121pt x 269.00217pt.
-<figures/SD-JWT-VC.png, id=985, 602.25pt x 177.66376pt>
+<figures/SD-JWT-VC.png, id=981, 602.25pt x 177.66376pt>
 File: figures/SD-JWT-VC.png Graphic file (type png)
 <use figures/SD-JWT-VC.png>
 Package pdftex.def Info: figures/SD-JWT-VC.png  used on input line 1138.
@@ -1043,13 +1041,13 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [30 <./figures/SD-JWT-VC.png>] [31]
-<figures/webauthn.png, id=1011, 346.53465pt x 246.6816pt>
+<figures/webauthn.png, id=1007, 346.53465pt x 246.6816pt>
 File: figures/webauthn.png Graphic file (type png)
 <use figures/webauthn.png>
 Package pdftex.def Info: figures/webauthn.png  used on input line 1240.
 (pdftex.def)             Requested size: 316.80121pt x 225.5157pt.
  [32]
-<figures/Pasted image 20260224155454.png, id=1022, 1284.8pt x 1001.7425pt>
+<figures/Pasted image 20260224155454.png, id=1017, 1284.8pt x 1001.7425pt>
 File: figures/Pasted image 20260224155454.png Graphic file (type png)
 <use figures/Pasted image 20260224155454.png>
 Package pdftex.def Info: figures/Pasted image 20260224155454.png  used on input line 1265.
@@ -1089,7 +1087,7 @@ Chapter 5.
 [49
 
 ] [50]
-<figures/SecureElement.png, id=1230, 641.39626pt x 651.93562pt>
+<figures/SecureElement.png, id=1225, 641.39626pt x 651.93562pt>
 File: figures/SecureElement.png Graphic file (type png)
 <use figures/SecureElement.png>
 Package pdftex.def Info: figures/SecureElement.png  used on input line 1766.
@@ -1668,18 +1666,18 @@ Package rerunfilecheck Info: File `MasterThesisSapienza.out' has not changed.
 (rerunfilecheck)             Checksum: 19719C47CB5FF0E583360A5D5D968C1D;15245.
  ) 
 Here is how much of TeX's memory you used:
- 23333 strings out of 469515
- 383424 string characters out of 5470808
- 1091960 words of memory out of 5000000
+ 23332 strings out of 469515
+ 383418 string characters out of 5470808
+ 1091958 words of memory out of 5000000
  50537 multiletter control sequences out of 15000+600000
  848954 words of font info for 419 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  84i,14n,131p,1166b,2072s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmss8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on MasterThesisSapienza.pdf (102 pages, 5411088 bytes).
+Output written on MasterThesisSapienza.pdf (101 pages, 5410259 bytes).
 PDF statistics:
- 1930 PDF objects out of 2073 (max. 8388607)
- 1653 compressed objects within 17 object streams
- 503 named destinations out of 1000 (max. 500000)
+ 1926 PDF objects out of 2073 (max. 8388607)
+ 1650 compressed objects within 17 object streams
+ 502 named destinations out of 1000 (max. 500000)
  124620 words of extra memory for PDF output out of 128383 (max. 10000000)
 

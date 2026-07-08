@@ -174,15 +174,15 @@
 \maketitle
 
 
-\begin{abstract}
-I would like to express my sincere gratitude to my advisor, Prof. Ivan Visconti.
-He introduced me to the fascinating world of andvanced cryptography and, 
-toghether with Prof. Andrea Vitaletti, shown me the complex system of blockchains.
-It was the most exciting time in my academic career.
+% \begin{abstract}
+% I would like to express my sincere gratitude to my advisor, Prof. Ivan Visconti.
+% He introduced me to the fascinating world of advanced cryptography and, 
+% toghether with Prof. Andrea Vitaletti, shown me the complex system of blockchains.
+% It was the most exciting time in my academic career.
 
 
 
-\end{abstract}
+% \end{abstract}
 
 
 \begin{abstract}
@@ -254,7 +254,7 @@ facing challenges like performance improvements, revocation lists, legacy infras
 
 \section{Post quantum transition}
 \label{PostQuantumTransition}
-The european union on 11 April  2024 has published a roadmap for the
+The European union on 11 April  2024 has published a roadmap for the
 post quantum digital transition of members digital infrastructures~\cite{EuropeanCommission2024PQC}.
 
 The roadmap is a comprehensive plan that outlines the steps that each European Union member state should take in order to turn
@@ -275,8 +275,8 @@ As previously said, this roadmap has been published by the European Commission i
 due to hardware improvements, artificial intelligence acceleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
 more urgent. 
 
-On 30 March 2026, Google published a drastical advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
-elliptic curves based crytography~\cite{cryptoeprint:2026/625}. In the meanwhile, between April and March 2026, big tech companies like Google~\cite{Adkins2026Google} 
+On 30 March 2026, Google published a drastic advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
+elliptic curves based cryptography~\cite{cryptoeprint:2026/625}. In the meanwhile, between April and March 2026, big tech companies like Google~\cite{Adkins2026Google} 
 and Cloudflare~\cite{Westerbaan2026Cloudflare} have announced that they will accelerate the transition to post-quantum cryptography,
 lowering the timeline for the full transition to 2029, instead of 2035.
 
@@ -284,7 +284,7 @@ lowering the timeline for the full transition to 2029, instead of 2035.
 \label{overview}
 In this thesis, we present a post-quantum anonymous credentials model that can be deployed with the actual technologies and legacy protocols.
 We require the issuer to adopt a slightly modified version of dilithium NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
-to accomodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
+to accommodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
 of the device public key instead of the device public key itself. 
 
 We also provide a full open source implementation of the model. We runned our solution
@@ -422,7 +422,7 @@ stands for Elliptic Curve Digital Signature Algorithm.
 \subsection{ECDSA}
 ECDSA is a public key signature scheme based on the algebraic structure of 
 elliptic curves over finite fields. Smartphone's secure element and
-credential's issuers adopt this type of signature scheme right now.
+credentials issuers adopt this type of signature scheme right now.
 In this section we will have a detailed overview on how ECDSA works.
 
 \paragraph{Domain parameters}Parameters known to every party:
@@ -674,7 +674,7 @@ So we can state that any two bases for a lattice L are related by a matrix havin
 integer coefficients and determinant $\pm 1$.
 
 Recalling the definition of Euclidean norm as $$||v|| = \sqrt{\sum_{i = 1}^{n}v_i^2},\ v \in \mathbb{R}^n$$
-there are 2 foundamental problems in lattice-based cryptography~\cite{Hoffstein2008Cryptography}:
+there are 2 fundamental problems in lattice-based cryptography~\cite{Hoffstein2008Cryptography}:
 \begin{definition}[\textbf{Shortest Vector Problem (SVP)}]
   Find a shortest non-zero vector
   in a given lattice L, i.e. a non zero vector that minimizes the Euclidean norm $||t||$.
@@ -858,7 +858,7 @@ each of them with different properties and trade-offs, and different underlying 
 
 In the table~\ref{tab:zk_systems_trusted_setup}, we summarize the main zero-kwowledge proof systems that are used
 in the actual cryptography landscape, with their underlying mathematical problem and need of trusted setup,
-enphasizing their post-quantum security.
+emphasizing their post-quantum security.
 
 \begin{table}[H]
   \centering
@@ -1026,8 +1026,8 @@ in this work.
 In 2021, the European Commission proposed to adopt a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
 In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
 which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
-This general framework is needed since the commission left freedom to eaech memeber state to implement their own 
-instance of the application, due to different possible credentials structures (for example, french and german national 
+This general framework is needed since the commission left freedom to each memeber state to implement their own 
+instance of the application, due to different possible credentials structures (for example, French and German national 
 identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
 already a national identity card with an embedded chip, while others don't).
 
@@ -1384,7 +1384,7 @@ threat model. A passive Machine-in-the-Middle can monitor wallet usage
 without modifying traffic.\newline
 
 A tons of other vulnerabilities have been found and studied in the
-EUID wallet, some of them will be discussed in the next sections.
+EUDI wallet, some of them will be discussed in the next sections.
 
 \chapter{Literature overview}
 \label{stateoftheart}
@@ -1402,7 +1402,7 @@ implementation of schemes like BBS+, and hardware constraints due to device bind
 
 Their solution is to move from the standard model proposed in the ARF architecture with salted hash technique,
 implementing zero knowledge proofs with Ligero framework for arbitrary efficient computation over credentials.
-The whole system was built upon american credentials, but results were so promising that a team
+The whole system was built upon American credentials, but results were so promising that a team
 is working on the European implementation of the same framework~\cite{longfellow-eu}.
 
 The zk tehcnology adopted by Frigo and Shelat to prove the knowledge of a credential is Ligero, which is 
@@ -1455,7 +1455,7 @@ requiring identification with an eIDAS high LoA.
 \paragraph{Non-functional requirements}
 \begin{itemize}
       \item \textbf{Representation}: Identity subjects must be able to be represented by any number of digital identities;
-      \item \textbf{Delegation (of control)/Provability}: Identity subjects must have the ability to control how their identity data is used and extert this control on their choice;
+      \item \textbf{Delegation (of control)/Provability}: Identity subjects must have the ability to control how their identity data is used and extend this control on their choice;
       \item \textbf{Decentralization}: A digital identity data must not be represented, controlled or whatever by a centralized system;
       \item \textbf{Security}: Identity subjects must secure their identity data;
       \item \textbf{Verifiability and authenticity}: Identity subjects are required to provide verifiable proof of the authenticity of their digital identity information;
@@ -1791,7 +1791,7 @@ inside Ligero, which is the main actor of our solution. This problems made us mo
 
 \paragraph{Post-quantum Ligero signatures}
 The next direction involved a full research on the actual state of the art of post-quantum signature schemes implementation.
-Still keeping in mind our design choiche to be compliant with the actual standards, we focused on the possibility to implement
+Still keeping in mind our design choice to be compliant with the actual standards, we focused on the possibility to implement
 other algorithm then ECDSA for the device binding signature, and other algorithm then ECDSA for the issuer signature. 
 For the device binding signature, as Lehmann et al. pointed out in their paper Vision~\cite{Lehmann2025Vision}, current 
 Secure Elements merely supports ECDSA signatures over P-256 curves. Moreover we needed the signature algorithm to be easily provable
@@ -1799,10 +1799,10 @@ with zero knowledge technique in order to enable user to selectively disclose th
 
 WIth respect to Ligero, no zero knowledge friendly post-quantum signature scheme has been implemented up to now.
 There where other proving systems like zkVM, for example RiscZero~\cite{RiscZero2026} that we tested in order to prove basic claims, but their
-run on android where extremly inefficient and not suitable for our purposes. We had to find another approach to solve the problem.
+run on android where extremely inefficient and not suitable for our purposes. We had to find another approach to solve the problem.
 
 \paragraph{zkDilithium library}
-This is where we had a foundamental intuition, which is actually one of the main contributions of this thesis to the current
+This is where we had a fundamental intuition, which is actually one of the main contributions of this thesis to the current
 state of the art. 
 \begin{claim}
 Post-quantum security for honest user does not require the device binding signature algorithm to be post-quantum secure.
@@ -2334,7 +2334,7 @@ realized with information theoretic MAC.
 
 Mathematical proof of MAC security:$$m = MAC_k(e_1) = MAC_{k_p,k_v}(e_1) = MAC_{a,b}(e_1)$$
 We obtain the key as:$$(a,b) = k_p \oplus k_v$$ where $k_p$ is a secret random 32 bytes key
-choosen by the prover and $k_v$ is a public verifiable key chosen by the verifier.
+chosen by the prover and $k_v$ is a public verifiable key chosen by the verifier.
 What security concerns do we have?
 \begin{enumerate}
     \item The prover can try to forge a valid MAC for a different $e_1'$, but $e_1'$ would
@@ -2421,7 +2421,7 @@ with the Shor's algorithm~\cite{Shor1997Polynomial} in order to obtain the devic
 This attack allows a malicious prover to extract the device public key from his own device.
 In order for the attacker to be able to use the stolen device keys, he will still need the credentials.
 In the particular (and easier) case in which the attacker is the owner of the device and the credentials,
-he will be able to pass his credentials across different deiveces and therefore he could allow other
+he will be able to pass his credentials across different devices and therefore he could allow other
 users to use his credentials. This violates the LoA High required by the eIDAS 2.0 regulation, but does
 not allow the attacker to impersonate other users, since he will not be able to forge device binding signature
 for other users. Instead the attacker is only able to share his identity, which in first place harm his own
@@ -2430,9 +2430,9 @@ this implies a quantum computer attack, expensive and time consuming, in order t
 which by the way is his own keypair.
 
 In conclusion, the solution proposed in this thesis is secure against semihonest quantum adversarial prover,
-but is a perfect bridge between a completly quantum-agnostic implementation of the wallet and a future
+but is a perfect bridge between a completely quantum-agnostic implementation of the wallet and a future
 post-quantum sound implementation of the wallet, which will be able to protect users against malicious quantum adversaries.
-Post-quantum sound solutions are likely to be out soon, since the enitre online comunity, due to incurrent quantum
+Post-quantum sound solutions are likely to be out soon, since the entire online community, due to incurrent quantum
 threat, is moving towards post-quantum secure softwares. In particular, Google declared that the next version
 of their operating system, Android 17, will implement post-quantum secure NIST standardized algorithm 
 ML-DSA~\cite{Google2026SecurityQuantumAndroid}.
@@ -2619,7 +2619,7 @@ inflate a STARK proving time by up to $5\times$.
 
 \section{STARK and Ligero default run}
 \label{results:baselines}
-Before measuring the cost of any of our modifications we characterise the two
+Before measuring the cost of any of our modifications we characterize the two
 systems we build upon, exactly as they ship upstream: the Longfellow mDOC proof
 (Ligero) and the zkDilithium signature proof (STARK). These two systems are the
 references against which every customization in
@@ -3140,7 +3140,7 @@ A number of directions depart from the specific path taken in the current protot
 The design should continue to be evaluated against two distinct time horizons, and future work should make this evolution explicit rather than implicit:
 
 \begin{itemize}
-    \item \textbf{Medium term.} No cryptographically relevant quantum computer exists yet, but the deployed infrastructure -- secure elements limited to ECDSA over P-256, classical issuers and verifiers, and hundreds of millions of presentations already being made -- does. The pressing danger in this horizon is store-now-decrypt-later and its privacy-specific variant, store-now-link-later: an issuer, a set of colluding verifiers, or a passive network observer can record today's presentations and, once a quantum computer becomes available, retroactively break the classical assumptions that kept those presentations unlinkable, de-anonymizing users across services and over time. Because identity data remains sensitive for decades and a privacy breach cannot be undone, the relevant clock starts at the moment a presentation is made, not at the moment a quantum computer first appears, which is precisely why this threat must be addressed now, on hardware that cannot be changed.
+    \item \textbf{Medium term.} No cryptographically relevant quantum computer exists yet, but the deployed infrastructure -- secure elements limited to ECDSA over P-256, classical issuers and verifiers, and hundreds of millions of presentations already being made -- does. The pressing danger in this horizon is store-now-decrypt-later and its privacy-specific variant, store-now-link-later: an issuer, a set of colluding verifiers, or a passive network observer can record today's presentations and, once a quantum computer becomes available, retroactively break the classical assumptions that kept those presentations unlinkable, de-anonimyzing users across services and over time. Because identity data remains sensitive for decades and a privacy breach cannot be undone, the relevant clock starts at the moment a presentation is made, not at the moment a quantum computer first appears, which is precisely why this threat must be addressed now, on hardware that cannot be changed.
     \item \textbf{Long term.} The infrastructure itself is eventually upgraded: secure elements gain native post-quantum signatures, and issuer and verifier stacks complete their NIST- and EU-mandated migrations. Future work should ensure the scheme is designed to grow into this setting without requiring a redesign, rather than being optimized exclusively for the medium-term, legacy-hardware case.
 \end{itemize}
 
