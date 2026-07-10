@@ -26,7 +26,6 @@
 \usepackage{mathtools}
 \usepackage{xcolor}
 \usepackage{booktabs}
-\usepackage{array}
 % geometry intentionally NOT loaded: sapthesis controls the page layout.
 \usepackage{cleveref}
 \usepackage{algorithm}
@@ -174,6 +173,18 @@
 
 \maketitle
 
+
+% \begin{abstract}
+% I would like to express my sincere gratitude to my advisor, Prof. Ivan Visconti.
+% He introduced me to the fascinating world of advanced cryptography and, 
+% toghether with Prof. Andrea Vitaletti, shown me the complex system of blockchains.
+% It was the most exciting time in my academic career.
+
+
+
+% \end{abstract}
+
+
 \begin{abstract}
 \label{abstract}
 In 2026, member states of the European Union are expected to have running
@@ -183,18 +194,19 @@ anonymous credentials to the users, but the current implementation fails.
 In the meantime, in 2024 the European Union has published a roadmap for the post 
 quantum digital transition of members digital infrastructures.
 
-No current implementation of anonymous credentials is post quantum secure at the moment,
+No implementation of anonymous credentials for EUDI wallet is post quantum secure at the moment,
 with cryptologist and mathematician in top pubblications claiming that is not possible to
 build a post quantum anonymous credential scheme with the actual technologies, given
 hardware constraints and advanced requirements. So we asked ourselves: is it 
 possible to build a post quantum device bounded anonymous credential scheme with the actual technologies, 
-giving hardware constraints and technical difficulties? The answare is \textbf{yes}, it is
+giving hardware constraints and technical difficulties? The answer is \textbf{yes}, it is
 possible. 
 
 Moreover, in this thesis we present a post quantum anonymous credentials model 
 that can be deployed with the actual technologies and legacy infrastructures, with 
 NIST standardized post quantum signature schemes. We went furhter and implemented the full
-model and run it into android devices in order to benchmark the performance and the results
+model and run it into android devices in order to benchmark the performance and the experimental
+results
 are surprising. We also present some optimizations that could be implemented in order to 
 further improve the performance of the scheme, and we show how to implement them with the 
 actual technologies.
@@ -242,10 +254,11 @@ facing challenges like performance improvements, revocation lists, legacy infras
 
 \section{Post quantum transition}
 \label{PostQuantumTransition}
-The european union on 11 April  2024 has published a roadmap for the
+The European union on 11 April  2024 has published a roadmap for the
 post quantum digital transition of members digital infrastructures~\cite{EuropeanCommission2024PQC}.
 
-The roadmap is a comprehensive plan that outlines the steps that the European Union will take to transition to post-quantum cryptography. 
+The roadmap is a comprehensive plan that outlines the steps that each European Union member state should take in order to turn
+their current infrastructure's cryptography to post-quantum secure cryptography. 
 The roadmap includes a timeline for the transition, as well as a list of actions that will be taken to ensure a smooth transition.
 
 The timeline is organized into three major phases:
@@ -259,11 +272,11 @@ The timeline is organized into three major phases:
 \end{enumerate}
 
 As previously said, this roadmap has been published by the European Commission in 2024. The recent advances in the field of post-quantum computing
-due to hardware improvements, artificial intelligence accelleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
+due to hardware improvements, artificial intelligence acceleration and advances in research have made the Q-day closer then expected, and the transition to post-quantum cryptography 
 more urgent. 
 
-On 30 March 2026, Google published a drastical advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
-elliptic curves based crytography~\cite{cryptoeprint:2026/625}. In the meanwhile, between April and March 2026, big tech companies like Google~\cite{Adkins2026Google} 
+On 30 March 2026, Google published a drastic advance in post-quantum cryptography: they reduced consistently the amount of time, resources and qbits needed to break  
+elliptic curves based cryptography~\cite{cryptoeprint:2026/625}. In the meanwhile, between April and March 2026, big tech companies like Google~\cite{Adkins2026Google} 
 and Cloudflare~\cite{Westerbaan2026Cloudflare} have announced that they will accelerate the transition to post-quantum cryptography,
 lowering the timeline for the full transition to 2029, instead of 2035.
 
@@ -271,13 +284,20 @@ lowering the timeline for the full transition to 2029, instead of 2035.
 \label{overview}
 In this thesis, we present a post-quantum anonymous credentials model that can be deployed with the actual technologies and legacy protocols.
 We require the issuer to adopt a slightly modified version of dilithium NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
-to accomodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
+to accommodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
 of the device public key instead of the device public key itself. 
 
+We also provide a full open source implementation of the model. We runned our solution
+implementation on different devices in different circumstances, and we provide a full 
+analysis of the experimental results, showing that our solution is practical and can be 
+deployed in the EUDI wallet with the actual technologies, and variation between our 
+solution's performance and other realistic privacy preserving solutions are small enough 
+to be acceptable in the EUDI wallet context.
+
 In the following sections, we are going to show cryptographic primitives which are the foundations of our work~\ref{preliminaries}, we present an overview of the EUDI wallet~\ref{eudiw}, 
-we perform a full ananlysis of the actual state of the art on device bounded anonymous 
+we perform a full analysis of the actual state of the art on device bounded anonymous 
 credentials~\ref{stateoftheart}, then we explain how our solution faces and solves the challenges, performing an important advance on the actual state of the art ~\ref{oursolution}.
-We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our results~\ref{results}, future works that we plan to 
+We show how we implemented our solution, giving a reference to our github repository~\ref{implementation}, and we present our experimental results~\ref{results}, future works that we plan to 
 do~\ref{sec:future-work} and conclusion~\ref{sec:conclusion}.
 
 \chapter{Preliminaries}
@@ -290,7 +310,7 @@ lattices-based cryptography, zero-knowledge proofs and commitment schemes.
 \section{Group Theory}
 \label{groupth}
 In this section we discuss some basic concepts of group theory.
-\begin{definition}~\cite{Hoffstein2008Cryptography}
+\begin{definition}[\textbf{Group}~\cite{Hoffstein2008Cryptography}]
   A group consists of a set $G$ and a rule, which we denote by $\star$,
   for combining two elements $a, b \in G$ to obtain an element $a \star b \in G$. The
   composition operation $\star$ is required to have the following three properties:
@@ -309,7 +329,7 @@ If, in addition, composition satisfies the
 \end{itemize}
 then  the group is called a \textbf{commutative} group or an \textbf{abelian} group.
 
-\begin{definition}~\cite{Huang2025GroupTheory}
+\begin{definition}[\textbf{Ring}~\cite{Huang2025GroupTheory}]
   A ring $R$ is a set that has two operations, addition and multiplication. 
   Let us denote addition and multiplication by $+$ and $\cdot$, respectively. 
   They satisfy the following properties:
@@ -327,7 +347,7 @@ Now we will introduce another important mathematical concept, which is the one
 of polynomial ring, which will be used in the next sections to introduce the 
 lattice problem and the dilithium signature scheme.
 
-\begin{definition}~\cite{Menezes1996Handbook}
+\begin{definition}[\textbf{Polynomial Ring}~\cite{Menezes1996Handbook}]
   If $R$ is a commutative ring, then a polynomial in the indeterminate
   $x$ over the ring $R$ is an expression of the form $$R[x] = \{a_0 + a_1x + ... + a_nx^n: n \ge 0, a_i \in R, \forall i \in \{0,1,...,n\}\}$$  
 \end{definition}
@@ -368,10 +388,10 @@ literature are called adversarial models. The most common adversarial models are
 The main cryptographic primitives used for anonymous credentials systems are
 signature schemes. 
 
-\begin{definition}
+\begin{definition}[\textbf{Digital Signature}~\cite{Nia2014Introduction}]
   Digital Signature is a cryptographic primitive which is
   fundamental in authentication, authorization and non-
-  repudiation.~\cite{Nia2014Introduction}
+  repudiation.
 \end{definition}
 
 A signature scheme is defined mainly by three primitive functions:
@@ -399,9 +419,66 @@ In particular, the actual most efficient and widely adopted
 signature scheme is ECDSA~\cite{AlZubaidie2019Efficient}, which 
 stands for Elliptic Curve Digital Signature Algorithm.
 
+\subsection{ECDSA}
 ECDSA is a public key signature scheme based on the algebraic structure of 
 elliptic curves over finite fields. Smartphone's secure element and
-credential's issuers adopt this type of signature scheme right now.
+credentials issuers adopt this type of signature scheme right now.
+In this section we will have a detailed overview on how ECDSA works.
+
+\paragraph{Domain parameters}Parameters known to every party:
+\begin{itemize}
+  \item Elliptic curve $E$ over a finite field $\mathbb{Z}_p$
+  (in our case, P-256);
+  \item Numer $n = \#E(\mathbb{Z}_p)$, number of points on the curve;
+  \item A generator $P\in E(\mathbb{Z})_p$;
+  \item A collision-resistant hash function $H$ whose output has the same
+  bitlength as $n$ (In our case, $H = $SHA256);
+\end{itemize}
+
+\paragraph{Key generation}Steps needed for Alice to generate her keypair:
+\begin{itemize}
+  \item Select $a \in [1,n-1]$ at random and compute $A = aP$;
+  \item Alice's public key will be $A$ and her private key will be $a$;
+\end{itemize}
+
+\paragraph{Signature} To sign a message $M \in \{0,1\}^*$, Alice does the following:
+\begin{enumerate}
+  \item Compute $m = H(M)$ and interpret $m$ as an integer;
+  \item Select a per-message secret $k \in [1,n-1]$ at random;
+  \item Compute $R = kP$, then compute the $x$-coordinate of $R$, denoted as 
+  $r = x(R) \mod n$ and check that $r \neq 0$. If $r = 0$, go back to step 2;
+  \item Compute $s = k^{-1}(m + ar) \mod n$ and check that $s \neq 0$. If $s = 0$, go back to step 2;
+  \item Alice's signature on $M$ is the pair $(r,s)$, where $r,s \in [1,n-1]$.;
+\end{enumerate}
+Notice that $k$ should be securely deleted after it has been used.
+
+\paragraph{Verification} To verify a signature $(r,s)$ on a message $M$, 
+Bob need to check that $s = k^{-1}(m + ar) \mod n$ holds, where $m = H(M)$ and $k$ is 
+the per-message secret used by Alice to generate the signature. Bob doesn't know neither $k$ nor $a$.
+
+Now we do the following mathematical transformations:
+$$s = k^{-1}(m + ar) \mod n$$ $$\iff k \equiv s^{-1}(m + ar) \mod n$$
+$$\iff k \equiv s^{-1}m + (s^{-1}r)a (\mod n)$$$$\iff k \equiv u_1 + u_2a (\mod n)$$
+where $u_1 = s^{-1}m \mod n$ and $u_2 = rs^{-1} \mod n$. 
+
+Proceedings:$$k \equiv u_1 + u_2a (\mod n)$$
+$$\iff kP = (u_1 + u_2a)P$$ $$\iff kP = u_1P + u_2A$$ $$\iff R = V$$ where $V = u_1P + u_2A$;
+
+Now recall that $R = V \iff x(R) = x(V)$ meaning that:
+
+Bob can verify that the signature is valid by just checking
+if the $x$-coordinate of $R$ is equal to the $x$-coordinate of $V$.
+
+To verify a signature $(r,s)$ on a message $M$, Bob does the following:
+
+\begin{enumerate}
+  \item Retrieve Alice's public key $A$;
+  \item Check that $r,s \in [1,n-1]$;
+  \item Compute $m = H(M)$;
+  \item Compute $u_1 = ms^{-1} \mod n$ and $u_2 = rs^{-1} \mod n$;
+  \item Compute $V = u_1P + u_2A$ and verify that $V \neq \infty$;
+  \item Finally, Bob accepts the signature ($M,(r,s)$) if and only if $x(R) = x(V)$.
+\end{enumerate}
 
 The problem with ECDSA is that elliptic curve cryptography is based on the
 discrete logarithm problem, which can be solved in polynomial time by a 
@@ -431,22 +508,23 @@ they work~\ref{tab:pqc_signatures}.
   \end{tabularx}
 \end{table}
 
-In Section ~\ref{dilithium} we are going to discuss in depth the Dilithium signature scheme, 
+In Section~\ref{dilithium} we are going to discuss in depth the Dilithium signature scheme, 
 which is the one we adopted for our post-quantum anonymous credentials model.
 
 \section{Hash Functions}
 \label{hashfunctions}
 Hashing  is  a  fundamental  concept  in 
 cryptography,  playing  a  vital  role  in  ensuring 
-data  integrity, authenticity, and  security.~\cite{inproceedings}
+data  integrity, authenticity, and  security.
 
-\begin{definition}
+\begin{definition}[\textbf{Hash Function}~\cite{inproceedings}]
   A hash function is a mathematical function that takes in input data
   of arbitrary size and maps them into a fixed-size output, known as
   hash value.
 \end{definition}
 
 \subsection{Cryptographic Hash Functions}
+\label{cryptohashfunction}
 
 In cryptography, a particular family of hash functions called 
 \textbf{cryptographic hash functions} is used in order to ensure 
@@ -471,29 +549,475 @@ There are several properties that a cryptographic hash function must satisfy:
 The Secure Hash Algorithm 2 (SHA-2) family is a set of cryptographic hash functions
 published by the National Institute of Standards 
 and Technology (NIST) in 2002~\cite{NIST2002FIPS1802}.
+The SHA-2 architecture comprises the following key components:
+\begin{itemize}
+  \item \textbf{Hash function}: The core functionality that process a message
+  and generates a fixed size output, iteratively applying compression functions;
+  \item \textbf{Message schedule}: The process of dividing the input message into 
+  fixed-size blocks and preparing them for processing;
+  \item \textbf{Compression function}: The function that process a fixed-size block
+  and a current state in order to produce a new state;
+  \item \textbf{Padding scheme}: The process of adding extra bits to the input message 
+  to ensure that its length is a multiple of the block size.
+\end{itemize}
+In the SHA-2 family, the most commonly used hash functions are SHA-256 and SHA-512, 
+which produce 256-bit and 512-bit hash values, respectively.
 
-\subsection{Poseidon family}
+
+\subsection{Poseidon hash function}
 \label{poseidon}
+The Poseidon hash functions are hash functions designed  for the use in 
+verifiable computation protocols. 
+There are several different version of the specification:
+\begin{itemize}
+  \item First version: \textbf{Usenix Poseidon}~\cite{Grassi2021Poseidon};
+  \item Second version: \textbf{Eurocrypt Poseidon}~\cite{cryptoeprint:2023/323};
+  \item Third version: \textbf{Poseidon22}~\cite{10.1007/978-3-031-37679-5_8}, which is
+  an optimized, faster version.
+\end{itemize}
+His key design goals are:
+\begin{itemize}
+  \item \textbf{ZK-friendliness}: Efficient inside arithmetic circuits (low R1CS/constraint cost).
+  \item \textbf{Security}: Cryptographically strong against preimage, collision, and other standard attacks.
+  \item \textbf{Flexibility}: Parameterizable for different field sizes, security levels, and performance needs.
+\end{itemize}
+In particular, in our work we are going to use the Poseidon2 (also called Poseidon23) version, 
+which is the one that is used in the zk-dilithium STARK zero-knowledge 
+proof system.
+
 \section{Commitment Schemes}
 \label{commitments}
-\paragraph{Binding}
-\label{bindingcomm}
-\paragraph{Hiding}
-\label{hidingcomm}
+A commitment scheme is a cryptographic primitive that allows a party to commit to a value 
+while keeping it hidden, with the ability to reveal the committed value later. 
+Commitment schemes are widely used in various cryptographic protocols, including zero-knowledge proofs, 
+secure multi-party computation, and digital signatures. In the picture~\ref{fig:commitment}
+a simple representation of a commitment scheme is shown.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/commitment.png}
+  \caption{Commitment scheme representation.}
+  \label{fig:commitment}
+\end{figure}
+
+Commitment schemes have two main properties:
+
+\begin{itemize}
+      \item \textbf{Binding}: The binding property dictates that once the commitment is sent, the committer cannot alter the underlying 
+      message~\cite{Damgard1999}.We need the commitment to be associated to a single credential in order not to allow a malicious
+      prover to build the two different proofs over two different credentials;
+      \item \textbf{Hiding}: The hiding property ensures that when a commitment is sent, the receiver learns absolutely nothing about 
+      the underlying secret value~\cite{Damgard1999}. We need our commitment to be hiding, and in particular to involve some randomness,
+      because if the commitment is deterministic, then the prover's commitment across different presentations of the same credential
+      would be the same, and this would allow the verifier to link different presentations of the same credential.
+\end{itemize}
+
 \section{MAC}
 \label{mac}
 
+MAC (Message Authentication Code) is a cryptographic primitive that provides data 
+integrity and authenticity. It is a short piece of information used to authenticate 
+a message and to provide integrity and authenticity assurances on the message~\cite{Paar2024}. 
+
+A MAC algorithm takes as input a secret key and a message, and outputs a MAC value (also called a tag). 
+The MAC value is then sent along with the message to the receiver, who can use the same secret key to 
+verify the authenticity and integrity of the message. A simple representation of a how a MAC is used
+is shown in figure~\ref{fig:mac}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/mac.png}
+  \caption{MAC representation.}
+  \label{fig:mac}
+\end{figure}
+
+The most basic MAC construction that we will take in consideration
+in this thesis is the information-theoretic secure MAC.
+Computed on a message $m$, the information-theoretic secure MAC is defined as: $$m = a*m + b (\mod n)$$
+where $a$ and $b$ are secret keys, and the operations are performed in a finite field $\mathbb{F}_q$.
+
 \section{Lattice problem}
+Notice that $\mathbb{Z}_q = \{0, 1, \ldots, q-1\}$ and $x \in_{R}S$ means that $x$ is sampled uniformly at random from the set $S$.
+
 \label{lattice}
+\begin{definition}[\textbf{Lattice}]
+  Let $v_1,...,v_n\in \mathbb{R}^m$ be a set of linearly independent vectors.
+  The lattice L generated by $v_1,...,v_n$ is the set of linear combinations of
+  $v_1,...,v_n$ with coefficients in $\mathbb{Z}$:$$L = \{a_1v_1 + a_2v_2+\cdots +a_nv_n : a_i \in \mathbb{Z} \}$$
+\end{definition}
+Informally, a lattice is a set of points in m-dimension space with periodic structure.
+A simple 2-dimensional representation of a lattice is shown in figure~\ref{fig:lattice}.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/lattice.png}
+  \caption{A simple 2-dimensional lattice}
+  \label{fig:lattice}
+\end{figure}
+
+Suppose that $v_1,...,v_n$ is a basis for a lattice L and that $w_1,...,w_n\in L$
+is another collection of vectors in L.
+
+We can write each $w_j$ as linear combination of the basis vectors:
+$$w_1 = a_{1,1}v_1 + a_{1,2}v_2+\cdots +a_{1,n}v_n$$
+$$w_2 = a_{2,1}v_1 + a_{2,2}v_2+\cdots + a{2,n}v_n$$
+$$\vdots$$
+$$w_n = a_{n,1}v_1 + a_{n,2}v_2+\cdots + a_{n,n}v_n$$
+
+Suppose now that we want to express $v_i$ in terms of $w_j$, then we
+should invert the matrix 
+$$A = \begin{pmatrix} a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\ a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{n,1} & a_{n,2} & \cdots & a_{n,n} \end{pmatrix}$$
+Since we are dealing with lattices, we need the coefficients of $A^{-1}$ to be integers.
+Hence, we will have $det(A) = det(A^{-1}) = \pm 1$.
+Conversely, if $det(A) = \pm 1$, then $A^{-1}$ has integer coefficients by theory
+of adjoint matrix.
+So we can state that any two bases for a lattice L are related by a matrix having 
+integer coefficients and determinant $\pm 1$.
+
+Recalling the definition of Euclidean norm as $$||v|| = \sqrt{\sum_{i = 1}^{n}v_i^2},\ v \in \mathbb{R}^n$$
+there are 2 fundamental problems in lattice-based cryptography~\cite{Hoffstein2008Cryptography}:
+\begin{definition}[\textbf{Shortest Vector Problem (SVP)}]
+  Find a shortest non-zero vector
+  in a given lattice L, i.e. a non zero vector that minimizes the Euclidean norm $||t||$.
+\end{definition}
+
+\begin{definition}[\textbf{Closest Vector Problem (CVP)}]
+  Given a vector $w \in \mathbb{R}^m$ that is not
+  in $L$, find a vector $v \in L$ that is closest to $w$, i.e. a vector $v \in L$ that minimizes 
+  the Euclidean norm $||w-v||$.
+\end{definition}
+
+\subsection{Short Integer Solution (SIS)}
+\label{sis}
+
+\begin{definition}[\textbf{SIS}$_{n,m,q,\beta}$~\cite{Ajtai1996Generating}]
+  Let $n, m, q$ be positive integers and $\beta \ll {q\over 2}$ a real bound. Given a uniformly random matrix $\mathbf{A} \in \mathbb{Z}_q^{n \times m}$, find a \emph{non-zero} integer vector $\mathbf{z} \in \mathbb{Z}^m$ such that
+  $$Az = 0 \pmod{q} \quad \text{and} \quad z \in [-\beta, \beta]^m.$$
+\end{definition}
+
+$\mathbf{A}$ is a random matrix with $n$ rows and $m$ columns, where $n < m$; we are looking for a short, non-trivial combination of its columns that sums to zero modulo $q$. When $\beta$ is much smaller than $q$, finding such a vector is believed to be computationally hard even for quantum computers. The SIS assumption is the foundation for collision-resistant hash functions 
+and for the \emph{unforgeability} of lattice-based signatures, including Dilithium.
+
+\subsection{Module-SIS (M-SIS)}
+\label{msis}
+
+The \textbf{Module-SIS} problem is the algebraic generalization of SIS to polynomial rings, which is the setting used by Dilithium (ML-DSA).
+
+\begin{definition}[\textbf{M-SIS}$_{n,k,\ell,q,\beta}$~\cite{Langlois2015Worst}]
+  Given $a_1,a_2,\cdots,a_{\ell}\in_{R}\mathbb{R}^k_q$ where ($\ell > k$), find $z_1,z_2,\cdots,z_{\ell}\in \mathbb{R}_q$ such
+  that $a_1z_1 + a_2z_2 + \cdots + a_{\ell}z_{\ell} = 0$ where $\|z_i\|_{\infty} \le \beta$ and
+  not all $z_i$ are $0$.
+\end{definition}
+
+The key advantage of working over a polynomial ring is \emph{compactness}: a single polynomial in $R_q$ of degree $n-1$ packs $n$ integers, so keys and signatures are much smaller than in plain SIS with the same security level. M-SIS is at least as hard as SVP on ideal lattices, which inherit the worst-case hardness guarantees of standard SIS~\cite{Langlois2015Worst}. The unforgeability of Dilithium signatures reduces to M-SIS.
+
+\subsection{Learning With Errors (LWE)}
+\label{lwe}
+
+\begin{definition}[\textbf{LWE}$_{n,m,q,\beta}$~\cite{Regev2005Lattices}]
+  Let $n, m$ be positive integers ,$q$ be a prime number and $\beta \ll {q\over 2}$. Let $s\in_{R} \mathbb{Z}^n_q$ and
+  $e \in_{R}[-\beta,\beta]^m$.
+
+  Given $A\in_{R} \mathbb{Z}^{m\times n}_q$ and $b = As + e\ (mod\ q)\in \mathbb{Z}^m_q$, find $s$.
+
+\end{definition}
+
+Intuitively, the problem looks like a noisy system of linear equations: if there were no errors $e_i$, recovering $\mathbf{s}$ would be easy. Adding small errors makes the problem hard. Regev showed~\cite{Regev2005Lattices} that LWE is as hard as approximating certain lattice problems in the worst case, even for quantum algorithms. LWE underlies the \emph{hiding} property of lattice-based encryption and key-encapsulation mechanisms, and contributes to the binding property of Dilithium commitments.
+
+\subsection{Module-LWE (M-LWE)}
+\label{mlwe}
+
+Exactly as M-SIS generalizes SIS, \textbf{Module-LWE} generalizes LWE to the polynomial ring $R_q = \mathbb{Z}_q[x]/(x^n+1)$.
+
+\begin{definition}[\textbf{M-LWE}$_{n,k,\ell,q,\beta}$~\cite{Langlois2015Worst}]
+  Let $s\in_{R} \mathbb{R}^{\ell}_q$ and $e\in_{R}S^k_{\beta}$ where $k > \ell$ and $\beta \ll {q\over 2}$.
+  Let $a_1,a_2,\cdots,a_k\in_{R}\mathbb{R}^{\ell}_q$ and $b_i = a^T_is + e_i\in \mathbb{R}$ for $i = 1,\cdots,k$.
+  Given the $a_i$ and $b_i$, determine $s$.
+\end{definition}
+
+M-LWE inherits the worst-case hardness of LWE, now over module lattices~\cite{Langlois2015Worst}. In Dilithium (ML-DSA), the public key is an M-LWE sample $\mathbf{t} = \mathbf{A}\mathbf{s}_1 + \mathbf{s}_2$: recovering the secret vectors $(\mathbf{s}_1, \mathbf{s}_2)$ from $(\mathbf{A}, \mathbf{t})$ is exactly an instance of M-LWE, so the scheme's key indistinguishability and simulation security both rest on this assumption.
+
 \subsection{Dilithium}
 \label{dilithium}
+In this section we are going to provide a simplified version of the Dilithium signature scheme,
+in order to give a complete overview of the cryptographic primitives used in our post-quantum anonymous credentials model.
+
+We will focus on the key generation, signing and verification algorithms, and we will provide a brief overview of the security properties of the scheme,
+relying on reductions on previously defined lattice problems, in particular M-SIS and M-LWE.
+
+This simplified version has been taken from Prof. Menezes' book~\cite{Menezes1996Handbook}.
+
+\paragraph{Notation and parameters} In the table~\ref{tab:mldsa_parameters} we summarize the main notation and parameters used in the Dilithium signature scheme specification
+that we are going to show. The parameters are defined in the Dilithium NIST specification~\cite{NIST2024FIPS204} and are chosen to achieve a specific security level, as defined in the NIST post-quantum cryptography standardization process.
+
+\begin{table}[H]
+  \centering
+  \caption{FIPS 204 parameter sets for Dilithium (ML-DSA).}
+  \label{tab:mldsa_parameters}
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{|c|X|c|c|c|}
+    \hline
+    \textbf{Parameter} & \textbf{Description} & \textbf{ML-DSA-44} & \textbf{ML-DSA-65} & \textbf{ML-DSA-87} \\ \hline
+    $q$ & Prime modulus & $2^{23} - 2^{13} + 1$ & $2^{23} - 2^{13} + 1$ & $2^{23} - 2^{13} + 1$ \\ \hline
+    $n$ & Ring degree for $R_q = \mathbb{Z}_q[x]/(x^n + 1)$ & 256 & 256 & 256 \\ \hline
+    $(k, \ell)$ & Dimensions of matrix $A$ & (4,4) & (6,5) & (8,7) \\ \hline
+    $\eta$ & Coefficient bound for $s_1, s_2$ & 2 & 4 & 2 \\ \hline
+    $\gamma_1$ & Coefficient bound for $y$ & $2^{17}$ & $2^{19}$ & $2^{19}$ \\ \hline
+    $\tau$ & Number of 1's in $c$ & 39 & 49 & 60 \\ \hline
+    $\beta$ & $\beta = \tau\eta$ & 78 & 196 & 120 \\ \hline
+    $\gamma_2$ & HighBits/LowBits parameter & $(q - 1)/88$ & $(q - 1)/32$ & $(q - 1)/32$ \\ \hline
+    $\alpha$ & $\alpha = 2\gamma_2$ & $(q - 1)/44$ & $(q - 1)/16$ & $(q - 1)/16$ \\ \hline
+    $\lambda$ & Collision strength of $\tilde{c}$ & 128 & 192 & 256 \\ \hline
+    $d$ & Number of dropped bits from $t$ & 13 & 13 & 13 \\ \hline
+    $\omega$ & Maximum number of 1's in hint vector & 80 & 55 & 75 \\ \hline
+    $\Lambda$ & Security level & $\approx 128$ & $\approx 192$ & $\approx 256$ \\ \hline
+  \end{tabularx}
+\end{table}
+
+Moreover, we define the following notation that we are going to adopt in the Dilithium signature scheme specification:
+\begin{itemize}
+  \item $\mathbb{Z}_q$ is the set of integers modulo $q$;
+  \item $R_q$ is the ring $\mathbb{Z}_q[x]/(x^n + 1)$;
+  \item $S_{\eta}$ is the set of polynomials in $R_q$ with coefficients in $[-\eta, \eta]$;
+  \item $S_{\gamma_1}$ is the set of polynomials in $R_q$ with coefficients in $(-\gamma_1, \gamma_1]$;
+  \item $(k, \ell)$ are the dimensions of the matrix $A$, with $k > \ell$;
+  \item $B_{\tau}$ is the set of polynomials in $S_1$, exactly $\tau$ of whose coefficients are $\pm 1$;
+  \item $\beta = \tau\eta$.
+\end{itemize}
+
+Now we will proceed to show how the three key generation, signature and verification algorithms works.
+
+\paragraph{Key generation} To generate a key pair, the following steps are performed:
+\begin{enumerate}
+  \item Select $A\in R_q^{k\times \ell}$ uniformly at random;
+  \item Sample $s_1\in_{R}S_{\eta}^{\ell}$ and $s_2\in_{R}S_{\eta}^{k}$ uniformly at random;
+  \item Compute $t = As_1 + s_2$;
+\end{enumerate}
+The generation is terminated. Alice's public key is $(A, t)$ and her private key is $(s_1, s_2)$.
+Notice that computing $s_1$ from $(A, t)$ is an instance of the \textbf{M-LWE problem}.
+
+\paragraph{Signature}To sign a message $M \in \{0, 1\}^*$, the following steps are performed:
+\begin{enumerate}
+  \item Found = false;
+  \item While not Found:
+  \begin{enumerate}
+    \item Sample $y\in_{R}S_{\gamma_1}^{\ell}$ uniformly at random;
+    \item Compute $w = Ay$ and $w_1 = HighBits(w)$;
+    \item Compute $c = H(M\|w_1)$;
+    \item Compute $z = y + cs_1$;
+    \item If LowBits($w - cs_2$) are sufficiently small then found = true;
+    \end{enumerate}
+  \item Output the signature $\sigma = (z, c)$.
+\end{enumerate}
+Signing a message might take several iterations, but with careful parameter selection
+there is an high probability that the LowBits are sufficiently small.
+This rejection project is needed in order to ensure that the verifier
+is actually able to verify the signature while not being able to compute $w$.
+
+\paragraph{Verification} To verify a signature $\sigma = (z, c)$ on a message $M$, the following steps are performed:
+\begin{enumerate}
+  \item Obtain an authentic copy of Alice's public key $(A, t)$;
+  \item Compute $w' = Az - ct$ and $w'_1 = HighBits(w')$;
+  \item Compute $c' = H(M\|w'_1)$;
+  \item If $c' = c$ then accept the signature, otherwise reject it.
+\end{enumerate}
+
+M-SIS guarantees unforgeability: It ensures that an adversary who does not know the secret key cannot manufacture a fake signature that a verifier will accept.
+
+
 
 \section{Zero-Knowledge proofs}
 \label{zkproofs}
+In this section we are going to provide a brief overview of the zero-knowledge proofs, 
+which are a fundamental building block of our post-quantum anonymous credentials model.
+We are also going to provide a brief overview of the main zero-knowledge proof systems 
+that are used in our model.
+
+\begin{definition}[\textbf{Zero-knowledge proof}]
+  A zero-knowledge proof, or ZKP, is a cryptographic method that allows a/multiple verifier(s) 
+  to verify a statement’s truth without revealing information beyond the statement itself. 
+\end{definition}
+
+Zero-knowledge proofs were formally introduced in 1985 by Goldwasser, Micali
+and Rackoff~\cite{Goldwasser1989Knowledge}, who defined the three fundamental properties of zero-knowledge proofs:
+\begin{itemize}
+  \item \textbf{Completeness}: The completeness property ensures that
+  an honest prover can always convince an honest verifier;
+  \item \textbf{Soundness}: The soundness property ensures that a 
+  dishonest prover cannot convince a verifier of a false statement, except with
+  negligible probability;
+  \item \textbf{Zero-knowledge}: The zero-knowledge property ensures that the verifier 
+  learns nothing about the statement being proven, except for its validity.
+\end{itemize}
+Zero-knowledge proofs are a widley adopted tool in the actual cryptography landscape,
+finding their application in many different fields, such as privacy-preserving authentication,
+blockchain, and secure multi-party computation.
+
+During the last decades, many different zero-knowledge proof systems have been proposed,
+each of them with different properties and trade-offs, and different underlying mathematical problems.
+
+In the table~\ref{tab:zk_systems_trusted_setup}, we summarize the main zero-kwowledge proof systems that are used
+in the actual cryptography landscape, with their underlying mathematical problem and need of trusted setup,
+emphasizing their post-quantum security.
+
+\begin{table}[H]
+  \centering
+  \caption{Trusted Setup and Post-Quantum Security Status of Core Zero-Knowledge Frameworks.}
+  \label{tab:zk_systems_trusted_setup}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.11\textwidth}|>{\raggedright\arraybackslash}p{0.16\textwidth}|L|>{\raggedright\arraybackslash}p{0.19\textwidth}|>{\centering\arraybackslash}p{0.09\textwidth}|}
+    \hline
+    \textbf{Framework} & \textbf{Authors \& Release} & \textbf{Underlying Problem} & \textbf{Trusted Setup} & \textbf{PQ Sec.} \\ \hline
+    \textbf{STARK}~\cite{BenSasson2018STARK} & Ben-Sasson et al.\ (2018) & Interactive Oracle Proofs (IOP) \& Fast Reed-Solomon Proximity Testing (FRI) & None (Transparent) & Secure \\ \hline
+    \textbf{LIGERO}~\cite{Ames2017Ligero}    & Ames et al.\ (2017)       & Hardness of decoding random linear codes / Interleaved Reed-Solomon Codes & None (Transparent) & Secure \\ \hline
+    \textbf{Groth16}~\cite{cryptoeprint:2016/260} & Groth (2016)         & Discrete Logarithm \& Bilinear Pairings on Elliptic Curves (over QAPs) & Required (Circuit-Specific) & Vulnerable \\ \hline
+    \textbf{Plonk}~\cite{Gabizon2019Plonk}   & Gabizon et al.\ (2019)    & Polynomial Commitment Schemes (KZG Pairings) \& Grand Product Arguments & Required (Universal \& Updatable) & Vulnerable \\ \hline
+    \textbf{RISC Zero}~\cite{RiscZero2026}   & RISC Zero Team (2022)    & RISC-V ISA Emulation \& STARK Protocol (DEEP-ALI) & None (Transparent) & Secure \\ \hline
+    \textbf{Halo 2}~\cite{Hopwood2021Halo2}  & Hopwood et al.\ (2021)   & Discrete Logarithm over Cycles of Elliptic Curves (Pasta Curves) / IPA & None (Transparent) & Vulnerable \\ \hline
+  \end{tabularx}
+\end{table}
+
+For our implementation of post-quantum anonymous credentials, we are going to use the Ligero and STARK zero-knowledge proof systems, 
+which are both post-quantum secure and have public libraries adapted to our needs.
+
 \subsection{Ligero}
 \label{Ligero}
+Ligero is a zero-knowledge proof system proposed in 2017 by Ames et al.~\cite{Ames2017Ligero}.
+Ligero is based on the following advanced cryptographic techniques:
+\begin{itemize}
+  \item \textbf{MPC-in-the-Head}~\cite{10.1145/1250790.1250794}: MPC-in-the-Head, which stands for Multi-Party Computation in the Head, is
+  a cryptographic protocol which allows a prover to build a zero-knowledge proof by simulating a multi-party computation (MPC) protocol in 
+  their own head, without actually communicating with other parties. The prover generates multiple views of the computation, each corresponding 
+  to a different party's perspective, and then commits to these views. The verifier can then challenge the prover to reveal all but one view, 
+  allowing them to check the correctness of the computation without learning any sensitive information. Repeating the process a certain amount
+  of times allows the verifier to establish that the success probability of a cheating prover is negligible. A visual representation of the 
+  MPC-in-the-Head technique is shown in figure~\ref{fig:mpcinthehead}. 
+  \item \textbf{Interleaved Reed-Solomon Codes}~\cite{Ames2017Ligero}: Reed-Solomon codes function by mapping a message of length $k$ to
+  the coefficients of a polynomial $P(x)$ of degree at most $k-1$, which is then evaluated at $n$ distinct points ($n > k$). This generates
+  an $n$-length codeword where the inherent algebraic redundancy ensures that any two distinct codewords differ in at least $n - k + 1$
+  positions. In Ligero, the prover encodes witness values into a matrix whose rows are Reed-Solomon codewords; this \emph{interleaved}
+  structure enables efficient batch verification through random column sampling, which detects any cheating prover with high probability
+  by exploiting the large minimum distance of the code.
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/MPC-in-the-head.png}
+  \caption{MPC-in-the-Head protocol.}
+  \label{fig:mpcinthehead}
+\end{figure}
+
+The Ligero zk proof system does not require a trusted setup, and
+is based on the following cryptographic assumptions:
+\begin{itemize}
+  \item \textbf{Collision-resistant hash functions}: Hash functions explained in section~\ref{cryptohashfunction};
+  \item \textbf{Linear error-correcting codes}: Error-correcting codes are mathematical constructs that enable the 
+  detection and correction of errors in data transmission or storage. They work by adding redundancy to the original data, 
+  allowing the receiver to identify and correct errors without needing retransmission. In the context of Ligero, 
+  linear error-correcting codes are used to ensure that even if some parts of the proof are tampered with or lost, 
+  the verifier can still reconstruct the original information and verify its correctness;
+  \item \textbf{Merkle trees}: Merkle trees are cryptographic data structures that consist of a binary tree of hash 
+  values, where each leaf node represents a data block and each non-leaf node is the hash of its child nodes, as represented
+  in image~\ref{fig:merkletree}. Merkle trees in Ligero are used to efficiently perform vector commitments;
+\end{itemize}
+All of these assumptions are quantum-resistant; therefore, Ligero is a post-quantum secure zero-knowledge proof system.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/Merkle-tree.png}
+  \caption{Merkle tree graphic representation.}
+  \label{fig:merkletree}
+\end{figure}
+
+\paragraph{Protocol Workflow}
+The following steps describe how a prover demonstrates knowledge of a valid witness for an arithmetic circuit of size $C$ over a finite field:
+\begin{enumerate}
+    \item \textbf{Matrix Layout:} The prover arranges the circuit's wire assignments into an $m \times n$ matrix, where $m, n \approx \sqrt{C}$.
+    \item \textbf{Encoding and Commitment:} Each row is encoded via the linear code. The prover builds a Merkle tree over the columns of this extended matrix and sends the root to the verifier.
+    \item \textbf{Linear Constraint Check:} The verifier sends random challenges to test if the linear and quadratic constraints of the circuit hold.
+    \item \textbf{Proximity Testing:} The verifier samples random columns to ensure that the matrix rows are actually close to valid codewords.
+\end{enumerate}
+
+\paragraph{Asymptotic Efficiency and Trade-offs}
+Ligero offers a favourable efficiency profile for a proof system with no trusted setup~\cite{Ames2017Ligero}:
+\begin{itemize}
+    \item \textbf{Proof Size:} $\mathcal{O}(\sqrt{|C|})$, which is a notable trade-off relative to the $\mathcal{O}(1)$ proof sizes of preprocessing SNARKs such as Groth16~\cite{cryptoeprint:2016/260}, but avoids the costly trusted setup phase entirely.
+    \item \textbf{Prover Time:} $\mathcal{O}(|C|)$, making the prover linear in the circuit size and compatible with any sufficiently large finite field.
+    \item \textbf{Verification Time:} $\mathcal{O}(\sqrt{|C|} \cdot \log |C|)$, sublinear in the circuit size and dominated by Merkle path verifications for the sampled columns.
+\end{itemize}
+
+\paragraph{Non-Interactive Variant}
+The Ligero protocol as described above is interactive. 
+In practice, the interactive challenges from the verifier are replaced by outputs of a cryptographic hash function modeled 
+as a random oracle, following the Fiat-Shamir transform~\cite{FiatShamir1987}. This transformation yields a non-interactive 
+argument of knowledge that preserves soundness and zero-knowledge in the random oracle model, and is the approach 
+adopted in all practical Ligero implementations, including the one used in this work.
+
 \subsection{STARK}
 \label{STARK}
+STARK is a zero-knowledge proof system proposed in 2018 by Ben-Sasson et al.~\cite{BenSasson2018STARK}.
+The acronym stands for \emph{Scalable Transparent ARgument of Knowledge}.
+STARKs are based on the following advanced cryptographic techniques:
+\begin{itemize}
+  \item \textbf{Algebraic Intermediate Representation (AIR)}~\cite{BenSasson2018STARK}: A computation of
+  $n$ steps is encoded as an \emph{execution trace}, a matrix whose rows represent the register state at
+  each step. Correctness of the computation is expressed as a set of polynomial constraints over the trace
+  -- \emph{boundary constraints} that fix the initial and final states, and \emph{transition constraints}
+  that assert consistency between consecutive rows. Proving the computation correct reduces to proving that
+  these constraint polynomials vanish over the trace domain.
+  \item \textbf{Fast Reed-Solomon IOP of Proximity (FRI)}~\cite{BenSasson2018FRI}: FRI is the core
+  sub-protocol used to prove that a committed polynomial has bounded degree, without evaluating it
+  everywhere. It works by recursively halving the polynomial's degree over $\mathcal{O}(\log n)$ rounds,
+  each round producing a smaller commitment verified via Merkle tree. Random spot-checks by the verifier
+  ensure that any cheating prover is caught with overwhelming probability.
+\end{itemize}
+
+The STARK proof system does not require a trusted setup, and is based on the following cryptographic
+assumptions:
+\begin{itemize}
+  \item \textbf{Collision-resistant hash functions}: Hash functions explained in section~\ref{cryptohashfunction};
+  \item \textbf{Merkle trees}: Merkle trees, as represented in figure~\ref{fig:merkletree}, are used throughout
+  the STARK protocol as a vector commitment scheme, binding the prover to the execution trace and to each
+  intermediate FRI oracle;
+  \item \textbf{Reed-Solomon codes}: The low-degree extension of the execution trace over a larger evaluation
+  domain encodes the witness as a Reed-Solomon codeword, and FRI proximity testing detects any deviation
+  from a valid codeword.
+\end{itemize}
+All of these assumptions are quantum-resistant; therefore, STARK is a post-quantum secure zero-knowledge
+proof system.
+
+\paragraph{Protocol Workflow}
+The following steps describe how a prover demonstrates that a computation of length $n$ was carried out correctly:
+\begin{enumerate}
+  \item \textbf{Trace Commitment:} The prover builds the execution trace matrix and evaluates each column
+  polynomial over a larger domain (low-degree extension). The extended evaluations are committed via a Merkle tree.
+  \item \textbf{Constraint Composition:} The verifier sends random challenges; the prover combines all
+  constraint polynomials into a single composition polynomial and commits to it with a second Merkle tree.
+  \item \textbf{FRI Protocol:} The prover runs FRI on the composition polynomial to prove its degree is
+  within the expected bound, sending one Merkle root per folding round.
+  \item \textbf{Query Phase:} The verifier samples random positions; the prover opens the trace, composition,
+  and all FRI oracles at those positions with Merkle authentication paths.
+\end{enumerate}
+
+\paragraph{Asymptotic Efficiency and Trade-offs}
+STARKs achieve the following asymptotic complexities~\cite{BenSasson2018STARK}:
+\begin{itemize}
+  \item \textbf{Proof Size:} $\mathcal{O}(\log^2 n)$, poly-logarithmic in the trace length, which is
+  significantly smaller than Ligero's $\mathcal{O}(\sqrt{n})$ for large computations.
+  \item \textbf{Prover Time:} $\mathcal{O}(n \log n)$, quasi-linear, dominated by the FFTs needed for the
+  low-degree extension and FRI folding rounds.
+  \item \textbf{Verification Time:} $\mathcal{O}(\log^2 n)$, dominated by the Merkle path verifications
+  across the FRI rounds.
+\end{itemize}
+
+\paragraph{Non-Interactive Variant}
+The STARK protocol as described above is interactive.
+In practice, the interactive challenges from the verifier are replaced by outputs of a cryptographic hash
+function modeled as a random oracle, following the Fiat-Shamir transform~\cite{FiatShamir1987}. This
+transformation yields a non-interactive argument of knowledge that is the standard form used in all
+practical STARK libraries, including Winterfell~\cite{FacebookWinterfell}, which is the backend adopted
+in this work.
 
 
 
@@ -502,8 +1026,8 @@ and Technology (NIST) in 2002~\cite{NIST2002FIPS1802}.
 In 2021, the European Commission proposed to adopt a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
 In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
 which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
-This general framework is needed since the commission left freedom to eaech memeber state to implement their own 
-instance of the application, due to different possible credentials structures (for example, french and german national 
+This general framework is needed since the commission left freedom to each memeber state to implement their own 
+instance of the application, due to different possible credentials structures (for example, French and German national 
 identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
 already a national identity card with an embedded chip, while others don't).
 
@@ -860,7 +1384,7 @@ threat model. A passive Machine-in-the-Middle can monitor wallet usage
 without modifying traffic.\newline
 
 A tons of other vulnerabilities have been found and studied in the
-EUID wallet, some of them will be discussed in the next sections.
+EUDI wallet, some of them will be discussed in the next sections.
 
 \chapter{Literature overview}
 \label{stateoftheart}
@@ -878,7 +1402,7 @@ implementation of schemes like BBS+, and hardware constraints due to device bind
 
 Their solution is to move from the standard model proposed in the ARF architecture with salted hash technique,
 implementing zero knowledge proofs with Ligero framework for arbitrary efficient computation over credentials.
-The whole system was built upon american credentials, but results were so promising that a team
+The whole system was built upon American credentials, but results were so promising that a team
 is working on the European implementation of the same framework~\cite{longfellow-eu}.
 
 The zk tehcnology adopted by Frigo and Shelat to prove the knowledge of a credential is Ligero, which is 
@@ -931,7 +1455,7 @@ requiring identification with an eIDAS high LoA.
 \paragraph{Non-functional requirements}
 \begin{itemize}
       \item \textbf{Representation}: Identity subjects must be able to be represented by any number of digital identities;
-      \item \textbf{Delegation (of control)/Provability}: Identity subjects must have the ability to control how their identity data is used and extert this control on their choice;
+      \item \textbf{Delegation (of control)/Provability}: Identity subjects must have the ability to control how their identity data is used and extend this control on their choice;
       \item \textbf{Decentralization}: A digital identity data must not be represented, controlled or whatever by a centralized system;
       \item \textbf{Security}: Identity subjects must secure their identity data;
       \item \textbf{Verifiability and authenticity}: Identity subjects are required to provide verifiable proof of the authenticity of their digital identity information;
@@ -1267,7 +1791,7 @@ inside Ligero, which is the main actor of our solution. This problems made us mo
 
 \paragraph{Post-quantum Ligero signatures}
 The next direction involved a full research on the actual state of the art of post-quantum signature schemes implementation.
-Still keeping in mind our design choiche to be compliant with the actual standards, we focused on the possibility to implement
+Still keeping in mind our design choice to be compliant with the actual standards, we focused on the possibility to implement
 other algorithm then ECDSA for the device binding signature, and other algorithm then ECDSA for the issuer signature. 
 For the device binding signature, as Lehmann et al. pointed out in their paper Vision~\cite{Lehmann2025Vision}, current 
 Secure Elements merely supports ECDSA signatures over P-256 curves. Moreover we needed the signature algorithm to be easily provable
@@ -1275,13 +1799,13 @@ with zero knowledge technique in order to enable user to selectively disclose th
 
 WIth respect to Ligero, no zero knowledge friendly post-quantum signature scheme has been implemented up to now.
 There where other proving systems like zkVM, for example RiscZero~\cite{RiscZero2026} that we tested in order to prove basic claims, but their
-run on android where extremly inefficient and not suitable for our purposes. We had to find another approach to solve the problem.
+run on android where extremely inefficient and not suitable for our purposes. We had to find another approach to solve the problem.
 
 \paragraph{zkDilithium library}
-This is where we had a foundamental intuition, which is actually one of the main contributions of this thesis to the current
+This is where we had a fundamental intuition, which is actually one of the main contributions of this thesis to the current
 state of the art. 
 \begin{claim}
-Post-quantum security against a passive quantum adversary does not require the device binding signature algorithm to be post-quantum secure.
+Post-quantum security for honest user does not require the device binding signature algorithm to be post-quantum secure.
 \end{claim}
 We can show this by modifying the actual Ligero circuit approach to the credential presentation problem.
 Since Ligero is a zero knowledge proof system, in presentation moment the adversary is going to learn only that we know a valid
@@ -1308,7 +1832,7 @@ proof system (specifically zkSTARKs). The main optimizations they introduce are:
       \item \textbf{"Sample In Ball" Optimization}: The deterministic algorithm used to generate challenges is modified to 
       avoid rejection sampling within the ZK circuit, significantly lowering the number of constraints needed.
 \end{itemize}
-Given this optimizations, the results that the authors report in their paper are the provided in the table~\ref{tab:runtimes_memory} below.
+Given this optimizations, the experimental results that the authors report in their paper are the provided in the table~\ref{tab:runtimes_memory} below.
 
 
 \begin{table}[ht]
@@ -1339,16 +1863,8 @@ and this is what we are going to show in the next two paragraphs.
 
 \paragraph{SHA256 vs Poseidon}
 This paragraph is going to show the problem we have to face in order to connect Ligero and zk-dilithium proof systems via a 
-common commitment scheme.Immeditaly, we notice that this commitment should have 2 properties:
-\begin{itemize}
-      \item \textbf{Binding}: The binding property dictates that once the commitment is sent, the committer cannot alter the underlying 
-      message~\cite{Damgard1999}.We need the commitment to be associated to a single credential in order not to allow a malicious
-      prover to build the two different proofs over two different credentials;
-      \item \textbf{Hiding}: The hiding property ensures that when a commitment is sent, the receiver learns absolutely nothing about 
-      the underlying secret value~\cite{Damgard1999}. We need our commitment to be hiding, and in particular to involve some randomness,
-      because if the commitment is deterministic, then the prover's commitment across different presentations of the same credential
-      would be the same, and this would allow the verifier to link different presentations of the same credential.
-\end{itemize}
+common commitment scheme.Immeditaly, we notice that this commitment should be both hiding and binding.
+
 The first and simpler solution that came to our mind was to use a common, public sha256 commitment of the message signed by the issuer,
 which corresponds to the hash of the credential. In this way, we just needed a public commitment, the same in the common public input
 for both Ligero and STARK proof system, and we could prove in Ligero that the commitment is associated to the sha256 of the credential,
@@ -1371,7 +1887,7 @@ proof performance, that are reported in the table~\ref{tab:sha256_frigo_shelat} 
 \bottomrule
 \end{tabularx}
 \end{table}
-The problem there became the following: how to implement sha256 inside the STARK prover system ? The answare was not trivial at all.
+The problem there became the following: how to implement sha256 inside the STARK prover system ? The answer was not trivial at all.
 We searched for an efficient implementation of sha256 inside a STARK prover system, and we found the winterfell sha256 implementation
 on github~\cite{iStrannikWinterfellSha256} which had good performance, but we found out a field incompatibility problem between the
 winterfell sha256 implementation which was running on $GF(2^{128})$, and the zk-dilithium STARK implementation, which is a fork of 
@@ -1818,7 +2334,7 @@ realized with information theoretic MAC.
 
 Mathematical proof of MAC security:$$m = MAC_k(e_1) = MAC_{k_p,k_v}(e_1) = MAC_{a,b}(e_1)$$
 We obtain the key as:$$(a,b) = k_p \oplus k_v$$ where $k_p$ is a secret random 32 bytes key
-choosen by the prover and $k_v$ is a public verifiable key chosen by the verifier.
+chosen by the prover and $k_v$ is a public verifiable key chosen by the verifier.
 What security concerns do we have?
 \begin{enumerate}
     \item The prover can try to forge a valid MAC for a different $e_1'$, but $e_1'$ would
@@ -1905,7 +2421,7 @@ with the Shor's algorithm~\cite{Shor1997Polynomial} in order to obtain the devic
 This attack allows a malicious prover to extract the device public key from his own device.
 In order for the attacker to be able to use the stolen device keys, he will still need the credentials.
 In the particular (and easier) case in which the attacker is the owner of the device and the credentials,
-he will be able to pass his credentials across different deiveces and therefore he could allow other
+he will be able to pass his credentials across different devices and therefore he could allow other
 users to use his credentials. This violates the LoA High required by the eIDAS 2.0 regulation, but does
 not allow the attacker to impersonate other users, since he will not be able to forge device binding signature
 for other users. Instead the attacker is only able to share his identity, which in first place harm his own
@@ -1914,15 +2430,36 @@ this implies a quantum computer attack, expensive and time consuming, in order t
 which by the way is his own keypair.
 
 In conclusion, the solution proposed in this thesis is secure against semihonest quantum adversarial prover,
-but is a perfect bridge between a completly quantum-agnostic implementation of the wallet and a future
+but is a perfect bridge between a completely quantum-agnostic implementation of the wallet and a future
 post-quantum sound implementation of the wallet, which will be able to protect users against malicious quantum adversaries.
-Post-quantum sound solutions are likely to be out soon, since the enitre online comunity, due to incurrent quantum
+Post-quantum sound solutions are likely to be out soon, since the entire online community, due to incurrent quantum
 threat, is moving towards post-quantum secure softwares. In particular, Google declared that the next version
 of their operating system, Android 17, will implement post-quantum secure NIST standardized algorithm 
 ML-DSA~\cite{Google2026SecurityQuantumAndroid}.
 
 
-\chapter{Results}
+\section{Summary}
+To summarize our solution: we designed a zero-knowledge proof system
+composed by an orchestrator (prover) which runs two provers in parallel:
+\begin{itemize}
+  \item \textbf{Ligero}: Longfellow Ligero implementation, without proving issuer signature,
+  and an additional MAC witness sharing circuit and commitment check, sha256 proof over device public key commitment
+  on credentials;
+  \item \textbf{STARK}: zk-dilithium circuit, without message sharing, with an additional MAC witness sharing circuit
+  and commitment check;
+\end{itemize}
+We also designed a verifier which will ensure the MAC is the same and fill the two circuits input.
+
+Moreover, we modified the standard MDOC document, replacing the old
+device public key (2 coordinates, ECDSA keys, 256bits each) with their hash value obtained 
+evaluating the sha256 function over each coordinate,,
+without requiring any MDOC modification and keeping our protocol 100\% compatible
+with ISO 18013-5 standard.
+
+Therefore, we managed to design and implement a post-quantum
+anonymous credential system for honest users. 
+
+\chapter{Experimental Results}
 \label{results}
 In this section we report the empirical evaluation of our solution. Rather than
 presenting only the final system, we benchmark the whole \emph{path} that led to
@@ -1931,11 +2468,10 @@ primitives we tried to use as a common commitment (SHA-256 and Poseidon23), the
 incremental cost of each customization (removing message sharing from the STARK,
 adding the SHA-256 opening to Ligero, and the MAC witness-sharing bridge), and
 finally the cost of composing the two proof systems sequentially versus in
-parallel. The goal is to give the reader a faithful picture of \emph{why} each
-design decision described in \cref{implementation} was taken, backed by numbers
-on real hardware.
+parallel. This experimental results are shown in order to justify the implementations choices
+made in section~\ref{implementation}.
 
-\section{Experimental setup}
+\section{Testing setup}
 \label{results:setup}
 All experiments were run on three platforms: one desktop and the two
 smartphones mandated by the device-binding use case.
@@ -1948,6 +2484,9 @@ smartphones mandated by the device-binding use case.
         (\texttt{s5e8825}), \texttt{arm64-v8a}, a mid-range device included to
         show behaviour on weaker hardware.
 \end{itemize}
+The smartphones represents an top-of-the-line Samsung device 2 years old 
+and a mid-range Samsung device which is 5 years old, in order to show the 
+performance of our solution on different hardware.
 
 \paragraph{Methodology.} Every binary was compiled in release mode; the STARK
 prover used its concurrent (multi-threaded) backend. Each cell of every table is
@@ -1958,12 +2497,12 @@ generation is reported separately. Desktop timings were taken with the machine
 otherwise idle, as we observed that a concurrent compilation could inflate a
 STARK proving time by up to $5\times$. Unless stated otherwise, the credential
 is the reference mDOC test vector disclosing a single attribute
-(\texttt{age\_over\_18}), and the prover key share $k_p$ is fixed for
-reproducibility. Reported security levels are the conjectured ones: $115$~bit for
+(\texttt{age\_over\_18}), and the prover key share $k_p$ is fixed to simplify 
+the analysis. Reported security levels are the conjectured ones: $115$~bit for
 the zkDilithium STARK, ${\approx}96$~bit for the standalone SHA-256 STARK, and
 the Longfellow default for the Ligero proofs.
 
-\section{Reproducibility: build and run commands}
+\section{Build and run commands}
 \label{results:repro}
 For completeness, and so that every figure in this chapter can be reproduced from
 the public repository, we list here the exact commands used to compile and run
@@ -2033,7 +2572,7 @@ adb shell 'cd /data/local/tmp && RUST_LOG=info ./zk_dilithium'
 \end{lstlisting}
 
 \paragraph{SHA-256-in-STARK proof-size sweep.}
-The sensitivity study of \cref{tab:res-stark-sweep} is produced by the
+The sensitivity study of \cref{tab:res-hash} is produced by the
 \texttt{winterfell-sha256} prototype, whose \texttt{benchmark\_preimage} binary
 sweeps the STARK parameters on the desktop, while the
 \texttt{android\_prover}/\texttt{android\_verifier} pair reproduces the on-device
@@ -2078,9 +2617,9 @@ A53) before the warm timings reported here. All desktop measurements were taken
 with the machine otherwise idle, as a concurrent compilation was observed to
 inflate a STARK proving time by up to $5\times$.
 
-\section{Unmodified building blocks}
+\section{STARK and Ligero default run}
 \label{results:baselines}
-Before measuring the cost of any of our modifications we characterise the two
+Before measuring the cost of any of our modifications we characterize the two
 systems we build upon, exactly as they ship upstream: the Longfellow mDOC proof
 (Ligero) and the zkDilithium signature proof (STARK). These two systems are the
 references against which every customization in
@@ -2121,12 +2660,11 @@ fastest prover on this workload.
 A first non-obvious observation is that the Galaxy~S24 is \emph{faster than our
 desktop} on the Longfellow proof (973\,ms vs 1047\,ms): the Snapdragon~8~Gen~3
 big cores outperform a 2017-era Ryzen on this MPC-in-the-head workload, which is
-exactly the encouraging direction for a scheme meant to run on phones. The
-verify/prove ratio is remarkably stable across platforms (0.53--0.60), telling us
+exactly the encouraging direction for a scheme meant to run on phones. 
+
+The verify/prove ratio is remarkably stable across platforms (0.53--0.60), telling us
 that verification is \emph{not} a fixed-cost overhead but scales with the same
-hardware factors as proving; the slight upward drift on the A53 (0.60) reflects
-that the weaker Exynos core pays relatively more for the memory-bound verification
-phase. The proof size is, as expected for Ligero, completely
+hardware factors as proving. The proof size is, as expected for Ligero, completely
 platform-independent at $351.6$\,KB.
 
 \Cref{tab:res-base-stark} reports the zkDilithium STARK baseline. Here we
@@ -2163,7 +2701,7 @@ so the mid-range gap is consistent across both proof systems and stays below
 $2\times$ --- a useful invariant when we later reason about the joint proof on
 weak hardware.
 
-\section{Choosing the cross-system commitment: SHA-256 vs Poseidon}
+\section{SHA-256 vs Poseidon running times}
 \label{results:hash}
 As explained in \cref{implementation}, linking the two proofs requires committing
 to the same credential hash $e_1$ on both sides, which initially meant proving
@@ -2210,95 +2748,95 @@ zkDilithium field $\mathbb{F}_{2^{23}-2^{20}+1}$). This asymmetry is precisely
 what motivated abandoning a shared hash commitment in favour of the
 information-theoretic MAC bridge.
 
-\subsection{How bad is SHA-256 in STARK? A proof-size sensitivity study}
-\label{results:hash-sweep}
-The timings in \cref{tab:res-hash} already rule SHA-256-in-STARK out on grounds of
-\emph{proving time}, but it is instructive to ask whether the picture could be
-rescued by tuning the STARK's own parameters --- after all, a STARK proof system
-exposes a number of knobs (the Reed--Solomon blow-up factor, the proof-of-work
-grinding factor, the field-extension degree, the FRI folding factor) that trade
-prover work, verifier work, soundness and proof size against one another. To
-answer this we built a standalone SHA-256 AIR on the
-\texttt{winterfell-sha256} prototype and swept each parameter independently
-around the default configuration (blow-up $8$, grinding $16$ bits, no field
-extension, folding $8$, a single $240$-bit pre-image block), measuring the
-resulting proof size. \Cref{tab:res-stark-sweep} reports the full sweep.
+% \subsection{Running times forSHA-256 in STARK}
+% \label{results:hash-sweep}
+% The timings in \cref{tab:res-hash} already rule SHA-256-in-STARK out on grounds of
+% \emph{proving time}, but it is instructive to ask whether the picture could be
+% rescued by tuning the STARK's own parameters --- after all, a STARK proof system
+% exposes a number of knobs (the Reed--Solomon blow-up factor, the proof-of-work
+% grinding factor, the field-extension degree, the FRI folding factor) that trade
+% prover work, verifier work, soundness and proof size against one another. To
+% answer this we built a standalone SHA-256 AIR on the
+% \texttt{winterfell-sha256} prototype and swept each parameter independently
+% around the default configuration (blow-up $8$, grinding $16$ bits, no field
+% extension, folding $8$, a single $240$-bit pre-image block), measuring the
+% resulting proof size. \Cref{tab:res-stark-sweep} reports the full sweep.
 
-\begin{table}[ht]
-  \centering
-  \caption{SHA-256-in-STARK proof-size sensitivity (\texttt{winterfell-sha256}
-  prototype, single block). Each group varies one parameter while the others are
-  held at the default configuration (\emph{italicised} row, $61.97$\,KB). Proof
-  size only; timing is reported in \cref{tab:res-hash}.}
-  \label{tab:res-stark-sweep}
-  \small
-  \begin{tabular}{@{}llrr@{}}
-    \toprule
-    \textbf{Swept parameter} & \textbf{Value} & \textbf{Proof (B)} & \textbf{Proof (KB)} \\
-    \midrule
-    \multirow{4}{*}{Blow-up factor}
-        & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
-        & 16                 & 68\,995 & 67.38 \\
-        & 32                 & 75\,687 & 73.91 \\
-        & 64                 & 80\,072 & 78.20 \\
-    \midrule
-    \multirow{6}{*}{Grinding factor (bits)}
-        & 8                  & 64\,259 & 62.75 \\
-        & 16 \emph{(default)}& 63\,460 & \emph{61.97} \\
-        & 20                 & 63\,616 & 62.13 \\
-        & 24                 & 63\,710 & 62.22 \\
-        & 28                 & 64\,160 & 62.66 \\
-        & 32                 & 63\,231 & 61.75 \\
-    \midrule
-    \multirow{3}{*}{Field-extension degree}
-        & 1 \emph{(default)} & 63\,460 & \emph{61.97} \\
-        & 2                  & 72\,900 & 71.19 \\
-        & 3                  & 82\,147 & 80.22 \\
-    \midrule
-    \multirow{2}{*}{Folding factor}
-        & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
-        & 16                 & 61\,339 & 59.90 \\
-    \midrule
-    \multirow{9}{*}{Pre-image length (bits)}
-        & 110                & 58\,242 & 56.88 \\
-        & 240 \emph{(default)}& 63\,460& \emph{61.97} \\
-        & 480                & 69\,766 & 68.13 \\
-        & 1\,000             & 74\,505 & 72.76 \\
-        & 2\,030             & 81\,670 & 79.76 \\
-        & 4\,050             & 88\,047 & 85.98 \\
-        & 8\,150             & 94\,251 & 92.04 \\
-        & 16\,350            & 103\,343& 100.92 \\
-        & 32\,700            & 109\,813& 107.24 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+% \begin{table}[ht]
+%   \centering
+%   \caption{SHA-256-in-STARK proof-size sensitivity (\texttt{winterfell-sha256}
+%   prototype, single block). Each group varies one parameter while the others are
+%   held at the default configuration (\emph{italicised} row, $61.97$\,KB). Proof
+%   size only; timing is reported in \cref{tab:res-hash}.}
+%   \label{tab:res-stark-sweep}
+%   \small
+%   \begin{tabular}{@{}llrr@{}}
+%     \toprule
+%     \textbf{Swept parameter} & \textbf{Value} & \textbf{Proof (B)} & \textbf{Proof (KB)} \\
+%     \midrule
+%     \multirow{4}{*}{Blow-up factor}
+%         & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
+%         & 16                 & 68\,995 & 67.38 \\
+%         & 32                 & 75\,687 & 73.91 \\
+%         & 64                 & 80\,072 & 78.20 \\
+%     \midrule
+%     \multirow{6}{*}{Grinding factor (bits)}
+%         & 8                  & 64\,259 & 62.75 \\
+%         & 16 \emph{(default)}& 63\,460 & \emph{61.97} \\
+%         & 20                 & 63\,616 & 62.13 \\
+%         & 24                 & 63\,710 & 62.22 \\
+%         & 28                 & 64\,160 & 62.66 \\
+%         & 32                 & 63\,231 & 61.75 \\
+%     \midrule
+%     \multirow{3}{*}{Field-extension degree}
+%         & 1 \emph{(default)} & 63\,460 & \emph{61.97} \\
+%         & 2                  & 72\,900 & 71.19 \\
+%         & 3                  & 82\,147 & 80.22 \\
+%     \midrule
+%     \multirow{2}{*}{Folding factor}
+%         & 8 \emph{(default)} & 63\,460 & \emph{61.97} \\
+%         & 16                 & 61\,339 & 59.90 \\
+%     \midrule
+%     \multirow{9}{*}{Pre-image length (bits)}
+%         & 110                & 58\,242 & 56.88 \\
+%         & 240 \emph{(default)}& 63\,460& \emph{61.97} \\
+%         & 480                & 69\,766 & 68.13 \\
+%         & 1\,000             & 74\,505 & 72.76 \\
+%         & 2\,030             & 81\,670 & 79.76 \\
+%         & 4\,050             & 88\,047 & 85.98 \\
+%         & 8\,150             & 94\,251 & 92.04 \\
+%         & 16\,350            & 103\,343& 100.92 \\
+%         & 32\,700            & 109\,813& 107.24 \\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
 
-The sweep tells a clear story. The proof size is essentially \emph{free} in the
-grinding factor: raising the proof-of-work from $8$ to $32$ bits moves the size by
-less than $1$\,KB ($62.75 \to 61.75$\,KB, non-monotone, within the queue-padding
-noise of the FRI layer), so soundness from grinding can be bought at no size cost.
-The blow-up and the field-extension degree, in contrast, are the two expensive
-knobs: doubling the blow-up from $8$ to $64$ inflates the proof by $\sim$26\,\%
-($61.97 \to 78.20$\,KB), and each additional field-extension degree adds a near-
-constant $\sim$9.2\,KB per level ($61.97 \to 71.19 \to 80.22$\,KB), because the
-FRI commitments are duplicated in the larger extension field. The folding factor
-moves in the opposite, helpful direction --- folding by $16$ instead of $8$ shaves
-$\sim$2\,KB --- but at the cost of a heavier verifier, so it is not a free lunch
-either. Finally, the proof grows only \emph{logarithmically} in the pre-image
-length: a $297\times$ increase in input size (from $110$ to $32\,700$ bits) less
-than doubles the proof ($56.88 \to 107.24$\,KB), which is the expected
-$O(\log n)$ behaviour of a FRI-based system.
+% The sweep tells a clear story. The proof size is essentially \emph{free} in the
+% grinding factor: raising the proof-of-work from $8$ to $32$ bits moves the size by
+% less than $1$\,KB ($62.75 \to 61.75$\,KB, non-monotone, within the queue-padding
+% noise of the FRI layer), so soundness from grinding can be bought at no size cost.
+% The blow-up and the field-extension degree, in contrast, are the two expensive
+% knobs: doubling the blow-up from $8$ to $64$ inflates the proof by $\sim$26\,\%
+% ($61.97 \to 78.20$\,KB), and each additional field-extension degree adds a near-
+% constant $\sim$9.2\,KB per level ($61.97 \to 71.19 \to 80.22$\,KB), because the
+% FRI commitments are duplicated in the larger extension field. The folding factor
+% moves in the opposite, helpful direction --- folding by $16$ instead of $8$ shaves
+% $\sim$2\,KB --- but at the cost of a heavier verifier, so it is not a free lunch
+% either. Finally, the proof grows only \emph{logarithmically} in the pre-image
+% length: a $297\times$ increase in input size (from $110$ to $32\,700$ bits) less
+% than doubles the proof ($56.88 \to 107.24$\,KB), which is the expected
+% $O(\log n)$ behaviour of a FRI-based system.
 
-The practical upshot is decisive. Even at its \emph{smallest} configuration the
-SHA-256-in-STARK proof for a single block is $\sim$60\,KB and, crucially,
-\emph{none} of the size knobs touch the proving time that already disqualified it
-in \cref{tab:res-hash} ($0.67$--$2.3$\,s); if anything, the cheap-size
-configurations (low blow-up) make the prover \emph{slower} per unit soundness. No
-combination of parameters turns SHA-256-in-STARK into a viable cross-system
-commitment, which retrospectively confirms that the asymmetry is structural ---
-rooted in the field and the AIR --- and not a matter of tuning. This is the
-quantitative justification for the MAC bridge that the single line in
-\cref{tab:res-hash} could only assert.
+% The practical upshot is decisive. Even at its \emph{smallest} configuration the
+% SHA-256-in-STARK proof for a single block is $\sim$60\,KB and, crucially,
+% \emph{none} of the size knobs touch the proving time that already disqualified it
+% in \cref{tab:res-hash} ($0.67$--$2.3$\,s); if anything, the cheap-size
+% configurations (low blow-up) make the prover \emph{slower} per unit soundness. No
+% combination of parameters turns SHA-256-in-STARK into a viable cross-system
+% commitment, which retrospectively confirms that the asymmetry is structural ---
+% rooted in the field and the AIR --- and not a matter of tuning. This is the
+% quantitative justification for the MAC bridge that the single line in
+% \cref{tab:res-hash} could only assert.
 
 \section{Cost of the customizations}
 \label{results:customizations}
@@ -2441,9 +2979,9 @@ flagship device. All proofs verified successfully on all platforms.
     \textbf{Wall-clock prove (ms)} & \textbf{1353} & \textbf{1108} & \textbf{2190} \\
     Joint verify (ms)           & 828  & 739  & 1017 \\
     \midrule
-    STARK proof size (KB)       & 1252 & 1252 & 1253 \\
+    STARK proof size (KB)       & 1252 & 1252 & 1252 \\
     Ligero proof size (KB)      & 335  & 335  & 335  \\
-    \textbf{Total proof (KB)}   & \textbf{1587} & \textbf{1587} & \textbf{1588} \\
+    \textbf{Total proof (KB)}   & \textbf{1587} & \textbf{1587} & \textbf{1587} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -2543,15 +3081,15 @@ optimization work outlined in \cref{sec:future-work}. Third, the
 \textbf{hash-function asymmetry} measured in \cref{tab:res-hash} retrospectively
 justifies the MAC-bridge design: a shared-hash commitment would have forced a
 $0.7$--$2.3$\,s SHA-256-in-STARK proof, larger than our entire joint proof today
---- and the parameter sweep of \cref{tab:res-stark-sweep} shows that \emph{no}
+--- and the parameter sweep of \cref{tab:res-hash} shows that \emph{no}
 combination of STARK knobs rescues it, confirming the asymmetry is structural
-rather than a tuning artefact. Fourth, \textbf{parallel composition is what keeps
+rather than a tuning artifact. Fourth, \textbf{parallel composition is what keeps
 the weak device usable}: the speed-up from running the two provers concurrently
 rises to $1.93\times$ precisely on the A53 (\cref{tab:res-composition}), where the
 two provers are most evenly balanced, pulling its end-to-end latency back under
 the flagship's sequential cost. Taken together --- and given that the Galaxy~S24
 matches or beats a desktop CPU while the mid-range A53 stays around two seconds
---- these results support the central claim of this thesis: privacy-preserving,
+--- these experimental results support the central claim of this thesis: privacy-preserving,
 post-quantum, device-bound anonymous credentials are practical on the commodity
 hardware that the EUDI Wallet must actually run on.
 
@@ -2602,7 +3140,7 @@ A number of directions depart from the specific path taken in the current protot
 The design should continue to be evaluated against two distinct time horizons, and future work should make this evolution explicit rather than implicit:
 
 \begin{itemize}
-    \item \textbf{Medium term.} No cryptographically relevant quantum computer exists yet, but the deployed infrastructure -- secure elements limited to ECDSA over P-256, classical issuers and verifiers, and hundreds of millions of presentations already being made -- does. The pressing danger in this horizon is store-now-decrypt-later and its privacy-specific variant, store-now-link-later: an issuer, a set of colluding verifiers, or a passive network observer can record today's presentations and, once a quantum computer becomes available, retroactively break the classical assumptions that kept those presentations unlinkable, de-anonymizing users across services and over time. Because identity data remains sensitive for decades and a privacy breach cannot be undone, the relevant clock starts at the moment a presentation is made, not at the moment a quantum computer first appears, which is precisely why this threat must be addressed now, on hardware that cannot be changed.
+    \item \textbf{Medium term.} No cryptographically relevant quantum computer exists yet, but the deployed infrastructure -- secure elements limited to ECDSA over P-256, classical issuers and verifiers, and hundreds of millions of presentations already being made -- does. The pressing danger in this horizon is store-now-decrypt-later and its privacy-specific variant, store-now-link-later: an issuer, a set of colluding verifiers, or a passive network observer can record today's presentations and, once a quantum computer becomes available, retroactively break the classical assumptions that kept those presentations unlinkable, de-anonimyzing users across services and over time. Because identity data remains sensitive for decades and a privacy breach cannot be undone, the relevant clock starts at the moment a presentation is made, not at the moment a quantum computer first appears, which is precisely why this threat must be addressed now, on hardware that cannot be changed.
     \item \textbf{Long term.} The infrastructure itself is eventually upgraded: secure elements gain native post-quantum signatures, and issuer and verifier stacks complete their NIST- and EU-mandated migrations. Future work should ensure the scheme is designed to grow into this setting without requiring a redesign, rather than being optimized exclusively for the medium-term, legacy-hardware case.
 \end{itemize}
 

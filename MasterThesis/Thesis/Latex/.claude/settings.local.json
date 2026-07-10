@@ -3,7 +3,11 @@
     "allow": [
       "Bash(kpsewhich lmodern.sty)",
       "Bash(echo \"--- exit: $? ---\")",
-      "Bash(pdflatex -interaction=nonstopmode MasterThesisSapienza.tex)"
+      "Bash(pdflatex -interaction=nonstopmode MasterThesisSapienza.tex)",
+      "Bash(bibtex MasterThesisSapienza)",
+      "Bash(aspell --mode=tex --lang=en_US list)",
+      "Bash(aspell dicts *)",
+      "Bash(hunspell -d en_US -l)"
     ]
   }
 }
