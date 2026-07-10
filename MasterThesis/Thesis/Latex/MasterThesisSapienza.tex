@@ -177,7 +177,7 @@
 % \begin{abstract}
 % I would like to express my sincere gratitude to my advisor, Prof. Ivan Visconti.
 % He introduced me to the fascinating world of advanced cryptography and, 
-% toghether with Prof. Andrea Vitaletti, shown me the complex system of blockchains.
+% together   with Prof. Andrea Vitaletti, shown me the complex system of blockchains.
 % It was the most exciting time in my academic career.
 
 
@@ -195,7 +195,7 @@ In the meantime, in 2024 the European Union has published a roadmap for the post
 quantum digital transition of members digital infrastructures.
 
 No implementation of anonymous credentials for EUDI wallet is post quantum secure at the moment,
-with cryptologist and mathematician in top pubblications claiming that is not possible to
+with cryptologist and mathematician in top publications claiming that is not possible to
 build a post quantum anonymous credential scheme with the actual technologies, given
 hardware constraints and advanced requirements. So we asked ourselves: is it 
 possible to build a post quantum device bounded anonymous credential scheme with the actual technologies, 
@@ -204,7 +204,7 @@ possible.
 
 Moreover, in this thesis we present a post quantum anonymous credentials model 
 that can be deployed with the actual technologies and legacy infrastructures, with 
-NIST standardized post quantum signature schemes. We went furhter and implemented the full
+NIST standardized post quantum signature schemes. We went further and implemented the full
 model and run it into android devices in order to benchmark the performance and the experimental
 results
 are surprising. We also present some optimizations that could be implemented in order to 
@@ -247,12 +247,12 @@ the issuer was signing user's credentials using a secure protocol that protects 
 Credential(s) are then showed to a verifier via zero-knowledge proof of knowledge of a credential(s)
 whose attributes satisfy some predicate.
 
-Systems based on anonymous credentials have been studied and adopted over the years by big tech companies like Micrsoft~\cite{paquin2013u-prove},
+Systems based on anonymous credentials have been studied and adopted over the years by big tech companies like Microsoft~\cite{paquin2013u-prove},
 IBM~\cite{10.1145/586110.586114}, and are in continuous study and development by the scientific community,
 facing challenges like performance improvements, revocation lists, legacy infrastructures and hardware constraints, and more recently, post quantum security.
 
 
-\section{Post quantum transition}
+\section{Post Quantum Transition}
 \label{PostQuantumTransition}
 The European union on 11 April  2024 has published a roadmap for the
 post quantum digital transition of members digital infrastructures~\cite{EuropeanCommission2024PQC}.
@@ -283,7 +283,7 @@ lowering the timeline for the full transition to 2029, instead of 2035.
 \section{Overview}
 \label{overview}
 In this thesis, we present a post-quantum anonymous credentials model that can be deployed with the actual technologies and legacy protocols.
-We require the issuer to adopt a slightly modified version of dilithium NIST standardized post quantum signature scheme, and to sligthly leverage the credentials structure in order 
+We require the issuer to adopt a slightly modified version of dilithium NIST standardized post quantum signature scheme, and to slightly leverage the credentials structure in order 
 to accommodate the larger size of post quantum signatures and public keys, as well as modification to the mdoc structure in order to involve a commitment
 of the device public key instead of the device public key itself. 
 
@@ -355,7 +355,7 @@ lattice problem and the dilithium signature scheme.
 The polynomial quotient ring is a class of rings in the form:$$R[x]/(f(x))$$
 where $f(x)$ is some polynomial in $R[x]$.
 
-\section{Cryptography and Post-Quantum resistance}
+\section{Cryptography and Post-Quantum Resistance}
 \label{generalcrypto}
 In this section we discuss some basic concepts of cryptography and post-quantum resistance.
 
@@ -484,7 +484,7 @@ The problem with ECDSA is that elliptic curve cryptography is based on the
 discrete logarithm problem, which can be solved in polynomial time by a 
 quantum computer using Shor's algorithm~\cite{Shor1997Polynomial}.
 
-In order for our thesis to be postquantum secure, we need to adopt a 
+In order for our thesis to be post-quantum secure, we need to adopt a 
 post-quantum secure signature scheme.
 
 Since Shor's algorithm has been discovered in 1997, many post-quantum
@@ -536,15 +536,15 @@ There are several properties that a cryptographic hash function must satisfy:
   \item \textbf{Deterministic output}: The same input will always produce the same output;
   \item \textbf{Collision resistance}: It should be computationally infeasible to find two 
   different inputs that produce the same output;
-  \item \textbf{Pre-image resistance}: Given a hash value, it should be computationally i
-  nfeasible to find the original input;
+  \item \textbf{Pre-image resistance}: Given a hash value, it should be computationally infeasible 
+  to find the original input;
   \item \textbf{Second pre-image resistance}: Given an input and its hash value, it should 
   be computationally infeasible to find a different input that produces the same hash value;
   \item \textbf{Avalanche effect}: A small change in the input should produce a significantly 
   different output.
 \end{itemize}
 
-\subsection{SHA-2 family}
+\subsection{SHA-2 Family}
 \label{sha2} 
 The Secure Hash Algorithm 2 (SHA-2) family is a set of cryptographic hash functions
 published by the National Institute of Standards 
@@ -564,7 +564,7 @@ In the SHA-2 family, the most commonly used hash functions are SHA-256 and SHA-5
 which produce 256-bit and 512-bit hash values, respectively.
 
 
-\subsection{Poseidon hash function}
+\subsection{Poseidon Hash Function}
 \label{poseidon}
 The Poseidon hash functions are hash functions designed  for the use in 
 verifiable computation protocols. 
@@ -636,7 +636,7 @@ in this thesis is the information-theoretic secure MAC.
 Computed on a message $m$, the information-theoretic secure MAC is defined as: $$m = a*m + b (\mod n)$$
 where $a$ and $b$ are secret keys, and the operations are performed in a finite field $\mathbb{F}_q$.
 
-\section{Lattice problem}
+\section{Lattice Problem}
 Notice that $\mathbb{Z}_q = \{0, 1, \ldots, q-1\}$ and $x \in_{R}S$ means that $x$ is sampled uniformly at random from the set $S$.
 
 \label{lattice}
@@ -826,7 +826,7 @@ M-SIS guarantees unforgeability: It ensures that an adversary who does not know 
 
 
 
-\section{Zero-Knowledge proofs}
+\section{Zero-Knowledge Proofs}
 \label{zkproofs}
 In this section we are going to provide a brief overview of the zero-knowledge proofs, 
 which are a fundamental building block of our post-quantum anonymous credentials model.
@@ -849,14 +849,14 @@ and Rackoff~\cite{Goldwasser1989Knowledge}, who defined the three fundamental pr
   \item \textbf{Zero-knowledge}: The zero-knowledge property ensures that the verifier 
   learns nothing about the statement being proven, except for its validity.
 \end{itemize}
-Zero-knowledge proofs are a widley adopted tool in the actual cryptography landscape,
+Zero-knowledge proofs are a widely adopted tool in the actual cryptography landscape,
 finding their application in many different fields, such as privacy-preserving authentication,
 blockchain, and secure multi-party computation.
 
 During the last decades, many different zero-knowledge proof systems have been proposed,
 each of them with different properties and trade-offs, and different underlying mathematical problems.
 
-In the table~\ref{tab:zk_systems_trusted_setup}, we summarize the main zero-kwowledge proof systems that are used
+In the table~\ref{tab:zk_systems_trusted_setup}, we summarize the main zero-knowledge proof systems that are used
 in the actual cryptography landscape, with their underlying mathematical problem and need of trusted setup,
 emphasizing their post-quantum security.
 
@@ -1026,7 +1026,7 @@ in this work.
 In 2021, the European Commission proposed to adopt a framework for a European Digital Identity~\cite{EuropeanCommission2021EUDI}.
 In 2024, the European Commission decided to establish an Architecture Reference Framework (ARF)~\cite{EuropeanCommission2024EUDIARF},
 which consisted of a set of guidelines and properties that each instance of the wallet application should satisfy.
-This general framework is needed since the commission left freedom to each memeber state to implement their own 
+This general framework is needed since the commission left freedom to each member state to implement their own 
 instance of the application, due to different possible credentials structures (for example, French and German national 
 identity cards have different structures and/or attributes) and infrastructures (for example, some member states have 
 already a national identity card with an embedded chip, while others don't).
@@ -1034,7 +1034,7 @@ already a national identity card with an embedded chip, while others don't).
 In the following section, we are going to analyze the architecture of the EUDI wallet application,to give a complete 
 overview of Architecture Reference Framework, and to analyze the vulnerabilities of the proposed implementation.
 
-\section{Cryptographic foundations}
+\section{Cryptographic Foundations}
 \label{eudi:crypto}
 The entire ecosystem is built on a \textbf{Public Key Infrastructure (PKI)}. The main primitives and standards are the
 following:
@@ -1072,7 +1072,7 @@ discussed in \cref{eudi:payments}.
 
 Now we will discuss in depth each of these functionalities, describing the involved actors and the protocols used to implement them.
 
-\subsection{Identification and authentication}
+\subsection{Identification and Authentication}
 \label{eudi:auth}
 \textbf{Description.} Users can identify and authenticate to online and offline services while using
 \emph{selective disclosure} of attributes or attestations.
@@ -1117,7 +1117,7 @@ high level they both implement \textbf{Relying Party authentication} as illustra
   \label{fig:rpauth}
 \end{figure}
 
-\subsection{Exchanging user attributes}
+\subsection{Exchanging User Attributes}
 \label{eudi:attributes}
 \textbf{Description.} The wallet lets a user request, store and share Electronic Attestations of Attributes -- EAA,
 PuB-EAA and QEAA. The wallet supports \emph{selective disclosure}, so that the user can share only a subset of the
@@ -1140,7 +1140,7 @@ SD-JWT~VC.
   \label{fig:sdjwt}
 \end{figure}
 
-\paragraph{How attestations are added.} For mobile driving licences (mDL) the Attestation Rulebook explicitly references
+\paragraph{How attestations are added.} For mobile driving licenses (mDL) the Attestation Rulebook explicitly references
 the ISO/IEC~18013-5 model, the same used for identification. Other attestations are obtained as follows: the user first
 verifies that the provider is trusted (it appears on an official Trusted List or List of Trusted Entities); the provider
 authenticates the user, typically reusing the OpenID4VP authentication flow; the provider validates the Wallet Instance
@@ -1156,7 +1156,7 @@ the provider's signature on the attestation and stores it.
   \item \textbf{W3C Verifiable Credentials Data Model v2.0}~\cite{w3cvcdm}, an optional format valid only for
         non-qualified EAAs and still under development.
 \end{itemize}
-\Cref{tab:formats} summarises the three formats and their proof mechanisms.
+\Cref{tab:formats} summarizes the three formats and their proof mechanisms.
 
 \begin{table}[ht]
   \centering
@@ -1175,7 +1175,7 @@ the provider's signature on the attestation and stores it.
   \end{tabularx}
 \end{table}
 
-\paragraph{How selective disclosure works.} Both ISO/IEC~18013-5 and SD-JWT~VC realise selective disclosure through the
+\paragraph{How selective disclosure works.} Both ISO/IEC~18013-5 and SD-JWT~VC realize selective disclosure through the
 \emph{salted-hash} technique combined with device and user binding:
 \begin{itemize}[noitemsep]
   \item \textbf{Salted hashes.} The issuer signs a token in which each attribute is replaced by a salted hash of its
@@ -1191,7 +1191,7 @@ the provider's signature on the attestation and stores it.
 Zero-knowledge proofs, which would allow attributes to be proven without revealing the underlying field, are not yet
 part of the supported mechanisms; their status is discussed later in the analysis.
 
-\subsection{Qualified electronic signatures (QES)}
+\subsection{Qualified Electronic Signatures (QES)}
 \label{eudi:qes}
 \textbf{Description.} The wallet lets users create legally recognised qualified electronic signatures and seals for
 legally binding transactions and document signing.
@@ -1245,7 +1245,7 @@ authentication scheme.
 \subsection{Payments}
 \label{eudi:payments}
 The EUDI Wallet acts as an \emph{authenticator} that lets the user authorise payments. Unlike, for example, Google
-Wallet -- which typically stores a tokenised version of a physical card -- the EUDI Wallet does not store a card number.
+Wallet -- which typically stores a tokenized version of a physical card -- the EUDI Wallet does not store a card number.
 Instead, it is issued a \textbf{Strong User Authentication (SUA)} attestation: a verified digital document that links the
 Wallet Unit to a specific bank account or payment service. This SUA attestation is \emph{device-bound}, i.e.\
 cryptographically tied to the secure hardware (WSCD/WSCA) of the user's phone.
@@ -1253,7 +1253,7 @@ cryptographically tied to the secure hardware (WSCD/WSCA) of the user's phone.
 When a payment is made, the merchant (acting as a Relying Party) sends the wallet a request containing the transactional
 data. The user reviews the request on screen and, upon consent, the wallet signs that specific data with its internal
 keys to authorise the payment. The process is designed to satisfy the \textbf{Strong Customer Authentication (SCA)}
-requirements of the EU payment-services framework (PSD2/PSD3)~\cite{psd2}. The payment lifecycle therefore has three
+requirements of the EU payment-services framework (PSD2/PSD3)~\cite{psd2}. The payment life cycle therefore has three
 phases: \emph{registration} (linking the wallet to the bank via an SUA attestation), \emph{authentication} (approving a
 transaction by signing the amount and payee) and \emph{termination} (unlinking by revoking the SUA attestation).
 
@@ -1326,18 +1326,18 @@ To achieve a High Level of Assurance, several technical and organizational crite
 \subsection{LoA High in the EUDI Wallet Ecosystem}
 Within the EUDI Wallet, the PID is the only attestation that is strictly required by regulation to be issued and managed at LoA High. While other Electronic Attestations of Attributes (EAAs) may use lower levels, the infrastructure of the Wallet must support the High tier to ensure the integrity of the user's core identity. The transition to post-quantum-safe Zero-Knowledge Proofs (ZKPs) is also being explored as a method to maintain this high level of assurance in a future where quantum computers could threaten classical ECC-based security.
 
-\section{Zero-knowledge proofs in the ARF}
+\section{Zero-knowledge Proofs in the ARF}
 \label{eudi:zkp}
 Citing ARF developer guide at section \href{https://eudi.dev/latest/architecture-and-reference-framework-main/#74353-zero-knowledge-proofs}{7.4.3.5.3 Zero-knowledge proofs},
 Unlike Relying Party linkability, attestation Provider linkability cannot be fully eliminated when using attestation formats based on salted hashes. The only viable mitigation, they say,
 is to adopt Zero-Knowledge Proofs (ZKPs) as a verification mechanism instead of relying on salted-attribute hashes.
 
-Furthemore, navigating the ARF developers guide, we found the following statements:
+Furthermore, navigating the ARF developers guide, we found the following statements:
 Zero-Knowledge Proof (ZKP) mechanisms for verifying personal information are highly promising and essential for ensuring privacy in various use cases. They enable Users to prove 
 statements such as "I am over 18" without disclosing any personal data, offering a robust solution for privacy-preserving authentication and verification.
 
 However, the integration of ZKPs in the EUDI Wallet ecosystem is still under discussion and development, due to the complexity of implementing ZKP solutions in secure hardware and the 
-lack of support in currently available secure hardware (WSCDs). As with Relying Party linkability, organisational and enforcement measures can help deter Attestation Providers from 
+lack of support in currently available secure hardware (WSCDs). As with Relying Party linkability, organizational and enforcement measures can help deter Attestation Providers from 
 colluding and tracking Users. Additionally, many Attestation Providers are subject to regular audits, making it easier to detect collusion and tracking compared to Relying Parties.
 
 % Ecc...
@@ -1405,7 +1405,7 @@ implementing zero knowledge proofs with Ligero framework for arbitrary efficient
 The whole system was built upon American credentials, but results were so promising that a team
 is working on the European implementation of the same framework~\cite{longfellow-eu}.
 
-The zk tehcnology adopted by Frigo and Shelat to prove the knowledge of a credential is Ligero, which is 
+The zk technology adopted by Frigo and Shelat to prove the knowledge of a credential is Ligero, which is 
 a zk proof system based on the MPC-in-the-head paradigm. The authors managed to optimize the prover time
 over heavy circuits like ECDSA signature verification circuit or sha256 preimage circuit, via a combination
 of various techniques, such as sum-check protocols to avoid NTT transforms, reed-solomon error correction 
@@ -1416,7 +1416,7 @@ computations in pretty efficient time (look at the table below~\ref{tab:prover_v
 requiring any party to change their actual infrastructures. Their non-interactive protocol lacks of
 non-deniability property over presentations, and their code is quite complex and has been reviewed by
 experts and bugs have been found, with report available online~\cite{TrailOfBits2025GoogleLongfellow}. In general, 
-being a 20'000 line of codes software it is more prone to bugs and vulnerabilites.
+being a 20'000 line of codes software it is more prone to bugs and vulnerabilities.
 \begin{table}[htbp]
 \centering
 \caption{Prover and Verifier Execution Times Across Various Platforms}
@@ -1548,7 +1548,7 @@ monitor when a user is active), it requires connectivity and thus rules out offl
 It is worth noting, however, that some form of connectivity is in any case likely needed at presentation time to check
 that a credential has not been revoked.
 
-\section{Navigating secure storage requirements for EUDI Wallets: a review paper}
+\section{Navigating Secure Storage Requirements for EUDI Wallets: a Review Paper}
 \label{secstoragereq}
 This review by Ebadi Ansaroudi et al.~\cite{Ansaroudi2025Navigating} looks at the secure storage problem from a very
 practical angle: which hardware available on the market today can actually host the keys of an EUDI wallet at the level
@@ -1700,7 +1700,7 @@ legacy-hardware compatibility problem but not the post-quantum one.
 In this section, we are going to describe our solution to the problem of building anonymous credentials for the EUDI wallet
 application, focusing on Post-Quantum Security and on the Device Binding property.
 
-\section{Design choices}
+\section{Design Choices}
 \label{designchoice}
 The first challenge we had to face while designing our solution was weather to be compliant with the actual credential's
 issuer infrastructures, as well as with the actual standards for credential presentation, credential structures and so on,
@@ -1739,7 +1739,7 @@ as the main actor, for the following reasons:
 \end{itemize}
 
 In the following paragraphs we are going to describe the attempts we made that brought us to the final choice
-of using Ligero as main actor together with zk-dilithium library and MAC code witness passing techinque.
+of using Ligero as main actor together with zk-dilithium library and MAC code witness passing technique.
 % List of attempts:
 % MLDSA device binding: not efficient (report paper with more then 1 second only to sing inside SE)
 % Implementation of dilithium system inside Ligero: not efficient nor feasible for a thesis
@@ -1797,7 +1797,7 @@ For the device binding signature, as Lehmann et al. pointed out in their paper V
 Secure Elements merely supports ECDSA signatures over P-256 curves. Moreover we needed the signature algorithm to be easily provable
 with zero knowledge technique in order to enable user to selectively disclose the identity attributes of the credentials.
 
-WIth respect to Ligero, no zero knowledge friendly post-quantum signature scheme has been implemented up to now.
+With respect to Ligero, no zero knowledge friendly post-quantum signature scheme has been implemented up to now.
 There where other proving systems like zkVM, for example RiscZero~\cite{RiscZero2026} that we tested in order to prove basic claims, but their
 run on android where extremely inefficient and not suitable for our purposes. We had to find another approach to solve the problem.
 
@@ -1863,13 +1863,13 @@ and this is what we are going to show in the next two paragraphs.
 
 \paragraph{SHA256 vs Poseidon}
 This paragraph is going to show the problem we have to face in order to connect Ligero and zk-dilithium proof systems via a 
-common commitment scheme.Immeditaly, we notice that this commitment should be both hiding and binding.
+common commitment scheme.Immediately, we notice that this commitment should be both hiding and binding.
 
 The first and simpler solution that came to our mind was to use a common, public sha256 commitment of the message signed by the issuer,
 which corresponds to the hash of the credential. In this way, we just needed a public commitment, the same in the common public input
 for both Ligero and STARK proof system, and we could prove in Ligero that the commitment is associated to the sha256 of the credential,
 and in STARK that the commitment is associated to the issuer signature over the credential. Moreover, we had already the implementation
-of the sha256 preimage prover in Ligero, and, as Frigo and Shelat shows in thier paper~\cite{cryptoeprint:2024/2010}, the sha256 preimage
+of the sha256 preimage prover in Ligero, and, as Frigo and Shelat shows in their paper~\cite{cryptoeprint:2024/2010}, the sha256 preimage
 proof performance, that are reported in the table~\ref{tab:sha256_frigo_shelat} below, are completely compatible with our application.
 \begin{table}[ht]
 \centering
@@ -1908,7 +1908,7 @@ but using an information theoretic MAC like Frigo and Shelat paper in section 3.
 which allows us to pass the sha256 of the credential from the Ligero circuit to the zk-dilithium STARK circuit in a secure way.
 The idea is the following: the prover generates a random key $k_p$ and sends it to the verifier,
 who generates a public key $k_v$ and send it back to the prover. The orchestrator computes the MAC as $MAC m = a*x + b$ over the
-sha256 of the credential $x$, where $a$ and $b$ are obteined as $(a,b) = k$ with respect to the key $k = k_p \oplus k_v$. 
+sha256 of the credential $x$, where $a$ and $b$ are obtained as $(a,b) = k$ with respect to the key $k = k_p \oplus k_v$. 
 The prover shows in Ligero that he knows a valid preimage of the sha256 of the credential, and that the MAC is correct with respect 
 to $k_p$ and $k_v$, and in STARK that he knows a valid signature of the issuer over a credential whose sha256 has a MAC equal to the 
 one received from the orchestrator with respect to $k_p$ and $k_v$. T
@@ -1918,7 +1918,7 @@ and without revealing any information about the credential itself.
 
 Further proofs of security and formal implementation details are provided in the next sections.
 
-\section{Proof formalization}
+\section{Proof Formalization}
 \label{formalization}
 In this section we are going to formalize how our design of the prover and the verifier works.
 
@@ -2317,11 +2317,11 @@ discharge \textbf{(O2)}--\textbf{(O3)}.
 
 \section{Security Analysis}
 \label{analysis}
-In this seciton we are going to perform analysis with respect to the security of our solution, we are going to analyze
+In this section we are going to perform analysis with respect to the security of our solution, we are going to analyze
 the compliance of our solution with the eIDAS 2.0 regulation and with the LoA High requirements, and we are going to analyze 
 the threat model of our solution, showing how and why it satisfies our design choice explained in section~\ref{designchoice}.
 
-\subsection{MAC witness sharing}
+\subsection{MAC Witness Sharing}
 \label{securityanalysis}
 STARK zk proof over the issuer signature needs dilithium verification algorithm.
 The algorithm takes in input the signature $sig$, the message being signed $e_1$ and 
@@ -2406,8 +2406,8 @@ A malicious issuer could collect users device public key and credentials,
 and later on break that set of keys and, being able to forge also device binding signature, impersonate other users.
 
 With our solution we are protecting millions of users from this kind of risks. In fact, this solution is completely
-secure against semihonest adversaries, as shown before.
-Why our solution is not actual secure against malicious adversaries?
+secure assuming honest users, as shown before.
+Why our solution is not actual secure against dishonest users?
 
 \paragraph{Forgery attack}
 A malicious prover, which owns a valid credential and owns a quantum computer, could reverse engineer the application
@@ -2429,11 +2429,11 @@ privacy. There is also a sever economic disincentive for the attacker to forge h
 this implies a quantum computer attack, expensive and time consuming, in order to forge a single keypair,
 which by the way is his own keypair.
 
-In conclusion, the solution proposed in this thesis is secure against semihonest quantum adversarial prover,
+In conclusion, the solution proposed in this thesis is secure assuming honest users,
 but is a perfect bridge between a completely quantum-agnostic implementation of the wallet and a future
 post-quantum sound implementation of the wallet, which will be able to protect users against malicious quantum adversaries.
 Post-quantum sound solutions are likely to be out soon, since the entire online community, due to incurrent quantum
-threat, is moving towards post-quantum secure softwares. In particular, Google declared that the next version
+threat, is moving towards post-quantum secure software. In particular, Google declared that the next version
 of their operating system, Android 17, will implement post-quantum secure NIST standardized algorithm 
 ML-DSA~\cite{Google2026SecurityQuantumAndroid}.
 
@@ -2471,7 +2471,7 @@ finally the cost of composing the two proof systems sequentially versus in
 parallel. This experimental results are shown in order to justify the implementations choices
 made in section~\ref{implementation}.
 
-\section{Testing setup}
+\section{Testing Setup}
 \label{results:setup}
 All experiments were run on three platforms: one desktop and the two
 smartphones mandated by the device-binding use case.
@@ -2502,7 +2502,7 @@ the analysis. Reported security levels are the conjectured ones: $115$~bit for
 the zkDilithium STARK, ${\approx}96$~bit for the standalone SHA-256 STARK, and
 the Longfellow default for the Ligero proofs.
 
-\section{Build and run commands}
+\section{Build and Run Commands}
 \label{results:repro}
 For completeness, and so that every figure in this chapter can be reproduced from
 the public repository, we list here the exact commands used to compile and run
@@ -2617,7 +2617,7 @@ A53) before the warm timings reported here. All desktop measurements were taken
 with the machine otherwise idle, as a concurrent compilation was observed to
 inflate a STARK proving time by up to $5\times$.
 
-\section{STARK and Ligero default run}
+\section{STARK and Ligero Default Run}
 \label{results:baselines}
 Before measuring the cost of any of our modifications we characterize the two
 systems we build upon, exactly as they ship upstream: the Longfellow mDOC proof
@@ -2701,7 +2701,7 @@ so the mid-range gap is consistent across both proof systems and stays below
 $2\times$ --- a useful invariant when we later reason about the joint proof on
 weak hardware.
 
-\section{SHA-256 vs Poseidon running times}
+\section{SHA-256 vs Poseidon Running Times}
 \label{results:hash}
 As explained in \cref{implementation}, linking the two proofs requires committing
 to the same credential hash $e_1$ on both sides, which initially meant proving
@@ -2838,12 +2838,12 @@ information-theoretic MAC bridge.
 % quantitative justification for the MAC bridge that the single line in
 % \cref{tab:res-hash} could only assert.
 
-\section{Cost of the customizations}
+\section{Cost of the Customizations}
 \label{results:customizations}
 We now isolate the cost added by each of our modifications, on top of the
 baselines of \cref{tab:res-base-ligero,tab:res-base-stark}.
 
-\subsection{STARK side}
+\subsection{STARK Side}
 \label{results:cust-stark}
 We build the final STARK prover from the bare zkDilithium signature proof in two
 increments: first the Poseidon23 commitment $R_S$ that locks the prover's key
@@ -2887,7 +2887,7 @@ accounts for the entire $7.2\times$ proof-size blow-up, taking the proof from
 $173$\,KB to $1.25$\,MB. The reason is structural: bit-decomposing $e_1$ and
 evaluating the GF$(2^{128})$ MAC introduces a wide block of new AIR columns whose
 FRI commitments dominate the transcript. This single gadget is therefore the prime
-optimisation target identified in \cref{sec:future-work}.
+optimization target identified in \cref{sec:future-work}.
 
 \begin{table}[ht]
   \centering
@@ -2908,7 +2908,7 @@ optimisation target identified in \cref{sec:future-work}.
   \end{tabular}
 \end{table}
 
-\subsection{Ligero side}
+\subsection{Ligero Side}
 \label{results:cust-ligero}
 On the Ligero side the cross-system binding is a single increment: adding the
 in-circuit SHA-256 opening of $R_L=\SHA(k_p\,\|\,e_1)$ together with the $m_e$ MAC
@@ -2943,7 +2943,7 @@ section. Where the STARK MAC bridge caused a $7.2\times$ size explosion, the
 Ligero side absorbs the \emph{same} cross-system binding almost for free: the
 proof actually gets $16.6$\,KB \emph{smaller} (because the final circuit layout
 packs the SHA-256 opening more tightly than the stock mDOC circuit), and the prove
-time grows by only $14$--$29\,\%$. SHA-256 is a natural, well-optimised primitive
+time grows by only $14$--$29\,\%$. SHA-256 is a natural, well-optimized primitive
 inside Ligero's MPC-in-the-head machinery, whereas the GF$(2^{128})$ MAC and the
 $e_1$ bit-decomposition are alien to the small-prime STARK field --- which is
 exactly why the binding cost lands so asymmetrically on the two systems. The
@@ -2951,7 +2951,7 @@ design consequence is that, whenever the bridge can be made cheaper, the work
 should be concentrated on the STARK side; the Ligero side is already close to
 optimal.
 
-\section{The joint system}
+\section{The Joint System}
 \label{results:joint}
 \Cref{tab:res-orchestrator} reports the full joint proof produced by the
 orchestrator (\cref{alg:orchestrator}), broken down into its stages. The STARK
