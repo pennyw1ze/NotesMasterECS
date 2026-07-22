@@ -1,0 +1,27 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Main cryptographic adversarial models~\cite {Li2024Comprehensive}.}}{6}{table.caption.6}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces NIST Standardized Post-Quantum Signature Schemes~\cite {NIST_FIPS_204}.}}{10}{table.caption.12}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces FIPS 204 parameter sets for Dilithium (ML-DSA).}}{18}{table.caption.17}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Trusted Setup and Post-Quantum Security Status of Core Zero-Knowledge Frameworks.}}{21}{table.caption.21}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Attestation formats and proof mechanisms supported by the ARF.}}{31}{table.caption.36}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Roles and Responsibilities within the EUDI Wallet Ecosystem}}{34}{table.caption.40}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Prover and Verifier Execution Times Across Various Platforms}}{39}{table.caption.47}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Total processing time comparison of drop-in replacement versus the proposed post-quantum cryptography migration scheme (values in milliseconds).}}{51}{table.caption.53}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Run times and peak memory usage.}}{53}{table.caption.56}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Timing benchmark of an n-block pre-image to the SHA-256 function performed on x86\_64 Emerald Rapids.}}{54}{table.caption.58}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Longfellow mDOC (Ligero) baseline, per platform. Median of 5 runs, warm cache, single disclosed attribute. ``V/P'' is the verify-to-prove ratio; ``Prove rel.'' is the prove time normalised to the Galaxy~S24.}}{71}{table.caption.83}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces zkDilithium (STARK) baseline, per platform. Median of 5 runs, concurrent prover backend. ``Prove rel.'' is normalised to the Desktop.}}{72}{table.caption.84}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Cost of proving one hash invocation in each proof system. The SHA-256 in-Ligero figure is the Frigo--Shelat reference (\cref {tab:sha256_frigo_shelat}, x86); all others are measured in this work (median of 5).}}{73}{table.caption.85}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces STARK side: absolute cost at each customization increment. Median prove time and proof size; ``Size $\times $'' is the size relative to the baseline.}}{74}{table.caption.86}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces STARK side: \emph {marginal} cost of each increment (added relative to the previous row). Time deltas are per platform; percentages are relative to the previous row's prove time on that platform.}}{74}{table.caption.87}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Ligero side: cost of adding the SHA-256 $R_L$ opening and the $m_e$ MAC gadget. Median prove time and proof size, with the marginal cost ($\Delta $ vs.\ baseline) per platform.}}{75}{table.caption.88}%
+\contentsline {table}{\numberline {6.7}{\ignorespaces Joint (orchestrator) proof, warm cache, median of 5. The STARK and Ligero provers run in parallel; ``wall-clock'' is the end-to-end proving time.}}{75}{table.caption.89}%
+\contentsline {table}{\numberline {6.8}{\ignorespaces Sequential vs parallel composition of the two provers (wall-clock proving time, ms). Sequential $=$ STARK $+$ Ligero; parallel $=$ measured wall-clock.}}{76}{table.caption.91}%
+\contentsline {table}{\numberline {6.9}{\ignorespaces End-to-end joint presentation, consolidated. ``Prove+Verify'' is the total round-trip latency; ``Prove rel.'' normalises the wall-clock prove time to the Galaxy~S24.}}{76}{table.caption.92}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
