@@ -1,32 +1,24 @@
 \documentclass[11pt]{article}
 
-% --- Encoding & fonts ---------------------------------------------------
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{mathpazo}                 % Palatino text + matching math
-\usepackage[scaled=0.90]{helvet}      % Helvetica for headings
+\usepackage{mathpazo}
+\usepackage[scaled=0.90]{helvet}
 \usepackage{amsmath,amssymb}
 \usepackage{microtype}
-
-% --- Layout -------------------------------------------------------------
 \usepackage[a4paper,top=2.2cm,bottom=2.2cm,left=2.4cm,right=2.4cm]{geometry}
 \usepackage{parskip}
-\usepackage{booktabs}
 \usepackage{enumitem}
 \setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt,topsep=3pt}
 \usepackage{xcolor}
 \definecolor{accent}{RGB}{20,60,110}
 \usepackage[hidelinks]{hyperref}
-
-% --- Section styling ----------------------------------------------------
 \usepackage{titlesec}
-\titleformat{\section}
-  {\normalfont\sffamily\bfseries\large\color{accent}}{\thesection.}{0.6em}{}
-\titleformat{\subsection}
-  {\normalfont\sffamily\bfseries\normalsize\color{accent}}{\thesubsection}{0.6em}{}
+\titleformat{\section}{\normalfont\sffamily\bfseries\large\color{accent}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\sffamily\bfseries\normalsize\color{accent}}{\thesubsection}{0.6em}{}
 \titlespacing*{\section}{0pt}{12pt}{4pt}
-
-% --- Header rule --------------------------------------------------------
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
@@ -35,81 +27,299 @@
 
 \begin{document}
 
-% ======================= TITLE BLOCK ===================================
 \begin{center}
-  {\footnotesize\sffamily\color{gray}%
-   Master's Degree in Computer Engineering \textbullet\ Excellence Path (\textit{Percorso di Eccellenza})}\\[10pt]
-  {\LARGE\sffamily\bfseries\color{accent} Anonymous Credentials and Privacy in the EU Digital Identity Wallet}\\[3pt]
-  {\normalsize\sffamily
-   \textbf{Author:} Leonardo Rufini \qquad \textbf{Supervisor:} Prof.\ Ivan\ Visconti}\\[2pt]
-  {\footnotesize\sffamily\color{gray} Academic Year 2025/2026}
+{\footnotesize\sffamily\color{gray}
+ SAPIENZA UNIVERSITY OF ROME\\[1pt]
+ Master's Degree in Computer Engineering \textbullet\
+ Excellence Path (\textit{Percorso di Eccellenza})}\\[10pt]
+{\LARGE\sffamily\bfseries\color{accent}
+ Anonymous Credentials in Practice:}\\[3pt]
+{\large\sffamily\bfseries\color{accent}
+ A Study of Device Binding, Zero-Knowledge Proofs,\\
+ and the Road to Standardisation}\\[10pt]
+{\normalsize\sffamily
+ \textbf{Author:} Federico Rufini \qquad
+ \textbf{Supervisor:} Prof.\ Visconti}\\[2pt]
+{\footnotesize\sffamily\color{gray} Academic Year 2025/2026}
 \end{center}
 
 \vspace{2pt}
 {\color{accent}\hrule height 0.9pt}
 \vspace{8pt}
 
-% ======================= ABSTRACT ======================================
-\noindent\textit{\small This report documents the work carried out during my Excellence Path, dedicated to anonymous credentials and their role in the EU Digital Identity (EUDI) Wallet. The work combined a systematic study of the official Architecture and Reference Framework with an extensive survey of the research literature on privacy-preserving credentials and zero-knowledge proofs, and was complemented by a hands-on comparison of the current reference implementations. Its aim was to understand the deployed standard deeply, map the surrounding research landscape, and recognize where the genuine open problems of the field lie. What follows describes the path and the reasoning that guided it.}
+\noindent\textit{\small
+Anonymous credential systems promise to let users prove attributes about
+themselves---age, nationality, professional qualifications---without
+revealing their identity or allowing different presentations to be linked.
+This report documents the work carried out during my Excellence Path, which
+consisted of a focused study of the recent scientific literature on
+privacy-preserving credentials, with particular attention to two influential
+lines of research: anonymous credentials built on top of the ECDSA signature
+scheme as found in deployed secure hardware (Frigo and Shelat, 2024), and
+device-bound anonymous credentials designed to remain private even under
+partial or total hardware compromise (Friedrichs et al., 2025). The study
+is framed by the imminent rollout of the EU Digital Identity (EUDI) Wallet,
+which turns these formerly academic questions into a matter of practical
+urgency.}
 
-\vspace{4pt}
+\vspace{6pt}
 
-% ======================= 1. MOTIVATION =================================
-\section{Motivation and objectives}
-The EUDI Wallet is one of the most ambitious digital-infrastructure projects currently pursued by the European Union: a single application that every citizen will use to identify themselves, share verified attributes, sign documents with legal value, and authenticate to online and offline services across all Member States. Because it is designed to become a mandatory, continent-wide identity layer, the privacy properties it offers are not a secondary feature but a societal concern. Under the guidance of Prof.\ Visconti, I used my Excellence Path to understand how modern cryptography---and in particular \emph{anonymous credentials}---can, or cannot, deliver those guarantees within the constraints of a real, standardized system. The objective was deliberately open-ended: not to solve a pre-assigned exercise, but to read the standard and its surrounding literature deeply enough to recognize where the genuine open problems lie.
+\section{Motivation}
 
-% ======================= 2. UNDERSTANDING ==============================
-\section{Understanding the ecosystem}
-The first phase was a systematic reading of the Architecture and Reference Framework (ARF). I organized the wallet's functionalities into five families---identification and authentication, exchange of qualified and non-qualified attribute attestations, qualified electronic signatures, pseudonyms, and payments---and, for each, I traced the actors involved, the governing standards, and the cryptographic primitives in play. The ecosystem rests entirely on a Public Key Infrastructure: elliptic-curve cryptography (through the COSE and JOSE frameworks) for mobile-friendly operations, RSA and X.509 certificates for device binding and qualified signatures, and the ETSI \textit{*AdES} profiles for document signing. Two presentation protocols dominate: \textbf{ISO/IEC 18013-5} for proximity flows and \textbf{OpenID4VP} for remote ones, with \textbf{SD-JWT~VC} and \textbf{W3C WebAuthn} covering selective disclosure and pseudonymous authentication respectively.
+Anonymous credentials are one of the oldest studied objects in applied
+cryptography, yet their deployment in real systems has remained elusive for
+decades. The core tension is well known: to be trustworthy, a credential must
+be tied to a device that cannot be cloned; but the same binding that prevents
+cloning also enables tracking. Breaking this tension without modifying
+existing hardware or relying on non-standard cryptographic assumptions is the
+central open problem of the field.
 
-I also studied the trust model in detail---trusted lists, access certificates, Wallet Unit and Wallet Instance Attestations---and the two orthogonal notions on which the whole security argument rests: \emph{device binding}, which cryptographically ties an attestation to secure hardware (a WSCD) so that it cannot be cloned, and \emph{user binding}, which guarantees that the person presenting the data is its legitimate holder.
+Under the guidance of Prof.\ Visconti, I used my Excellence Path to study
+this problem through its primary literature. The goal was not a broad survey
+but a deep reading of a small number of foundational and recent papers,
+sufficient to understand their technical contributions, to evaluate them
+critically, and to locate the open problems they leave behind. The choice of
+papers was guided by a combination of cryptographic depth and practical
+relevance: both works studied are directly applicable to systems being
+standardised and deployed today.
 
-% ======================= 3. CRITICAL ANALYSIS ==========================
-\section{A critical analysis of the privacy guarantees}
-Once the mechanics were clear, I shifted from description to critique, and this is where the path became genuinely research-oriented. The wallet realizes selective disclosure through \emph{salted hashes}: the issuer signs a document whose fields are individually hashed, and the holder later reveals only the values (with their salts) that a verifier requires. Reading this mechanism against its intended goals, the analysis surfaces two structural weaknesses:
+\section{Background: the hardware constraint}
 
+An anonymous credential system allows an \emph{issuer} to sign a set of
+attributes, and a \emph{holder} to later prove possession of a valid
+signature---and statements about the signed attributes---to a
+\emph{verifier}, without revealing the signature itself or allowing the
+verifier to link two presentations. The classical construction by Camenisch
+and Lysyanskaya achieves this through algebraic signatures over which
+efficient zero-knowledge proofs of knowledge can be built. More recently,
+\textbf{BBS signatures}---now standardised by the IETF---have emerged as
+the preferred instantiation: they support multi-message signing, selective
+disclosure, and efficient ZK proof protocols built on pairings.
+
+Device binding adds a further requirement: the credential must be
+cryptographically tied to a specific device so that it cannot be trivially
+copied. The natural mechanism is to keep a secret key inside a
+\emph{Secure Element} (SE), a tamper-resistant chip that performs
+cryptographic operations without ever exporting the key. The problem is that
+today's Secure Elements---those found in hundreds of millions of shipped
+smartphones---support only \textbf{ECDSA over NIST P-256}. They cannot
+natively compute BBS or BLS signatures, pairing operations, or
+zero-knowledge proofs. Any scheme requiring the hardware to do more therefore
+cannot be deployed without a new generation of devices. This constraint is
+the common starting point of both papers studied, and the main reason the
+problem remains open.
+
+\section{Longfellow: anonymous credentials from ECDSA (Frigo and Shelat, 2024)}
+
+\subsection{Contribution}
+
+The paper asks a deceptively simple question: can one build a fully-featured
+anonymous credential system using \emph{only} ECDSA, the primitive that
+existing secure hardware already supports? The construction---called
+\textbf{Longfellow}---answers yes, and is the most technically demanding
+work studied during the path.
+
+The key insight is that the Secure Element does not need to compute a
+privacy-preserving signature. Instead, it signs a commitment using its
+standard ECDSA key, and the holder produces a \emph{zero-knowledge proof}
+establishing that (a)~there exists a valid ECDSA signature over the
+commitment, (b)~the commitment opens to a credential issued by a trusted
+issuer, and (c)~the credential contains the claimed attribute values. The
+verifier learns nothing beyond the truth of these statements. Because nothing
+about the ECDSA key or the credential is revealed, multiple presentations
+are unlinkable.
+
+\subsection{Proof system architecture}
+
+The ZK proof system is a carefully engineered combination of components.
+\textbf{Ligero} (MPC-in-the-head) serves as the core proof system: it
+requires no trusted setup, relies only on collision-resistant hash functions
+(making it post-quantum secure in isolation), and supports arbitrary
+arithmetic circuits. To avoid the bottleneck of heavy number-theoretic
+transforms, Ligero is integrated with a \textbf{sum-check} protocol, which
+allows the verifier to check polynomial sums over boolean hypercubes without
+NTT operations. Polynomial commitments are instantiated via
+\textbf{Reed-Solomon codes}, using additive FFT over binary fields and
+linear convolution over NIST P-256.
+
+The most original technical contribution is the treatment of two
+sub-computations that naturally live in different fields. ECDSA verification
+works over a prime field; SHA-256 hashing works over a binary field
+(GF$(2^{128})$). The paper introduces two separate optimised circuits, one
+for each field, connected by a \textbf{MAC-based cross-field consistency
+check}: the witness shared between the circuits is authenticated so that a
+cheating prover cannot substitute inconsistent values across the field
+boundary. The resulting proof is made non-interactive via the
+\textbf{Fiat--Shamir} heuristic, producing a single message that any
+verifier can check without further interaction---a hard requirement of
+OpenID4VP and ISO~18013-5. The European fork \emph{Longfellow-zk} (Dyne.org)
+subsequently added SIMD128 assembler optimisations targeting European
+credential formats.
+
+\subsection{Performance}
+
+The reported figures are remarkable for a general ZK system: ECDSA proofs
+in approximately 60\,ms, and a full ISO MDOC presentation proof in roughly
+1.2\,seconds on mobile hardware depending on credential size. The work
+demonstrates convincingly that ZK-based, hardware-compatible anonymous
+credentials are no longer purely theoretical.
+
+\subsection{Critical assessment}
+
+Several limitations emerged from the study. First, the post-quantum picture
+is mixed: Ligero's security rests only on hash functions and is post-quantum
+safe, but the ECDSA signature from the Secure Element is broken by Shor's
+algorithm. The scheme is therefore best understood as a transitional
+solution, viable until Secure Elements migrate to post-quantum primitives.
+Second, the SE remains a \emph{single point of failure}: a compromised SE key
+collapses user privacy entirely, and the paper proposes no multi-party
+technique to distribute this trust. Third, the codebase exceeds 20\,000
+lines of code and the authors have already issued corrections for
+implementation errors---a reminder that the gap between a sound proof system
+and a secure implementation is not trivial to close.
+
+\section{Device-Bound Anonymous Credentials With(out) Trusted Hardware\\
+\small\normalfont Friedrichs, Lehmann, Sidorenko, and Zacharakis, 2025}
+
+\subsection{Contribution}
+
+This paper approaches device binding from a different direction. Rather than
+optimising for compatibility with existing ECDSA hardware, it asks: what
+privacy guarantees are achievable when the hardware itself cannot be fully
+trusted? The motivation is grounded in two concrete scenarios already present
+in the EUDI ecosystem:
 \begin{itemize}
-  \item \textbf{Granularity leakage.} Salted hashes disclose whole fields, not predicates over them. To prove ``I am over 18'' one must reveal the entire date-of-birth field; to prove nationality one may end up revealing a full home address. The ARF's suggested workaround---issuers pre-computing boolean fields such as \textit{over-18: yes/no}---does not scale: it cannot answer ``over 19?'', ``over 20?'', or any predicate not anticipated at issuance time.
-  \item \textbf{Linkability.} Disclosed attributes are bound to a device, the device is bound to the PID, and the PID reveals the legal identity. This chain allows a relying party---and, more subtly, colluding issuers---to re-link supposedly minimal disclosures back to a full identity, collapsing the intended privacy.
+  \item Many smartphones lack a locally certified SE at the required Level
+        of Assurance (LoA High), so the regulation foresees the use of
+        \emph{Remote HSMs}---cloud-based security modules outside the user's
+        physical control.
+  \item Even local Secure Elements are ``black boxes'': subverted firmware
+        could embed a subliminal channel that leaks the user's identity
+        across presentations without any party being able to detect it.
 \end{itemize}
 
-\noindent Tellingly, the framework itself acknowledges that the ``only viable mitigation'' is the adoption of \textbf{Zero-Knowledge Proofs} (ZKPs), which no component of the ecosystem currently mandates. Recognizing ZKPs as the missing piece was the turning point of the path: it reframed my question from \textit{how does the wallet work?} to \textit{what would it take to make the wallet actually private?}---and motivated the extensive literature survey that followed.
+The paper's first contribution is a formal hierarchy of four unlinkability
+levels (Unlink-0 through Unlink-3) capturing progressively stronger
+adversarial models, up to a SE that is fully under real-time adversary
+control. This taxonomy is itself a contribution: it gives the field a
+precise vocabulary for what ``device binding without trusted hardware''
+actually means, something prior work had left informal.
 
-% ======================= 4. LITERATURE =================================
-\section{Mapping the research landscape}
-The largest part of the path was a broad reading of the research literature, aimed at understanding why ZKP-based anonymous credentials are not yet part of the deployed standard, and which approaches the community is currently pursuing. The survey spanned foundational papers, recent conference work, and the accompanying open-source prototypes.
+\subsection{Three constructions}
 
-\emph{The hardware constraint.} A recurring theme---articulated most clearly by Lehmann, Sidorenko and Zacharakis in their modular framework \textit{Vision}---is that anti-cloning at the highest Level of Assurance requires the binding key to live inside a Secure Element that never releases it, and that today's Secure Elements support essentially only ECDSA over the P-256 curve. They cannot natively compute pairing-based signatures (such as BBS) or evaluate ZKPs, so any anonymous-credential scheme must \emph{bridge} a hardware ECDSA signature into a privacy-preserving proof rather than replace it outright.
+All three proposed schemes use \textbf{BBS signatures} for the credential
+itself and differ only in how the device contributes its binding signature:
+\begin{enumerate}
+  \item \textbf{BBS-Schnorr.} Device binding via a Schnorr signature.
+        Efficient, but achieves only Unlink-1: a malicious SE can exploit
+        the signature randomness to embed a subliminal channel.
+  \item \textbf{BBS-BLS.} Replaces Schnorr with a deterministic BLS
+        signature. Determinism eliminates subliminal channels (Unlink-2),
+        but the SE still learns the message it signs, so presentation
+        context leaks to the hardware.
+  \item \textbf{BBS-BlindBLS.} The SE signs blindly, learning neither the
+        message nor the presentation context. Achieves Unlink-3 and full
+        \emph{SE-obliviousness}; the construction designed for Remote HSMs.
+\end{enumerate}
 
-\emph{The zero-knowledge toolbox.} I then surveyed the main families of ZK systems and their trade-offs in this specific setting: sigma protocols such as BBS+Schnorr (millisecond proving and very small proofs, but requiring pairing-friendly curves that the hardware lacks); heavily optimized SNARKs (extremely fast, but offering only limited privacy); hybrid ``bridging'' constructions such as \textbf{ZKAttest} and \textbf{CDLS}, compatible with the ECDSA keys of existing hardware at the cost of larger proofs; and general-purpose systems such as Groth16, \textbf{Ligero} and \textbf{STARKs}, able to prove arbitrary statements. A central reference is the Frigo--Shelat \textbf{Longfellow} construction, which builds anonymous credentials directly on top of ECDSA using a Ligero-style proof, precisely so as to remain compatible with deployed secure hardware. I also examined the line of work on relaxing the trusted-hardware assumption (\textit{Device-Bound Anonymous Credentials With(out) Trusted Hardware}) and proposals---for instance from the Dyne/Zenroom ecosystem---for mitigating the single-point-of-failure of secure storage through multi-party computation.
+\subsection{Critical assessment}
 
-\emph{The post-quantum dimension.} Finally, I followed the post-quantum thread. ECDSA, and the pairing-based schemes typically used for anonymous credentials (BBS, BLS), are broken by Shor's algorithm, yet migration has been held back by the same hardware constraint and by the relative immaturity and cost of post-quantum ZK circuits. During the path this picture began to change: Google announced that \textbf{Android~17} introduces \textbf{ML-DSA}---the NIST lattice-based signature standard---into Verified Boot, the Keystore and Play App Signing, exposing post-quantum signatures to developers through the standard TEE interface, while research prototypes such as \textbf{zkDilithium} show how lattice signatures can be proved in zero knowledge. Reading these strands together made clear that the field is at an inflection point, with several of its long-standing obstacles simultaneously beginning to loosen.
+The work resolves two main weaknesses of Longfellow: it removes the SE
+single point of failure by supporting remote hardware, and it replaces the
+ECDSA circuit with BBS, enabling richer ZK proofs without hardware-specific
+engineering. Limitations are of two kinds. Some are declared by the authors:
+BBS-Schnorr is not subversion-resilient, and BBS-BLS is not SE-oblivious;
+these are acknowledged trade-offs, not oversights. More fundamentally,
+\emph{none of the three constructions is post-quantum secure}---BBS, BLS, and
+Schnorr all rest on the hardness of discrete logarithm.
 
-% ======================= 5. COMPARISON =================================
-\section{A hands-on comparison of reference implementations}
-To ground the literature in practice, I obtained and ran the latest versions of two representative codebases and compared them directly. The first was the \textbf{EUDI Wallet reference implementation}, which realizes selective disclosure through salted-hash SD-JWT~VC and ISO/IEC~18013-5 with no zero-knowledge layer. The second was \textbf{Longfellow}, which demonstrates ZK-based anonymous credentials built on ECDSA.
+Two further limitations emerged from independent analysis. The Remote HSM
+model introduces unavoidable \emph{metadata leakage through timing}: an
+adversary observing network traffic can correlate HSM request timing with
+user activity even without breaking any cryptographic primitive, a channel
+the paper does not address. And permanent network connectivity is required,
+making the scheme unsuitable for offline credential presentation---a real
+requirement in practice, which the scheme can only partially mitigate by
+pre-fetching non-revocation proofs when connectivity is available.
 
-Running the two side by side made the gap between the deployed standard and the research frontier concrete. The reference wallet is a robust, well-engineered system for collecting and presenting signed attestations, but its privacy rests entirely on salted hashes, and it therefore inherits the granularity and linkability limitations analyzed above. Longfellow, by contrast, shows that unlinkable, selectively-disclosing presentations are achievable on top of the very ECDSA keys that existing hardware already supports. The comparison also confirmed, qualitatively, that ZK-based presentation---though heavier than a plain salted-hash disclosure---is approaching practicality on ordinary mobile hardware, which is what makes the whole direction realistic rather than purely theoretical. This exercise turned the survey from an abstract reading exercise into a grounded understanding of what today's systems can and cannot do.
+\section{Comparison and synthesis}
 
-% ======================= 6. OUTCOME ====================================
+Reading the two papers together reveals a clear complementarity. Longfellow
+optimises for compatibility with today's deployed hardware at the cost of a
+complex, ECDSA-specific proof system. DBAC optimises for a richer privacy
+model---including hardware subversion and Remote HSM scenarios---at the cost
+of requiring devices that can compute BBS or BLS. Neither achieves
+post-quantum security end-to-end, and neither fully resolves the tension
+between hardware binding and user privacy under a fully malicious device.
+
+A third dimension became visible during the study. The recent announcement
+that \textbf{Android~17} will expose \textbf{ML-DSA} (the NIST lattice-based
+signature standard) through the standard Android Keystore TEE interface opens,
+for the first time, the prospect of a post-quantum primitive natively
+available in mobile secure hardware. ZK proof systems for lattice-based
+signatures are still substantially heavier than their elliptic-curve
+counterparts, so the problem is not immediately solved---but the landscape is
+shifting. The DBAC unlinkability hierarchy provides a ready-made formal
+framework for evaluating new constructions that will emerge in this setting.
+
+\section{Relevance to the EU Digital Identity Wallet}
+
+The EU Digital Identity Wallet---currently in its pre-deployment phase,
+governed by the Architecture and Reference Framework (ARF)---is the largest
+digital identity infrastructure project ever attempted in Europe, and the
+closest real-world instantiation of the problems studied in this literature.
+Its selective-disclosure mechanism relies on salted-hash SD-JWT Verifiable
+Credentials and ISO/IEC~18013-5 mDOC presentations: mechanisms that inherit
+the granularity and linkability limitations the anonymous-credential
+literature has documented for decades. Disclosing a full date-of-birth field
+to prove ``I am over 18'', or allowing multiple presentations to be
+correlated through device-bound attribute signatures, are not hypothetical
+issues but design choices embedded in the current standard.
+
+The ARF itself acknowledges that zero-knowledge proofs are the only viable
+long-term mitigation, yet mandates none. Longfellow has attracted serious
+attention as a near-term upgrade path precisely because it requires no
+hardware changes; the Dyne.org fork targets European credential formats
+specifically. DBAC directly addresses the regulation's provision for Remote
+HSMs, providing a formal treatment of the privacy implications the regulatory
+text leaves underspecified. The literature studied during this path is
+therefore not only academically relevant---it is a close reading of the
+cryptographic infrastructure that will shape European digital identity for
+the foreseeable future.
+
 \section{Outcome of the path}
-Over the course of this Excellence Path I moved from \emph{a standard to be read} to \emph{a research field to be mapped}. I gained a detailed command of the EUDI ecosystem and its standards, a broad view of the anonymous-credential and zero-knowledge literature and of the trade-offs between its competing approaches, and first-hand familiarity with the current reference implementations. Just as importantly, the path clarified where the field's genuine open problems lie: the integration of zero-knowledge proofs into the standard, the tension between hardware anti-cloning and user privacy, and the looming migration to post-quantum primitives now that secure hardware is beginning to support them. Mapping this terrain---rather than being handed a ready-made question---is precisely what an excellence path should offer, and it is the foundation on which I intend to build my subsequent, more focused work. I am grateful to Prof.\ Visconti for the guidance and the intellectual freedom that made this exploration possible.
 
-% ======================= REFERENCES ====================================
-\vspace{6pt}
+The Excellence Path produced a detailed, critical understanding of two of
+the most technically substantive recent contributions to device-bound
+anonymous credentials. Beyond the content, the work developed two capacities
+harder to acquire from coursework alone: reading a complex cryptographic
+paper and identifying not only what it claims but what it implicitly assumes
+or leaves open; and situating a research contribution within a moving
+practical context---hardware announcements, standardisation timelines,
+regulatory choices---that determines which open problems are actually worth
+pursuing. I am grateful to Prof.\ Visconti for the direction and the
+critical engagement that shaped this study.
+
+\vspace{8pt}
 {\color{accent}\hrule height 0.4pt}
 \vspace{4pt}
-{\footnotesize
-\noindent\textbf{\sffamily Selected sources}\\[2pt]
-[1]~European Commission, \textit{Architecture and Reference Framework (ARF) for the EUDI Wallet}, eudi.dev. \quad
-[2]~ISO/IEC 18013-5:2021, \textit{Mobile driving licence (mDL) application}. \quad
-[3]~OpenID Foundation, \textit{OpenID for Verifiable Presentations (OpenID4VP)}. \quad
-[4]~M.~Frigo, a.~shelat, \textit{Anonymous Credentials from ECDSA} (Longfellow), Google. \quad
-[5]~A.~Lehmann, A.~Sidorenko, A.~Zacharakis, \textit{Vision: A Modular Framework for Anonymous Credential Systems}. \quad
-[6]~\textit{Device-Bound Anonymous Credentials With(out) Trusted Hardware}, 2026. \quad
-[7]~ZKAttest and CDLS: hybrid, ECDSA-compatible zero-knowledge proofs. \quad
-[8]~\textit{zkDilithium}: zero-knowledge proofs for lattice-based (ML-DSA/Dilithium) signatures. \quad
-[9]~Google Security Blog, \textit{Post-Quantum Cryptography in Android} (ML-DSA, Android~17), 2026.
+{\footnotesize\noindent\textbf{\sffamily References}\\[3pt]
+[1]~M.~Frigo, a.~shelat, \textit{Anonymous Credentials from ECDSA}
+(Longfellow), Google, 2024.\\[1pt]
+[2]~J.~Friedrichs, A.~Lehmann, A.~Sidorenko, A.~Zacharakis,
+\textit{Device-Bound Anonymous Credentials With(out) Trusted Hardware}, 2025.\\[1pt]
+[3]~D.~Boneh, X.~Boyen, H.~Shacham, \textit{Short Group Signatures} (BBS);
+IETF draft-irtf-cfrg-bbs-signatures.\\[1pt]
+[4]~S.~Ames, C.~Hazay, Y.~Ishai, M.~Venkitasubramaniam,
+\textit{Ligero: Lightweight Sublinear Arguments Without a Trusted Setup}, CCS~2017.\\[1pt]
+[5]~A.~Lehmann, A.~Sidorenko, A.~Zacharakis,
+\textit{Vision: A Modular Framework for Anonymous Credential Systems}.\\[1pt]
+[6]~European Commission, \textit{Architecture and Reference Framework (ARF)
+for the EUDI Wallet}, eudi.dev.\\[1pt]
+[7]~OpenID Foundation, \textit{OpenID for Verifiable Presentations (OpenID4VP)};
+ISO/IEC~18013-5:2021, \textit{Mobile driving licence (mDL) application}.\\[1pt]
+[8]~Google Security Blog, \textit{Post-Quantum Cryptography in Android}
+(ML-DSA, Android~17), 2026.
 }
 
 \end{document}
