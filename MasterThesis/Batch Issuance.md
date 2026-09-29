@@ -9,3 +9,7 @@ Notes on cryptographic binding
 - To achieve device binding with respect to different credentials that does not share a common field, ARF suggest to generate an attestation in the Secure Element that binds the 2 credentials togheter.
 
 Now in our opinion this mechanism brakes verifier-unlinkability.
+We want to show an attack in which 2 verifiers recives this proof and can actually link a user in different presetations. To do this, we need some proxy setup.
+What I've found on internet for the SD-JWT VC implementation testing are this:
+- Issuer platform: https://issuer-backend.eudiw.dev/issuer/credentialsOffer/generate;
+- Verifier platform: https://verifier-backend.eudiw.dev/swagger-ui
