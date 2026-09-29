@@ -1,4 +1,4 @@
-# Anonymous credentials
+ Anonymous credentials
 In this month, I had the chance to explore and navigate trough the wide literature of Anonymous credentials, with a particular sight to the new EUDI (EUropean Digital Identity) wallet application.
 Under the guide of my professor supervisor Ivan Visconti, which pointed out for me a clear path in the constellation of the anonymous credentials literature, I foud my way trough tons of papers and I was actually able to create my own star.
 ## How we organised

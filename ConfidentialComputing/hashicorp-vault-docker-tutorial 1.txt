@@ -1,0 +1,314 @@
+HASHICORP VAULT — HANDS-ON TUTORIAL
+
+GOAL
+
+We will use Vault in two different ways:
+
+1.  KV Secrets Engine Store and retrieve application secrets.
+
+2.  Transit Secrets Engine Perform cryptographic operations without
+    retrieving the cryptographic key.
+
+Vault will run in a disposable Docker container. 
+You do NOT need to install Vault on your machine.
+
+REQUIREMENTS
+
+You need:
+
+-   Docker
+-   curl
+-   jq
+
+Check:
+
+    docker --version
+    curl --version
+    jq --version
+
+1. START VAULT IN DOCKER
+
+Run:
+
+    docker run --rm \
+        --name vault-tutorial \
+        -p 8200:8200 \
+        -e VAULT_DEV_ROOT_TOKEN_ID=root \
+        hashicorp/vault:2.1.1
+
+Leave this terminal running.
+
+Vault is now available at:
+
+    http://127.0.0.1:8200
+
+This is a DEVELOPMENT server. It is already initialized and unsealed,
+uses insecure settings, and stores its data in memory.
+
+Stopping/removing the container destroys the lab state.
+
+2. CONFIGURE YOUR SECOND TERMINAL
+
+Open another terminal.
+
+Set the address and token used by the HTTP examples:
+
+    export VAULT_ADDR=http://127.0.0.1:8200
+    export VAULT_TOKEN=root
+
+We will use the Vault CLI installed inside the container. To avoid
+typing “docker exec …” for every command, define this alias:
+
+    alias vault='docker exec -e VAULT_ADDR=http://127.0.0.1:8200 -e VAULT_TOKEN=root vault-tutorial vault'
+
+Test it:
+
+    vault status
+
+The “vault” command now executes inside the Docker container, while curl
+commands below execute directly on your host.
+
+Both communicate with the same Vault server.
+
+3. STORE AN APPLICATION SECRET
+
+Suppose our application needs database credentials.
+
+    vault kv put secret/myapp/database \
+        username="alice" \
+        password="super-secret-password"
+
+Retrieve them:
+
+    vault kv get secret/myapp/database
+
+Now retrieve the same secret using the HTTP API:
+
+    curl -s \
+      -H "X-Vault-Token: $VAULT_TOKEN" \
+      "$VAULT_ADDR/v1/secret/data/myapp/database" | jq
+
+Notice the structure:
+
+    data
+     |-- data
+     |    |-- username
+     |    `-- password
+     `-- metadata
+          `-- version
+
+The extra “data” level exists because secret/ uses KV version 2.
+
+4. SECRET VERSIONING
+
+Change the password:
+
+    vault kv put secret/myapp/database \
+        username="alice" \
+        password="new-password"
+
+Read the current value:
+
+    vault kv get secret/myapp/database
+
+Retrieve specific versions:
+
+    vault kv get -version=1 secret/myapp/database
+    vault kv get -version=2 secret/myapp/database
+
+OBSERVATION:
+
+KV v2 maintains versions rather than simply overwriting the previous
+secret.
+
+5. SOFT-DELETE THE SECRET
+
+Delete the current version:
+
+    vault kv delete secret/myapp/database
+
+Try reading it:
+
+    vault kv get secret/myapp/database
+
+Recover version 2:
+
+    vault kv undelete -versions=2 secret/myapp/database
+    vault kv get secret/myapp/database
+
+KV v2 deletion normally marks a version as deleted rather than
+immediately destroying its underlying data.
+
+================================================ PART II — CRYPTOGRAPHY
+AS A SERVICE ================================================
+
+Instead of asking Vault:
+
+    "Give me the encryption key."
+
+we ask:
+
+    "Encrypt this data for me."
+
+The application never needs to retrieve the cryptographic key. This is
+the purpose of Vault’s Transit Secrets Engine.
+
+6. ENABLE TRANSIT
+
+Enable the Transit secrets engine:
+
+    vault secrets enable transit
+
+Create an encryption key:
+
+    vault write -f transit/keys/my-app-key
+
+Inspect it:
+
+    vault read transit/keys/my-app-key
+
+QUESTION:
+
+    Can you see the actual encryption key?
+
+You should not.
+
+7. ENCRYPT SOMETHING
+
+Vault expects plaintext to be Base64 encoded.
+
+On the HOST terminal, create the plaintext:
+
+    PLAINTEXT=$(echo -n "Hello PhD students!" | base64)
+
+Now use the HTTP API directly:
+
+    RESPONSE=$(curl -s \
+      -H "X-Vault-Token: $VAULT_TOKEN" \
+      -H "Content-Type: application/json" \
+      -X POST \
+      -d "{\"plaintext\":\"$PLAINTEXT\"}" \
+      "$VAULT_ADDR/v1/transit/encrypt/my-app-key")
+
+Inspect the response:
+
+    echo "$RESPONSE" | jq
+
+Extract the ciphertext:
+
+    CIPHERTEXT=$(echo "$RESPONSE" | jq -r '.data.ciphertext')
+
+    echo "$CIPHERTEXT"
+
+You should obtain something resembling:
+
+    vault:v1:...
+
+8. DECRYPT IT
+
+Ask Vault to decrypt the ciphertext:
+
+    RESPONSE=$(curl -s \
+      -H "X-Vault-Token: $VAULT_TOKEN" \
+      -H "Content-Type: application/json" \
+      -X POST \
+      -d "{\"ciphertext\":\"$CIPHERTEXT\"}" \
+      "$VAULT_ADDR/v1/transit/decrypt/my-app-key")
+
+Inspect the response:
+
+    echo "$RESPONSE" | jq
+
+Extract and decode the plaintext:
+
+    echo "$RESPONSE" | jq -r '.data.plaintext' | base64 --decode
+
+Expected:
+
+    Hello PhD students!
+
+Vault performed both encryption and decryption while the application
+never obtained my-app-key.
+
+9. WHAT JUST HAPPENED?
+
+Conceptually:
+
+    Application
+         |
+         | plaintext
+         v
+       Vault
+         |
+         | encryption key stays here
+         v
+     ciphertext
+
+The application sends data to Vault. Vault performs the cryptographic
+operation and returns the result.
+
+The key itself is not returned to the application.
+
+10. DISCUSSION QUESTION
+
+Why is Transit potentially safer than storing an AES key in:
+
+    secret/myapp/aes-key
+
+and retrieving it when the application starts?
+
+KV SECRET:
+
+    Application  ---- GET ----> Vault
+    Application  <--- KEY ----- Vault
+
+                 key enters
+              application memory
+
+TRANSIT:
+
+    Application -- plaintext --> Vault
+    Application <- ciphertext -- Vault
+
+                    key stays
+                   inside Vault
+
+IMPORTANT:
+
+This does NOT mean that compromising the application becomes harmless.
+
+An attacker who obtains sufficiently powerful Vault credentials may
+still ask Vault to perform authorized cryptographic operations.
+
+The security boundary therefore shifts toward authentication and Vault
+policies rather than eliminating the need for access control.
+
+11. CLEAN UP
+
+Go back to the terminal running Vault and press:
+
+    Ctrl-C
+
+Because the container was started with –rm, Docker removes it
+automatically.
+
+All secrets, keys, and other Vault state from this exercise disappear.
+
+You can also stop it from another terminal with:
+
+    docker stop vault-tutorial
+
+REFERENCES
+
+Vault: https://developer.hashicorp.com/vault
+
+Vault development server:
+https://developer.hashicorp.com/vault/docs/concepts/dev-server
+
+KV v2: https://developer.hashicorp.com/vault/docs/secrets/kv/kv-v2
+
+Transit Secrets Engine:
+https://developer.hashicorp.com/vault/docs/secrets/transit
+
+Transit HTTP API:
+https://developer.hashicorp.com/vault/api-docs/secret/transit
